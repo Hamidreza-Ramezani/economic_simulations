@@ -1,6 +1,6 @@
 package meta.example.supermarket.goods
 
-/* Auto generated
+/* Auto generated from genGoods
  Please adjust file categories for modification
  */
 

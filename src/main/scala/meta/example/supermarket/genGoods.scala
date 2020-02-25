@@ -31,8 +31,6 @@ object genGoods extends App {
     val file = new File(cwd + s"/goods/${parentName}.scala")
     val bw = new BufferedWriter(new FileWriter(file))
 
-    val valueStr: String = toValueStr(category.fields)
-
     val parentStr: String =
       s"""package meta.example.supermarket.goods
          |
@@ -42,7 +40,7 @@ object genGoods extends App {
          |
          |trait ${parentName} {
          |  val category: String = "${parentName}"
-         |${valueStr}
+         |${toValueStr(category.fields)}
          |}
          |""".stripMargin
 

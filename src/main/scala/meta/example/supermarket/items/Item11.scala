@@ -3,7 +3,7 @@ package meta.example.supermarket.goods
 import meta.classLifting.SpecialInstructions
 import squid.quasi.lift
 
-/* Auto generated */
+/* Auto generated from genItems */
 
 @lift
 class Item11 extends Item with Squash {
