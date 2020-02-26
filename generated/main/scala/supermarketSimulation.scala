@@ -14,12 +14,12 @@ object supermarketSimulation extends App {
   var actors: Array[Actor] = Array()
   var messages: List[Message] = List()
   var timer: Int = 0
-  var until: Int = 10
-  val shelfCapacity: Int = 1
-  val unitLoad: Int = 5 //
+  var until: Int = 100
+  val shelfCapacity: Int = 2500
+//  val unitLoad: Int = 5 //
 
-  //  val memUnit: Int = 1024 // KB
-  //  val runtime = Runtime.getRuntime
+  val memUnit: Int = 1024 // KB
+  val runtime = Runtime.getRuntime
 
   BasicConfigurator.configure()
   val logger = Logger("Root")
@@ -66,6 +66,7 @@ object supermarketSimulation extends App {
       case "Item29" => new generated.Item29()
       case "Item30" => new generated.Item30()
       case "Item31" => new generated.Item31()
+      case "Item32" => new generated.Item32()
       case _ => throw new IllegalArgumentException
     }
   }
@@ -82,17 +83,15 @@ object supermarketSimulation extends App {
     )
   }
 
-  //  val writer = new PrintWriter(new File("output.log"))
+  val writer = new PrintWriter(new File("output.log"))
 
   def main(): Unit = {
     //    println(this.getClass.getClassLoader)
     init()
     val start = System.nanoTime()
-
     while (timer <= until) {
+      val start_it = System.nanoTime()
       println("TIMER", timer)
-
-      //      writer.write("Used Memory:  " + (runtime.totalMemory - runtime.freeMemory) / memUnit + "\n")
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
       while (Supermarket.store.isInvalids.size>0){
@@ -112,9 +111,9 @@ object supermarketSimulation extends App {
       messages = actors.flatMap(_.getSendMessages).toList
       timer += 1
       //      println(Supermarket.store.isInvalids)
+      writer.write("Timer " + (timer-1) + " time: " + (System.nanoTime()-start_it) +  " mem: " + (runtime.totalMemory - runtime.freeMemory) / memUnit + "\n")
     }
-
-    //    writer.close()
+    writer.close()
     val end = System.nanoTime()
     val consumed = end - start
     println("Time consumed", consumed)

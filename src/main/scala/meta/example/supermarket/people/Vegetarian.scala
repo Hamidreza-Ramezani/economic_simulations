@@ -18,20 +18,61 @@ object Vegetarian {
     Vector(
       ("Milk", 200),
       ("Cereal", 200),
-      ("Egg", 50)
+      ("Egg", 50),
+      ("WhiteChocolate", 50)
     ),
     Vector(
-      ("Carrots", 200),
-      ("Tomato", 200),
+      ("Milk", 200),
+      ("Oatmeal", 200),
+      ("Cheese", 50),
+      ("Ferraro", 50)
+    ),
+    Vector(
+      ("Egg", 200),
+      ("Cheese", 50),
+      ("Bread", 100),
+      ("Yogurt", 100),
+      ("Ferraro", 50)
+    ),
+    Vector(
+      ("Carrots", 100),
+      ("Tomato", 100),
       ("Cheese", 50),
       ("Spaghetti", 100),
-      ("Kitkat", 50)
+      ("Kitkat", 50),
+      ("Potato", 100),
+      ("Rice", 50)
     ),
     Vector(
       ("Rice", 100),
       ("Eggplant", 200),
       ("Tomato", 100),
-      ("Onion", 200)
+      ("Onion", 50),
+      ("WhiteChocolate", 50)
+    ),
+    Vector(
+      ("Cream", 100),
+      ("Broccoli", 100),
+      ("Cucumber", 100),
+      ("Celery", 100),
+      ("Potato", 100),
+      ("DarkChocolate", 50)
+    ),
+    Vector(
+      ("Yogurt", 100),
+      ("Mushroom", 100),
+      ("Squash", 100),
+      ("Cabbage", 100),
+      ("Noodles", 100),
+      ("Onion", 50),
+      ("WhiteChocolate", 100)
+    ),
+    Vector(
+      ("Spaghetti", 200),
+      ("Tomato", 100),
+      ("Cheese", 100),
+      ("Onion", 50),
+      ("DarkChocolate", 50)
     )
   )
 

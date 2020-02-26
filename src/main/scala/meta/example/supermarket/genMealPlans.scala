@@ -23,7 +23,8 @@ object genMealPlans extends App {
       |/* Auto generated from ${generatingFileName} */
       |""".stripMargin
 
-  val mealsPerDay: Vector[Int] = Vector(1, 2, 3)
+//  val mealsPerDay: Vector[Int] = Vector(1, 2, 3)
+  val mealsPerDay: Vector[Int] = Vector(1)
   val mealType: Vector[String] = Vector("Vegetarian", "Carnivore") // names of objects defined
   val mealPlanMap: Map[(String, Int), Vector[String]] = Map()
 

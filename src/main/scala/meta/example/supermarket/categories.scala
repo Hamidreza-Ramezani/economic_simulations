@@ -74,7 +74,8 @@ object categories {
     ("rice", 2, kg, 0, grainStock),
     ("noodles", 3, kg, 0, grainStock),
     ("spaghetti", 1.5, kg, 0, grainStock),
-    ("pasta", 1.5, kg, 0, grainStock))
+    ("pasta", 1.5, kg, 0, grainStock),
+    ("Bread", 1.5, kg, 0, grainStock))
 
   // Treat egg as vegetable as it has expiration date is later
   val Dairy: CategoryFields = CategoryFields(7, 0.8)

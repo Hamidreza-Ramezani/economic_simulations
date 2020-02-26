@@ -21,7 +21,15 @@ object Carnivore {
       ("Oatmeal", 100)
     ),
     Vector(
+      ("Egg", 50),
+      ("Bacon", 100),
+      ("Yogurt", 100),
+      ("Cereal", 100),
+      ("Bread", 100)
+    ),
+    Vector(
       ("Broccoli", 200),
+      ("Cream", 50),
       ("Beef", 500),
       ("Rice", 200),
       ("WhiteChocolate", 50)
@@ -31,7 +39,22 @@ object Carnivore {
       ("Carrots", 50),
       ("Chicken", 200),
       ("Milk", 200),
-      ("Noodles", 200)
+      ("Noodles", 200),
+      ("DarkChocolate", 50)
+    ),
+    Vector(
+      ("Mushroom", 200),
+      ("Pork", 500),
+      ("Rice", 200),
+      ("Kitkat", 50)
+    ),
+    Vector(
+      ("Lamb", 200),
+      ("Carrots", 50),
+      ("Onion", 50),
+      ("Cabbage", 50),
+      ("Bread", 200),
+      ("Ferraro", 50)
     )
   )
 
