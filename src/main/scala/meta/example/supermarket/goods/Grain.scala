@@ -57,3 +57,11 @@ trait Pasta extends Grain {
   val discount: Double = 0.0
   val stock: Int = 4
 }
+
+trait Bread extends Grain {
+  val name: String = "Bread"
+  val price: Double = 1.5
+  val priceUnit: Int = 1000
+  val discount: Double = 0.0
+  val stock: Int = 4
+}
