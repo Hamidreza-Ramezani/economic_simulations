@@ -10,8 +10,9 @@ object userSpecificGenExample {
   val packageName: String = s"meta.example.supermarket.${exampleName}"
   val initName: String = "MainInit"
 
+  // *Ids are 1-indexed.
   val totalItems: Int = newItemsMap.itemMap.size
-  val custIds: List[Int] = List(1)
+  val custIds: List[Int] = Range(1,11).toList
   val itemIds: List[Int] = (1 to totalItems).toList
 
   val storagePathGegenerated: String = "generated/main/scala"

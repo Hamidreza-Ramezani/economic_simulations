@@ -16,7 +16,7 @@ object genExample extends App {
 
   println(s"Please enter the number of items for each article. 0 if non-uniform. There are total ${totalItems} items")
   val instances = scala.io.StdIn.readInt()
-  println("Please enter the number of customers you would like to include. -1 if non-uniform")
+  println("Please enter the number of customers you would like to include")
   val customers = scala.io.StdIn.readInt()
 
   assert(instances >=0)
@@ -132,7 +132,6 @@ object genExample extends App {
   private def customerToVal(custId: Int): String = {
     val custName: String = "Customer" + custId
     customers match {
-      case -1 => ""
       case 0 => ""
       case _ => s"  val clsCust${custId}: ClassWithObject[${custName}] = ${custName}.reflect(IR)"
     }
