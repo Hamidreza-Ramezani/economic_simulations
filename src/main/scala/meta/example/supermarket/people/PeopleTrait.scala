@@ -45,14 +45,19 @@ trait People extends Actor{
   }
 
   def buyItem(item: String, onBudget: Boolean = true): Unit = {
-    fridge.add(supermarket.sell(item, onBudget))
+    supermarket.sell(item, onBudget) match {
+      case Some(item) => fridge.add(item)
+      case None =>
+    }
   }
 
   // Random consumption behavior
   def consumeFood: Unit = {
-    val someFood: String = randElement(fridge.getAvailFood)
-    println("Customer consumes random food " + someFood)
-    println(" amount " + fridge.consume(someFood, 200))
+    if (fridge.getAvailFood.size > 0) {
+      val someFood: String = randElement(fridge.getAvailFood)
+      println("Customer consumes random food " + someFood)
+      println(" amount " + fridge.consume(someFood, 200))
+    }
   }
 
   // Target consumption behavior

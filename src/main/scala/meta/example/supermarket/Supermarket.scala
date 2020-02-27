@@ -1,6 +1,7 @@
 package meta.example.supermarket
 
 import meta.example.supermarket.goods.Item
+import meta.example.supermarket.goods.Item1
 import meta.example.supermarket.utils.randElement
 import scala.collection.mutable.{Map, Queue}
 
@@ -34,13 +35,13 @@ class Supermarket extends SummaryTrait {
     }
   }
 
-  def sell(item: String, fifo: Boolean = true): Item = {
+  def sell(item: String, fifo: Boolean = true): Option[Item] = {
     val requested: ItemDeque = warehouse.getOrElse(item, new ItemDeque())
     rmDiscarded(requested)
 
     if (requested.isEmpty){
-      println("Item not found :( " + item)
-      throw new NoSuchElementException
+//      sell(getRandFood(item.asInstanceOf[Item].category))
+      None
     }
 
     var soldItem: Item = null
@@ -52,7 +53,7 @@ class Supermarket extends SummaryTrait {
 
     soldItem.purchase
     println(s"Item ${soldItem.name} sold! " + soldItem.id)
-    soldItem
+    Some(soldItem)
   }
 
   def getRandFood(category: String): String = {
