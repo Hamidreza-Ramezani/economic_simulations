@@ -13,12 +13,12 @@ object categories {
   type stock = Int
   type namePriceUnit = Vector[(articleName, price, priceUnit, discount, stock)]
 
-  case class Attr(name: String, attrVal: Any)
-  case class Article(name: articleName, fields: Vector[Attr])
-  case class Category(name: categoryName, fields: Vector[Attr], children: Vector[Article])
+  final case class Attr(name: String, attrVal: Any)
+  final case class Article(name: articleName, fields: Vector[Attr])
+  final case class Category(name: categoryName, fields: Vector[Attr], children: Vector[Article])
   // Parameters of CategoryFields and ArticleFields should be DISJOINT
-  case class ArticleFields(price: price, priceUnit: priceUnit, discount: discount, stock: stock)
-  case class CategoryFields(freshUntil: Int, visibility: Double)
+  final case class ArticleFields(price: price, priceUnit: priceUnit, discount: discount, stock: stock)
+  final case class CategoryFields(freshUntil: Int, visibility: Double)
 
   val kg: Int = 1000
   val bar: Int = 100

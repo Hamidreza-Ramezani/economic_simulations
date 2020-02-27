@@ -1,6 +1,6 @@
 package meta.example.supermarket
 
-case class categoryAmount(var Vegetable: Int = 0,
+final case class categoryAmount(var Vegetable: Int = 0,
                           var Meat: Int = 0,
                           var Snack: Int =0,
                           var Grain: Int =0,

@@ -2,7 +2,7 @@ package meta.example.supermarket.goods
 
 import java.io.InvalidClassException
 
-case class ItemState(var onDisplay: Boolean = true,
+final case class ItemState(var onDisplay: Boolean = true,
                      var isPurchased: Boolean = false,
                      var isExpired: Boolean = false,
                      var isDiscarded: Boolean = false,
