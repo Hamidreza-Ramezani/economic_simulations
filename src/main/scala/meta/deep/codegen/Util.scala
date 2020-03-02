@@ -11,7 +11,7 @@ import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 /**
   * This is a class which contains the generation pipeline
   * @param convertElement a code fragment which converts the deep representation to the graph representation
-  * @param stateMachineElements elements, which are applied on the deep representation.
+  * @param stateMachineElements elements, which are applied on the graph representation.
   */
 case class Pipeline(convertElement: ConvertElement,
                     stateMachineElements: List[StateMachineElement]) {
