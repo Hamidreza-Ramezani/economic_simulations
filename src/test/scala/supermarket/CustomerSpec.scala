@@ -4,7 +4,7 @@ import meta.example.supermarket.people.Customer1
 
 import org.scalatest._
 
-class PeopleSpec extends FlatSpec with Matchers {
+class CustomerSpec extends FlatSpec with Matchers {
   val customer1 = new Customer1
   // populate with Broccoli, Beef, Rice, and WhiteChocolate. Same as defined in shoppingList
   Supermarket.store.initializeItemDeque(Vector(new Item4, new Item8, new Item17, new Item14))

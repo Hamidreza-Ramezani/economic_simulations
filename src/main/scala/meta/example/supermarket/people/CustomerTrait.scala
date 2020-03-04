@@ -5,7 +5,7 @@ import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram, getArticleUnit}
 import meta.example.supermarket.utils.{randElement, toShoppingList}
 
-trait People extends Actor{
+trait Customer extends Actor{
 
 //  val age: Int
   val frequency: Int
