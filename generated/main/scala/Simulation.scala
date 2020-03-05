@@ -1,22 +1,22 @@
-import java.io.{File, PrintWriter}
-
-import meta.deep.runtime.Message
 import meta.deep.runtime.{Actor, Message}
-import meta.example.supermarket.Supermarket
-import meta.example.supermarket.goods.Item
-//import org.apache.log4j.BasicConfigurator
+
 import scala.util.Random
-import scala.collection.mutable.ListBuffer
 
 object Simulation extends App {
 
   var actors: List[Actor] = List()
   var messages: List[Message] = List()
   var timer: Int = 0
-  var until: Int = 10
+  var until: Int = 20
 
   def init(): Unit = {
     actors = generated.InitData.initActors
+  }
+
+  def collect(current_time: Int): Unit = {
+    meta.deep.runtime.Actor.newActors.map(i => i.timer = current_time)
+    actors = actors ::: meta.deep.runtime.Actor.newActors.toList
+    meta.deep.runtime.Actor.newActors.clear()
   }
 
   def main(): Unit = {
@@ -25,6 +25,7 @@ object Simulation extends App {
 
     while (timer <= until) {
       println("TIMER", timer)
+      collect(timer)
       val mx = messages.groupBy(_.receiverId)
 
       actors = actors.map { a =>

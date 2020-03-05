@@ -3,7 +3,7 @@ package meta.example.lock_example
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.deep.runtime.Actor.AgentId
-import squid.quasi.lift
+import squid.quasi.{lift, dbg_lift}
 
 /**
   * Consensus object has one operation, propose()
@@ -29,7 +29,6 @@ class Consensus() extends Actor {
 
   def main(): Unit = {
     while(true) {
-      SpecialInstructions.handleMessages()
       isLocked = false
       SpecialInstructions.waitTurns(1)
     }
