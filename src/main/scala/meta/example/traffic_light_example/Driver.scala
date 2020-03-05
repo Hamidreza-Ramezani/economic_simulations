@@ -4,31 +4,24 @@ import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import squid.quasi.lift
 
-
 @lift
-class Driver() extends Actor{
-
-
+class Driver() extends Actor {
   var trafficLight: TrafficLight = null
 
-  def wait_to_cross():Unit = {
-    if (trafficLight.state == 1){
+  def wait_to_cross(): Unit = {
+    if (trafficLight.state == 1) {
       trafficLight.toggle()
       println("Driver is crossing the road")
     }
-
-    else{
+    else {
       println("Driver is crossing the road")
     }
   }
 
-
-
   def main(): Unit = {
-    while(true) {
-       wait_to_cross()
-       SpecialInstructions.waitTurns(1)
+    while (true) {
+      wait_to_cross()
+      SpecialInstructions.waitTurns(1)
     }
   }
-
 }

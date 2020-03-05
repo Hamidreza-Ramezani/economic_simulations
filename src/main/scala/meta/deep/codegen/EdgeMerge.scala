@@ -1,6 +1,7 @@
 package meta.deep.codegen
 
-import com.sun.tools.javac.util.Position
+//import com.sun.tools.javac.util.Position
+
 import meta.deep.IR.Predef._
 import meta.deep.algo.AlgoInfo.{CodeNodePos, EdgeInfo}
 
