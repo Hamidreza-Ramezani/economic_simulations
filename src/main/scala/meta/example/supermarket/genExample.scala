@@ -19,6 +19,8 @@ object genExample extends App {
   println("Please enter the number of customers you would like to include")
   val customers = scala.io.StdIn.readInt()
 
+  val employees = 1
+
   assert(instances >=0)
   assert(customers >=0)
 
@@ -69,6 +71,14 @@ object genExample extends App {
     }
   }
 
+  private def initEmployees: String = {
+    employees match {
+      case -1 => ""
+      case 0 => ""
+      case _ => employeeIds.map(initToVal(_, employees, "employee")).mkString("\n")
+    }
+  }
+
   private def initToVal(agentId: Int, instances: Int, agentType: String): String = {
     agentType.toLowerCase match {
       case "item" =>
@@ -82,6 +92,13 @@ object genExample extends App {
            |    l ++= l_repeat
            |    l_repeat.clear()
            |""".stripMargin
+      case "employee" =>
+        s"""
+           |    (1 to ${instances}).foreach(_ => l_repeat.append(new Employee))
+           |    l ++= l_repeat  
+           |    l_repeat.clear()
+           |""".stripMargin
+
       case _ => println("Unknown agent type!"); throw new Exception
     }
   }
@@ -96,6 +113,7 @@ object genExample extends App {
   private def sameStock: String = {
     initHeader +
       initCustomer + "\n" +
+      initEmployees + "\n" +
       itemIds.map(initToVal(_, instances, "item")).mkString("\n") + initClosing
   }
 
@@ -104,6 +122,7 @@ object genExample extends App {
     // offset by 1 when reading the stock amount from iters
     initHeader +
       initCustomer + "\n" +
+      initEmployees + "\n" +
       itemIds.map(id => initToVal(id, iters(id-1), "item")).mkString("\n") + initClosing
   }
 
@@ -128,6 +147,10 @@ object genExample extends App {
     val itemName: String = "Item" + itemId
     s"  val cls${itemId}: ClassWithObject[${itemName}] = ${itemName}.reflect(IR)"
   }
+  private def employeeToVal(employeeId: Int): String ={
+    val employeeName: String = "Employee"
+    s"  val clsEmp${employeeId}: ClassWithObject[${employeeName}] = ${employeeName}.reflect(IR)"
+  }
 
   private def customerToVal(custId: Int): String = {
     val custName: String = "Customer" + custId
@@ -139,7 +162,7 @@ object genExample extends App {
 
   private def toStartClass: String =
     s"""
-      |  val startClasses: List[Clasz[_ <: Actor]] = ${itemIds.map("cls"+_) ++ (if (customers>0 || customers==(-1)) custIds.map("clsCust"+_) else List())}
+      |  val startClasses: List[Clasz[_ <: Actor]] = ${itemIds.map("cls"+_) ++ employeeIds.map("clsEmp"+_) ++ (if (customers>0 || customers==(-1)) custIds.map("clsCust"+_) else List())}
       |""".stripMargin
 
   private def exampleClosing: String =
@@ -160,12 +183,14 @@ object genExample extends App {
     customers match {
       case 0 =>
         exampleHeader +
-        itemIds.map(itemToVal(_)).mkString("\n") +
+        itemIds.map(itemToVal(_)).mkString("\n") + itemIds.map(itemToVal(_)).mkString("\n") + "\n" +
+        employeeIds.map(employeeToVal(_)).mkString("\n") +
         toStartClass +
         exampleClosing
       case _ =>
         exampleHeader +
         itemIds.map(itemToVal(_)).mkString("\n") + "\n" +
+        employeeIds.map(employeeToVal(_)).mkString("\n") + "\n" +
         custIds.map(customerToVal(_)).mkString("\n") +
         toStartClass +
         exampleClosing

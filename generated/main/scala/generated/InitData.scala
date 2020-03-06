@@ -5,7 +5,7 @@ object InitData  {
   val l_0 = scala.collection.mutable.ListBuffer.apply[meta.deep.runtime.Actor]();
   val l_repeat_1 = scala.collection.mutable.ListBuffer.apply[meta.deep.runtime.Actor]();
   val x_2 = scala.Predef.intWrapper(1);
-  val x_3 = x_2.to(5);
+  val x_3 = x_2.to(1);
   x_3.foreach[scala.Unit](((x$1_4: scala.Int) => {
     val x_5 = new generated.Customer1();
     l_repeat_1.append(x_5)
@@ -13,69 +13,89 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_6 = scala.Predef.intWrapper(1);
-  val x_7 = x_6.to(10);
+  val x_7 = x_6.to(1);
   x_7.foreach[scala.Unit](((x$2_8: scala.Int) => {
-    val x_9 = new generated.Item1();
+    val x_9 = new generated.Customer2();
     l_repeat_1.append(x_9)
   }));
-  val x_10 = l_repeat_1.toVector;
-  val x_11 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
-  val x_13 = x_10.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$3_12: meta.deep.runtime.Actor) => x$3_12.asInstanceOf[meta.example.supermarket.goods.Item]))(x_11);
-  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_13);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_10 = scala.Predef.intWrapper(1);
+  val x_11 = x_10.to(1);
+  x_11.foreach[scala.Unit](((x$3_12: scala.Int) => {
+    val x_13 = new generated.Customer3();
+    l_repeat_1.append(x_13)
+  }));
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_14 = scala.Predef.intWrapper(1);
-  val x_15 = x_14.to(10);
+  val x_15 = x_14.to(1);
   x_15.foreach[scala.Unit](((x$4_16: scala.Int) => {
-    val x_17 = new generated.Item2();
+    val x_17 = new generated.Customer4();
     l_repeat_1.append(x_17)
   }));
-  val x_18 = l_repeat_1.toVector;
-  val x_19 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
-  val x_21 = x_18.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$5_20: meta.deep.runtime.Actor) => x$5_20.asInstanceOf[meta.example.supermarket.goods.Item]))(x_19);
-  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_21);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_18 = scala.Predef.intWrapper(1);
+  val x_19 = x_18.to(1);
+  x_19.foreach[scala.Unit](((x$5_20: scala.Int) => {
+    val x_21 = new generated.Customer5();
+    l_repeat_1.append(x_21)
+  }));
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_22 = scala.Predef.intWrapper(1);
-  val x_23 = x_22.to(10);
+  val x_23 = x_22.to(1);
   x_23.foreach[scala.Unit](((x$6_24: scala.Int) => {
-    val x_25 = new generated.Item3();
+    val x_25 = new generated.Customer6();
     l_repeat_1.append(x_25)
   }));
-  val x_26 = l_repeat_1.toVector;
-  val x_27 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
-  val x_29 = x_26.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$7_28: meta.deep.runtime.Actor) => x$7_28.asInstanceOf[meta.example.supermarket.goods.Item]))(x_27);
-  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_29);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_26 = scala.Predef.intWrapper(1);
+  val x_27 = x_26.to(1);
+  x_27.foreach[scala.Unit](((x$7_28: scala.Int) => {
+    val x_29 = new generated.Customer7();
+    l_repeat_1.append(x_29)
+  }));
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_30 = scala.Predef.intWrapper(1);
-  val x_31 = x_30.to(10);
+  val x_31 = x_30.to(1);
   x_31.foreach[scala.Unit](((x$8_32: scala.Int) => {
-    val x_33 = new generated.Item4();
+    val x_33 = new generated.Customer8();
     l_repeat_1.append(x_33)
   }));
-  val x_34 = l_repeat_1.toVector;
-  val x_35 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
-  val x_37 = x_34.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$9_36: meta.deep.runtime.Actor) => x$9_36.asInstanceOf[meta.example.supermarket.goods.Item]))(x_35);
-  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_37);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_34 = scala.Predef.intWrapper(1);
+  val x_35 = x_34.to(1);
+  x_35.foreach[scala.Unit](((x$9_36: scala.Int) => {
+    val x_37 = new generated.Customer9();
+    l_repeat_1.append(x_37)
+  }));
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_38 = scala.Predef.intWrapper(1);
-  val x_39 = x_38.to(10);
+  val x_39 = x_38.to(1);
   x_39.foreach[scala.Unit](((x$10_40: scala.Int) => {
-    val x_41 = new generated.Item5();
+    val x_41 = new generated.Customer10();
     l_repeat_1.append(x_41)
   }));
-  val x_42 = l_repeat_1.toVector;
-  val x_43 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
-  val x_45 = x_42.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$11_44: meta.deep.runtime.Actor) => x$11_44.asInstanceOf[meta.example.supermarket.goods.Item]))(x_43);
-  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_45);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_42 = scala.Predef.intWrapper(1);
+  val x_43 = x_42.to(1);
+  x_43.foreach[scala.Unit](((x$11_44: scala.Int) => {
+    val x_45 = new generated.Employee();
+    l_repeat_1.append(x_45)
+  }));
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_46 = scala.Predef.intWrapper(1);
-  val x_47 = x_46.to(10);
+  val x_47 = x_46.to(1);
   x_47.foreach[scala.Unit](((x$12_48: scala.Int) => {
-    val x_49 = new generated.Item6();
+    val x_49 = new generated.Item1();
     l_repeat_1.append(x_49)
   }));
   val x_50 = l_repeat_1.toVector;
@@ -85,9 +105,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_54 = scala.Predef.intWrapper(1);
-  val x_55 = x_54.to(10);
+  val x_55 = x_54.to(1);
   x_55.foreach[scala.Unit](((x$14_56: scala.Int) => {
-    val x_57 = new generated.Item7();
+    val x_57 = new generated.Item2();
     l_repeat_1.append(x_57)
   }));
   val x_58 = l_repeat_1.toVector;
@@ -97,9 +117,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_62 = scala.Predef.intWrapper(1);
-  val x_63 = x_62.to(10);
+  val x_63 = x_62.to(1);
   x_63.foreach[scala.Unit](((x$16_64: scala.Int) => {
-    val x_65 = new generated.Item8();
+    val x_65 = new generated.Item3();
     l_repeat_1.append(x_65)
   }));
   val x_66 = l_repeat_1.toVector;
@@ -109,9 +129,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_70 = scala.Predef.intWrapper(1);
-  val x_71 = x_70.to(10);
+  val x_71 = x_70.to(1);
   x_71.foreach[scala.Unit](((x$18_72: scala.Int) => {
-    val x_73 = new generated.Item9();
+    val x_73 = new generated.Item4();
     l_repeat_1.append(x_73)
   }));
   val x_74 = l_repeat_1.toVector;
@@ -121,9 +141,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_78 = scala.Predef.intWrapper(1);
-  val x_79 = x_78.to(10);
+  val x_79 = x_78.to(1);
   x_79.foreach[scala.Unit](((x$20_80: scala.Int) => {
-    val x_81 = new generated.Item10();
+    val x_81 = new generated.Item5();
     l_repeat_1.append(x_81)
   }));
   val x_82 = l_repeat_1.toVector;
@@ -133,9 +153,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_86 = scala.Predef.intWrapper(1);
-  val x_87 = x_86.to(10);
+  val x_87 = x_86.to(1);
   x_87.foreach[scala.Unit](((x$22_88: scala.Int) => {
-    val x_89 = new generated.Item11();
+    val x_89 = new generated.Item6();
     l_repeat_1.append(x_89)
   }));
   val x_90 = l_repeat_1.toVector;
@@ -145,9 +165,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_94 = scala.Predef.intWrapper(1);
-  val x_95 = x_94.to(10);
+  val x_95 = x_94.to(1);
   x_95.foreach[scala.Unit](((x$24_96: scala.Int) => {
-    val x_97 = new generated.Item12();
+    val x_97 = new generated.Item7();
     l_repeat_1.append(x_97)
   }));
   val x_98 = l_repeat_1.toVector;
@@ -157,9 +177,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_102 = scala.Predef.intWrapper(1);
-  val x_103 = x_102.to(10);
+  val x_103 = x_102.to(1);
   x_103.foreach[scala.Unit](((x$26_104: scala.Int) => {
-    val x_105 = new generated.Item13();
+    val x_105 = new generated.Item8();
     l_repeat_1.append(x_105)
   }));
   val x_106 = l_repeat_1.toVector;
@@ -169,9 +189,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_110 = scala.Predef.intWrapper(1);
-  val x_111 = x_110.to(10);
+  val x_111 = x_110.to(1);
   x_111.foreach[scala.Unit](((x$28_112: scala.Int) => {
-    val x_113 = new generated.Item14();
+    val x_113 = new generated.Item9();
     l_repeat_1.append(x_113)
   }));
   val x_114 = l_repeat_1.toVector;
@@ -181,9 +201,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_118 = scala.Predef.intWrapper(1);
-  val x_119 = x_118.to(10);
+  val x_119 = x_118.to(1);
   x_119.foreach[scala.Unit](((x$30_120: scala.Int) => {
-    val x_121 = new generated.Item15();
+    val x_121 = new generated.Item10();
     l_repeat_1.append(x_121)
   }));
   val x_122 = l_repeat_1.toVector;
@@ -193,9 +213,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_126 = scala.Predef.intWrapper(1);
-  val x_127 = x_126.to(10);
+  val x_127 = x_126.to(1);
   x_127.foreach[scala.Unit](((x$32_128: scala.Int) => {
-    val x_129 = new generated.Item16();
+    val x_129 = new generated.Item11();
     l_repeat_1.append(x_129)
   }));
   val x_130 = l_repeat_1.toVector;
@@ -205,9 +225,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_134 = scala.Predef.intWrapper(1);
-  val x_135 = x_134.to(10);
+  val x_135 = x_134.to(1);
   x_135.foreach[scala.Unit](((x$34_136: scala.Int) => {
-    val x_137 = new generated.Item17();
+    val x_137 = new generated.Item12();
     l_repeat_1.append(x_137)
   }));
   val x_138 = l_repeat_1.toVector;
@@ -217,9 +237,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_142 = scala.Predef.intWrapper(1);
-  val x_143 = x_142.to(10);
+  val x_143 = x_142.to(1);
   x_143.foreach[scala.Unit](((x$36_144: scala.Int) => {
-    val x_145 = new generated.Item18();
+    val x_145 = new generated.Item13();
     l_repeat_1.append(x_145)
   }));
   val x_146 = l_repeat_1.toVector;
@@ -229,9 +249,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_150 = scala.Predef.intWrapper(1);
-  val x_151 = x_150.to(10);
+  val x_151 = x_150.to(1);
   x_151.foreach[scala.Unit](((x$38_152: scala.Int) => {
-    val x_153 = new generated.Item19();
+    val x_153 = new generated.Item14();
     l_repeat_1.append(x_153)
   }));
   val x_154 = l_repeat_1.toVector;
@@ -241,9 +261,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_158 = scala.Predef.intWrapper(1);
-  val x_159 = x_158.to(10);
+  val x_159 = x_158.to(1);
   x_159.foreach[scala.Unit](((x$40_160: scala.Int) => {
-    val x_161 = new generated.Item20();
+    val x_161 = new generated.Item15();
     l_repeat_1.append(x_161)
   }));
   val x_162 = l_repeat_1.toVector;
@@ -253,9 +273,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_166 = scala.Predef.intWrapper(1);
-  val x_167 = x_166.to(10);
+  val x_167 = x_166.to(1);
   x_167.foreach[scala.Unit](((x$42_168: scala.Int) => {
-    val x_169 = new generated.Item21();
+    val x_169 = new generated.Item16();
     l_repeat_1.append(x_169)
   }));
   val x_170 = l_repeat_1.toVector;
@@ -265,9 +285,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_174 = scala.Predef.intWrapper(1);
-  val x_175 = x_174.to(10);
+  val x_175 = x_174.to(1);
   x_175.foreach[scala.Unit](((x$44_176: scala.Int) => {
-    val x_177 = new generated.Item22();
+    val x_177 = new generated.Item17();
     l_repeat_1.append(x_177)
   }));
   val x_178 = l_repeat_1.toVector;
@@ -277,9 +297,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_182 = scala.Predef.intWrapper(1);
-  val x_183 = x_182.to(10);
+  val x_183 = x_182.to(1);
   x_183.foreach[scala.Unit](((x$46_184: scala.Int) => {
-    val x_185 = new generated.Item23();
+    val x_185 = new generated.Item18();
     l_repeat_1.append(x_185)
   }));
   val x_186 = l_repeat_1.toVector;
@@ -289,9 +309,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_190 = scala.Predef.intWrapper(1);
-  val x_191 = x_190.to(10);
+  val x_191 = x_190.to(1);
   x_191.foreach[scala.Unit](((x$48_192: scala.Int) => {
-    val x_193 = new generated.Item24();
+    val x_193 = new generated.Item19();
     l_repeat_1.append(x_193)
   }));
   val x_194 = l_repeat_1.toVector;
@@ -301,9 +321,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_198 = scala.Predef.intWrapper(1);
-  val x_199 = x_198.to(10);
+  val x_199 = x_198.to(1);
   x_199.foreach[scala.Unit](((x$50_200: scala.Int) => {
-    val x_201 = new generated.Item25();
+    val x_201 = new generated.Item20();
     l_repeat_1.append(x_201)
   }));
   val x_202 = l_repeat_1.toVector;
@@ -313,9 +333,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_206 = scala.Predef.intWrapper(1);
-  val x_207 = x_206.to(10);
+  val x_207 = x_206.to(1);
   x_207.foreach[scala.Unit](((x$52_208: scala.Int) => {
-    val x_209 = new generated.Item26();
+    val x_209 = new generated.Item21();
     l_repeat_1.append(x_209)
   }));
   val x_210 = l_repeat_1.toVector;
@@ -325,9 +345,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_214 = scala.Predef.intWrapper(1);
-  val x_215 = x_214.to(10);
+  val x_215 = x_214.to(1);
   x_215.foreach[scala.Unit](((x$54_216: scala.Int) => {
-    val x_217 = new generated.Item27();
+    val x_217 = new generated.Item22();
     l_repeat_1.append(x_217)
   }));
   val x_218 = l_repeat_1.toVector;
@@ -337,9 +357,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_222 = scala.Predef.intWrapper(1);
-  val x_223 = x_222.to(10);
+  val x_223 = x_222.to(1);
   x_223.foreach[scala.Unit](((x$56_224: scala.Int) => {
-    val x_225 = new generated.Item28();
+    val x_225 = new generated.Item23();
     l_repeat_1.append(x_225)
   }));
   val x_226 = l_repeat_1.toVector;
@@ -349,9 +369,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_230 = scala.Predef.intWrapper(1);
-  val x_231 = x_230.to(10);
+  val x_231 = x_230.to(1);
   x_231.foreach[scala.Unit](((x$58_232: scala.Int) => {
-    val x_233 = new generated.Item29();
+    val x_233 = new generated.Item24();
     l_repeat_1.append(x_233)
   }));
   val x_234 = l_repeat_1.toVector;
@@ -361,9 +381,9 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_238 = scala.Predef.intWrapper(1);
-  val x_239 = x_238.to(10);
+  val x_239 = x_238.to(1);
   x_239.foreach[scala.Unit](((x$60_240: scala.Int) => {
-    val x_241 = new generated.Item30();
+    val x_241 = new generated.Item25();
     l_repeat_1.append(x_241)
   }));
   val x_242 = l_repeat_1.toVector;
@@ -373,15 +393,87 @@ object InitData  {
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   val x_246 = scala.Predef.intWrapper(1);
-  val x_247 = x_246.to(10);
+  val x_247 = x_246.to(1);
   x_247.foreach[scala.Unit](((x$62_248: scala.Int) => {
-    val x_249 = new generated.Item31();
+    val x_249 = new generated.Item26();
     l_repeat_1.append(x_249)
   }));
   val x_250 = l_repeat_1.toVector;
   val x_251 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
   val x_253 = x_250.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$63_252: meta.deep.runtime.Actor) => x$63_252.asInstanceOf[meta.example.supermarket.goods.Item]))(x_251);
   meta.example.supermarket.Supermarket.store.initializeItemDeque(x_253);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_254 = scala.Predef.intWrapper(1);
+  val x_255 = x_254.to(1);
+  x_255.foreach[scala.Unit](((x$64_256: scala.Int) => {
+    val x_257 = new generated.Item27();
+    l_repeat_1.append(x_257)
+  }));
+  val x_258 = l_repeat_1.toVector;
+  val x_259 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
+  val x_261 = x_258.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$65_260: meta.deep.runtime.Actor) => x$65_260.asInstanceOf[meta.example.supermarket.goods.Item]))(x_259);
+  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_261);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_262 = scala.Predef.intWrapper(1);
+  val x_263 = x_262.to(1);
+  x_263.foreach[scala.Unit](((x$66_264: scala.Int) => {
+    val x_265 = new generated.Item28();
+    l_repeat_1.append(x_265)
+  }));
+  val x_266 = l_repeat_1.toVector;
+  val x_267 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
+  val x_269 = x_266.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$67_268: meta.deep.runtime.Actor) => x$67_268.asInstanceOf[meta.example.supermarket.goods.Item]))(x_267);
+  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_269);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_270 = scala.Predef.intWrapper(1);
+  val x_271 = x_270.to(1);
+  x_271.foreach[scala.Unit](((x$68_272: scala.Int) => {
+    val x_273 = new generated.Item29();
+    l_repeat_1.append(x_273)
+  }));
+  val x_274 = l_repeat_1.toVector;
+  val x_275 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
+  val x_277 = x_274.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$69_276: meta.deep.runtime.Actor) => x$69_276.asInstanceOf[meta.example.supermarket.goods.Item]))(x_275);
+  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_277);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_278 = scala.Predef.intWrapper(1);
+  val x_279 = x_278.to(1);
+  x_279.foreach[scala.Unit](((x$70_280: scala.Int) => {
+    val x_281 = new generated.Item30();
+    l_repeat_1.append(x_281)
+  }));
+  val x_282 = l_repeat_1.toVector;
+  val x_283 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
+  val x_285 = x_282.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$71_284: meta.deep.runtime.Actor) => x$71_284.asInstanceOf[meta.example.supermarket.goods.Item]))(x_283);
+  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_285);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_286 = scala.Predef.intWrapper(1);
+  val x_287 = x_286.to(1);
+  x_287.foreach[scala.Unit](((x$72_288: scala.Int) => {
+    val x_289 = new generated.Item31();
+    l_repeat_1.append(x_289)
+  }));
+  val x_290 = l_repeat_1.toVector;
+  val x_291 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
+  val x_293 = x_290.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$73_292: meta.deep.runtime.Actor) => x$73_292.asInstanceOf[meta.example.supermarket.goods.Item]))(x_291);
+  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_293);
+  l_0.++=(l_repeat_1);
+  l_repeat_1.clear();
+  val x_294 = scala.Predef.intWrapper(1);
+  val x_295 = x_294.to(1);
+  x_295.foreach[scala.Unit](((x$74_296: scala.Int) => {
+    val x_297 = new generated.Item32();
+    l_repeat_1.append(x_297)
+  }));
+  val x_298 = l_repeat_1.toVector;
+  val x_299 = scala.collection.immutable.Vector.canBuildFrom[meta.example.supermarket.goods.Item];
+  val x_301 = x_298.map[meta.example.supermarket.goods.Item, scala.collection.immutable.Vector[meta.example.supermarket.goods.Item]](((x$75_300: meta.deep.runtime.Actor) => x$75_300.asInstanceOf[meta.example.supermarket.goods.Item]))(x_299);
+  meta.example.supermarket.Supermarket.store.initializeItemDeque(x_301);
   l_0.++=(l_repeat_1);
   l_repeat_1.clear();
   l_0.toList

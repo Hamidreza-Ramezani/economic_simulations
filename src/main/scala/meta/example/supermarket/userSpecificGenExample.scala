@@ -14,6 +14,7 @@ object userSpecificGenExample {
   val totalItems: Int = newItemsMap.itemMap.size
   val custIds: List[Int] = Range(1,11).toList
   val itemIds: List[Int] = (1 to totalItems).toList
+  val employeeIds: List[Int] = (1 to 1).toList
 
   val storagePathGegenerated: String = "generated/main/scala"
 
