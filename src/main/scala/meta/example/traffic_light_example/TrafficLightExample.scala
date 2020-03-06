@@ -8,7 +8,7 @@ import meta.deep.IR.TopLevel._
 
 object TrafficLightExample extends App {
   val cls1: ClassWithObject[TrafficLight] = TrafficLight.reflect(IR)
-  val cls2: ClassWithObject[Person] = Passenger.reflect(IR)
+  val cls2: ClassWithObject[Person] = Person.reflect(IR)
   val cls3: ClassWithObject[Driver] = Driver.reflect(IR)
   val mainClass: ClassWithObject[MainInit] = MainInit.reflect(IR)
   val startClasses: List[Clasz[_ <: Actor]] = List(cls1, cls2, cls3)

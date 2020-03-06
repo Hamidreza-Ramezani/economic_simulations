@@ -27,7 +27,7 @@ object genCustomers extends App {
       |${className}
       |  def main(): Unit = {
       |    while(true) {
-      |      SpecialInstructions.handleMessages()
+      |      //SpecialInstructions.handleMessages()
       |      customerInfo
       |
       |      buyListedItems(shoppingList.targetItems, (Random.nextFloat < priceConscious))
