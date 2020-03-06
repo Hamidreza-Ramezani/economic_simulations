@@ -311,7 +311,7 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
     val classString =
       s"""package ${packageName}
 
-trait ${className + "Trait"} extends ${parent.head}${parent.tail.foldLeft("")((a, b) => a + " with " + b)} with meta.example.supermarket.goods.newItem {
+trait ${className + "Trait"} extends ${parent.head}${parent.tail.foldLeft("")((a, b) => a + " with " + b)} {
   $initParams
   $initVars
   $run_until
