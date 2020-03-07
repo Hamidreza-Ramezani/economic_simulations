@@ -81,6 +81,8 @@ class Supermarket extends SummaryTrait {
     newItemsMap.itemMap.keys.foreach(
       item => 1.to(fillShelf(item)).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(item))
+//        val new_item: Item = Class.forName("meta.example.supermarket.goods." + newItemsMap.itemMap(item)).newInstance().asInstanceOf[Item]
+
         //        new_item.timeVar = timer
         Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])
         //        actors = actors :+ new_item.asInstanceOf[meta.deep.runtime.Actor]

@@ -11,7 +11,7 @@ object supermarketSimulation extends App {
   var actors: List[Actor] = List()
   var messages: List[Message] = List()
   var timer: Int = 0
-  var until: Int = 10
+  var until: Int = 20
   val shelfCapacity: Int = 10
   //  val unitLoad: Int = 5 //
   val memUnit: Int = 1024 // KB
