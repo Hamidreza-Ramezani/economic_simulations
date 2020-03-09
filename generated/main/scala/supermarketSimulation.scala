@@ -1,7 +1,7 @@
 import java.io.{File, PrintWriter}
 
 import meta.deep.runtime.{Actor, Message}
-import meta.example.supermarket.Supermarket
+import meta.example.supermarket.{Supermarket, granularity}
 import com.typesafe.scalalogging.Logger
 import org.apache.log4j.BasicConfigurator
 
@@ -11,7 +11,7 @@ object supermarketSimulation extends App {
   var actors: List[Actor] = List()
   var messages: List[Message] = List()
   var timer: Int = 0
-  var until: Int = 20
+  var until: Int = 10 * granularity.hour
   val shelfCapacity: Int = 10
   //  val unitLoad: Int = 5 //
   val memUnit: Int = 1024 // KB

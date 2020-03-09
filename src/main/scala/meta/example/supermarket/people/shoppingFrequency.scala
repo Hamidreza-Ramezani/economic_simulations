@@ -1,5 +1,8 @@
 package meta.example.supermarket.people
 
+import meta.example.supermarket.granularity
+
+
 trait Weekly {
   val frequency: Int = 7
 }

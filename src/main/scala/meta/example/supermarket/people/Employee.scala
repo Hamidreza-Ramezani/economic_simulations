@@ -2,7 +2,7 @@ package meta.example.supermarket.people
 
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
-import meta.example.supermarket.Supermarket
+import meta.example.supermarket.{Supermarket, granularity}
 import meta.example.supermarket.goods.{Item, Item1, Item10, Item11, Item12, Item13, Item14, Item15, Item16, Item17, Item18, Item19, Item2, Item20, Item21, Item22, Item23, Item24, Item25, Item26, Item27, Item28, Item29, Item3, Item30, Item31, Item32, Item4, Item5, Item6, Item7, Item8, Item9, newItemsMap}
 import squid.quasi.lift
 
@@ -69,9 +69,8 @@ class Employee extends Actor {
   def main(): Unit = {
     while (true) {
       addSupply
-      waitTurns(1)
+//      waitTurns((1 * granularity.hour))
+      waitTurns(24)
     }
   }
 }
-
-

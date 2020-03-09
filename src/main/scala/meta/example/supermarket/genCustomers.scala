@@ -20,6 +20,8 @@ object genCustomers extends App {
       |import meta.classLifting.SpecialInstructions
       |import squid.quasi.lift
       |import scala.util.Random
+      |import meta.example.supermarket.granularity
+      |
       |
       |/* Auto generated from ${generatingFileName} */
       |
@@ -37,7 +39,7 @@ object genCustomers extends App {
       |        consumeFood(mealPlan)
       |        consumeFood
       |        customerInfo
-      |        SpecialInstructions.waitTurns(1)
+      |        SpecialInstructions.waitTurns(24)
       |      })
       |    }
       |  }

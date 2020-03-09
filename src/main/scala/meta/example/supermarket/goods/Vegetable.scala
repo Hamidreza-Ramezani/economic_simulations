@@ -1,12 +1,14 @@
 package meta.example.supermarket.goods
 
+import meta.example.supermarket.granularity
+
 /* Auto generated from genGoods
  Please adjust file categories for modification
  */
 
 trait Vegetable {
   val category: String = "Vegetable"
-  val freshUntil: Int = 5
+  val freshUntil: Int = 5 * granularity.hour
   val visibility: Double = 1.0
 }
 
