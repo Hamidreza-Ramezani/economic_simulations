@@ -20,51 +20,53 @@ class MainInit {
     l ++= l_repeat
     l_repeat.clear()
 
-    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer4))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer5))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer6))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer7))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer8))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer9))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer10))
-    l ++= l_repeat
-    l_repeat.clear()
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer4))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer5))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer6))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer7))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer8))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer9))
+//    l ++= l_repeat
+//    l_repeat.clear()
+//
+//    (1 to 1).foreach(_ => l_repeat.append(new Customer10))
+//    l ++= l_repeat
+//    l_repeat.clear()
 
 
     (1 to 1).foreach(_ => l_repeat.append(new Employee))
-    l ++= l_repeat
+    l ++= l_repeat  
     l_repeat.clear()
 
     (1 to 1).foreach(_ => l_repeat.append(new Item1))
     Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
     l ++= l_repeat
     l_repeat.clear()
+
+
 
     (1 to 1).foreach(_ => l_repeat.append(new Item2))
     Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))

@@ -9,7 +9,7 @@ import squid.quasi.lift
 
 @lift
 class Employee extends Actor {
-  var shelfCapacity: Int = 20
+  var shelfCapacity: Int = 2
 
   def fillShelf(item: String): Int = {
     shelfCapacity - Supermarket.store.warehouse(item).size
