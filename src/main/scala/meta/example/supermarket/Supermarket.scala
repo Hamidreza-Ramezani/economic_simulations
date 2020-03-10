@@ -3,12 +3,13 @@ package meta.example.supermarket
 import meta.example.supermarket.goods._
 import meta.example.supermarket.utils.randElement
 
+import scala.collection.mutable
 import scala.collection.mutable.{Map, Queue}
 
 class Supermarket extends SummaryTrait {
   val warehouse: Map[String, ItemDeque] = Map[String, ItemDeque]()
   val isInvalids: Queue[Long] = new Queue()
-
+  var toBeScannedItems: mutable.Queue[Item] = new mutable.Queue[Item]()
   val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   val meats: Vector[String] = categories.getArticleNames("Meat")
   val snacks: Vector[String] = categories.getArticleNames("Snack")
@@ -39,22 +40,42 @@ class Supermarket extends SummaryTrait {
   def sell(item: String, fifo: Boolean = true): Option[Item] = {
     val requested: ItemDeque = warehouse.getOrElse(item, new ItemDeque())
     rmDiscarded(requested)
-
     if (requested.isEmpty) {
       //      sell(getRandFood(item.asInstanceOf[Item].category))
       None
     }
 
-    var soldItem: Item = null
+    var requestedItem: Item = null
     if (fifo) {
-      soldItem = requested.popLeft
+      requestedItem = requested.popLeft
     } else {
-      soldItem = requested.popRight
+      requestedItem = requested.popRight
     }
 
-    soldItem.purchase
-    println(s"Item ${soldItem.name} sold! " + soldItem.id)
-    Some(soldItem)
+    addToScannerQueue(requestedItem)
+    while (requestedItem.state.get != "isPurchased") {
+      //do nothing
+    }
+    //    println(s"Item ${requestedItem.name} is scanned! " + requestedItem.id)
+    //    requestedItem.purchase
+    println(s"Item ${requestedItem.name} is sold! " + requestedItem.id)
+    Some(requestedItem)
+  }
+
+  def getRequestedItem(item: String, fifo: Boolean = true): Option[Item] = {
+    val requested: ItemDeque = warehouse.getOrElse(item, new ItemDeque())
+    rmDiscarded(requested)
+    if (requested.isEmpty) {
+      //      sell(getRandFood(item.asInstanceOf[Item].category))
+      None
+    }
+    var requestedItem: Item = null
+    if (fifo) {
+      requestedItem = requested.popLeft
+    } else {
+      requestedItem = requested.popRight
+    }
+    Some(requestedItem)
   }
 
   def getRandFood(category: String): String = {
@@ -65,11 +86,16 @@ class Supermarket extends SummaryTrait {
       case "Snack" => randElement(snacks)
       case "Grain" => randElement(grains)
       case _ => {
-        println("Unrecognized food category name for generating food! Category is " + category); throw new IllegalArgumentException
+        println("Unrecognized food category name for generating food! Category is " + category);
+        throw new IllegalArgumentException
       }
     }
   }
 
+  def addToScannerQueue(item: Item) = {
+    Supermarket.store.toBeScannedItems.enqueue(item)
+    item.state.addToBasket
+  }
 
 
   def fillShelf(item: String): Int = {
@@ -81,7 +107,7 @@ class Supermarket extends SummaryTrait {
     newItemsMap.itemMap.keys.foreach(
       item => 1.to(fillShelf(item)).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(item))
-//        val new_item: Item = Class.forName("meta.example.supermarket.goods." + newItemsMap.itemMap(item)).newInstance().asInstanceOf[Item]
+        //        val new_item: Item = Class.forName("meta.example.supermarket.goods." + newItemsMap.itemMap(item)).newInstance().asInstanceOf[Item]
 
         //        new_item.timeVar = timer
         Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])

@@ -20,6 +20,8 @@ class MainInit {
     l ++= l_repeat
     l_repeat.clear()
 
+
+
 //    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
 //    l ++= l_repeat
 //    l_repeat.clear()
@@ -59,6 +61,11 @@ class MainInit {
 
     (1 to 1).foreach(_ => l_repeat.append(new Employee))
     l ++= l_repeat  
+    l_repeat.clear()
+
+
+    (1 to 1).foreach(_ => l_repeat.append(new Cashier))
+    l ++= l_repeat
     l_repeat.clear()
 
     (1 to 1).foreach(_ => l_repeat.append(new Item1))
