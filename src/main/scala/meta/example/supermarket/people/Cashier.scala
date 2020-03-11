@@ -9,7 +9,7 @@ import squid.quasi.lift
 import scala.collection.mutable.Queue
 
 @lift
-class Cashier extends Actor{
+class Cashier extends Actor {
 
   //we need a global object (supermarket's member) that is
   // a collection (Queue) to keep toBeScannedItems
@@ -21,22 +21,31 @@ class Cashier extends Actor{
   //when the cashier scanned the item, its state can be changed to isScanned or isPurchased
   //scanItems should change the status of items from onConveyor to isPurchased
 
+  var flag: Boolean = false
+  def scanItems(queue: Queue[Item]): Unit = {
+    while (queue.size > 0) {
 
-  def scanItems(queue: Queue[Item]): Unit ={
-    if (queue.size > 0){
+      // this queue should contain baskets instead of single items
+
+      //if it is the first element please wait
+      //      waitTurns(1)
+      // in each time that the customer wants to buy, we should have sth like this
+      if (!flag) {
+        flag = true
+        waitTurns(1)
+      }
       var item = queue.dequeue()
       item.state.purchase
-//      println(s"Item ${item.name} is scanned! " + item.id)
+      //      println(s"Item ${item.name} is scanned! " + item.id)
     }
+    flag = false
   }
 
   def main(): Unit = {
     while (true) {
+
       scanItems(Supermarket.store.toBeScannedItems)
       waitTurns(1)
     }
   }
-
-
-
 }

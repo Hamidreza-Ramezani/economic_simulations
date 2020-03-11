@@ -70,7 +70,7 @@ class Employee extends Actor {
     while (true) {
       addSupply
 //      waitTurns((1 * granularity.hour))
-      waitTurns(24)
+      waitTurns(12)
     }
   }
 }
