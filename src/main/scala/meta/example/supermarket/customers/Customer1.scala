@@ -4,7 +4,7 @@ import meta.classLifting.SpecialInstructions
 import squid.quasi.lift
 
 import scala.util.Random
-import meta.example.supermarket.granularity
+import meta.example.supermarket.{Supermarket, granularity}
 
 import scala.collection.mutable.ListBuffer
 
@@ -29,7 +29,8 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       //these functions should add the items to toBeScannedItems
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
-
+      Supermarket.store.toBeScannedItems.enqueue(basket)
+      //basket is full, now it should be added to the toBeScannedItem
       while (basket.exists(item => item.state.get != "isPurchased")) {
         SpecialInstructions.waitTurns(1)
       }
@@ -40,7 +41,6 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       })
       basket = ListBuffer()
       SpecialInstructions.waitTurns(1)
-
       // here there should be an if condition that checks whether all items are scanned or not
       // while (! all_Items_Scanned){
       // specialInstructions.waitTurns(1)
@@ -56,6 +56,8 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
         consumeFood
         customerInfo
         if (basket.size > 0) {
+          //now it should be added to the toBeScannedItems
+          Supermarket.store.toBeScannedItems.enqueue(basket)
           while (basket.exists(item => item.state.get != "isPurchased")) {
             SpecialInstructions.waitTurns(1)
           }

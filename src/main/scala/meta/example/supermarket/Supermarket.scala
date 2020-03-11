@@ -4,12 +4,12 @@ import meta.example.supermarket.goods._
 import meta.example.supermarket.utils.randElement
 
 import scala.collection.mutable
-import scala.collection.mutable.{Map, Queue}
+import scala.collection.mutable.{ListBuffer, Map, Queue}
 
 class Supermarket extends SummaryTrait {
   val warehouse: Map[String, ItemDeque] = Map[String, ItemDeque]()
   val isInvalids: Queue[Long] = new Queue()
-  var toBeScannedItems: mutable.Queue[Item] = new mutable.Queue[Item]()
+  var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
   val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   val meats: Vector[String] = categories.getArticleNames("Meat")
   val snacks: Vector[String] = categories.getArticleNames("Snack")
@@ -52,7 +52,7 @@ class Supermarket extends SummaryTrait {
       requestedItem = requested.popRight
     }
 
-    addToScannerQueue(requestedItem)
+//    addToScannerQueue(requestedItem)
     while (requestedItem.state.get != "isPurchased") {
       //do nothing
     }
@@ -93,10 +93,10 @@ class Supermarket extends SummaryTrait {
     }
   }
 
-  def addToScannerQueue(item: Item) = {
-    Supermarket.store.toBeScannedItems.enqueue(item)
-    item.state.addToBasket
-  }
+//  def addToScannerQueue(item: Item) = {
+//    Supermarket.store.toBeScannedItems.enqueue(item)
+//    item.state.addToBasket
+//  }
 
 
   def fillShelf(item: String): Int = {

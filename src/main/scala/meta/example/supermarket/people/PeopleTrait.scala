@@ -64,7 +64,7 @@ trait People extends Actor {
       case Some(item1) =>
         item1.state.addToBasket
         basket += item1
-        Supermarket.store.toBeScannedItems.enqueue(item1)
+//        Supermarket.store.toBeScannedItems.enqueue(item1)
 //        fridge.add(item1)
 
       case None =>

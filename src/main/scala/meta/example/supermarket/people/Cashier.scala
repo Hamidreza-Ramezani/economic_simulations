@@ -6,7 +6,7 @@ import meta.example.supermarket.Supermarket
 import meta.example.supermarket.goods.Item
 import squid.quasi.lift
 
-import scala.collection.mutable.Queue
+import scala.collection.mutable.{ListBuffer, Queue}
 
 @lift
 class Cashier extends Actor {
@@ -22,9 +22,16 @@ class Cashier extends Actor {
   //scanItems should change the status of items from onConveyor to isPurchased
 
   var flag: Boolean = false
-  def scanItems(queue: Queue[Item]): Unit = {
-    while (queue.size > 0) {
-
+  def scanItems(queue: Queue[ListBuffer[Item]]): Unit = {
+    var customerBasket: ListBuffer[Item] = ListBuffer[Item]()
+    if (queue.size > 0){
+      customerBasket = queue.dequeue()
+    }
+    var i: Int = 0
+    while (i < customerBasket.size) {
+      //here the cashier needs to pop one basket from the toBeScannedItems
+      // when all items for the basket are specified, basket should be
+      // added to the toBeScannedItems
       // this queue should contain baskets instead of single items
 
       //if it is the first element please wait
@@ -34,8 +41,10 @@ class Cashier extends Actor {
         flag = true
         waitTurns(1)
       }
-      var item = queue.dequeue()
+      var item = customerBasket(i)
+//      customerBasket -= item
       item.state.purchase
+      i = i + 1
       //      println(s"Item ${item.name} is scanned! " + item.id)
     }
     flag = false
