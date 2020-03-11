@@ -39,7 +39,7 @@ object supermarketSimulation extends App {
     while (timer <= until) {
       val start_it = System.nanoTime()
       println("TIMER", timer)
-      collect(timer)
+//      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
       while (Supermarket.store.isInvalids.size > 0) {
@@ -53,7 +53,8 @@ object supermarketSimulation extends App {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }
-//      actors(10).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(10).id, List())).run_until(timer)
+      collect(timer)
+      //      actors(10).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(10).id, List())).run_until(timer)
       actors = actors.map { a => {
         a.cleanSendMessage
           .addReceiveMessages(mx.getOrElse(a.id, List()))

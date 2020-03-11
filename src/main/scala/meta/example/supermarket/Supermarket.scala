@@ -75,6 +75,7 @@ class Supermarket extends SummaryTrait {
     } else {
       requestedItem = requested.popRight
     }
+    println(s"Item ${requestedItem.name} is requested! " + requestedItem.id)
     Some(requestedItem)
   }
 

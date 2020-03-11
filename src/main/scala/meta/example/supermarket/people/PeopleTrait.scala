@@ -7,13 +7,14 @@ import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.{randElement, toShoppingList}
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 trait People extends Actor {
 
   //  val age: Int
   val frequency: Int
   val priceConscious: Double
-  var basket: List[Item] = List[Item]()
+  var basket: ListBuffer[Item] = ListBuffer[Item]()
   val needBased: Boolean
   val shoppingList: ShoppingList
   val mealPlan: Vector[(articleName, gram)]
@@ -60,11 +61,9 @@ trait People extends Actor {
 
   def addToBasket(item: String, onBudget: Boolean = true): Unit = {
     supermarket.getRequestedItem(item, onBudget) match {
-
-      //it should add it to the basket
-      //and also add to toBeScannedItems
       case Some(item1) =>
-        basket.+(item1)
+        item1.state.addToBasket
+        basket += item1
         Supermarket.store.toBeScannedItems.enqueue(item1)
 //        fridge.add(item1)
 
