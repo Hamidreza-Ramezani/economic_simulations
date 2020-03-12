@@ -2,21 +2,17 @@ package meta.example.supermarket.people
 
 import meta.classLifting.SpecialInstructions
 import squid.quasi.lift
+
 import scala.util.Random
 import meta.example.supermarket.{Supermarket, granularity}
+
 import scala.collection.mutable.ListBuffer
 
+
 /* Auto generated from genCustomers */
+
 @lift
-class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
-  //  def isAllItemsScanned(): Boolean = {
-  //    this.basket.foreach(item => {
-  //      if (item.state.get != "isPurchased") {
-  //        return false
-  //      }
-  //    })
-  //    true
-  //  }
+class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
   def main(): Unit = {
     while (true) {
       customerInfo

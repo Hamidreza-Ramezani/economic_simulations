@@ -22,13 +22,13 @@ class MainInit {
 
 
 
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
-//    l ++= l_repeat
-//    l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
-//    l ++= l_repeat
-//    l_repeat.clear()
+    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
+    l ++= l_repeat
+    l_repeat.clear()
+
+    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
+    l ++= l_repeat
+    l_repeat.clear()
 //
 //    (1 to 1).foreach(_ => l_repeat.append(new Customer4))
 //    l ++= l_repeat
