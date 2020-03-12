@@ -2,18 +2,13 @@ package meta.example.supermarket.people
 
 import meta.classLifting.SpecialInstructions
 import squid.quasi.lift
-
 import scala.util.Random
 import meta.example.supermarket.{Supermarket, granularity}
-
 import scala.collection.mutable.ListBuffer
 
-
 /* Auto generated from genCustomers */
-
 @lift
 class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
-
   //  def isAllItemsScanned(): Boolean = {
   //    this.basket.foreach(item => {
   //      if (item.state.get != "isPurchased") {
@@ -22,7 +17,6 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
   //    })
   //    true
   //  }
-
   def main(): Unit = {
     while (true) {
       customerInfo
@@ -41,16 +35,9 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       })
       basket = ListBuffer()
       SpecialInstructions.waitTurns(1)
-      // here there should be an if condition that checks whether all items are scanned or not
       // while (! all_Items_Scanned){
       // specialInstructions.waitTurns(1)
       // }
-
-
-      //buyListedItems(shoppingList.targetItems, (Random.nextFloat < priceConscious))
-      //buyRandItems(shoppingList.randItems)
-      //those two above functions should only print that customer purchased the foods. without their item id
-
       List.range(0, frequency).foreach(_ => {
         consumeFood(mealPlan)
         consumeFood

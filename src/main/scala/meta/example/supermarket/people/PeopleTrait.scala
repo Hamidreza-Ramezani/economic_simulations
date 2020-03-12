@@ -5,12 +5,9 @@ import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, getArticleUnit, gram}
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.{randElement, toShoppingList}
-
-import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 trait People extends Actor {
-
   //  val age: Int
   val frequency: Int
   val priceConscious: Double
@@ -24,13 +21,11 @@ trait People extends Actor {
   assert(supermarket.vegetables.size > 1) // store has been properly initialized
   val fridge: Fridge = new Fridge
 
-
   //  def addToCart(item: Item): Unit ={
   //before purchasing, addToCart must be called
   //    Supermarket.store.toBeScannedItems.enqueue(item)
   //    item.state.request
   //  }
-
   def addRandItemsToBasket(shoppingList: categoryAmount): Unit = {
     if (!needBased) {
       val foods = utils.ccArgToVector(shoppingList)
@@ -64,8 +59,8 @@ trait People extends Actor {
       case Some(item1) =>
         item1.state.addToBasket
         basket += item1
-//        Supermarket.store.toBeScannedItems.enqueue(item1)
-//        fridge.add(item1)
+      //        Supermarket.store.toBeScannedItems.enqueue(item1)
+      //        fridge.add(item1)
 
       case None =>
     }
