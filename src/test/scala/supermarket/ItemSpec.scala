@@ -23,7 +23,7 @@ class ItemSpec extends FlatSpec with Matchers {
     item1.stock should be (3)
     item1.priceUnit should be (200)
     item1.price should be (2.0)
-    item1.freshUntil should be (5)
+    item1.freshUntil should be (5) //depends on the system granularity
     item1.visibility should be (1.0)
   }
 

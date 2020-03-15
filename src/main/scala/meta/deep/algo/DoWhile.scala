@@ -12,9 +12,7 @@ case class DoWhile(cond: OpenCode[Boolean], body: Algo[_]) extends Algo[Unit] {
   override def codegen(): Unit = {
 
     val tmpPos = AlgoInfo.posCounter
-
     body.codegen()
-
     AlgoInfo.stateGraph.append(
       AlgoInfo.EdgeInfo("DoWhile true",
                         AlgoInfo.CodeNodePos(AlgoInfo.posCounter),

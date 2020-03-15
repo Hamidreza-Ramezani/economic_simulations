@@ -25,7 +25,7 @@ class utilsSpec extends FlatSpec with Matchers{
   }
 
   "toShoppingList which is based on divCeil" should "convert weight (gram) to the number of items" in {
-    utils.toShoppingList(Vector(("Egg", 50))) should be (Vector(("Egg", "Dairy", 1)))
+    utils.toShoppingList(Vector(("Egg", 50))) should be (Vector(("Egg", 1)))
   }
 
 //  info("Util methods work as expected!")

@@ -28,7 +28,6 @@ class Cashier extends Actor {
         //      customerBasket -= item
         item.state.purchase
         i = i + 1
-        //      println(s"Item ${item.name} is scanned! " + item.id)
       }
       j = j + 1
       //      isFirstBasket = true
