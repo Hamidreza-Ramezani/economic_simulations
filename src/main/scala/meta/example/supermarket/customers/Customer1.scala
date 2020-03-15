@@ -9,14 +9,17 @@ import scala.collection.mutable.ListBuffer
 /* Auto generated from genCustomers */
 @lift
 class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
-    def isAllItemsScanned(): Boolean = {
-      this.basket.foreach(item => {
-        if (item.state.get != "isPurchased") {
-          false
-        }
-      })
-      true
-    }
+
+//  def isAllItemsScanned(): Boolean = {
+//      this.basket.foreach(item => {
+//        if (item.state.get != "isPurchased") {
+//          false
+//        }
+//      })
+//      true
+//    }
+
+
   def main(): Unit = {
     while (true) {
       customerInfo

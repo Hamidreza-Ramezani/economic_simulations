@@ -10,7 +10,8 @@ import scala.collection.mutable.{ListBuffer, Queue}
 @lift
 class Cashier extends Actor {
 
-  val numOfBasketsHandledInOneStep: Int = 2
+//  var numOfBasketsHandledInOneStep: Int = _numOfBasketsHandledInOneStep
+  var numOfBasketsHandledInOneStep: Int = 1
   var isFirstBasket: Boolean = true
 
   def scanItems(queue: Queue[ListBuffer[Item]]): Unit = {
@@ -22,7 +23,7 @@ class Cashier extends Actor {
       while (i < customerBasket.size) {
         if (isFirstBasket) {
           isFirstBasket = false
-          waitTurns(1)
+//          waitTurns(1)
         }
         var item = customerBasket(i)
         //      customerBasket -= item
