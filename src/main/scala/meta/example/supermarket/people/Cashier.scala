@@ -12,6 +12,11 @@ class Cashier extends Actor {
 
 //  var numOfBasketsHandledInOneStep: Int = _numOfBasketsHandledInOneStep
   var numOfBasketsHandledInOneStep: Int = 1
+
+  def setNumOfBasketHandledInOneStep(numOfBasketsHandledInOneStep: Int): Unit = {
+    this.numOfBasketsHandledInOneStep = numOfBasketsHandledInOneStep
+  }
+
   var isFirstBasket: Boolean = true
 
   def scanItems(queue: Queue[ListBuffer[Item]]): Unit = {

@@ -11,14 +11,18 @@ import squid.quasi.lift
 class Employee extends Actor {
   var shelfCapacity: Int = 4
 
-  def fillShelf(item: String): Int = {
+  def setShelfCapacity(shelfCapacity: Int): Unit = {
+    this.shelfCapacity = shelfCapacity
+  }
+
+  def getFreeSpace(item: String): Int = {
     shelfCapacity - Supermarket.store.warehouse(item).size
   }
 
   def addSupply: Unit = {
     var i = 0
     newItemsMap.itemMap.keys.toList.foreach(
-      item => List.tabulate(fillShelf(item))(n => n).foreach(_ => {
+      item => List.tabulate(getFreeSpace(item))(n => n).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(item))
         Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])
         println("Add new actor! name: " + item)
