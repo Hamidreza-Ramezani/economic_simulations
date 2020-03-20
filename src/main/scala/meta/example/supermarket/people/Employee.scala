@@ -9,14 +9,13 @@ import squid.quasi.lift
 
 @lift
 class Employee extends Actor {
-  var shelfCapacity: Int = 4
-
-  def setShelfCapacity(shelfCapacity: Int): Unit = {
-    this.shelfCapacity = shelfCapacity
-  }
+//  var shelfCapacity: Int = 4
+//  def setShelfCapacity(shelfCapacity: Int): Unit = {
+//    this.shelfCapacity = shelfCapacity
+//  }
 
   def getFreeSpace(item: String): Int = {
-    shelfCapacity - Supermarket.store.warehouse(item).size
+    Supermarket.store.shelfCapacity - Supermarket.store.warehouse(item).size
   }
 
   def addSupply: Unit = {

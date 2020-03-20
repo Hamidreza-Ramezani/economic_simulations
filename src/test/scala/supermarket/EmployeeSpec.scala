@@ -143,8 +143,8 @@ class EmployeeSpec extends FlatSpec with Matchers {
 
 
   "fillShelf" should "work" in{
-    employee.shelfCapacity = 4
-    assert(employee.shelfCapacity == 4)
+    Supermarket.store.shelfCapacity = 4
+    assert(Supermarket.store.shelfCapacity == 4)
     assert(employee.getFreeSpace("Pork") == 3)
   }
 
@@ -153,7 +153,7 @@ class EmployeeSpec extends FlatSpec with Matchers {
   }
 
   "addSupply" should "work" in{
-    employee.shelfCapacity = 10
+    Supermarket.store.shelfCapacity = 10
     assert(Supermarket.store.warehouse.size == 32)
     employee.addSupply
     assert(employee.getFreeSpace("Pork") == 0)
