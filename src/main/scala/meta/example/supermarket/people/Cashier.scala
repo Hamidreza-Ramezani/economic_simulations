@@ -28,6 +28,7 @@ class Cashier extends Actor {
       while (i < customerBasket.size) {
         if (isFirstBasket) {
           isFirstBasket = false
+          //TODO double check to see if this wait statement is essential
 //          waitTurns(1)
         }
         var item = customerBasket(i)
@@ -38,6 +39,9 @@ class Cashier extends Actor {
       j = j + 1
       //      isFirstBasket = true
     }
+
+    // println("Customer's Actor id " + id + " is waiting")
+
     if (queue.size == 0) {
       isFirstBasket = true
     } else{

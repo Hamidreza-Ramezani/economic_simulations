@@ -30,6 +30,8 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       Supermarket.store.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
       while (basket.exists(item => item.state.get != "isPurchased")) {
+        println("Customer's Actor id " + id + " is waiting")
+        println()
         SpecialInstructions.waitTurns(1)
       }
       customerInfo
@@ -51,6 +53,8 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
           //now it should be added to the toBeScannedItems
           Supermarket.store.toBeScannedItems.enqueue(basket)
           while (basket.exists(item => item.state.get != "isPurchased")) {
+            println("Customer's Actor id " + id + " is waiting")
+            println()
             SpecialInstructions.waitTurns(1)
           }
           customerInfo

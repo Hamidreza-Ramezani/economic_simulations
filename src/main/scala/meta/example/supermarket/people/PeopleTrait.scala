@@ -92,6 +92,7 @@ trait People extends Actor {
   }
 
   def customerInfo: Unit = {
+    println()
     println("Customer's Actor id " + id + " frequency " + frequency + " fridge " + fridge)
     println()
   }

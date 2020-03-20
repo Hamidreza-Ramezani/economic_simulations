@@ -24,7 +24,7 @@ class Employee extends Actor {
       item => List.tabulate(getFreeSpace(item))(n => n).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(item))
         Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])
-        println("Add new actor! name: " + item)
+//        println("Add new actor! name: " + item)
       })
     )
   }
