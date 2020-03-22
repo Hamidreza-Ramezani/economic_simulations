@@ -10,7 +10,11 @@ import scala.collection.mutable.ListBuffer
 @lift
 class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
 
-//  def isAllItemsScanned(): Boolean = {
+
+  var employee: Employee = null
+
+
+  //  def isAllItemsScanned(): Boolean = {
 //      this.basket.foreach(item => {
 //        if (item.state.get != "isPurchased") {
 //          false
@@ -24,6 +28,11 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
     while (true) {
       customerInfo
       //these functions should add the items to toBeScannedItems
+      while (employee.state.get == "reFillingShelves"){
+        println("Customer is waiting for the employee to refill the shelves")
+        SpecialInstructions.waitTurns(1)
+      }
+
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
       println()

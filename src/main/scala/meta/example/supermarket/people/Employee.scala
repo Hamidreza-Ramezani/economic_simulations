@@ -9,10 +9,12 @@ import squid.quasi.lift
 
 @lift
 class Employee extends Actor {
-//  var shelfCapacity: Int = 4
-//  def setShelfCapacity(shelfCapacity: Int): Unit = {
-//    this.shelfCapacity = shelfCapacity
-//  }
+  //  var shelfCapacity: Int = 4
+  //  def setShelfCapacity(shelfCapacity: Int): Unit = {
+  //    this.shelfCapacity = shelfCapacity
+  //  }
+
+  var state: EmployeeState = EmployeeState()
 
   def getFreeSpace(item: String): Int = {
     Supermarket.store.shelfCapacity - Supermarket.store.warehouse(item).size
@@ -20,18 +22,27 @@ class Employee extends Actor {
 
   def addSupply: Unit = {
     var i = 0
+    //    println()
+    //    println("Employee's Actor id " + id + " is refilling the shelves")
+    //    println()
+    //    state.refillShelves
+    //    waitTurns(1)
     newItemsMap.itemMap.keys.toList.foreach(
       item => List.tabulate(getFreeSpace(item))(n => n).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(item))
         Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])
-//        println("Add new actor! name: " + item)
+        //        println("Add new actor! name: " + item)
       })
     )
+    //    state.walkAround
+    //    println()
+    //    println("Employee's Actor id " + id + " refilled the shelves")
+    //    println()
   }
 
   def genNewItem(itemId: String): Item = {
-    var lstOfNewItems: List[Item] = List()
-    var index: Int = Integer.parseInt(itemId.replaceAll("Item", ""))
+    //    var lstOfNewItems: List[Item] = List()
+    val index: Int = Integer.parseInt(itemId.replaceAll("Item", ""))
     if (index == 32) new Item32()
     else if (index == 31) new Item31()
     else if (index == 30) new Item30()
@@ -71,8 +82,17 @@ class Employee extends Actor {
 
   def main(): Unit = {
     while (true) {
+      println()
+      println("Employee's Actor id " + id + " is refilling the shelves")
+      println()
+      state.refillShelves
+      waitTurns(1)
       addSupply
-//      waitTurns((1 * granularity.hour))
+      state.walkAround
+      println()
+      println("Employee's Actor id " + id + " refilled the shelves")
+      println()
+      //      waitTurns((1 * granularity.hour))
       waitTurns(12)
     }
   }

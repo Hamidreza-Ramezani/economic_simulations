@@ -15,69 +15,99 @@ class MainInit {
   def main(): List[Actor] = {
     val l = ListBuffer[Actor]()
     val l_repeat = ListBuffer[Actor]()
+    val employee1 = new Employee
 
-
-
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer1))
+    val customer1 = new Customer1
+    customer1.employee = employee1
+    (1 to 1).foreach(_ => l_repeat.append(customer1))
     l ++= l_repeat
     l_repeat.clear()
 
-    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer1))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+
+    val customer2 = new Customer2
+    customer2.employee = employee1
+    (1 to 1).foreach(_ => l_repeat.append(customer2))
     l ++= l_repeat
     l_repeat.clear()
 
-    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+
+    val customer3 = new Customer3
+    customer3.employee = employee1
+    (1 to 1).foreach(_ => l_repeat.append(customer3))
     l ++= l_repeat
     l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer4))
-//    l ++= l_repeat
-//    l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer5))
-//    l ++= l_repeat
-//    l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer6))
-//    l ++= l_repeat
-//    l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer7))
-//    l ++= l_repeat
-//    l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer8))
-//    l ++= l_repeat
-//    l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer9))
-//    l ++= l_repeat
-//    l_repeat.clear()
-//
-//    (1 to 1).foreach(_ => l_repeat.append(new Customer10))
-//    l ++= l_repeat
-//    l_repeat.clear()
+
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+
+
+    //    val employee1 = new Employee
+    (1 to 1).foreach(_ => l_repeat.append(employee1))
+    l ++= l_repeat
+    l_repeat.clear()
+
+
+    //    (1 to 1).foreach(_ => l_repeat.append(employee1))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer4))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer5))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer6))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer7))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer8))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer9))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer10))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
 
     (1 to 1).foreach(_ => l_repeat.append(new Cashier))
     l ++= l_repeat
     l_repeat.clear()
 
 
-    (1 to 1).foreach(_ => l_repeat.append(new Employee))
-    l ++= l_repeat  
-    l_repeat.clear()
+    //    (1 to 1).foreach(_ => l_repeat.append(Supermarket.store.employee))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
 
+    //    (1 to 1).foreach(_ => l_repeat.append(new Employee))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
 
-//    (1 to 1).foreach(_ => l_repeat.append(new Cashier))
-//    l ++= l_repeat
-//    l_repeat.clear()
 
     (1 to 1).foreach(_ => l_repeat.append(new Item1))
     Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
     l ++= l_repeat
     l_repeat.clear()
-
 
 
     (1 to 1).foreach(_ => l_repeat.append(new Item2))

@@ -13,10 +13,16 @@ import scala.collection.mutable.ListBuffer
 
 @lift
 class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
+  var employee: Employee = null
   def main(): Unit = {
     while (true) {
       customerInfo
       //these functions should add the items to toBeScannedItems
+      while (employee.state.get == "reFillingShelves"){
+        println("Customer is waiting for the employee to refill the shelves")
+        SpecialInstructions.waitTurns(1)
+      }
+
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
       println()
