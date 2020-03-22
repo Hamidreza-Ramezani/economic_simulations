@@ -3,6 +3,7 @@ import java.io.{File, PrintWriter}
 import meta.deep.runtime.{Actor, Message}
 import meta.example.supermarket.{Supermarket, granularity}
 import com.typesafe.scalalogging.Logger
+import generated.Employee
 import org.apache.log4j.BasicConfigurator
 
 object supermarketSimulation extends App {
@@ -18,6 +19,7 @@ object supermarketSimulation extends App {
   val runtime = Runtime.getRuntime
   BasicConfigurator.configure()
   val logger = Logger("Root")
+  val employee: Employee = new Employee
 
   def init(): Unit = {
     //    actors = generated.InitData.initActors.to[Array]

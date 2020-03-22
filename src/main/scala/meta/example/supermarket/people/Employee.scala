@@ -22,11 +22,6 @@ class Employee extends Actor {
 
   def addSupply: Unit = {
     var i = 0
-    //    println()
-    //    println("Employee's Actor id " + id + " is refilling the shelves")
-    //    println()
-    //    state.refillShelves
-    //    waitTurns(1)
     newItemsMap.itemMap.keys.toList.foreach(
       item => List.tabulate(getFreeSpace(item))(n => n).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(item))
@@ -34,10 +29,6 @@ class Employee extends Actor {
         //        println("Add new actor! name: " + item)
       })
     )
-    //    state.walkAround
-    //    println()
-    //    println("Employee's Actor id " + id + " refilled the shelves")
-    //    println()
   }
 
   def genNewItem(itemId: String): Item = {

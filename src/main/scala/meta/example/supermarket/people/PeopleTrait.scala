@@ -20,6 +20,8 @@ trait People extends Actor {
   var supermarket: Supermarket = Supermarket.store
   assert(supermarket.vegetables.size > 1) // store has been properly initialized
   val fridge: Fridge = new Fridge
+//  var employee: Employee = null
+
 
   //  def addToCart(item: Item): Unit ={
   //before purchasing, addToCart must be called
