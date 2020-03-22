@@ -19,7 +19,6 @@ object supermarketSimulation extends App {
   val runtime = Runtime.getRuntime
   BasicConfigurator.configure()
   val logger = Logger("Root")
-  val employee: Employee = new Employee
 
   def init(): Unit = {
     //    actors = generated.InitData.initActors.to[Array]
@@ -50,6 +49,11 @@ object supermarketSimulation extends App {
       }
       //      addSupply
       //employee should refill the shelves
+//      for (i <- 0 to actors.length -1 ){
+//        if (actors(i).getClass.getName == "meta.example.supermarket.people.Employee"){
+//          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
+//        }
+//      }
       for (i <- 0 to actors.length -1 ){
         if (actors(i).getClass.getName == "generated.Employee"){
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)

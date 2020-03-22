@@ -42,6 +42,11 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
           println()
           SpecialInstructions.waitTurns(1)
         }
+//        while (Supermarket.store.employee.state.get == "reFillingShelves") {
+//          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+//          println()
+//          SpecialInstructions.waitTurns(1)
+//        }
         addListedItemsToBasket(Vector((pair._1, pair._2)))
       }
     })
@@ -56,6 +61,11 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
         println()
         SpecialInstructions.waitTurns(1)
       }
+//      while (Supermarket.store.employee.state.get == "reFillingShelves") {
+//        println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+//        println()
+//        SpecialInstructions.waitTurns(1)
+//      }
 
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
@@ -68,6 +78,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
         SpecialInstructions.waitTurns(1)
       }
       customerInfo
+      println("shopping basket of Customer's Actor id " + id + " was scanned")
       basket.toList.foreach(item => {
         println("Customer bought food " + item.name + " id: " + item.id)
         fridge.add(item)
@@ -94,6 +105,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
             SpecialInstructions.waitTurns(1)
           }
           customerInfo
+          println("shopping basket of Customer's Actor id " + id + " was scanned")
           basket.toList.foreach(item => {
             println("Customer bought food " + item.name + " id: " + item.id)
             fridge.add(item)

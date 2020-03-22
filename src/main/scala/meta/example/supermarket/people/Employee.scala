@@ -13,7 +13,7 @@ class Employee extends Actor {
   //  def setShelfCapacity(shelfCapacity: Int): Unit = {
   //    this.shelfCapacity = shelfCapacity
   //  }
-
+  var section: String = null
   var state: EmployeeState = EmployeeState()
 
   def getFreeSpace(item: String): Int = {

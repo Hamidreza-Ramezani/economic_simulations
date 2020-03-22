@@ -15,8 +15,8 @@ class MainInit {
   def main(): List[Actor] = {
     val l = ListBuffer[Actor]()
     val l_repeat = ListBuffer[Actor]()
-    val employee1 = new Employee
 
+    val employee1 = new Employee
     val customer1 = new Customer1
     customer1.employee = employee1
     (1 to 1).foreach(_ => l_repeat.append(customer1))
@@ -49,6 +49,7 @@ class MainInit {
 
 
     //    val employee1 = new Employee
+    //    (1 to 1).foreach(_ => l_repeat.append(employee1))
     (1 to 1).foreach(_ => l_repeat.append(employee1))
     l ++= l_repeat
     l_repeat.clear()
