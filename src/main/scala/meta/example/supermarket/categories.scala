@@ -35,46 +35,46 @@ object categories {
   // Unify the unit to simplify random selection of the article
   val vegieStock: stock = 5 // Leave stock as an attribute of item rather than category for more flexibility
   val vegiess: namePriceUnit = Vector(
-    ("eggplant", 2, piece, 0, 3),
-    ("potato", 0.8, piece, 0, 2),
-    ("onion", 0.8, piece, 0, 2),
-    ("broccoli", 2, piece, 0, vegieStock),
-    ("cucumber", 1.5, piece, 0, vegieStock),
-    ("carrots", 1, piece, 0, vegieStock),
-    ("celery", 2, piece, 0, vegieStock),
-    ("tomato", 1.5, piece, 0, vegieStock),
-    ("mushroom", 2, piece, 0, vegieStock),
-    ("cabbage", 1, piece, 0, vegieStock),
-    ("squash", 1, piece, 0, vegieStock)
+    ("Eggplant", 2, piece, 0, 3),
+    ("Potato", 0.8, piece, 0, 2),
+    ("Onion", 0.8, piece, 0, 2),
+    ("Broccoli", 2, piece, 0, vegieStock),
+    ("Cucumber", 1.5, piece, 0, vegieStock),
+    ("Carrots", 1, piece, 0, vegieStock),
+    ("Celery", 2, piece, 0, vegieStock),
+    ("Tomato", 1.5, piece, 0, vegieStock),
+    ("Mushroom", 2, piece, 0, vegieStock),
+    ("Cabbage", 1, piece, 0, vegieStock),
+    ("Squash", 1, piece, 0, vegieStock)
   )
 
   val Meat: CategoryFields = CategoryFields(15, 0.8)
   val meatStock: stock = 3
   val meatss: namePriceUnit = Vector(
-    ("chicken", 15, kg, 0, meatStock),
-    ("beef", 35, kg, 0, meatStock),
-    ("pork", 25, kg, 0, meatStock),
-    ("lamb", 45, kg, 0, meatStock),
-    ("bacon", 25, kg, 0, meatStock)
+    ("Chicken", 15, kg, 0, meatStock),
+    ("Beef", 35, kg, 0, meatStock),
+    ("Pork", 25, kg, 0, meatStock),
+    ("Lamb", 45, kg, 0, meatStock),
+    ("Bacon", 25, kg, 0, meatStock)
   )
 
   val Snack: CategoryFields = CategoryFields(100, 1.0)
   val snackStock: stock = 10
   val snackss: namePriceUnit = Vector(
-    ("kitkat", 3.5, bag, 0, snackStock),
-    ("ferraro", 5, box, 0, snackStock),
-    ("darkChocolate", 1.8, bar, 0, snackStock),
-    ("whiteChocolate", 1.8, bar, 0, snackStock))
+    ("Kitkat", 3.5, bag, 0, snackStock),
+    ("Ferraro", 5, box, 0, snackStock),
+    ("DarkChocolate", 1.8, bar, 0, snackStock),
+    ("WhiteChocolate", 1.8, bar, 0, snackStock))
 
   val Grain: CategoryFields = CategoryFields(50, 0.6)
   val grainStock: stock = 4
   val grainss: namePriceUnit = Vector(
-    ("cereal", 4, kg, 0, grainStock),
-    ("oatmeal", 4, kg, 0, grainStock),
-    ("rice", 2, kg, 0, grainStock),
-    ("noodles", 3, kg, 0, grainStock),
-    ("spaghetti", 1.5, kg, 0, grainStock),
-    ("pasta", 1.5, kg, 0, grainStock),
+    ("Cereal", 4, kg, 0, grainStock),
+    ("Oatmeal", 4, kg, 0, grainStock),
+    ("Rice", 2, kg, 0, grainStock),
+    ("Noodles", 3, kg, 0, grainStock),
+    ("Spaghetti", 1.5, kg, 0, grainStock),
+    ("Pasta", 1.5, kg, 0, grainStock),
     ("Bread", 1.5, kg, 0, grainStock))
 
   // Treat egg as vegetable as it has expiration date is later
@@ -85,7 +85,7 @@ object categories {
     ("Yogurt", 1, cup, 0, dairyStock),
     ("Cheese", 5, piece, 0, dairyStock),
     ("Cream", 1, cup, 0, dairyStock),
-    ("egg", 3, carton, 0, dairyStock))
+    ("Egg", 3, carton, 0, dairyStock))
 
   private def addToSummary(name: categoryName, newCategory: CategoryFields, newCategoryNamePrice: namePriceUnit): Unit = {
     summary.append((name, newCategory, newCategoryNamePrice))
