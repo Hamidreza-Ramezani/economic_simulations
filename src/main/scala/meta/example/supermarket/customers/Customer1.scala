@@ -2,18 +2,57 @@ package meta.example.supermarket.people
 
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.utils.randElement
+import meta.example.supermarket.goods.Item
+import meta.example.supermarket.utils.{randElement, toShoppingList}
 import squid.quasi.lift
 
 import scala.util.Random
-import meta.example.supermarket.{Supermarket, granularity}
+import meta.example.supermarket.{Supermarket, categoryAmount, granularity, utils}
 
 import scala.collection.mutable.ListBuffer
 
 /* Auto generated from genCustomers */
 @lift
 class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
-    var employee: Employee = null
+  var employee: Employee = null
+
+//  def addRandItems(shoppingList: categoryAmount): Unit = {
+//    if (!needBased) {
+//      val foods = utils.ccArgToVector(shoppingList)
+//      foods.toList.foreach(
+//        categoryAmountPair => {
+//          val numOfItems = List.fill(categoryAmountPair._2.asInstanceOf[Int])(1)
+//          numOfItems.foreach(_ => {
+//            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
+//            println("Customer adds random food to the basket! " + randFood)
+//            addToBasket(randFood)
+//          })
+//        }
+//      )
+//    }
+//  }
+//
+//  def addListedItems123(meal: Vector[(articleName, Int)], onBudget: Boolean = true): Unit = {
+//    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
+//    meal.toList.foreach(articlePair => {
+//      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
+//        println("Customer adds food from shopping list to the basket! " + articlePair._1)
+//        val numOfItems = List.fill(shoppingList(articlePair._1))(1)
+//        numOfItems.foreach(_ => addToBasket(articlePair._1, onBudget))
+//      }
+//    })
+//  }
+
+//  def addTo(item: String, onBudget: Boolean = true): Unit = {
+//    var requestedItem: Option[Item] = supermarket.getRequestedItem(item, onBudget)
+//    if (requestedItem.isDefined) {
+//      requestedItem.get.state.addToBasket
+//      basket += requestedItem.get
+//      //      println("Customer adds food to the basket! " + requestedItem.get.name)
+//    }
+//  }
+
+
   //  def isAllItemsScanned(): Boolean = {
   //      this.basket.foreach(item => {
   //        if (item.state.get != "isPurchased") {
@@ -42,11 +81,11 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
           println()
           SpecialInstructions.waitTurns(1)
         }
-//        while (Supermarket.store.employee.state.get == "reFillingShelves") {
-//          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
-//          println()
-//          SpecialInstructions.waitTurns(1)
-//        }
+        //        while (Supermarket.store.employee.state.get == "reFillingShelves") {
+        //          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+        //          println()
+        //          SpecialInstructions.waitTurns(1)
+        //        }
         addListedItemsToBasket(Vector((pair._1, pair._2)))
       }
     })
@@ -61,11 +100,11 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
         println()
         SpecialInstructions.waitTurns(1)
       }
-//      while (Supermarket.store.employee.state.get == "reFillingShelves") {
-//        println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
-//        println()
-//        SpecialInstructions.waitTurns(1)
-//      }
+      //      while (Supermarket.store.employee.state.get == "reFillingShelves") {
+      //        println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+      //        println()
+      //        SpecialInstructions.waitTurns(1)
+      //      }
 
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
@@ -92,8 +131,8 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       List.range(0, frequency).foreach(_ => {
         consumeFood1(mealPlan)
         consumeFood1
-//        consumeFood(mealPlan)
-//        consumeFood
+        //        consumeFood(mealPlan)
+        //        consumeFood
 
         customerInfo
         if (basket.size > 0) {

@@ -22,12 +22,6 @@ trait People extends Actor {
   val fridge: Fridge = new Fridge
 //  var employee: Employee = null
 
-
-  //  def addToCart(item: Item): Unit ={
-  //before purchasing, addToCart must be called
-  //    Supermarket.store.toBeScannedItems.enqueue(item)
-  //    item.state.request
-  //  }
   def addRandItemsToBasket(shoppingList: categoryAmount): Unit = {
     if (!needBased) {
       val foods = utils.ccArgToVector(shoppingList)

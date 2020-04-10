@@ -20,7 +20,7 @@ object supermarketSimulation extends App {
   BasicConfigurator.configure()
   val logger = Logger("Root")
 
-  def init(): Unit = {
+  def init(): Uni t = {
     //    actors = generated.InitData.initActors.to[Array]
     actors = generated.InitData.initActors
   }
