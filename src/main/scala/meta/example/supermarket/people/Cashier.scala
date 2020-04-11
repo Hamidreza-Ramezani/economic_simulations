@@ -10,7 +10,7 @@ import scala.collection.mutable.{ListBuffer, Queue}
 @lift
 class Cashier extends Actor {
 
-//  var numOfBasketsHandledInOneStep: Int = _numOfBasketsHandledInOneStep
+  //  var numOfBasketsHandledInOneStep: Int = _numOfBasketsHandledInOneStep
   var numOfBasketsHandledInOneStep: Int = 1
 
   def setNumOfBasketHandledInOneStep(numOfBasketsHandledInOneStep: Int): Unit = {
@@ -29,7 +29,7 @@ class Cashier extends Actor {
         if (isFirstBasket) {
           isFirstBasket = false
           //TODO double check to see if this wait statement is essential
-//          waitTurns(1)
+          //          waitTurns(1)
         }
         var item = customerBasket(i)
         //      customerBasket -= item
@@ -44,7 +44,7 @@ class Cashier extends Actor {
 
     if (queue.size == 0) {
       isFirstBasket = true
-    } else{
+    } else {
       isFirstBasket = false
     }
   }
