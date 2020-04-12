@@ -14,8 +14,15 @@ object Utils {
     Random.nextInt(double2int(1 / precision)) < double2int(probability / precision);
   }
 
+  def selectRandomly[T](list: List[T]): T = {
+    Random.shuffle(list).head
+  }
+
+  def myMin(a: Int, b: Int): Int = if (a < b) a
+  else b
+
   def writeToFile(data: String, name: String): Unit = {
-    val writer = new PrintWriter(new File(name))
+    val writer = new PrintWriter(new File("epidemic_generated/" + name))
     writer.write(data)
     writer.close()
   }
@@ -29,7 +36,7 @@ object Utils {
       }
       str += "\n \n \n";
     }
-    val writer = new PrintWriter(new File(name))
+    val writer = new PrintWriter(new File("epidemic_generated/" + name))
     writer.write(str)
     writer.close()
   }
@@ -43,7 +50,7 @@ object Utils {
       }
       str += "\n \n \n";
     }
-    val writer = new PrintWriter(new File(name))
+    val writer = new PrintWriter(new File("epidemic_generated/" + name))
     writer.write(str)
     writer.close()
   }
@@ -57,7 +64,7 @@ object Utils {
       }
       str += "\n \n \n";
     }
-    val writer = new PrintWriter(new File(name))
+    val writer = new PrintWriter(new File("epidemic_generated/" + name))
     writer.write(str)
     writer.close()
   }
