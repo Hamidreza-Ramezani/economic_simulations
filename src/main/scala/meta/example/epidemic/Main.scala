@@ -12,14 +12,16 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-    //    val lst1: List[Int] = List(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-    //    val lst2: List[String] = List("hamid","ali","shabnam","razie","mohammad","siavash","marzieh","aghil","farkhonde","mahdi","fatemeh","hossein","roghieh")
-    //    val randomElement1 = selectRandomly(lst1)
-    //    val randomElement2 = selectRandomly(lst2)
-    //    println(randomElement1.toString)
-    //    println(randomElement2)
+    //        val lst1: List[Int] = List(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+    //        val lst2: List[String] = List("hamid","ali","shabnam","razie","mohammad","siavash","marzieh","aghil","farkhonde","mahdi","fatemeh","hossein","roghieh")
+    //        val randomElement1 = selectRandomly(lst1)
+    //        val randomElement2 = selectRandomly(lst2)
+    //        println(randomElement1.toString)
+    //        println(randomElement2)
     //    var person = new Person(23, 10.1f, State.Susceptible, Location.atHome, Status.employee);
     //    person.updateCurrentLocation(168);
+
+
   }
 
   def initialize_simulation(): Unit = {
@@ -118,7 +120,7 @@ object Main {
     writeWorkplacesToFile(workPlaces, "workplace");
   }
 
-  def run_simulation():Unit =  {
+  def run_simulation(): Unit = {
     var time_step = 0;
     var peopleInfo = "";
     var numberOfInfectiousInfo = "";
@@ -129,16 +131,16 @@ object Main {
 
     //the location of everybody should be specified
     while (time_step < period) {
-      agents.foreach{person =>
+      agents.foreach { person =>
         person.updateCurrentLocation(time_step)
       }
       var currentTime = time_step % 24;
       if (currentTime > 8) {
 
-        agents.foreach{ person1 =>
+        agents.foreach { person1 =>
           person1.location match {
             case Location.atHome => {
-              person1.householdConnections.foreach{person2 =>
+              person1.householdConnections.foreach { person2 =>
                 if (person2.location == atHome) {
                   if (prob2Bool(meetingAtHomeProb)) {
                     person1.meet(person2, time_step);
@@ -149,7 +151,7 @@ object Main {
             }
 
             case Location.atSchool => {
-              person1.schoolConnections.foreach{person2 =>
+              person1.schoolConnections.foreach { person2 =>
                 if (person2.location == atSchool) {
                   if (prob2Bool(meetingAtSchoolProb)) {
                     person1.meet(person2, time_step);
@@ -158,7 +160,7 @@ object Main {
               }
             }
             case Location.atWork => {
-              person1.workConnections.foreach{person2 =>
+              person1.workConnections.foreach { person2 =>
                 if (person2.location == atWork) {
                   if (prob2Bool(meetingAtWorkProb)) {
                     person1.meet(person2, time_step);
@@ -170,23 +172,16 @@ object Main {
           }
         }
       }
-
-
-      for (auto &person : agents) {
-        person->individual_disease_progression();
-      }
-
-      //print
-      //		peopleInfo += "time: " + to_string(time_step) + "\n";
-      //		for (auto &person : agents) {
-      //			peopleInfo += person->toString() + "\n";
-      //		}
-      int numberOfInfectuios = 0;
-      double numberOfInfected = 0;
-      double numberOfCriticalCare = 0;
-      int numberOfRecovered = 0;
-      int numberOfSusceptible = 0;
-
+      agents.foreach(person => person.individual_disease_progression())
+      // print all agents information
+      //      peopleInfo += "time: " + time_step.toString + "\n";
+      //      agents.foreach(person => peopleInfo += person.toString + "\n")
+      var numberOfInfectious = 0;
+      var numberOfInfected = 0;
+      var numberOfCriticalCare = 0;
+      var numberOfRecovered = 0;
+      var numberOfSusceptible = 0;
+      
       //		if (time_step % 24 == 0){
       //			stat += "time: " + to_string(time_step) + " number of infectious people: ";
       //			for (auto &person : agents) {
@@ -196,27 +191,26 @@ object Main {
       //			}
       //			stat += to_string(a) + "\n";
       //		}
-
       //		stat += "time: " + to_string(time_step) + " number of infectious people: ";
-      for (auto &person : agents) {
-        if (person->currentState == Infectious) {
-          numberOfInfectuios++;
-          numberOfInfected++;
-        } else if (person->currentState == Exposed) {
-          numberOfInfected++;
-        } else if (person->currentState == Recovered) {
-          numberOfRecovered++;
+
+      agents.foreach { person =>
+        if (person.state == Infectious) {
+          numberOfInfectious += 1;
+          numberOfInfected += 1;
+        } else if (person.state == Exposed) {
+          numberOfInfected += 1;
+        } else if (person.state == Recovered) {
+          numberOfRecovered += 1;
         } else {
-          numberOfSusceptible++;
+          numberOfSusceptible += 1;
         }
       }
       numberOfCriticalCare = numberOfInfected / 20;
-      numberOfInfectiousInfo += to_string(numberOfInfectuios) + "\n";
-      numberOfInfectedInfo += to_string(numberOfInfected) + "\n";
-      numberOfCriticalCareInfo += to_string(numberOfCriticalCare) + "\n";
-      numberOfRecoveredInfo += to_string(numberOfRecovered) + "\n";
-      numberOfSusceptibleInfo += to_string(numberOfSusceptible) + "\n";
-
+      numberOfInfectiousInfo += numberOfInfectious.toString + "\n";
+      numberOfInfectedInfo += numberOfInfected.toString + "\n";
+      numberOfCriticalCareInfo += numberOfCriticalCare.toString + "\n";
+      numberOfRecoveredInfo += numberOfRecovered.toString + "\n";
+      numberOfSusceptibleInfo += numberOfSusceptible.toString + "\n";
       time_step += 1;
     }
     //	writeToFile(peopleInfo, "PeopleInfo");
@@ -226,7 +220,6 @@ object Main {
     writeToFile(numberOfRecoveredInfo, "numberOfRecoveredInfo.csv");
     writeToFile(numberOfSusceptibleInfo, "numberOfSusceptibleInfo.csv");
   }
-
 
 
 }

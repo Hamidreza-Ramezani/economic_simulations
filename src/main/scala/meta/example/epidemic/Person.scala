@@ -9,7 +9,6 @@ import scala.collection.mutable.ListBuffer
 import meta.example.epidemic.Utils.prob2Bool
 import squid.quasi.lift
 
-@lift
 class Person extends Actor {
   //class Person(var age: Int, var incubationTime: Float, var state: State, var location: Location, var status: Status) extends Actor {
   var age: Int = 1
@@ -100,23 +99,23 @@ class Person extends Actor {
     this.workConnections += person;
   }
 
-//  def individual_disease_progression() {
-//    if (this.state == State.Exposed && this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
-//      this.exposedHourCount += 1;
-//    }
-//
-//    else if (this.state == State.Exposed && this.exposedHourCount == (incubationTime * Epidemic.hoursPerDay)) {
-//      this.state = State.Infectious;
-//    }
-//
-//    else if (this.state == State.Infectious && this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
-//      this.infectiousHourCount += 1;
-//    }
-//
-//    else if (this.state == State.Infectious && this.infectiousHourCount == (infectiousTime * Epidemic.hoursPerDay)) {
-//      this.state = State.Recovered;
-//    }
-//  }
+  def individual_disease_progression() {
+    if (this.state == State.Exposed && this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
+      this.exposedHourCount += 1;
+    }
+
+    else if (this.state == State.Exposed && this.exposedHourCount == (incubationTime * Epidemic.hoursPerDay)) {
+      this.state = State.Infectious;
+    }
+
+    else if (this.state == State.Infectious && this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
+      this.infectiousHourCount += 1;
+    }
+
+    else if (this.state == State.Infectious && this.infectiousHourCount == (infectiousTime * Epidemic.hoursPerDay)) {
+      this.state = State.Recovered;
+    }
+  }
 
   def meet(person: Person, simTime: Int): Unit = {
     if (this.state == State.Susceptible) {
