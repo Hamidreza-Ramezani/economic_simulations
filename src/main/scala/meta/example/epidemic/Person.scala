@@ -1,6 +1,7 @@
 package meta.example.epidemic
 
 import meta.deep.runtime.Actor
+import meta.deep.runtime.Actor.AgentId
 import meta.example.epidemic.Location.Location
 import meta.example.epidemic.State.State
 import meta.example.epidemic.Status.Status
@@ -13,18 +14,22 @@ class Person extends Actor {
   //class Person(var age: Int, var incubationTime: Float, var state: State, var location: Location, var status: Status) extends Actor {
   var age: Int = 1
   var timeOfInfection: Int = -1
+  var infectedBy: AgentId = -1
+  var sourceOfInfection: String = "none"
   var state: State = null
   var location: Location = null
   var status: Status = null
+
+
   //  var state: State = State.Susceptible
   //  var location: Location = Location.atWork
   //  var status: Status = Status.student
 
-      val incubationTime: Double = 5.1
-      val infectiousTime: Int = 10;
-//
-//  val incubationTime: Int = 5
-//  val infectiousTime: Int = 12;
+  val incubationTime: Double = 5.1
+  val infectiousTime: Int = 10;
+
+  //  val incubationTime: Int = 2
+  //  val infectiousTime: Int = 3;
 
   var exposedHourCount: Long = 0;
   var infectiousHourCount: Long = 0;
@@ -145,12 +150,16 @@ class Person extends Actor {
       if (person.state == State.Infectious) {
         this.state = State.Exposed;
         this.timeOfInfection = simTime;
+        this.infectedBy = person.id
+        this.sourceOfInfection = this.location
       }
     }
     else if (this.state == State.Infectious) {
       if (person.state == State.Susceptible) {
         person.state = State.Exposed;
         person.timeOfInfection = simTime;
+        person.infectedBy = this.id
+        person.sourceOfInfection = person.location
       }
     }
   }
@@ -163,5 +172,6 @@ class Person extends Actor {
     this.state = state;
   }
 
-  override def toString = s"Person(id=$id, timeOfInfection=$timeOfInfection, state=$state, location=$location, status=$status)"
+
+  override def toString = s"Person(id=$id, timeOfInfection=$timeOfInfection, infectedBy=$infectedBy, InfectedAt=$sourceOfInfection, state=$state, location=$location, status=$status)"
 }

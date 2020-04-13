@@ -1,5 +1,6 @@
 package meta.example.epidemic
 
+import meta.deep.runtime.Actor.AgentId
 import meta.example.epidemic.Utils._
 import meta.example.epidemic.Epidemic._
 import meta.example.epidemic.State._
@@ -13,17 +14,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     initialize_simulation()
     run_simulation()
-
-    //        val lst1: List[Int] = List(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-    //        val lst2: List[String] = List("hamid","ali","shabnam","razie","mohammad","siavash","marzieh","aghil","farkhonde","mahdi","fatemeh","hossein","roghieh")
-    //        val randomElement1 = selectRandomly(lst1)
-    //        val randomElement2 = selectRandomly(lst2)
-    //        println(randomElement1.toString)
-    //        println(randomElement2)
-    //    var person = new Person(23, 10.1f, State.Susceptible, Location.atHome, Status.employee);
-    //    person.updateCurrentLocation(168);
-
-
   }
 
   def initialize_simulation(): Unit = {
@@ -35,6 +25,10 @@ object Main {
     for (i <- 0 until initialNumberOfInfected) {
       var person = selectRandomly(agents.toList)
       person.setState(Exposed)
+      person.timeOfInfection = 0
+      person.infectedBy= 0
+      person.sourceOfInfection = "seed"
+
     }
     //for the whole people, initialize their home connections
     //pick 20% of samples and set their status to student, then initialize their schoolConnections
@@ -178,8 +172,9 @@ object Main {
       }
       agents.foreach(person => person.individual_disease_progression())
       // print all agents information
-      //      peopleInfo += "time: " + time_step.toString + "\n";
-      //      agents.foreach(person => peopleInfo += person.toString + "\n")
+//      peopleInfo += "time: " + time_step.toString + "\n";
+//      agents.foreach(person => peopleInfo += person.toString + "\n")
+
       var numberOfInfectious = 0;
       var numberOfInfected = 0;
       var numberOfCriticalCare = 0;
@@ -217,7 +212,7 @@ object Main {
       numberOfSusceptibleInfo += numberOfSusceptible.toString + "\n";
       time_step += 1;
     }
-    //	writeToFile(peopleInfo, "PeopleInfo");
+//    writeToFile(peopleInfo, "PeopleInfo");
     writeToFile(numberOfInfectiousInfo, "numberOfInfectiousInfo.csv");
     writeToFile(numberOfInfectedInfo, "numberOfInfectedInfo.csv");
     writeToFile(numberOfCriticalCareInfo, "numberOfCriticalCareInfo.csv");
