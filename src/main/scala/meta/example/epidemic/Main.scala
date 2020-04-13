@@ -26,7 +26,7 @@ object Main {
       var person = selectRandomly(agents.toList)
       person.setState(Exposed)
       person.timeOfInfection = 0
-      person.infectedBy= 0
+      person.infectedBy = 0
       person.sourceOfInfection = "seed"
 
     }
@@ -117,6 +117,9 @@ object Main {
   }
 
   def run_simulation(): Unit = {
+    //    writeHouseholdsToFile(families, "family");
+    //    writeSchoolsToFile(schools, "school");
+    //    writeWorkplacesToFile(workPlaces, "workplace");
     var time_step = 0;
     var peopleInfo = "";
     var numberOfInfectiousInfo = "";
@@ -172,8 +175,8 @@ object Main {
       }
       agents.foreach(person => person.individual_disease_progression())
       // print all agents information
-//      peopleInfo += "time: " + time_step.toString + "\n";
-//      agents.foreach(person => peopleInfo += person.toString + "\n")
+      //      peopleInfo += "time: " + time_step.toString + "\n";
+      //      agents.foreach(person => peopleInfo += person.toString + "\n")
 
       var numberOfInfectious = 0;
       var numberOfInfected = 0;
@@ -212,7 +215,7 @@ object Main {
       numberOfSusceptibleInfo += numberOfSusceptible.toString + "\n";
       time_step += 1;
     }
-//    writeToFile(peopleInfo, "PeopleInfo");
+    //    writeToFile(peopleInfo, "PeopleInfo");
     writeToFile(numberOfInfectiousInfo, "numberOfInfectiousInfo.csv");
     writeToFile(numberOfInfectedInfo, "numberOfInfectedInfo.csv");
     writeToFile(numberOfCriticalCareInfo, "numberOfCriticalCareInfo.csv");

@@ -1,15 +1,18 @@
 package meta.example.epidemic
 
+import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.deep.runtime.Actor.AgentId
-import meta.example.epidemic.Location.Location
-import meta.example.epidemic.State.State
-import meta.example.epidemic.Status.Status
+import meta.example.epidemic.Epidemic.{agents, meetingAtHomeProb, meetingAtSchoolProb, meetingAtWorkProb}
+import meta.example.epidemic.Location._
+import meta.example.epidemic.State._
+import meta.example.epidemic.Status._
 
 import scala.collection.mutable.ListBuffer
 import meta.example.epidemic.Utils.prob2Bool
 import squid.quasi.lift
 
+@lift
 class Person extends Actor {
   //class Person(var age: Int, var incubationTime: Float, var state: State, var location: Location, var status: Status) extends Actor {
   var age: Int = 1
@@ -31,8 +34,10 @@ class Person extends Actor {
   //  val incubationTime: Int = 2
   //  val infectiousTime: Int = 3;
 
-  var exposedHourCount: Long = 0;
-  var infectiousHourCount: Long = 0;
+  var exposedHourCount: Int = 0;
+  var infectiousHourCount: Int = 0;
+  //  var exposedHourCount: Long = 0;
+  //  var infectiousHourCount: Long = 0;
 
   var householdConnections: ListBuffer[Person] = ListBuffer[Person]();
   var schoolConnections: ListBuffer[Person] = ListBuffer[Person]();
@@ -112,7 +117,7 @@ class Person extends Actor {
   def individual_disease_progression() {
     if (this.state == State.Exposed) {
       if (this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
-        this.exposedHourCount += 1;
+        exposedHourCount = exposedHourCount + 1;
       }
       else {
         this.state = State.Infectious;
@@ -121,28 +126,13 @@ class Person extends Actor {
 
     else if (this.state == State.Infectious) {
       if (this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
-        this.infectiousHourCount += 1;
+        //        this.infectiousHourCount += 1;
+        infectiousHourCount = infectiousHourCount + 1
       }
       else {
         this.state = State.Recovered;
       }
     }
-
-    //    if (this.state == State.Exposed && this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
-    //      this.exposedHourCount += 1;
-    //    }
-    //
-    //    else if (this.state == State.Exposed && this.exposedHourCount == (incubationTime * Epidemic.hoursPerDay)) {
-    //      this.state = State.Infectious;
-    //    }
-
-    //    else if (this.state == State.Infectious && this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
-    //      this.infectiousHourCount += 1;
-    //    }
-    //
-    //    else if (this.state == State.Infectious && this.infectiousHourCount == (infectiousTime * Epidemic.hoursPerDay)) {
-    //      this.state = State.Recovered;
-    //    }
   }
 
   def meet(person: Person, simTime: Int): Unit = {
@@ -174,4 +164,46 @@ class Person extends Actor {
 
 
   override def toString = s"Person(id=$id, timeOfInfection=$timeOfInfection, infectedBy=$infectedBy, InfectedAt=$sourceOfInfection, state=$state, location=$location, status=$status)"
+
+
+  def main(): Unit = {
+    while (true) {
+      updateCurrentLocation(timer)
+      var currentTime = timer % 24;
+      if (currentTime > 8) {
+        if (location == atHome) {
+          this.householdConnections.toList.foreach { person2 =>
+            if (person2.location == atHome) {
+              if (prob2Bool(meetingAtHomeProb)) {
+                this.meet(person2, timer);
+              }
+            }
+          }
+        }
+        else if (location == atSchool) {
+          this.schoolConnections.toList.foreach { person2 =>
+            if (person2.location == atSchool) {
+              if (prob2Bool(meetingAtSchoolProb)) {
+                this.meet(person2, timer);
+              }
+            }
+          }
+        }
+        else if (location == atWork) {
+          this.workConnections.toList.foreach { person2 =>
+            if (person2.location == atWork) {
+              if (prob2Bool(meetingAtWorkProb)) {
+                this.meet(person2, timer);
+              }
+            }
+          }
+        }
+      }
+      this.individual_disease_progression()
+      println(this.toString)
+      SpecialInstructions.waitTurns(1)
+    }
+  }
+
+
 }
