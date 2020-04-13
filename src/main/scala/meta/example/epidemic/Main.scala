@@ -12,6 +12,11 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
+
+    initialize_simulation()
+    run_simulation()
+
+
     //        val lst1: List[Int] = List(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
     //        val lst2: List[String] = List("hamid","ali","shabnam","razie","mohammad","siavash","marzieh","aghil","farkhonde","mahdi","fatemeh","hossein","roghieh")
     //        val randomElement1 = selectRandomly(lst1)
@@ -37,7 +42,7 @@ object Main {
     //for the whole people, initialize their home connections
     //pick 20% of samples and set their status to student, then initialize their schoolConnections
     //pick 75% of samples and set their status to employees, then initialize their workConnections
-    var agentsCopy = agents;
+    val agentsCopy = agents.clone();
     var household: ListBuffer[Person] = ListBuffer[Person]()
     var workPlace: ListBuffer[Person] = ListBuffer[Person]()
     var school: ListBuffer[Person] = ListBuffer[Person]()
@@ -50,11 +55,11 @@ object Main {
         household += person
         agents -= person
       }
-      families += household
+      families += household.clone()
       addAllHomeConnections(household)
       household.clear()
     }
-    agents = agentsCopy
+    agents = agentsCopy.clone()
 
     //set status randomly
     val numOfStudents = agents.size / 5;
@@ -82,10 +87,10 @@ object Main {
       agents -= person
       person.setStatus(other)
     }
-    agents = agentsCopy
+    agents = agentsCopy.clone()
 
     //initializing all workplaces
-    var employees_copy = employees;
+    var employees_copy = employees.clone();
     while (employees.nonEmpty) {
       var i = myMin(getRandomWorkplaceSize(), employees.size)
       for (j <- 0 until i) {
@@ -93,14 +98,14 @@ object Main {
         workPlace += person
         employees -= person
       }
-      workPlaces += workPlace
+      workPlaces += workPlace.clone()
       addAllWorkConnections(workPlace)
       workPlace.clear()
     }
-    employees = employees_copy
+    employees = employees_copy.clone()
 
     //initializing all schools
-    var students_copy = students
+    var students_copy = students.clone()
     while (students.nonEmpty) {
       var i = myMin(getRandomSchoolSize(), students.size)
       for (j <- 0 until i) {
@@ -108,11 +113,11 @@ object Main {
         school += person
         students -= person
       }
-      schools += school
+      schools += school.clone()
       addAllSchoolConnections(school);
       school.clear();
     }
-    students = students_copy;
+    students = students_copy.clone()
 
     //write topologies to file
     writeHouseholdsToFile(families, "family");
@@ -168,6 +173,8 @@ object Main {
                 }
               }
             }
+            case _ =>
+
             //TODO: write for in community
           }
         }

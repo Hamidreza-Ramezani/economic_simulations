@@ -109,3 +109,4 @@ src/main/scala/meta/example/supermarket/items/*
 *.log
 
 # End of https://www.gitignore.io/api/sbt,scala,intellij
+/epidemic_generated/

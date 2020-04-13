@@ -16,18 +16,22 @@ class Person extends Actor {
   var state: State = null
   var location: Location = null
   var status: Status = null
-//  var state: State = State.Susceptible
-//  var location: Location = Location.atWork
-//  var status: Status = Status.student
+  //  var state: State = State.Susceptible
+  //  var location: Location = Location.atWork
+  //  var status: Status = Status.student
 
-  val incubationTime: Double = 5.1
-  val infectiousTime: Int = 10;
+//    val incubationTime: Double = 5.1
+//    val infectiousTime: Int = 10;
+
+  val incubationTime: Int = 5
+  val infectiousTime: Int = 12;
+
   var exposedHourCount: Long = 0;
   var infectiousHourCount: Long = 0;
 
-  var householdConnections: ListBuffer[Person] = null;
-  var schoolConnections: ListBuffer[Person] = null;
-  var workConnections: ListBuffer[Person] = null;
+  var householdConnections: ListBuffer[Person] = ListBuffer[Person]();
+  var schoolConnections: ListBuffer[Person] = ListBuffer[Person]();
+  var workConnections: ListBuffer[Person] = ListBuffer[Person]();
 
   def updateCurrentLocation(step: Int): Unit = {
     val currentTime: Int = step % Epidemic.stepsPerDay;
@@ -69,23 +73,23 @@ class Person extends Actor {
     }
   }
 
-//  def getHomeConnections(): String = {
-//    var homeConnectionsStr: String = "home connections are: \n";
-//    householdConnections.toList.foreach(person => homeConnectionsStr += "id: " + person.id.toString + "\n")
-//    homeConnectionsStr;
-//  }
-//
-//  def getSchoolConnections(): String = {
-//    var schoolConnectionsStr: String = "school connections are: \n";
-//    schoolConnections.toList.foreach(person => schoolConnectionsStr += "id: " + person.id.toString + "\n")
-//    schoolConnectionsStr;
-//  }
-//
-//  def getWorkConnections(): String = {
-//    var workConnectionsStr: String = "school connections are: \n";
-//    workConnections.toList.foreach(person => workConnectionsStr += "id: " + person.id.toString + "\n")
-//    workConnectionsStr;
-//  }
+  //  def getHomeConnections(): String = {
+  //    var homeConnectionsStr: String = "home connections are: \n";
+  //    householdConnections.toList.foreach(person => homeConnectionsStr += "id: " + person.id.toString + "\n")
+  //    homeConnectionsStr;
+  //  }
+  //
+  //  def getSchoolConnections(): String = {
+  //    var schoolConnectionsStr: String = "school connections are: \n";
+  //    schoolConnections.toList.foreach(person => schoolConnectionsStr += "id: " + person.id.toString + "\n")
+  //    schoolConnectionsStr;
+  //  }
+  //
+  //  def getWorkConnections(): String = {
+  //    var workConnectionsStr: String = "school connections are: \n";
+  //    workConnections.toList.foreach(person => workConnectionsStr += "id: " + person.id.toString + "\n")
+  //    workConnectionsStr;
+  //  }
 
   def addToHomeConnections(person: Person): Unit = {
     this.householdConnections += person;
@@ -99,6 +103,7 @@ class Person extends Actor {
     this.workConnections += person;
   }
 
+  //TODO fix the bug
   def individual_disease_progression() {
     if (this.state == State.Exposed && this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
       this.exposedHourCount += 1;
