@@ -11,11 +11,8 @@ import scala.collection.mutable.ListBuffer
 object Main {
 
   def main(args: Array[String]): Unit = {
-
-
     initialize_simulation()
     run_simulation()
-
 
     //        val lst1: List[Int] = List(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
     //        val lst2: List[String] = List("hamid","ali","shabnam","razie","mohammad","siavash","marzieh","aghil","farkhonde","mahdi","fatemeh","hossein","roghieh")
@@ -188,7 +185,7 @@ object Main {
       var numberOfCriticalCare = 0;
       var numberOfRecovered = 0;
       var numberOfSusceptible = 0;
-      
+
       //		if (time_step % 24 == 0){
       //			stat += "time: " + to_string(time_step) + " number of infectious people: ";
       //			for (auto &person : agents) {

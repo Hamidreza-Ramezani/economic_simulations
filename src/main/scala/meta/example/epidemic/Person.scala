@@ -20,11 +20,11 @@ class Person extends Actor {
   //  var location: Location = Location.atWork
   //  var status: Status = Status.student
 
-//    val incubationTime: Double = 5.1
-//    val infectiousTime: Int = 10;
-
-  val incubationTime: Int = 5
-  val infectiousTime: Int = 12;
+      val incubationTime: Double = 5.1
+      val infectiousTime: Int = 10;
+//
+//  val incubationTime: Int = 5
+//  val infectiousTime: Int = 12;
 
   var exposedHourCount: Long = 0;
   var infectiousHourCount: Long = 0;
@@ -105,21 +105,39 @@ class Person extends Actor {
 
   //TODO fix the bug
   def individual_disease_progression() {
-    if (this.state == State.Exposed && this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
-      this.exposedHourCount += 1;
+    if (this.state == State.Exposed) {
+      if (this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
+        this.exposedHourCount += 1;
+      }
+      else {
+        this.state = State.Infectious;
+      }
     }
 
-    else if (this.state == State.Exposed && this.exposedHourCount == (incubationTime * Epidemic.hoursPerDay)) {
-      this.state = State.Infectious;
+    else if (this.state == State.Infectious) {
+      if (this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
+        this.infectiousHourCount += 1;
+      }
+      else {
+        this.state = State.Recovered;
+      }
     }
 
-    else if (this.state == State.Infectious && this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
-      this.infectiousHourCount += 1;
-    }
+    //    if (this.state == State.Exposed && this.exposedHourCount < (incubationTime * Epidemic.hoursPerDay)) {
+    //      this.exposedHourCount += 1;
+    //    }
+    //
+    //    else if (this.state == State.Exposed && this.exposedHourCount == (incubationTime * Epidemic.hoursPerDay)) {
+    //      this.state = State.Infectious;
+    //    }
 
-    else if (this.state == State.Infectious && this.infectiousHourCount == (infectiousTime * Epidemic.hoursPerDay)) {
-      this.state = State.Recovered;
-    }
+    //    else if (this.state == State.Infectious && this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
+    //      this.infectiousHourCount += 1;
+    //    }
+    //
+    //    else if (this.state == State.Infectious && this.infectiousHourCount == (infectiousTime * Epidemic.hoursPerDay)) {
+    //      this.state = State.Recovered;
+    //    }
   }
 
   def meet(person: Person, simTime: Int): Unit = {
