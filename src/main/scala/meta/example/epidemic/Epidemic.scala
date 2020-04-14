@@ -1,6 +1,8 @@
 package meta.example.epidemic
 
 import meta.example.epidemic.Utils.selectRandomly
+import squid.quasi.lift
+
 import scala.collection.mutable.ListBuffer
 
 class Epidemic {
