@@ -34,7 +34,7 @@ class MainInit {
       person.state = Exposed
       person.timeOfInfection = 0
       person.infectedBy = 0
-      person.sourceOfInfection = "seed"
+      person.infectedAt = "seed"
     }
     //for the whole people, initialize their home connections
     //pick 20% of samples and set their status to student, then initialize their schoolConnections

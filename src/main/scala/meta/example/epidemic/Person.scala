@@ -18,7 +18,7 @@ class Person extends Actor {
   var age: Int = 1
   var timeOfInfection: Int = -1
   var infectedBy: AgentId = -1
-  var sourceOfInfection: String = "none"
+  var infectedAt: String = "none"
   var state: State = null
   var location: Location = null
   var status: Status = null
@@ -30,14 +30,14 @@ class Person extends Actor {
 
   val incubationTime: Double = 5.1
   val infectiousTime: Int = 10;
+//
+//    val incubationTime: Int = 2
+//    val infectiousTime: Int = 3;
 
-  //  val incubationTime: Int = 2
-  //  val infectiousTime: Int = 3;
-
-  var exposedHourCount: Int = 0;
-  var infectiousHourCount: Int = 0;
-  //  var exposedHourCount: Long = 0;
-  //  var infectiousHourCount: Long = 0;
+  //  var exposedHourCount: Int = 0;
+  //  var infectiousHourCount: Int = 0;
+  var exposedHourCount: Long = 0;
+  var infectiousHourCount: Long = 0;
 
   var householdConnections: ListBuffer[Person] = ListBuffer[Person]();
   var schoolConnections: ListBuffer[Person] = ListBuffer[Person]();
@@ -141,7 +141,7 @@ class Person extends Actor {
         this.state = State.Exposed;
         this.timeOfInfection = simTime;
         this.infectedBy = person.id
-        this.sourceOfInfection = this.location
+        this.infectedAt = this.location
       }
     }
     else if (this.state == State.Infectious) {
@@ -149,7 +149,7 @@ class Person extends Actor {
         person.state = State.Exposed;
         person.timeOfInfection = simTime;
         person.infectedBy = this.id
-        person.sourceOfInfection = person.location
+        person.infectedAt = person.location
       }
     }
   }
@@ -163,7 +163,7 @@ class Person extends Actor {
   }
 
 
-  override def toString = s"Person(id=$id, timeOfInfection=$timeOfInfection, infectedBy=$infectedBy, InfectedAt=$sourceOfInfection, state=$state, location=$location, status=$status)"
+  override def toString = s"Person(id=$id, timeOfInfection=$timeOfInfection, infectedBy=$infectedBy, InfectedAt=$infectedAt, state=$state, location=$location, status=$status)"
 
 
   def main(): Unit = {
@@ -200,7 +200,7 @@ class Person extends Actor {
         }
       }
       this.individual_disease_progression()
-      println(this.toString)
+//      println(this.toString)
       SpecialInstructions.waitTurns(1)
     }
   }

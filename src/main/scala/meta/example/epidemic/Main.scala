@@ -27,7 +27,7 @@ object Main {
       person.setState(Exposed)
       person.timeOfInfection = 0
       person.infectedBy = 0
-      person.sourceOfInfection = "seed"
+      person.infectedAt = "seed"
 
     }
     //for the whole people, initialize their home connections
@@ -111,9 +111,9 @@ object Main {
     students = students_copy.clone()
 
     //write topologies to file
-    writeHouseholdsToFile(families, "family");
-    writeSchoolsToFile(schools, "school");
-    writeWorkplacesToFile(workPlaces, "workplace");
+    //    writeHouseholdsToFile(families, "family");
+    //    writeSchoolsToFile(schools, "school");
+    //    writeWorkplacesToFile(workPlaces, "workplace");
   }
 
   def run_simulation(): Unit = {
