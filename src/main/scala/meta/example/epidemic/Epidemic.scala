@@ -18,9 +18,9 @@ object Epidemic {
 
   val stepsPerDay: Int = 24;
   val hoursPerDay: Int = 24;
-  val meetingAtSchoolProb = 0.05
-  val meetingAtHomeProb = 0.05
-  val meetingAtWorkProb = 0.05
+  val meetingAtSchoolProb = 0.03
+  val meetingAtHomeProb = 0.03
+  val meetingAtWorkProb = 0.02
   val populationSize = 20
   val initialNumberOfInfected = 2
   val period = 500

@@ -32,18 +32,19 @@ class MainInit {
       agents += person
       person.state = Susceptible
     }
-
+    var agentsCopy1 = agents.clone();
     for (i <- 0 until initialNumberOfInfected) {
-      var person = selectRandomly(agents.toList)
+      var person = selectRandomly(agentsCopy1.toList)
       person.state = Exposed
       person.timeOfInfection = 0
       person.infectedBy = 0
       person.infectedAt = "seed"
+      agentsCopy1 -= person
     }
     //for the whole people, initialize their home connections
     //pick 20% of samples and set their status to student, then initialize their schoolConnections
     //pick 75% of samples and set their status to employees, then initialize their workConnections
-    val agentsCopy = agents.clone();
+    var agentsCopy2 = agents.clone();
     var household: ListBuffer[Person] = ListBuffer[Person]()
     var workPlace: ListBuffer[Person] = ListBuffer[Person]()
     var school: ListBuffer[Person] = ListBuffer[Person]()
@@ -69,7 +70,7 @@ class MainInit {
       }
       household.clear()
     }
-    agents = agentsCopy.clone()
+    agents = agentsCopy2.clone()
 
     //set status randomly
     val numOfStudents = agents.size / 5;
@@ -97,7 +98,7 @@ class MainInit {
       agents -= person
       person.status = other
     }
-    agents = agentsCopy.clone()
+    agents = agentsCopy2.clone()
 
     //initializing all workplaces
     var employees_copy = employees.clone();

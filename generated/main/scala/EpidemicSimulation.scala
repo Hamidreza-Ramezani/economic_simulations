@@ -163,8 +163,8 @@ object EpidemicSimulation extends App {
       timer += 1
     }
     writeHouseholdsToFile(actors, "families")
-    writeSchoolsToFile(actors,"schools")
-    writeWorkplacesToFile(actors,"workplaces")
+    writeSchoolsToFile(actors, "schools")
+    writeWorkplacesToFile(actors, "workplaces")
     writeToFile(peopleInfo, "PeopleInfo");
     writeToFile(numberOfInfectiousInfo, "numberOfInfectious.csv");
     writeToFile(numberOfInfectedInfo, "numberOfInfected.csv");

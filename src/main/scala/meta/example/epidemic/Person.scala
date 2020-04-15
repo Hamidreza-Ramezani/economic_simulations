@@ -100,7 +100,6 @@ class Person extends Actor {
 
     else if (this.state == State.Infectious) {
       if (this.infectiousHourCount < (infectiousTime * Epidemic.hoursPerDay)) {
-        //        this.infectiousHourCount += 1;
         infectiousHourCount = infectiousHourCount + 1
       }
       else {
