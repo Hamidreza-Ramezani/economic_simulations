@@ -11,6 +11,13 @@ import scala.collection.mutable.ListBuffer
 
 @lift
 class MainInit {
+  //  var agents: ListBuffer[Person] = ListBuffer[Person]()
+  //  var students: ListBuffer[Person] = ListBuffer[Person]()
+  //  var employees: ListBuffer[Person] = ListBuffer[Person]()
+  //  var families: ListBuffer[ListBuffer[Person]] = ListBuffer[ListBuffer[Person]]()
+  //  var schools: ListBuffer[ListBuffer[Person]] = ListBuffer[ListBuffer[Person]]()
+  //  var workPlaces: ListBuffer[ListBuffer[Person]] = ListBuffer[ListBuffer[Person]]()
+
 
   def main(): List[Actor] = {
     var agents: ListBuffer[Person] = ListBuffer[Person]()
@@ -20,17 +27,14 @@ class MainInit {
     var schools: ListBuffer[ListBuffer[Person]] = ListBuffer[ListBuffer[Person]]()
     var workPlaces: ListBuffer[ListBuffer[Person]] = ListBuffer[ListBuffer[Person]]()
 
-//    var helper = new Helper
-
     for (i <- 0 until populationSize) {
       var person: Person = new Person
       agents += person
-      //      person.setState(Susceptible)
       person.state = Susceptible
     }
+
     for (i <- 0 until initialNumberOfInfected) {
       var person = selectRandomly(agents.toList)
-      //      person.setState(Exposed)
       person.state = Exposed
       person.timeOfInfection = 0
       person.infectedBy = 0
@@ -53,7 +57,6 @@ class MainInit {
         agents -= person
       }
       families += household.clone()
-      //      helper.addAllHomeConnections(household)
 
       val household_copy1 = household.clone()
       var household_copy2 = household.clone()
@@ -106,13 +109,11 @@ class MainInit {
         employees -= person
       }
       workPlaces += workPlace.clone()
-//      helper.addAllWorkConnections(workPlace)
       val workPlace_copy1 = workPlace.clone()
       var workPlace_copy2 = workPlace.clone()
       workPlace_copy1.foreach { employee1 =>
         workPlace_copy2 -= employee1
         workPlace_copy2.foreach { employee2 =>
-//          employee1.addToWorkConnections(employee2)
           employee1.workConnections += employee2;
         }
         workPlace_copy2 = workPlace_copy1.clone()
@@ -131,8 +132,6 @@ class MainInit {
         students -= person
       }
       schools += school.clone()
-      //      addAllSchoolConnections(school);
-      //      helper.addAllSchoolConnections(school);
       var school_copy1 = school.clone()
       var school_copy2 = school.clone()
       school_copy1.toList.foreach { student1 =>
@@ -146,12 +145,6 @@ class MainInit {
       school.clear();
     }
     students = students_copy.clone()
-
-    //write topologies to file
-    //    writeHouseholdsToFile(families, "family");
-    //    writeSchoolsToFile(schools, "school");
-    //    writeWorkplacesToFile(workPlaces, "workplace");
-
     var listOfActors = agents.clone()
     listOfActors.toList
   }

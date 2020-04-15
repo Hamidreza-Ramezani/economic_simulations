@@ -216,11 +216,11 @@ object Main {
       time_step += 1;
     }
     //    writeToFile(peopleInfo, "PeopleInfo");
-    writeToFile(numberOfInfectiousInfo, "numberOfInfectiousInfo.csv");
-    writeToFile(numberOfInfectedInfo, "numberOfInfectedInfo.csv");
-    writeToFile(numberOfCriticalCareInfo, "numberOfCriticalCareInfo.csv");
-    writeToFile(numberOfRecoveredInfo, "numberOfRecoveredInfo.csv");
-    writeToFile(numberOfSusceptibleInfo, "numberOfSusceptibleInfo.csv");
+    writeToFile(numberOfInfectiousInfo, "numberOfInfectious.csv");
+    writeToFile(numberOfInfectedInfo, "numberOfInfected.csv");
+    writeToFile(numberOfCriticalCareInfo, "numberOfCriticalCare.csv");
+    writeToFile(numberOfRecoveredInfo, "numberOfRecovered.csv");
+    writeToFile(numberOfSusceptibleInfo, "numberOfSusceptible.csv");
   }
 
 

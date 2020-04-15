@@ -42,49 +42,57 @@ object EpidemicSimulation extends App {
     writer.close()
   }
 
-  def writeWorkplacesToFile(data: ListBuffer[ListBuffer[Person]], name: String): Unit = {
+  def writeHouseholdsToFile(people: List[Actor], name: String): Unit = {
     var str: String = "";
-    data.toList.foreach { colleagues =>
-      str += "workplace: \n";
-      colleagues.toList.foreach { person =>
-        str += "id: " + person.id.toString + "\t";
+    people.foreach { person =>
+      if (person.isInstanceOf[generated.Person]) {
+        str += s"id: ${person.asInstanceOf[generated.Person].id}  \n";
+        person.asInstanceOf[generated.Person].householdConnections.toList.foreach { connection =>
+          str += "id: " + connection.id.toString + "\t";
+        }
+        str += "\n \n \n";
       }
-      str += "\n \n \n";
     }
     val writer = new PrintWriter(new File("epidemic_generated/" + name))
     writer.write(str)
     writer.close()
   }
 
-  def writeSchoolsToFile(data: ListBuffer[ListBuffer[Person]], name: String): Unit = {
+  def writeSchoolsToFile(people: List[Actor], name: String): Unit = {
     var str: String = "";
-    data.toList.foreach { group =>
-      str += "school: \n";
-      group.toList.foreach { person =>
-        str += "id: " + person.id.toString + "\t";
+    people.foreach { person =>
+      if (person.isInstanceOf[generated.Person]) {
+        if (person.asInstanceOf[generated.Person].status == student) {
+          str += s"id: ${person.asInstanceOf[generated.Person].id}  \n";
+          person.asInstanceOf[generated.Person].schoolConnections.toList.foreach { connection =>
+            str += "id: " + connection.id.toString + "\t";
+          }
+          str += "\n \n \n";
+        }
       }
-      str += "\n \n \n";
     }
     val writer = new PrintWriter(new File("epidemic_generated/" + name))
     writer.write(str)
     writer.close()
   }
 
-  def writeHouseholdsToFile(data: ListBuffer[ListBuffer[Person]], name: String): Unit = {
+  def writeWorkplacesToFile(people: List[Actor], name: String): Unit = {
     var str: String = "";
-    data.toList.foreach { family =>
-      str += "family: \n";
-      family.toList.foreach { person =>
-        str += "id: " + person.id.toString + "\t";
+    people.foreach { person =>
+      if (person.isInstanceOf[generated.Person]) {
+        if (person.asInstanceOf[generated.Person].status == employee) {
+          str += s"id: ${person.asInstanceOf[generated.Person].id}  \n";
+          person.asInstanceOf[generated.Person].workConnections.toList.foreach { connection =>
+            str += "id: " + connection.id.toString + "\t";
+          }
+          str += "\n \n \n";
+        }
       }
-      str += "\n \n \n";
     }
     val writer = new PrintWriter(new File("epidemic_generated/" + name))
     writer.write(str)
     writer.close()
   }
-
-//  override def toString = s"Person(id=$id, timeOfInfection=$timeOfInfection, infectedBy=$infectedBy, InfectedAt=$sourceOfInfection, state=$state, location=$location, status=$status)"
 
 
   def main(): Unit = {
@@ -116,18 +124,18 @@ object EpidemicSimulation extends App {
       }
       }
 
-//      peopleInfo += "time: " + timer.toString + "\n";
-//      actors.foreach { person =>
-//        if (person.isInstanceOf[generated.Person]) {
-//          peopleInfo += s"Person(id=${person.asInstanceOf[generated.Person].id}, " +
-//            s"timeOfInfection=${person.asInstanceOf[generated.Person].timeOfInfection}," +
-//            s" infectedBy=${person.asInstanceOf[generated.Person].infectedBy}," +
-//            s" InfectedAt=${person.asInstanceOf[generated.Person].infectedAt}," +
-//            s" state=${person.asInstanceOf[generated.Person].state}," +
-//            s" location=${person.asInstanceOf[generated.Person].location}," +
-//            s" status=${person.asInstanceOf[generated.Person].status})" + "\n"
-//        }
-//      }
+      peopleInfo += "time: " + timer.toString + "\n";
+      actors.foreach { person =>
+        if (person.isInstanceOf[generated.Person]) {
+          peopleInfo += s"Person(id=${person.asInstanceOf[generated.Person].id}, " +
+            s"timeOfInfection=${person.asInstanceOf[generated.Person].timeOfInfection}," +
+            s" infectedBy=${person.asInstanceOf[generated.Person].infectedBy}," +
+            s" InfectedAt=${person.asInstanceOf[generated.Person].infectedAt}," +
+            s" state=${person.asInstanceOf[generated.Person].state}," +
+            s" location=${person.asInstanceOf[generated.Person].location}," +
+            s" status=${person.asInstanceOf[generated.Person].status})" + "\n"
+        }
+      }
 
 
       actors.foreach { person =>
@@ -154,12 +162,15 @@ object EpidemicSimulation extends App {
       messages = actors.flatMap(_.getSendMessages).toList
       timer += 1
     }
-//    writeToFile(peopleInfo, "PeopleInfo");
-    writeToFile(numberOfInfectiousInfo, "numberOfInfectiousInfo.csv");
-    writeToFile(numberOfInfectedInfo, "numberOfInfectedInfo.csv");
-    writeToFile(numberOfCriticalCareInfo, "numberOfCriticalCareInfo.csv");
-    writeToFile(numberOfRecoveredInfo, "numberOfRecoveredInfo.csv");
-    writeToFile(numberOfSusceptibleInfo, "numberOfSusceptibleInfo.csv");
+    writeHouseholdsToFile(actors, "families")
+    writeSchoolsToFile(actors,"schools")
+    writeWorkplacesToFile(actors,"workplaces")
+    writeToFile(peopleInfo, "PeopleInfo");
+    writeToFile(numberOfInfectiousInfo, "numberOfInfectious.csv");
+    writeToFile(numberOfInfectedInfo, "numberOfInfected.csv");
+    writeToFile(numberOfCriticalCareInfo, "numberOfCriticalCare.csv");
+    writeToFile(numberOfRecoveredInfo, "numberOfRecovered.csv");
+    writeToFile(numberOfSusceptibleInfo, "numberOfSusceptible.csv");
 
     val end = System.nanoTime()
     val consumed = end - start

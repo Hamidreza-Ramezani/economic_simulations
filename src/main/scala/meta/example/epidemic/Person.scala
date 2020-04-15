@@ -7,7 +7,6 @@ import meta.example.epidemic.Epidemic.{agents, meetingAtHomeProb, meetingAtSchoo
 import meta.example.epidemic.Location._
 import meta.example.epidemic.State._
 import meta.example.epidemic.Status._
-
 import scala.collection.mutable.ListBuffer
 import meta.example.epidemic.Utils.prob2Bool
 import squid.quasi.lift
@@ -23,19 +22,12 @@ class Person extends Actor {
   var location: Location = null
   var status: Status = null
 
+  //  val incubationTime: Double = 5.1
+  //  val infectiousTime: Int = 10;
+  //
+  val incubationTime: Int = 2
+  val infectiousTime: Int = 3;
 
-  //  var state: State = State.Susceptible
-  //  var location: Location = Location.atWork
-  //  var status: Status = Status.student
-
-  val incubationTime: Double = 5.1
-  val infectiousTime: Int = 10;
-//
-//    val incubationTime: Int = 2
-//    val infectiousTime: Int = 3;
-
-  //  var exposedHourCount: Int = 0;
-  //  var infectiousHourCount: Int = 0;
   var exposedHourCount: Long = 0;
   var infectiousHourCount: Long = 0;
 
@@ -82,24 +74,6 @@ class Person extends Actor {
       }
     }
   }
-
-  //  def getHomeConnections(): String = {
-  //    var homeConnectionsStr: String = "home connections are: \n";
-  //    householdConnections.toList.foreach(person => homeConnectionsStr += "id: " + person.id.toString + "\n")
-  //    homeConnectionsStr;
-  //  }
-  //
-  //  def getSchoolConnections(): String = {
-  //    var schoolConnectionsStr: String = "school connections are: \n";
-  //    schoolConnections.toList.foreach(person => schoolConnectionsStr += "id: " + person.id.toString + "\n")
-  //    schoolConnectionsStr;
-  //  }
-  //
-  //  def getWorkConnections(): String = {
-  //    var workConnectionsStr: String = "school connections are: \n";
-  //    workConnections.toList.foreach(person => workConnectionsStr += "id: " + person.id.toString + "\n")
-  //    workConnectionsStr;
-  //  }
 
   def addToHomeConnections(person: Person): Unit = {
     this.householdConnections += person;
@@ -200,7 +174,6 @@ class Person extends Actor {
         }
       }
       this.individual_disease_progression()
-//      println(this.toString)
       SpecialInstructions.waitTurns(1)
     }
   }

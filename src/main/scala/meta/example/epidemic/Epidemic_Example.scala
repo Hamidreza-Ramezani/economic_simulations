@@ -10,7 +10,6 @@ object Epidemic_Example extends App {
 
   val mainClass: ClassWithObject[MainInit] = MainInit.reflect(IR)
   val cls1: ClassWithObject[Person] = Person.reflect(IR)
-//  val cls2: ClassWithObject[Helper] = Helper.reflect(IR)
   val startClasses: List[Clasz[_ <: Actor]] = List(cls1)
   val lifter = new Lifter()
   val simulationData = lifter(startClasses, mainClass)
