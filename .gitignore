@@ -103,10 +103,12 @@ project/plugins/project/
 .lib/
 generated/main/scala/generated
 src/main/scala/meta/example/supermarket/items/*
+/epidemic_generated/
+
 
 ### Scala ###
 *.class
 *.log
 
 # End of https://www.gitignore.io/api/sbt,scala,intellij
-/epidemic_generated/
+
