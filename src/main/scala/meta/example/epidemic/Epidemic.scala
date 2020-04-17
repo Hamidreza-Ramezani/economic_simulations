@@ -27,11 +27,11 @@ object Epidemic {
 
     val stepsPerDay: Int = 24;
     val hoursPerDay: Int = 24;
-    val meetingAtSchoolProb = 0.01
-    val meetingAtHomeProb = 0.01
-    val meetingAtWorkProb = 0.01
+    val meetingAtSchoolProb = 0.02
+    val meetingAtHomeProb = 0.02
+    val meetingAtWorkProb = 0.02
     val populationSize = 20000
-    val initialNumberOfInfected = 1
+    val initialNumberOfInfected = 100
     val period = 3600
 
   def getRandomHouseholdSize(): Int = {
@@ -88,11 +88,11 @@ object Epidemic {
 
   def getRandomWorkplaceSize(): Int = {
     var list: ListBuffer[Int] = ListBuffer()
-    val percentageOfSizeOne = 30;
-    val percentageOfSizeTwo = 35;
-    val percentageOfSizeThree = 16;
-    val percentageOfSizeFour = 14;
-    val percentageOfSizeFive = 5;
+    val percentageOfSizeOne = 30
+    val percentageOfSizeTwo = 35
+    val percentageOfSizeThree = 16
+    val percentageOfSizeFour = 14
+    val percentageOfSizeFive = 5
     for (i <- 0 until percentageOfSizeOne) {
       list += 1
     }

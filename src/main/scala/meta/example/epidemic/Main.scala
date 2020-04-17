@@ -47,7 +47,7 @@ object Main {
     //for the whole people, initialize their home connections
     //pick 20% of samples and set their status to student, then initialize their schoolConnections
     //pick 75% of samples and set their status to employees, then initialize their workConnections
-    val agentsCopy2 = agents.clone();
+    val agentsCopy2 = agents.clone()
     var household: ListBuffer[Person] = ListBuffer[Person]()
     var workPlace: ListBuffer[Person] = ListBuffer[Person]()
     var school: ListBuffer[Person] = ListBuffer[Person]()

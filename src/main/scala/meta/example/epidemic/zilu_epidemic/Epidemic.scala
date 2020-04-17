@@ -1,0 +1,32 @@
+package meta.example.epidemic.zilu_epidemic
+
+class Epidemic {
+
+}
+
+object Epidemic {
+
+  val DAY = 10
+  val SIMULATION_TIME_UNIT: Double = DAY
+  val PROB_SYMPTOMATIC = 0.67
+  val MILLION = 1000000
+  val INCUBATION_PERIOD = 51
+  val SYMPTOMATIC_LATENT_PERIOD = 46
+  val ASYMPTOMATIC_LATENT_PERIOD = 70
+  val INFECTIOUS_ALPHA = 0.25
+  val INFECTIOUS_BETA = 4
+  val HOSPITALIZATION_DELAY_MEAN: Double = 5 * DAY
+  val INFECTIOUS_SELF_ISOLATE_RATIO: Double = 2 / 3
+  val HOSPITALIZATION_CRITICAL = 0.3
+  val CRITICAL_DEATH = 0.5
+  val HOSPITAL_DAYS: Double = 8 * DAY
+  val CRITICAL_DAYS: Double = 16 * DAY
+  val DECIDE_CRITICAL: Double = 6 * DAY
+  val ICU_DAYS: Double = 10 * DAY
+  val ASYMPTOMATIC_RECOVER: Double = 21 * DAY
+  val MILD_RECOVER: Double = 14 * DAY
+  val SYMPTOMATIC_INFECTIOUSNESS_SCALE = 1.5
+  val PER_CAPITA_CONTACTS = 24
+
+
+}
