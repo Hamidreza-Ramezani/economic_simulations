@@ -2,8 +2,9 @@ package meta.example.epidemic
 
 import scala.util.Random
 import java.io._
-
 import scala.collection.mutable.ListBuffer
+
+
 
 object Utils {
   def double2int(myDouble: Double): Int = {

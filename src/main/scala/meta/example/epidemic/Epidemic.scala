@@ -16,23 +16,23 @@ object Epidemic {
   var schools: ListBuffer[ListBuffer[Person]] = ListBuffer[ListBuffer[Person]]()
   var workPlaces: ListBuffer[ListBuffer[Person]] = ListBuffer[ListBuffer[Person]]()
 
-  val stepsPerDay: Int = 24;
-  val hoursPerDay: Int = 24;
-  val meetingAtSchoolProb = 0.03
-  val meetingAtHomeProb = 0.03
-  val meetingAtWorkProb = 0.02
-  val populationSize = 20
-  val initialNumberOfInfected = 2
-  val period = 500
+//  val stepsPerDay: Int = 24;
+//  val hoursPerDay: Int = 24;
+//  val meetingAtSchoolProb = 0.03
+//  val meetingAtHomeProb = 0.03
+//  val meetingAtWorkProb = 0.02
+//  val populationSize = 20
+//  val initialNumberOfInfected = 2
+//  val period = 500
 
-  //  val stepsPerDay: Int = 24;
-  //  val hoursPerDay: Int = 24;
-  //  val meetingAtSchoolProb = 0.01
-  //  val meetingAtHomeProb = 0.01
-  //  val meetingAtWorkProb = 0.01
-  //  val populationSize = 10000
-  //  val initialNumberOfInfected = 1
-  //  val period = 3600
+    val stepsPerDay: Int = 24;
+    val hoursPerDay: Int = 24;
+    val meetingAtSchoolProb = 0.01
+    val meetingAtHomeProb = 0.01
+    val meetingAtWorkProb = 0.01
+    val populationSize = 20000
+    val initialNumberOfInfected = 1
+    val period = 3600
 
   def getRandomHouseholdSize(): Int = {
     var list: ListBuffer[Int] = ListBuffer()

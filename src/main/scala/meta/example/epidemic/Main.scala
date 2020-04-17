@@ -12,6 +12,18 @@ import scala.collection.mutable.ListBuffer
 object Main {
 
   def main(args: Array[String]): Unit = {
+
+    //    val randomSampler = new RandomSampling();
+    //    val mean: Double = 50
+    //    val sd: Double = 10
+    //    val shape: Double = 0.25
+    //    val scale: Double = 4
+    //    for (i <- 1 until 100) {
+    //      println(randomSampler.getGaussianSample(mean, sd))
+    //      println(randomSampler.getGammaSample(shape,scale))
+    //      println(randomSampler.getUniformSample(1000,2000))
+    //  }
+
     initialize_simulation()
     run_simulation()
   }
@@ -132,47 +144,52 @@ object Main {
 
     //the location of everybody should be specified
     while (time_step < period) {
-      agents.foreach { person =>
-        person.updateCurrentLocation(time_step)
+      agents.foreach {
+        person =>
+          person.updateCurrentLocation(time_step)
       }
       var currentTime = time_step % 24;
       if (currentTime > 8) {
 
-        agents.foreach { person1 =>
-          person1.location match {
-            case Location.atHome => {
-              person1.householdConnections.foreach { person2 =>
-                if (person2.location == atHome) {
-                  if (prob2Bool(meetingAtHomeProb)) {
-                    person1.meet(person2, time_step);
-                  }
-                }
+        agents.foreach {
+          person1 =>
+            person1.location match {
+              case Location.atHome => {
+                person1.householdConnections.foreach {
+                  person2 =>
+                    if (person2.location == atHome) {
+                      if (prob2Bool(meetingAtHomeProb)) {
+                        person1.meet(person2, time_step);
+                      }
+                    }
 
-              }
-            }
-
-            case Location.atSchool => {
-              person1.schoolConnections.foreach { person2 =>
-                if (person2.location == atSchool) {
-                  if (prob2Bool(meetingAtSchoolProb)) {
-                    person1.meet(person2, time_step);
-                  }
                 }
               }
-            }
-            case Location.atWork => {
-              person1.workConnections.foreach { person2 =>
-                if (person2.location == atWork) {
-                  if (prob2Bool(meetingAtWorkProb)) {
-                    person1.meet(person2, time_step);
-                  }
+
+              case Location.atSchool => {
+                person1.schoolConnections.foreach {
+                  person2 =>
+                    if (person2.location == atSchool) {
+                      if (prob2Bool(meetingAtSchoolProb)) {
+                        person1.meet(person2, time_step);
+                      }
+                    }
                 }
               }
-            }
-            case _ =>
+              case Location.atWork => {
+                person1.workConnections.foreach {
+                  person2 =>
+                    if (person2.location == atWork) {
+                      if (prob2Bool(meetingAtWorkProb)) {
+                        person1.meet(person2, time_step);
+                      }
+                    }
+                }
+              }
+              case _ =>
 
-            //TODO: write for in community
-          }
+              //TODO: write for in community
+            }
         }
       }
       agents.foreach(person => person.individual_disease_progression())
@@ -197,17 +214,18 @@ object Main {
       //		}
       //		stat += "time: " + to_string(time_step) + " number of infectious people: ";
 
-      agents.foreach { person =>
-        if (person.state == Infectious) {
-          numberOfInfectious += 1;
-          numberOfInfected += 1;
-        } else if (person.state == Exposed) {
-          numberOfInfected += 1;
-        } else if (person.state == Recovered) {
-          numberOfRecovered += 1;
-        } else {
-          numberOfSusceptible += 1;
-        }
+      agents.foreach {
+        person =>
+          if (person.state == Infectious) {
+            numberOfInfectious += 1;
+            numberOfInfected += 1;
+          } else if (person.state == Exposed) {
+            numberOfInfected += 1;
+          } else if (person.state == Recovered) {
+            numberOfRecovered += 1;
+          } else {
+            numberOfSusceptible += 1;
+          }
       }
       numberOfCriticalCare = numberOfInfected / 20;
       numberOfInfectiousInfo += numberOfInfectious.toString + "\n";

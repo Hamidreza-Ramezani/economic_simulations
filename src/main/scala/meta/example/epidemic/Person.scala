@@ -24,7 +24,7 @@ class Person extends Actor {
 
   //  val incubationTime: Double = 5.1
   //  val infectiousTime: Int = 10;
-  //
+
   val incubationTime: Int = 2
   val infectiousTime: Int = 3;
 
