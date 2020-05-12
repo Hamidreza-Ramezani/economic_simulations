@@ -105,5 +105,7 @@ project/plugins/project/
 ### Scala ###
 *.class
 *.log
+generated/main/scala/generated/*
+
 
 # End of https://www.gitignore.io/api/sbt,scala,intellij
