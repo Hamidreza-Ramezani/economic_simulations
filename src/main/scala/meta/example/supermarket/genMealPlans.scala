@@ -1,6 +1,5 @@
 package meta.example.supermarket
 
-import meta.example.supermarket.people
 import java.io.{BufferedWriter, File, FileWriter}
 import scala.collection.mutable.{ListBuffer, Map}
 

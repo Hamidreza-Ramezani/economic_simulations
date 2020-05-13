@@ -261,10 +261,10 @@ class MainInit {
     l ++= l_repeat
     l_repeat.clear()
 
-    (1 to 1).foreach(_ => l_repeat.append(new Item32))
-    Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
+//    (1 to 1).foreach(_ => l_repeat.append(new Item32))
+//    Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
+//    l ++= l_repeat
+//    l_repeat.clear()
 
     l.toList
   }
