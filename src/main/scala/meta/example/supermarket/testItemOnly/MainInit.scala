@@ -12,47 +12,50 @@ import meta.example.supermarket.people._
 
 @lift
 class MainInit {
+  //this class specifies the actors of the simulation
   def main(): List[Actor] = {
     val l = ListBuffer[Actor]()
     val l_repeat = ListBuffer[Actor]()
 
-    val employee1 = new Employee
-    val customer1 = new Customer1
-    customer1.employee = employee1
-    (1 to 1).foreach(_ => l_repeat.append(customer1))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    //    (1 to 1).foreach(_ => l_repeat.append(new Customer1))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-    val customer2 = new Customer2
-    customer2.employee = employee1
-    (1 to 1).foreach(_ => l_repeat.append(customer2))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    //    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-    val customer3 = new Customer3
-    customer3.employee = employee1
-    (1 to 1).foreach(_ => l_repeat.append(customer3))
-    l ++= l_repeat
-    l_repeat.clear()
-
-    //    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-
     //    val employee1 = new Employee
-    //    (1 to 1).foreach(_ => l_repeat.append(employee1))
+    //    val customer1 = new Customer1
+    //    customer1.employee = employee1
+    //    (1 to 1).foreach(_ => l_repeat.append(customer1))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+
+    (1 to 1).foreach(_ => l_repeat.append(new Customer1))
+    l ++= l_repeat
+    l_repeat.clear()
+
+    //    val customer2 = new Customer2
+    //    customer2.employee = employee1
+    //    (1 to 1).foreach(_ => l_repeat.append(customer2))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    (1 to 1).foreach(_ => l_repeat.append(new Customer2))
+    l ++= l_repeat
+    l_repeat.clear()
+    //
+    //    val customer3 = new Customer3
+    //    customer3.employee = employee1
+    //    (1 to 1).foreach(_ => l_repeat.append(customer3))
+    //    l ++= l_repeat
+    //    l_repeat.clear()
+    //
+    (1 to 1).foreach(_ => l_repeat.append(new Customer3))
+    l ++= l_repeat
+    l_repeat.clear()
+    //
+    //
+    val employee1 = new Employee
+    (1 to 1).foreach(_ => l_repeat.append(employee1))
     (1 to 1).foreach(_ => l_repeat.append(employee1))
     l ++= l_repeat
     l_repeat.clear()
+
+    Supermarket.store.employee = employee1
 
 
     //    (1 to 1).foreach(_ => l_repeat.append(employee1))
@@ -261,10 +264,10 @@ class MainInit {
     l ++= l_repeat
     l_repeat.clear()
 
-//    (1 to 1).foreach(_ => l_repeat.append(new Item32))
-//    Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-//    l ++= l_repeat
-//    l_repeat.clear()
+    (1 to 1).foreach(_ => l_repeat.append(new Item32))
+    Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
+    l ++= l_repeat
+    l_repeat.clear()
 
     l.toList
   }

@@ -15,7 +15,7 @@ import scala.collection.mutable.ListBuffer
 
 @lift
 class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
-  var employee: Employee = null
+//  var employee: Employee = null
 
   def consumeFood1: Unit = {
     if (fridge.getAvailFood.size > 0) {
@@ -32,16 +32,16 @@ class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
       println("Customer consumed " + pair._1 + " Amount " + consumed)
       if (consumed < pair._2) {
         println("Not enough food left! Do shopping!")
-        while (employee.state.get == "reFillingShelves") {
-          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
-          println()
-          SpecialInstructions.waitTurns(1)
-        }
-//        while (Supermarket.store.employee.state.get == "reFillingShelves") {
+//        while (employee.state.get == "reFillingShelves") {
 //          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
 //          println()
 //          SpecialInstructions.waitTurns(1)
 //        }
+        while (Supermarket.store.employee.state.get == "reFillingShelves") {
+          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+          println()
+          SpecialInstructions.waitTurns(1)
+        }
         addListedItemsToBasket(Vector((pair._1, pair._2)))
       }
     })
@@ -51,16 +51,16 @@ class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
     while (true) {
       customerInfo
       //these functions should add the items to toBeScannedItems
-      while (employee.state.get == "reFillingShelves"){
-        println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
-        println()
-        SpecialInstructions.waitTurns(1)
-      }
-//      while (Supermarket.store.employee.state.get == "reFillingShelves"){
+//      while (employee.state.get == "reFillingShelves"){
 //        println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
 //        println()
 //        SpecialInstructions.waitTurns(1)
 //      }
+      while (Supermarket.store.employee.state.get == "reFillingShelves"){
+        println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+        println()
+        SpecialInstructions.waitTurns(1)
+      }
 
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)

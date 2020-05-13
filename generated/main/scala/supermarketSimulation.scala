@@ -13,14 +13,14 @@ object supermarketSimulation extends App {
   var messages: List[Message] = List()
   var timer: Int = 0
   var until: Int = 10 * granularity.hour
-  val shelfCapacity: Int = 10
+  //  val shelfCapacity: Int = 10
   //  val unitLoad: Int = 5 //
   val memUnit: Int = 1024 // KB
   val runtime = Runtime.getRuntime
   BasicConfigurator.configure()
   val logger = Logger("Root")
 
-  def init(): Uni t = {
+  def init(): Unit = {
     //    actors = generated.InitData.initActors.to[Array]
     actors = generated.InitData.initActors
   }
@@ -40,7 +40,7 @@ object supermarketSimulation extends App {
     while (timer <= until) {
       val start_it = System.nanoTime()
       println("TIMER", timer)
-//      collect(timer)
+      //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
       while (Supermarket.store.isInvalids.size > 0) {
@@ -49,24 +49,18 @@ object supermarketSimulation extends App {
       }
       //      addSupply
       //employee should refill the shelves
-//      for (i <- 0 to actors.length -1 ){
-//        if (actors(i).getClass.getName == "meta.example.supermarket.people.Employee"){
-//          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-//        }
-//      }
-      for (i <- 0 to actors.length -1 ){
-        if (actors(i).getClass.getName == "generated.Employee"){
+      for (i <- 0 to actors.length - 1) {
+        if (actors(i).getClass.getName == "generated.Employee") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }
       collect(timer)
       //cashier should do his/her task
-      for (i <- 0 to actors.length -1 ){
-        if (actors(i).getClass.getName == "generated.Cashier"){
+      for (i <- 0 to actors.length - 1) {
+        if (actors(i).getClass.getName == "generated.Cashier") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }
-      //      actors(10).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(10).id, List())).run_until(timer)
       actors = actors.map { a => {
         a.cleanSendMessage
           .addReceiveMessages(mx.getOrElse(a.id, List()))

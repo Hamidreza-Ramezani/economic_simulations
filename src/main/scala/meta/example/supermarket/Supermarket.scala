@@ -16,10 +16,10 @@ class Supermarket extends SummaryTrait {
   val snacks: Vector[String] = categories.getArticleNames("Snack")
   val grains: Vector[String] = categories.getArticleNames("Grain")
   val dairys: Vector[String] = categories.getArticleNames("Dairy")
-  var shelfCapacity: Int = 5
-//  val employee: Employee = new Employee
+  var shelfCapacity: Int = 10
+  //  val employee = null
 
-  //  var employee: Employee = new Employee
+  var employee: Employee = null
 
   def setShelfCapacity(shelfCapacity: Int): Unit = {
     this.shelfCapacity = shelfCapacity
@@ -61,7 +61,7 @@ class Supermarket extends SummaryTrait {
       requestedItem = requested.popRight
     }
 
-//    addToScannerQueue(requestedItem)
+    //    addToScannerQueue(requestedItem)
     while (requestedItem.state.get != "isPurchased") {
       //do nothing
     }
