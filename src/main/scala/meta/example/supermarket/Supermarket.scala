@@ -1,7 +1,7 @@
 package meta.example.supermarket
 
 import meta.example.supermarket.goods._
-import meta.example.supermarket.people.Employee
+import meta.example.supermarket.people.{Employee, EmployeeTrait}
 import meta.example.supermarket.utils.randElement
 
 import scala.collection.mutable
@@ -17,9 +17,7 @@ class Supermarket extends SummaryTrait {
   val grains: Vector[String] = categories.getArticleNames("Grain")
   val dairys: Vector[String] = categories.getArticleNames("Dairy")
   var shelfCapacity: Int = 10
-  //  val employee = null
-
-  var employee: Employee = null
+  var employee: EmployeeTrait = null
 
   def setShelfCapacity(shelfCapacity: Int): Unit = {
     this.shelfCapacity = shelfCapacity

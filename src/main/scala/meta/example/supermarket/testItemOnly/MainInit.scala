@@ -51,7 +51,6 @@ class MainInit {
     //
     val employee1 = new Employee
     (1 to 1).foreach(_ => l_repeat.append(employee1))
-    (1 to 1).foreach(_ => l_repeat.append(employee1))
     l ++= l_repeat
     l_repeat.clear()
 
