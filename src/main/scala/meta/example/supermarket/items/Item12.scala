@@ -7,7 +7,7 @@ import squid.quasi.lift
 
 @lift
 class Item12 extends Item with Chicken {
-  var age: Int = 0
+  //var age: Int = 0
 
   def main(): Unit = {
     while(age < freshUntil && !state.isConsumed) {

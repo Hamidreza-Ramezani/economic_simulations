@@ -7,7 +7,7 @@ import squid.quasi.lift
 
 @lift
 class Item11 extends Item with Squash {
-  var age: Int = 0
+  //var age: Int = 0
 
   def main(): Unit = {
     while(age < freshUntil && !state.isConsumed) {

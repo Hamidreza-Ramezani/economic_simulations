@@ -7,7 +7,7 @@ import squid.quasi.lift
 
 @lift
 class Item21 extends Item with Cereal {
-  var age: Int = 0
+  //var age: Int = 0
 
   def main(): Unit = {
     while(age < freshUntil && !state.isConsumed) {

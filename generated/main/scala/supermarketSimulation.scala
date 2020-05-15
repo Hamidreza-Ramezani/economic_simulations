@@ -36,6 +36,11 @@ object supermarketSimulation extends App {
   def main(): Unit = {
     //    println(this.getClass.getClassLoader)
     init()
+    for (i <- 0 to actors.length - 1) {
+      if (actors(i).getClass.getName == "generated.Employee") {
+        Supermarket.store.employee = actors(i).asInstanceOf[Employee]
+      }
+    }
     val start = System.nanoTime()
     while (timer <= until) {
       val start_it = System.nanoTime()

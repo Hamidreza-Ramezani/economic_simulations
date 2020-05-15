@@ -7,7 +7,7 @@ import squid.quasi.lift
 
 @lift
 class Item13 extends Item with Beef {
-  var age: Int = 0
+  //var age: Int = 0
 
   def main(): Unit = {
     while(age < freshUntil && !state.isConsumed) {

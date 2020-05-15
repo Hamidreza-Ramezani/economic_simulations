@@ -7,7 +7,7 @@ import squid.quasi.lift
 
 @lift
 class Item26 extends Item with Pasta {
-  var age: Int = 0
+  //var age: Int = 0
 
   def main(): Unit = {
     while(age < freshUntil && !state.isConsumed) {

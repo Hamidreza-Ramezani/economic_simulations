@@ -54,7 +54,7 @@ class MainInit {
     l ++= l_repeat
     l_repeat.clear()
 
-    Supermarket.store.employee = employee1
+    //    Supermarket.store.employee = employee1
 
 
     //    (1 to 1).foreach(_ => l_repeat.append(employee1))
