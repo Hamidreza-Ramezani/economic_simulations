@@ -6,18 +6,18 @@ import meta.deep.IR
 import meta.deep.IR.Predef._
 import meta.deep.algo.AlgoInfo
 import meta.deep.algo.AlgoInfo.EdgeInfo
-import meta.deep.member.ActorType
+import meta.deep.member.{ActorType}
 import meta.deep.runtime.Actor
 
 import scala.collection.mutable.ArrayBuffer
 
 class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageName: String = "generated")
-  extends StateMachineElement() {
+    extends StateMachineElement() {
 
   var compiledActorGraphs: List[CompiledActorGraph] = Nil
 
   override def run(compiledActorGraphs: List[CompiledActorGraph])
-  : List[CompiledActorGraph] = {
+    : List[CompiledActorGraph] = {
 
     //Create dir folders to save class
     val f = new File(storagePath + "/generated")
@@ -38,12 +38,14 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
 
   /**
     * This code generated the class data and passes it for the class generation
-    *
     * @param compiledActorGraph the graph data required for generating the class
     */
   def prepareClass(compiledActorGraph: CompiledActorGraph): Unit = {
-    val selfs = compiledActorGraph.actorTypes.map(actorType =>
-      actorType.self.toCode.toString().substring(5).dropRight(1))
+    var self_name = Map[String, String]()
+    compiledActorGraph.actorTypes.map(actorType =>
+      self_name += (actorType.self.toCode.toString().substring(5).dropRight(1) -> actorType.name))
+//    val selfs = compiledActorGraph.actorTypes.map(actorType =>
+//      actorType.self.toCode.toString().substring(5).dropRight(1))
 
     val commands = generateCode(compiledActorGraph)
     val code = this.createCommandOpenCode(commands)
@@ -72,7 +74,7 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
 
     val scalaCode = IR.showScala(codeWithInit.rep)
     var replacedTypes = scalaCode
-    selfs.foreach(x => replacedTypes = replacedTypes.replace(x, "this"))
+//    selfs.foreach(x => replacedTypes = replacedTypes.replace(x, "this"))
     val steps = changeTypes(replacedTypes)
 
     //Needed to split, so that a function can be extracted from the code, to write everything as class variables
@@ -84,13 +86,13 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
     val timeVarReplaceWith: String = "timer" // timer as defined by actor class
 
     var initVars: String = parts(0).substring(2)
-      .replace(" var ", " private var ")
+      .replace(" var "," private var ")
       .replace(" val ", " private val ")
-      .replace(s"private var ${timeVarGenerated}: scala.Int = 0", s"${timeVarReplaceWith} = 0") +
+      .replace(s"private var ${timeVarGenerated}: scala.Int = 0;\n  ", s"") +
       parts(1).replace(timeVarGenerated, timeVarReplaceWith)
 
     //This ugly syntax is needed to replace the received code with a correct function definition
-    val run_until = "override def run_until" + parts(2)
+    var run_until = "  override def run_until" + parts(2)
       .trim()
       .substring(1)
       .replaceFirst("=>", ": meta.deep.runtime.Actor = ")
@@ -99,27 +101,46 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
       .trim
       .dropRight(1)
 
-    // Converts all initParams to state variables again
-    var initParams = ""
-    //Only render initParams, if one actorType, otherwise inherited from parent
-    for (actorType <- compiledActorGraph.actorTypes) {
-      for (s <- actorType.states) {
-        initParams = initParams + "  var " + s.sym.name + ": " + changeTypes(
-          s.tpe.rep.toString) + " = " + changeTypes(IR.showScala(s.init.rep)) + "\n"
-      }
-    }
+    var initParams: String = compiledActorGraph.actorTypes.flatMap(actorType => {
+      actorType.states.map(s =>{
+        self_name.keys.foreach(self => {
+          initVars = initVars.replace(s"${self}.${s.sym.name};", s"this.${self_name(self)}_${s.sym.name};")
+          initVars = initVars.replace(s"${self}.`${s.sym.name}_=`", s"this.`${self_name(self)}_${s.sym.name}_=`")
+        })
+        s"  var ${actorType.name}_${s.sym.name}: ${changeTypes(s.tpe.rep.toString)} = ${changeTypes(IR.showScala(s.init.rep))}"
+      })}).mkString("\n")
 
-    createClass(compiledActorGraph.name, initParams, initVars, run_until, compiledActorGraph.parentNames);
+    val parameters: String = compiledActorGraph.actorTypes.flatMap(actorType => {
+      actorType.parameterList.map(x => {
+        if (compiledActorGraph.parameterList.indexOf(x) != -1) {
+          self_name.keys.foreach(self => {
+            initVars = initVars.replace(s"${self}.${x._1};", s"this.${self_name(self)}_${x._1};")
+            initVars = initVars.replace(s"${self}.`${x._1}_=`", s"this.`${self_name(self)}_${x._1}_=`")
+          })
+          s"var ${actorType.name}_${x._1}: ${changeTypes(x._2, false)}"
+        } else {
+          ""
+        }})
+    }).mkString(", ")
+
+    self_name.keys.foreach(self => {
+      initParams = initParams.replace(self, "this")
+      initVars = initVars.replace(self, "this")
+      run_until = run_until.replace(self, "this")
+    })
+
+    def parents: String = s"${compiledActorGraph.parentNames.head}${compiledActorGraph.parentNames.tail.foldLeft("")((a,b) => a + " with " + b)}"
+
+    createClass(compiledActorGraph.name, parameters, initParams, initVars, run_until, parents);
   }
 
   /**
     * This generates the code of the state machine
-    *
     * @param compiledActorGraph the graph data for generating the code of an actor
     * @return a list of commands/code fragments, which can be called
     */
   def generateCode(
-                    compiledActorGraph: CompiledActorGraph): List[OpenCode[Unit]] = {
+      compiledActorGraph: CompiledActorGraph): List[OpenCode[Unit]] = {
     val graph: ArrayBuffer[EdgeInfo] = compiledActorGraph.graph
     //Reassign positions
     var positionMap: Map[Int, Int] = Map()
@@ -178,10 +199,8 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
         if (unknownCond > 1) {
           requiredSavings = target :: requiredSavings
           posChanger =
-            code"${AlgoInfo.positionVar} := ${edge.positionStack}.remove(0).find(x => x._1 == (${
-              Const(
-                edge.edgeState._1)
-            },${Const(edge.edgeState._2)})).get._2; ()"
+            code"${AlgoInfo.positionVar} := ${edge.positionStack}.remove(0).find(x => x._1 == (${Const(
+              edge.edgeState._1)},${Const(edge.edgeState._2)})).get._2; ()"
         }
 
         val currentCodePos = code.length
@@ -218,8 +237,8 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
             code"${code(currentCodePos)}; ${AlgoInfo.timeVar} := (${AlgoInfo.timeVar}!) + 1"
         }
 
-        //        code(currentCodePos) =
-        //          code"println(${Const(currentCodePos)}); ${code(currentCodePos)}"
+//        code(currentCodePos) =
+//          code"println(${Const(currentCodePos)}); ${code(currentCodePos)}"
 
       })
     }
@@ -240,9 +259,9 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
             amountM1 = amountM1 + 1
           }
           (edgeInfo.edgeState,
-            edgeSaving((startPos, endPos)),
-            edgeInfo.positionStack,
-            (edgeInfo.from.getNativeId, edgeInfo.to.getNativeId))
+           edgeSaving((startPos, endPos)),
+           edgeInfo.positionStack,
+           (edgeInfo.from.getNativeId, edgeInfo.to.getNativeId))
         })
 
         //The basic idea was this, but it may not hold, therefore this assert to change the implementation
@@ -297,27 +316,27 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
   /**
     * Creates the class file
     *
-    * @param className  types defined in the class file in the form of case class
+    * @param className types defined in the class file in the form of case class
     * @param initParams state variables
     * @param initVars   generated variables needed globally
     * @param run_until  function, which overrides the run until method
-    * @param parent     a list of strings containing parent names
+    * @param parents a string containing parent names
     */
   def createClass(className: String,
+                  parameters: String,
                   initParams: String,
                   initVars: String,
                   run_until: String,
-                  parent: List[String]): Unit = {
+                  parents: String): Unit = {
     val classString =
       s"""package ${packageName}
 
-trait ${className + "Trait"} extends ${parent.head}${parent.tail.foldLeft("")((a, b) => a + " with " + b)} {
-  $initParams
-  $initVars
-  $run_until
+class ${className} (${parameters}) extends ${parents} {
+$initParams
+$initVars
+$run_until
 }
-
-class $className extends ${className + "Trait"}"""
+"""
 
     val file = new File(storagePath + "/generated/" + className + ".scala")
     val bw = new BufferedWriter(new FileWriter(file))
@@ -327,7 +346,6 @@ class $className extends ${className + "Trait"}"""
 
   /**
     * This changes the type of the variables to reference to the generated classes.
-    *
     * @param code which should be changed
     * @return code with replaced variable types
     */
@@ -339,7 +357,7 @@ class $className extends ${className + "Trait"}"""
       if (cAG.actorTypes.length == 1) {
 
         val actorNamePattern = s"${cAG.actorTypes.head.X.runtimeClass.getCanonicalName}".r.unanchored
-        val pattern1 = "((?s).*)" + s"(${cAG.actorTypes.head.X.runtimeClass.getCanonicalName})" + "((?s).*)"
+        val pattern1 = "((?s).*)"+s"(${cAG.actorTypes.head.X.runtimeClass.getCanonicalName})"+"((?s).*)"
         val pattern2 = "([^a-zA-Z0-9_])" // the first letter following actor name shouldn't be an alphanumeric type
 
         var bar = ""
@@ -352,22 +370,17 @@ class $className extends ${className + "Trait"}"""
                   case true => line
                   case false => pattern1_list.foreach(mtch => {
                     if (mtch.group(3).size == 0 || pattern2.r.findFirstIn(mtch.group(3)(0).toString()) != None) {
-                      if (mtch.group(1).endsWith(" new ")) {
-                        if (!init) {
-                          val generatedValName: String = mtch.group(1).split(" ").filter(x => x != "")(1) // val x = new className
-                          bar = line.replace(cAG.actorTypes.head.X.runtimeClass.getCanonicalName, s"${packageName}." + cAG.name) +
+                      if (mtch.group(1).endsWith(" new ") && !init) {
+                          val generatedValName: String = mtch.group(1).split(" ").filter(x => x!="")(1) // val x = new className
+                          bar = line.replace(cAG.actorTypes.head.X.runtimeClass.getCanonicalName, s"${packageName}." + cAG.name ) +
                             s"\n  meta.deep.runtime.Actor.newActors.append(${generatedValName})"
-                        } else {
-                          bar = line.replace(cAG.actorTypes.head.X.runtimeClass.getCanonicalName, s"${packageName}." + cAG.name)
-                        }
                       } else {
-                        bar = line.replace(cAG.actorTypes.head.X.runtimeClass.getCanonicalName, s"${packageName}." + cAG.name + "Trait")
+                        bar = line.replace(cAG.actorTypes.head.X.runtimeClass.getCanonicalName, s"${packageName}." + cAG.name)
                       }
                     } else {
                       bar = line
                     }
-                  });
-                    bar
+                  }); bar
                 }
               }
             ).mkString("\n")
@@ -383,7 +396,7 @@ class $className extends ${className + "Trait"}"""
     * Converts a list of opencode code fragments to a opencode of array of code fragments
     */
   def createCommandOpenCode(
-                             commands: List[OpenCode[Unit]]): OpenCode[Array[() => Unit]] = {
+      commands: List[OpenCode[Unit]]): OpenCode[Array[() => Unit]] = {
     var start: OpenCode[Array[() => Unit]] =
       code"new Array[() => Unit](${Const(commands.length)})"
     commands.zipWithIndex.foreach(x => {
@@ -426,20 +439,56 @@ class $className extends ${className + "Trait"}"""
 
   /**
     * This generates the init code of the simulation
-    *
     * @param code init code of the simulation
     */
   def createInit(code: String): Unit = {
+    var modifiedCode: String = code
+
+    if (hasDirectAccess(code)){
+      println("Direct attribute access from MainInit is supported for backward compatibility only. Please use parameter list instead")
+      val agentMap: Map[String, String] = buildAgentNameMap(modifiedCode)
+      modifiedCode = code.split("\n").map(statement =>
+        // keep the compiler happy about unreachable cases
+        statement.replace(".`", s".`${agentMap.getOrElse(getObjectName(statement), "ERROR")}_")
+      ).mkString("\n")
+    }
+
     val classString =
       s"""package ${packageName}
 
 object InitData  {
-  def initActors: List[meta.deep.runtime.Actor] = {${changeTypes(code, init = true)}}
+  def initActors: List[meta.deep.runtime.Actor] = {${changeTypes(modifiedCode, init = true)}}
 }"""
     val file = new File(storagePath + "/generated/InitData.scala")
     val bw = new BufferedWriter(new FileWriter(file))
     bw.write(classString)
     bw.close()
+  }
+
+  def hasDirectAccess(code: String): Boolean = {
+    code.contains("_=`")
+  }
+
+  def buildAgentNameMap(code: String): Map[String, String] = {
+    var tokens: Array[String] = Array()
+    var agentNameMap: Map[String, String] = Map[String, String]()
+    code.split(";").filter(_.contains("new ")).foreach(
+      line => {
+        tokens = line.split("\\s+")
+        agentNameMap += (tokens(tokens.indexOf("val") + 1) -> shortenPathName(tokens(tokens.indexOf("new") + 1)))
+      })
+    agentNameMap
+  }
+
+  def shortenPathName(fullPathName: String): String = {
+    fullPathName.slice(
+      ((a: Int, b: Int) => (if (a > 0) a else b)) (fullPathName.lastIndexOf(".")+1, 0),
+      ((a: Int, b: Int) => (if (a > -1) a else b)) (fullPathName.indexOf("("), fullPathName.size)
+    )
+  }
+
+  def getObjectName(statement: String): String = {
+    (statement.split("\\s+").filterNot(_=="")).head.split("\\.").head
   }
 
   /**
@@ -470,5 +519,4 @@ object InitData  {
                                        rest: OpenCode[R]): OpenCode[R] = {
     code"val ${variable.variable} = ${variable.init}; $rest"
   }
-
 }

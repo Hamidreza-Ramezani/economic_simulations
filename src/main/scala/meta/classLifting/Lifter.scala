@@ -71,18 +71,19 @@ class Lifter {
     */
   private def liftActor[T <: Actor](clasz: Clasz[T]) = {
     val parentNames: List[String] = clasz.parents.map(parent => parent.rep.toString())
+    val parameterList: List[(String, String)] = clasz.fields.filter(field => !field.init.isDefined)
+      .map(x => (s"${x.name.trim}", s"${x.A.rep}"))
 
     import clasz.C
     val actorSelfVariable: Variable[_ <: Actor] =
       clasz.self.asInstanceOf[Variable[T]]
     //lifting states - class attributes
-    val endStates = clasz.fields.map {
+
+    val endStates = clasz.fields.filter(field => field.init.isDefined).map {
       case field =>
-        val fi = field.init.getOrElse(
-          squid.utils.lastWords("Cannot handle no init value yet")
-        )
-        State[field.A](field.symbol, field.A, fi)
+        State[field.A](field.symbol, field.A, field.init.get)
     }
+
     var endMethods: List[LiftedMethod[_]] = List()
     var mainAlgo: Algo[_] = DoWhile(code"true", Wait())
     //lifting methods - with main method as special case
@@ -105,8 +106,10 @@ class Lifter {
           mainAlgo = CallMethod[Unit](methodsIdMap(method.symbol), List(List()))
         }
     })
+
     ActorType[T](clasz.name,
                  parentNames,
+                 parameterList,
                  endStates,
                  endMethods,
                  mainAlgo,
@@ -122,7 +125,7 @@ class Lifter {
     //it's expected that this class' first method initializes actors
     val initMethod = clasz.methods.head
     val initCode = clasz.methods.head.body
-    //check if the method returns a list of actors
+
     if (initMethod.A <:< codeTypeOf[List[Actor]])
       initCode.asInstanceOf[OpenCode[List[Actor]]]
     else {
@@ -181,33 +184,65 @@ class Lifter {
                            liftCode(ifBody, actorSelfVariable, clasz),
                            liftCode(elseBody, actorSelfVariable, clasz))
         f.asInstanceOf[Algo[T]]
-      case code"SpecialInstructions.waitTurns(${Const(turns: Int)}) " =>
-        val f = LetBinding(None,
-          liftWait(turns).asInstanceOf[Algo[T]],
+      case code"SpecialInstructions.waitTurns($x)" =>
+        val waitCounter = Variable[Int]
+        val f =
+          LetBinding(None,
+            LetBinding(
+              Some(waitCounter),
+              ScalaCode(code"0"),
+              DoWhile(code"$waitCounter < $x",
+                LetBinding(Some(waitCounter),
+                  ScalaCode(code"$waitCounter + 1"),
+                  Wait()))),
           handleMsg(actorSelfVariable, clasz).asInstanceOf[Algo[T]])
         f.asInstanceOf[Algo[T]]
-      case code"${MethodApplication(ma)}:Any  "
-          if methodsIdMap.get(ma.symbol).isDefined =>
-        //extracting arguments and formatting them
+
+      // asynchronously call a remote method
+      case code"SpecialInstructions.asyncMessage[$mt]((() => {val $nm: $nmt = $v; ${MethodApplication(msg)}}: mt))" =>
         val argss =
-          ma.args.tail.map(args => args.toList.map(arg => code"$arg")).toList
-        //method is local - method recipient is this(self)
+          msg.args.tail.map(_.toList.map(arg => code"$arg")).toList
         val recipientActorVariable =
-          ma.args.head.head.asInstanceOf[OpenCode[Actor]]
-        if (actorSelfVariable.toCode == recipientActorVariable) {
-          val f = CallMethod(methodsIdMap(ma.symbol), argss)
-          f.asInstanceOf[Algo[T]]
-        }
-        //method recipient is another actor - a message has to be sent
-        else {
-          val f = Send(actorSelfVariable.toCode,
-                       recipientActorVariable,
-                       methodsIdMap(ma.symbol),
-                       argss,
-//                        false)
-                       methodsMap(ma.symbol).blocking)
-          f.asInstanceOf[Algo[T]]
-        }
+          msg.args.head.head.asInstanceOf[OpenCode[Actor]]
+          LetBinding(Some(nm),
+            liftCode(v, actorSelfVariable, clasz),
+            AsyncSend[T, mt.Typ](
+              actorSelfVariable.toCode,
+              recipientActorVariable,
+              methodsIdMap(msg.symbol),
+              argss))
+
+      // asynchronously call a local method
+      case code"SpecialInstructions.asyncMessage[$mt]((() => ${MethodApplication(msg)}: mt))" =>
+        val argss =
+          msg.args.tail.map(_.toList.map(arg => code"$arg")).toList
+        AsyncSend[T, mt.Typ](
+            actorSelfVariable.toCode,
+            actorSelfVariable.toCode,
+            methodsIdMap(msg.symbol),
+            argss)
+
+      case code"${MethodApplication(ma)}:Any "
+        if methodsIdMap.get(ma.symbol).isDefined =>
+          //extracting arguments and formatting them
+          val argss =
+            ma.args.tail.map(args => args.toList.map(arg => code"$arg")).toList
+          //method is local - method recipient is this(self)
+          val recipientActorVariable =
+            ma.args.head.head.asInstanceOf[OpenCode[Actor]]
+          if (actorSelfVariable.toCode == recipientActorVariable) {
+            val f = CallMethod(methodsIdMap(ma.symbol), argss)
+            f.asInstanceOf[Algo[T]]
+          }
+          //method recipient is another actor - a message has to be sent
+          else {
+            val f = Send(actorSelfVariable.toCode,
+                         recipientActorVariable,
+                         methodsIdMap(ma.symbol),
+                         argss,
+                         methodsMap(ma.symbol).blocking)
+            f.asInstanceOf[Algo[T]]
+          }
       case _ =>
         //here there is space for some more code patterns to be lifted, by using the liftCodeOther method which can be overriden
         val liftedCode = liftCodeOther(cde, actorSelfVariable, clasz)
@@ -245,29 +280,6 @@ class Lifter {
                                  actorSelfVariable: Variable[_ <: Actor],
                                  clasz: Clasz[_ <: Actor]): Option[Algo[T]] = {
     None
-  }
-
-  /** Lifts instruction [[meta.classLifting.SpecialInstructions.waitTurns]] into a [[DoWhile]] where in each iteration there's one [[Wait]]
-    *
-    * @param turns
-    * @return
-    */
-  private def liftWait(turns: Int): Algo[Unit] = {
-    if (turns <= 0)
-      throw new Exception("waitTurns takes a positive integer as a parameter")
-    else if (turns == 1) {
-      Wait()
-    } else {
-      val waitCounter = Variable[Int]
-      LetBinding(
-        Some(waitCounter),
-        ScalaCode(code"0"),
-        DoWhile(code"$waitCounter < ${Const(turns)}",
-                LetBinding(Some(waitCounter),
-                           ScalaCode(code"$waitCounter + 1"),
-                           Wait()))
-      )
-    }
   }
 
   /* handle msg automatically at the end of each wait call */
