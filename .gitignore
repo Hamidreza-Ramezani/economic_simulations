@@ -108,5 +108,6 @@ generated/main/scala/generated
 ### Scala ###
 *.class
 *.log
+output
 
 # End of https://www.gitignore.io/api/sbt,scala,intellij

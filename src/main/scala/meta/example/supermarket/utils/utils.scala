@@ -16,6 +16,14 @@ object utils {
       .toVector
   }
 
+  def ccArgToIntVector(cc: Product): Vector[(String, Int)] = {
+    cc.getClass
+      .getDeclaredFields
+      .map( _.getName )
+      .zip( cc.productIterator.to )
+      .toVector.asInstanceOf[Vector[(String, Int)]]
+  }
+
   def toInt(b: Boolean): Int = {
     if (b) 1 else 0
   }

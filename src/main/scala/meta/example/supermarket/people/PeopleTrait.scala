@@ -20,7 +20,6 @@ trait People extends Actor {
   var supermarket: Supermarket = Supermarket.store
   assert(supermarket.vegetables.size > 1) // store has been properly initialized
   val fridge: Fridge = new Fridge
-//  var employee: Employee = null
 
   def addRandItemsToBasket(shoppingList: categoryAmount): Unit = {
     if (!needBased) {
@@ -29,8 +28,6 @@ trait People extends Actor {
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach(_ => {
             val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
-            //            addToCart(randFood)
-            //            println("Customer buys random food! " + randFood)
             println("Customer adds random food to the basket! " + randFood)
             addToBasket(randFood)
           })
@@ -43,7 +40,6 @@ trait People extends Actor {
     val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
     meal.foreach(articlePair => {
       if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
-        //        println("Customer buys food from shopping list! " + articlePair._1)
         println("Customer adds food from shopping list to the basket! " + articlePair._1)
         1.to(shoppingList(articlePair._1)).foreach(_ => addToBasket(articlePair._1, onBudget))
       }
