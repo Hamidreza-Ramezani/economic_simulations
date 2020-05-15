@@ -101,6 +101,9 @@ project/plugins/project/
 .history
 .cache
 .lib/
+output
+
+generated/main/scala/generated/*
 
 ### Scala ###
 *.class
