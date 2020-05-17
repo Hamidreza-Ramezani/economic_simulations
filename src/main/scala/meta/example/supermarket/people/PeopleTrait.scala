@@ -1,10 +1,13 @@
 package meta.example.supermarket.people
 
+import java.io._
+
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, getArticleUnit, gram}
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.{randElement, toShoppingList}
+
 import scala.collection.mutable.ListBuffer
 
 trait People extends Actor {
@@ -20,6 +23,7 @@ trait People extends Actor {
   var supermarket: Supermarket = Supermarket.store
   assert(supermarket.vegetables.size > 1) // store has been properly initialized
   val fridge: Fridge = new Fridge
+  var writer: PrintWriter = null
 
   def addRandItemsToBasket(shoppingList: categoryAmount): Unit = {
     if (!needBased) {
@@ -28,6 +32,7 @@ trait People extends Actor {
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach(_ => {
             val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
+            writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
             println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
             addToBasket(randFood)
           })
@@ -40,6 +45,7 @@ trait People extends Actor {
     val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
     meal.foreach(articlePair => {
       if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
+        writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
         println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
         1.to(shoppingList(articlePair._1)).foreach(_ => addToBasket(articlePair._1, onBudget))
       }
@@ -87,5 +93,9 @@ trait People extends Actor {
     println()
     println("Customer's Actor id " + id + " frequency " + frequency + "\nfridge " + fridge)
     println()
+  }
+
+  override def toString: String = {
+    "Customer's Actor id " + id + " frequency " + frequency + "\nfridge " + fridge
   }
 }

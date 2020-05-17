@@ -1,5 +1,7 @@
 package meta.example.supermarket.people
 
+import java.io.{File, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.utils.randElement
@@ -49,6 +51,8 @@ class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
 
   def main(): Unit = {
     var enteredWhileLoop: Boolean = false
+    writer = new PrintWriter(new File("Customer2" ))
+
     while (true) {
       println("---------------------------------------------------------------------------------------------------")
       customerInfo

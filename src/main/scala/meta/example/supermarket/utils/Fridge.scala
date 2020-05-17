@@ -106,6 +106,7 @@ class Fridge {
       str += "\n"
       str += storage.map(pair => pair._1 + ": " + pair._2.size).mkString(" ")
     }
+    str += "\n"
     str
 
 
