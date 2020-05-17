@@ -21,7 +21,9 @@ class Fridge {
     }
     val newAmount: Int = amountMap(item.name) + item.priceUnit
     amountMap += (item.name -> newAmount)
-    if (notOpened(item.name)){ opened += (item.name -> item.priceUnit) }
+    if (notOpened(item.name)) {
+      opened += (item.name -> item.priceUnit)
+    }
   }
 
   def getAmount(article: articleName): Int = {
@@ -29,15 +31,15 @@ class Fridge {
   }
 
   def noStock(article: articleName): Boolean = {
-    amountMap(article)==0
+    amountMap(article) == 0
   }
 
   def notOpened(article: String): Boolean = {
-    opened(article)==0
+    opened(article) == 0
   }
 
   def getAvailFood: Vector[articleName] = {
-    opened.filterKeys(opened(_)!=0).keys.toVector
+    opened.filterKeys(opened(_) != 0).keys.toVector
   }
 
   // Return the amount of unexpired food remains in the fridge
@@ -45,10 +47,10 @@ class Fridge {
     var expiredItem: Item = null
     while (!storage(article).isEmpty && storage(article).peek.state.isExpired) {
       expiredItem = storage(article).popLeft
-      amountMap += (article -> (amountMap(article)-opened(article)))
+      amountMap += (article -> (amountMap(article) - opened(article)))
       expiredItem.cleanExpired(opened(article))
       opened += (article -> 0)
-      if (!storage(article).isEmpty){
+      if (!storage(article).isEmpty) {
         opened += (article -> expiredItem.priceUnit)
       }
     }
@@ -57,18 +59,18 @@ class Fridge {
 
   def consume(article: articleName, amount: gram): Int = {
     val currentAmount = rmExpired(article)
-    if (currentAmount <= amount){
+    if (currentAmount <= amount) {
       consumeAll(article)
       currentAmount
     } else {
       val targetUnit: Int = storage(article).peek.priceUnit
-      val actorCnt: Int = toInt(amount > opened(article))*((amount - opened(article))/targetUnit)
+      val actorCnt: Int = toInt(amount > opened(article)) * ((amount - opened(article)) / targetUnit)
       // Consume the opened ones first, if exist
       set2Consume(article, toInt(!notOpened(article) && (amount >= opened(article))))
-      set2Consume(article, toInt(amount > opened(article))*(amount-opened(article))/targetUnit)
-      opened += (article -> (opened(article) - amount + toInt(opened(article)<=amount)*targetUnit*(actorCnt + 1)))
+      set2Consume(article, toInt(amount > opened(article)) * (amount - opened(article)) / targetUnit)
+      opened += (article -> (opened(article) - amount + toInt(opened(article) <= amount) * targetUnit * (actorCnt + 1)))
 
-      assert(opened(article)>=0)
+      assert(opened(article) >= 0)
       amountMap += (article -> (amountMap(article) - amount))
       amount
     }
@@ -88,14 +90,33 @@ class Fridge {
   }
 
   override def toString: String = {
-    amountMap.map(pair => pair._1 + ": " + pair._2).mkString(" ") +
-    "\nOpened amount map \n" +
-    opened.map(pair => pair._1 + ": " + pair._2).mkString(" ") +
-    "\nStorage size \n" +
-    storage.map(pair => pair._1 + ": " + pair._2.size).mkString(" ")
-//    getAvailFood
-//      .map(food_name => food_name + " " + amountMap(food_name))
-//      .mkString("\n")
+    var str = ""
+    if (amountMap.nonEmpty) {
+      str += "\n"
+      str += amountMap.map(pair => pair._1 + ": " + pair._2).mkString(" ")
+    }
+    str += "\nOpened amount map"
+    if (opened.nonEmpty) {
+      str += "\n"
+      str += opened.map(pair => pair._1 + ": " + pair._2).mkString(" ")
+    }
+
+    str += "\nStorage size"
+    if (storage.nonEmpty) {
+      str += "\n"
+      str += storage.map(pair => pair._1 + ": " + pair._2.size).mkString(" ")
+    }
+    str
+
+
+    //    amountMap.map(pair => pair._1 + ": " + pair._2).mkString(" ") +
+    //    "\nOpened amount map \n" +
+    //    opened.map(pair => pair._1 + ": " + pair._2).mkString(" ") +
+    //    "\nStorage size \n" +
+    //    storage.map(pair => pair._1 + ": " + pair._2.size).mkString(" ")
+    //    getAvailFood
+    //      .map(food_name => food_name + " " + amountMap(food_name))
+    //      .mkString("\n")
   }
 }
 

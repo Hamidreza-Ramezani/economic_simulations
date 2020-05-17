@@ -16,7 +16,7 @@ class Supermarket extends SummaryTrait {
   val snacks: Vector[String] = categories.getArticleNames("Snack")
   val grains: Vector[String] = categories.getArticleNames("Grain")
   val dairys: Vector[String] = categories.getArticleNames("Dairy")
-  var shelfCapacity: Int = 10
+  var shelfCapacity: Int = 4
   var employee: EmployeeTrait = null
 
   def setShelfCapacity(shelfCapacity: Int): Unit = {

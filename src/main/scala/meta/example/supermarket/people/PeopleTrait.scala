@@ -28,7 +28,7 @@ trait People extends Actor {
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach(_ => {
             val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
-            println("Customer adds random food to the basket! " + randFood)
+            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
             addToBasket(randFood)
           })
         }
@@ -40,7 +40,7 @@ trait People extends Actor {
     val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
     meal.foreach(articlePair => {
       if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
-        println("Customer adds food from shopping list to the basket! " + articlePair._1)
+        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
         1.to(shoppingList(articlePair._1)).foreach(_ => addToBasket(articlePair._1, onBudget))
       }
     })
@@ -66,7 +66,7 @@ trait People extends Actor {
   def consumeFood: Unit = {
     if (fridge.getAvailFood.size > 0) {
       val someFood: String = randElement(fridge.getAvailFood)
-      println("Customer consumes random food " + someFood)
+      println("Customer's Actor id " + id + " consumes random food " + someFood)
       println(" amount " + fridge.consume(someFood, 200))
     }
   }
@@ -75,7 +75,7 @@ trait People extends Actor {
   def consumeFood(mealPlan: Vector[(articleName, gram)]): Unit = {
     mealPlan.foreach(pair => {
       val consumed: Int = fridge.consume(pair._1, pair._2)
-      println("Customer consumed " + pair._1 + " Amount " + consumed)
+      println("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed)
       if (consumed < pair._2) {
         println("Not enough food left! Do shopping!")
         addListedItemsToBasket(Vector((pair._1, pair._2)))
@@ -85,7 +85,7 @@ trait People extends Actor {
 
   def customerInfo: Unit = {
     println()
-    println("Customer's Actor id " + id + " frequency " + frequency + " fridge " + fridge)
+    println("Customer's Actor id " + id + " frequency " + frequency + "\nfridge " + fridge)
     println()
   }
 }
