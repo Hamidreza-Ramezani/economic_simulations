@@ -1,6 +1,7 @@
 package meta.example.supermarket.people
 
-import java.io._
+
+import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.categories.{articleName, gram}
@@ -17,50 +18,52 @@ import scala.collection.mutable.ListBuffer
 @lift
 class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
 
-  def addRandItems(shoppingList: categoryAmount): Unit = {
-    if (!needBased) {
-      val foods = utils.ccArgToIntVector(shoppingList)
-      foods.toList.foreach(
-        categoryAmountPair => {
-          List.fill(categoryAmountPair._2)(1).foreach(_ => {
-            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
-            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
-            add2Basket(randFood, onBudget = true)
-          })
-        }
-      )
-    }
-  }
 
-  def addListedItems(meal: Vector[(articleName, Int)], onBudget: Boolean): Unit = {
-    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
-    meal.toList.foreach(articlePair => {
-      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
-        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
-        List.fill(shoppingList(articlePair._1))(1).foreach(_ => add2Basket(articlePair._1, onBudget))
-      }
-    })
-  }
+  //  def addRandItems(shoppingList: categoryAmount): Unit = {
+  //    if (!needBased) {
+  //      val foods = utils.ccArgToIntVector(shoppingList)
+  //      foods.toList.foreach(
+  //        categoryAmountPair => {
+  //          List.fill(categoryAmountPair._2)(1).foreach(_ => {
+  //            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
+  //            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
+  //            add2Basket(randFood, onBudget = true)
+  //          })
+  //        }
+  //      )
+  //    }
+  //  }
 
-  def add2Basket(itemStr: String, onBudget: Boolean): Unit = {
-    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
-    if (item.isDefined) {
-      val targetItem = item.get
-      targetItem.state.addToBasket
-      basket += targetItem
-    }
-  }
-
-  //    def isAllItemsScanned(): Boolean = {
-  //        this.basket.foreach(item => {
-  //          if (item.state.get != "isPurchased") {
-  //            false
-  //          }
-  //        })
-  //        true
+  //  def addListedItems(meal: Vector[(articleName, Int)], onBudget: Boolean): Unit = {
+  //    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
+  //    meal.toList.foreach(articlePair => {
+  //      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
+  //        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
+  //        List.fill(shoppingList(articlePair._1))(1).foreach(_ => add2Basket(articlePair._1, onBudget))
   //      }
+  //    })
+  //  }
 
-  def consumeFood2(): Unit = {
+  //  def add2Basket(itemStr: String, onBudget: Boolean): Unit = {
+  //    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
+  //    if (item.isDefined) {
+  //      val targetItem = item.get
+  //      targetItem.state.addToBasket
+  //      basket += targetItem
+  //    }
+  //  }
+
+  //  def isAllItemsScanned: Boolean = {
+  //    var flag: Boolean = true
+  //    this.basket.toList.foreach(item => {
+  //      if (item.state.get != "isPurchased") {
+  //        flag = false
+  //      }
+  //    })
+  //    flag
+  //  }
+
+  def consumeFood3(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       var someFood: String = randElement(fridge.getAvailFood)
       println("Customer's Actor id " + id + " consumes random food " + someFood)
@@ -68,38 +71,38 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
     }
   }
 
-  // Target consumption behavior
+  //   Target consumption behavior
   def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {
     mealPlan.toList.foreach(pair => {
       var consumed: Int = fridge.consume(pair._1, pair._2)
-      writer.write("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed)
+      writer.write("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed + "\n")
       println("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed)
       if (consumed < pair._2) {
-        writer.write("Not enough food left! Do shopping!")
+        writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
         while (Supermarket.store.employee.state.get == "reFillingShelves") {
-          writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+          writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
           println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
           println()
           SpecialInstructions.waitTurns(1)
         }
-        addListedItems(Vector((pair._1, pair._2)), onBudget = true)
-        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
+        //        addListedItems(Vector((pair._1, pair._2)), onBudget = true)
+        addListedItemsToBasket(Vector((pair._1, pair._2)))
       }
     })
   }
 
   def main(): Unit = {
     var enteredWhileLoop: Boolean = false
-    writer = new PrintWriter(new File("Customer1"))
+    writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+    writer.write("timer: " + timer + "\n\n")
     while (true) {
       println("---------------------------------------------------------------------------------------------------")
       customerInfo
-      writer.write("TIMER: " + timer)
-      writer.write(toString)
+      writer.write(toString + "\n")
       //these functions should add the items to toBeScannedItems
       while (Supermarket.store.employee.state.get == "reFillingShelves") {
-        writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+        writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
         println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
         println("---------------------------------------------------------------------------------------------------")
         enteredWhileLoop = true
@@ -109,30 +112,30 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
         println("---------------------------------------------------------------------------------------------------")
         enteredWhileLoop = false
       }
-      addListedItems(shoppingList.targetItems, (Random.nextFloat < priceConscious))
-      addRandItems(shoppingList.randItems)
-      //      addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
-      //      addRandItemsToBasket(shoppingList.randItems)
+      //      addListedItems(shoppingList.targetItems, (Random.nextFloat < priceConscious))
+      //      addRandItems(shoppingList.randItems)
+      addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
+      addRandItemsToBasket(shoppingList.randItems)
       println()
       Supermarket.store.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
       while (basket.exists(item => item.state.get != "isPurchased")) {
-        writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items")
+        writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
         println("Customer's Actor id " + id + " is waiting for the cashier to scan items")
         println("---------------------------------------------------------------------------------------------------")
         println()
         SpecialInstructions.waitTurns(1)
       }
       //      customerInfo
-      writer.write("shopping basket of Customer's Actor id " + id + " was scanned")
+      writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
       println("---------------------------------------------------------------------------------------------------")
       println("shopping basket of Customer's Actor id " + id + " was scanned")
       basket.toList.foreach(item => {
-        writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
+        writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
         println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
         fridge.add(item)
       })
-      writer.write(toString)
+      writer.write(toString + "\n")
       customerInfo
       println("---------------------------------------------------------------------------------------------------")
       basket = ListBuffer()
@@ -144,10 +147,10 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
         consumeFood2(mealPlan)
-        consumeFood2()
+        consumeFood3()
         //        consumeFood(mealPlan)
         //        consumeFood
-        writer.write(toString)
+        writer.write(toString + "\n")
         customerInfo
         if (basket.isEmpty) {
           println("---------------------------------------------------------------------------------------------------")
@@ -156,7 +159,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
           //now it should be added to the toBeScannedItems
           Supermarket.store.toBeScannedItems.enqueue(basket)
           while (basket.exists(item => item.state.get != "isPurchased")) {
-            writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items")
+            writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
             println("Customer's Actor id " + id + " is waiting for the cashier to scan items")
             println("---------------------------------------------------------------------------------------------------")
             println()
@@ -164,14 +167,14 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
           }
           //      customerInfo
           println("---------------------------------------------------------------------------------------------------")
-          writer.write("shopping basket of Customer's Actor id " + id + " was scanned")
+          writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
           println("shopping basket of Customer's Actor id " + id + " was scanned")
           basket.toList.foreach(item => {
-            writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
+            writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
             println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
             fridge.add(item)
           })
-          writer.write(toString)
+          writer.write(toString + "\n")
           customerInfo
           println("---------------------------------------------------------------------------------------------------")
           basket = ListBuffer()

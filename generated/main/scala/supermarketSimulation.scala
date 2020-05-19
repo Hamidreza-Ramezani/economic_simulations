@@ -31,12 +31,12 @@ object supermarketSimulation extends App {
     meta.deep.runtime.Actor.newActors.clear()
   }
 
-  val writer = new PrintWriter(new File("output.log"))
+  //  val writer = new PrintWriter(new File("output.log"))
 
   def main(): Unit = {
     //    println(this.getClass.getClassLoader)
     init()
-    for (i <- 0 to actors.length - 1) {
+    for (i <- actors.indices) {
       if (actors(i).getClass.getName == "generated.Employee") {
         Supermarket.store.employee = actors(i).asInstanceOf[Employee]
       }
@@ -45,23 +45,28 @@ object supermarketSimulation extends App {
     while (timer <= until) {
       val start_it = System.nanoTime()
       println("TIMER", timer)
+      for (i <- actors.indices) {
+        if (actors(i).writer != null) {
+          actors(i).writer.write("\n \n" + "timer: " + timer + "\n \n")
+          actors(i).writer.flush()
+        }
+      }
       //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
-      while (Supermarket.store.isInvalids.size > 0) {
+      while (Supermarket.store.isInvalids.nonEmpty) {
         val toRemove = Supermarket.store.isInvalids.dequeue()
         actors = actors.filter(_.id != toRemove)
       }
-      //      addSupply
       //employee should refill the shelves
-      for (i <- 0 to actors.length - 1) {
+      for (i <- actors.indices) {
         if (actors(i).getClass.getName == "generated.Employee") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }
       collect(timer)
       //cashier should do his/her task
-      for (i <- 0 to actors.length - 1) {
+      for (i <- actors.indices) {
         if (actors(i).getClass.getName == "generated.Cashier") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
@@ -72,12 +77,15 @@ object supermarketSimulation extends App {
           .run_until(timer)
       }
       }
-      messages = actors.flatMap(_.getSendMessages).toList
+      messages = actors.flatMap(_.getSendMessages)
       timer += 1
       //      println(Supermarket.store.isInvalids)
-      writer.write("Timer " + (timer - 1) + " time: " + (System.nanoTime() - start_it) + " mem: " + (runtime.totalMemory - runtime.freeMemory) / memUnit + "\n")
     }
-    writer.close()
+    for (i <- actors.indices) {
+      if (actors(i).writer != null) {
+        actors(i).writer.close()
+      }
+    }
     val end = System.nanoTime()
     val consumed = end - start
     println("Time consumed", consumed)

@@ -1,5 +1,6 @@
 package meta.deep.runtime
 
+import java.io.{File, FileWriter, PrintWriter}
 import java.util.UUID
 
 import meta.deep.runtime.Actor.AgentId
@@ -157,6 +158,8 @@ class Actor {
   var timer: Int = 0
   var current_pos: Int = 0
   var monitor = Monitor
+//  var writer: PrintWriter = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+  var writer: PrintWriter = null
 
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
 

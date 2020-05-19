@@ -1,9 +1,11 @@
 package meta.example.supermarket.testItemOnlyExample
 
+import java.io.{File, PrintWriter}
+
 import meta.deep.runtime.Actor
 import squid.quasi.lift
-import scala.collection.mutable.ListBuffer
 
+import scala.collection.mutable.ListBuffer
 import meta.example.supermarket.Supermarket
 import meta.example.supermarket.goods._
 import meta.example.supermarket.people._
@@ -17,16 +19,15 @@ class MainInit {
     val l = ListBuffer[Actor]()
     val l_repeat = ListBuffer[Actor]()
 
-    //    val employee1 = new Employee
-    //    val customer1 = new Customer1
-    //    customer1.employee = employee1
-    //    (1 to 1).foreach(_ => l_repeat.append(customer1))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-    (1 to 1).foreach(_ => l_repeat.append(new Customer1))
+    val customer1 = new Customer1
+    (1 to 1).foreach(_ => l_repeat.append(customer1))
     l ++= l_repeat
     l_repeat.clear()
+
+    //    (1 to 1).foreach(_ => l_repeat.append(new Customer1))
+    //
+    //    l ++= l_repeat
+    //    l_repeat.clear()
 
     //    val customer2 = new Customer2
     //    customer2.employee = employee1
