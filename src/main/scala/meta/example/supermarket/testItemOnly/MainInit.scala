@@ -6,7 +6,7 @@ import meta.deep.runtime.Actor
 import squid.quasi.lift
 
 import scala.collection.mutable.ListBuffer
-import meta.example.supermarket.Supermarket
+import meta.example.supermarket.{Supermarket, granularity}
 import meta.example.supermarket.goods._
 import meta.example.supermarket.people._
 
@@ -108,7 +108,9 @@ class MainInit {
     //    l_repeat.clear()
 
 
-    (1 to 1).foreach(_ => l_repeat.append(new Item1))
+    (1 to 1).foreach(_ => l_repeat.append(new Item1("Eggplant", 2.0, 200,
+      0.0, 3, "Vegetable",
+      5 * granularity.hour, 1.0)))
     Supermarket.store.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
     l ++= l_repeat
     l_repeat.clear()

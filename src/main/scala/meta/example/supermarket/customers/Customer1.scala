@@ -19,39 +19,39 @@ import scala.collection.mutable.ListBuffer
 class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
 
 
-  def addRandItems(shoppingList: categoryAmount): Unit = {
-    if (!needBased) {
-      val foods = utils.ccArgToIntVector(shoppingList)
-      foods.toList.foreach(
-        categoryAmountPair => {
-          List.fill(categoryAmountPair._2)(1).foreach(_ => {
-            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
-            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
-            add2Basket(randFood, onBudget = true)
-          })
-        }
-      )
-    }
-  }
-
-  def addListedItems(meal: Vector[(articleName, Int)], onBudget: Boolean): Unit = {
-    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
-    meal.toList.foreach(articlePair => {
-      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
-        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
-        List.fill(shoppingList(articlePair._1))(1).foreach(_ => add2Basket(articlePair._1, onBudget))
-      }
-    })
-  }
-
-  def add2Basket(itemStr: String, onBudget: Boolean): Unit = {
-    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
-    if (item.isDefined) {
-      val targetItem = item.get
-      targetItem.state.addToBasket
-      basket += targetItem
-    }
-  }
+//  def addRandItems(shoppingList: categoryAmount): Unit = {
+//    if (!needBased) {
+//      val foods = utils.ccArgToIntVector(shoppingList)
+//      foods.toList.foreach(
+//        categoryAmountPair => {
+//          List.fill(categoryAmountPair._2)(1).foreach(_ => {
+//            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
+//            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
+//            add2Basket(randFood, onBudget = true)
+//          })
+//        }
+//      )
+//    }
+//  }
+//
+//  def addListedItems(meal: Vector[(articleName, Int)], onBudget: Boolean): Unit = {
+//    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
+//    meal.toList.foreach(articlePair => {
+//      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
+//        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
+//        List.fill(shoppingList(articlePair._1))(1).foreach(_ => add2Basket(articlePair._1, onBudget))
+//      }
+//    })
+//  }
+//
+//  def add2Basket(itemStr: String, onBudget: Boolean): Unit = {
+//    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
+//    if (item.isDefined) {
+//      val targetItem = item.get
+//      targetItem.state.addToBasket
+//      basket += targetItem
+//    }
+//  }
 
   //
   //    def isAllItemsScanned: Boolean = {
@@ -97,7 +97,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
   def main(): Unit = {
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
-    writer.write("timer: " + timer + "\n\n")
+    writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       println("---------------------------------------------------------------------------------------------------")
       customerInfo
@@ -119,7 +119,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
       println()
-      Supermarket.store.toBeScannedItems.enqueue(basket)
+      Supermarket.store.cashier.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
       while (basket.exists(item => item.state.get != "isPurchased")) {
         writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
@@ -159,7 +159,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
         }
         if (basket.nonEmpty) {
           //now it should be added to the toBeScannedItems
-          Supermarket.store.toBeScannedItems.enqueue(basket)
+          Supermarket.store.cashier.toBeScannedItems.enqueue(basket)
           while (basket.exists(item => item.state.get != "isPurchased")) {
             writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
             println("Customer's Actor id " + id + " is waiting for the cashier to scan items")

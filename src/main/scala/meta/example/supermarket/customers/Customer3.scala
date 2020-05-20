@@ -117,7 +117,7 @@ class Customer3 extends People with Weekly with MealPlan3 with ImpulseShopper {
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
       println()
-      Supermarket.store.toBeScannedItems.enqueue(basket)
+      Supermarket.store.cashier.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
       while (basket.exists(item => item.state.get != "isPurchased")) {
         writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
@@ -157,7 +157,7 @@ class Customer3 extends People with Weekly with MealPlan3 with ImpulseShopper {
         }
         if (basket.nonEmpty) {
           //now it should be added to the toBeScannedItems
-          Supermarket.store.toBeScannedItems.enqueue(basket)
+          Supermarket.store.cashier.toBeScannedItems.enqueue(basket)
           while (basket.exists(item => item.state.get != "isPurchased")) {
             writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
             println("Customer's Actor id " + id + " is waiting for the cashier to scan items")

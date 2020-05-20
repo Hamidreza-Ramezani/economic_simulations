@@ -3,7 +3,7 @@ import java.io.{File, PrintWriter}
 import meta.deep.runtime.{Actor, Message}
 import meta.example.supermarket.{Supermarket, granularity}
 import com.typesafe.scalalogging.Logger
-import generated.Employee
+import generated.{Cashier, Employee}
 import org.apache.log4j.BasicConfigurator
 
 object supermarketSimulation extends App {
@@ -37,8 +37,10 @@ object supermarketSimulation extends App {
     //    println(this.getClass.getClassLoader)
     init()
     for (i <- actors.indices) {
-      if (actors(i).getClass.getName == "generated.Employee") {
+      if (actors(i).getClass.getSimpleName == "Employee") {
         Supermarket.store.employee = actors(i).asInstanceOf[Employee]
+      } else if(actors(i).getClass.getSimpleName == "Cashier"){
+        Supermarket.store.cashier = actors(i).asInstanceOf[Cashier]
       }
     }
     val start = System.nanoTime()
@@ -60,14 +62,14 @@ object supermarketSimulation extends App {
       }
       //employee should refill the shelves
       for (i <- actors.indices) {
-        if (actors(i).getClass.getName == "generated.Employee") {
+        if (actors(i).getClass.getSimpleName == "Employee") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }
       collect(timer)
       //cashier should do his/her task
       for (i <- actors.indices) {
-        if (actors(i).getClass.getName == "generated.Cashier") {
+        if (actors(i).getClass.getSimpleName == "Cashier") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }

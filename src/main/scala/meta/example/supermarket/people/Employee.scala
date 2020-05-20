@@ -1,7 +1,9 @@
 package meta.example.supermarket.people
 
+import java.io.{File, FileWriter, PrintWriter}
+
 import meta.classLifting.SpecialInstructions.waitTurns
-import meta.example.supermarket.Supermarket
+import meta.example.supermarket.{Supermarket, granularity}
 import meta.example.supermarket.goods.{Item, Item1, Item10, Item11, Item12, Item13, Item14, Item15, Item16, Item17, Item18, Item19, Item2, Item20, Item21, Item22, Item23, Item24, Item25, Item26, Item27, Item28, Item29, Item3, Item30, Item31, Item32, Item4, Item5, Item6, Item7, Item8, Item9, newItemsMap}
 import squid.quasi.lift
 
@@ -13,6 +15,7 @@ class Employee extends EmployeeTrait {
       item => List.tabulate(getFreeSpace(item))(n => n).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(item))
         Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])
+        writer.write("Employee's Actor id " + id + " Add new actor! name: " + item + "\n")
         //        println("Add new actor! name: " + item)
       })
     )
@@ -59,16 +62,24 @@ class Employee extends EmployeeTrait {
   }
 
   def main(): Unit = {
+    writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+    writer.write("timer: " + timer + "\n\n\n")
     while (true) {
+      writer.write("\n")
       println()
+      writer.write("Employee's Actor id " + id + " is refilling the shelves")
       println("Employee's Actor id " + id + " is refilling the shelves")
+      writer.write("\n")
       println()
       state.refillShelves
       waitTurns(1)
       addSupply
       state.walkAround
+      writer.write("\n")
       println()
+      writer.write("Employee's Actor id " + id + " refilled the shelves")
       println("Employee's Actor id " + id + " refilled the shelves")
+      writer.write("\n")
       println()
       //      waitTurns((1 * granularity.hour))
       waitTurns(12)

@@ -1,23 +1,24 @@
 package meta.example.supermarket
 
 import meta.example.supermarket.goods._
-import meta.example.supermarket.people.{Employee, EmployeeTrait}
+import meta.example.supermarket.people.{CashierTrait, Employee, EmployeeTrait}
 import meta.example.supermarket.utils.randElement
 
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map, Queue}
 
 class Supermarket extends SummaryTrait {
-  val warehouse: Map[String, ItemDeque] = Map[String, ItemDeque]()
-  val isInvalids: Queue[Long] = new Queue()
-  var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
+  val warehouse: mutable.Map[String, ItemDeque] = mutable.Map[String, ItemDeque]()
+  val isInvalids: mutable.Queue[Long] = new mutable.Queue()
+//  var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
   val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   val meats: Vector[String] = categories.getArticleNames("Meat")
   val snacks: Vector[String] = categories.getArticleNames("Snack")
   val grains: Vector[String] = categories.getArticleNames("Grain")
   val dairys: Vector[String] = categories.getArticleNames("Dairy")
-  var shelfCapacity: Int = 4
+  var shelfCapacity: Int = 5
   var employee: EmployeeTrait = null
+  var cashier: CashierTrait = null
 
   def setShelfCapacity(shelfCapacity: Int): Unit = {
     this.shelfCapacity = shelfCapacity

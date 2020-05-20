@@ -7,10 +7,14 @@ import squid.quasi.lift
 /* Auto generated from genItems */
 
 @lift
-class Item1 extends Item with Eggplant {
-  //var age: Int = 0
+class Item1(override val name: String, override val price: Double, override val priceUnit: Int,
+            override val discount: Double, override val stock: Int,
+            override val category: String, override val freshUntil: Int,
+            override val visibility: Double)
+  extends Item(name, price, priceUnit, discount, stock, category, freshUntil, visibility) {
 
   def main(): Unit = {
+
     while (age < freshUntil && !state.isConsumed) {
       itemInfo
       SpecialInstructions.waitTurns(1)
