@@ -114,10 +114,13 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
       actorType.parameterList.map(x => {
         if (compiledActorGraph.parameterList.indexOf(x) != -1) {
           self_name.keys.foreach(self => {
-            initVars = initVars.replace(s"${self}.${x._1};", s"this.${self_name(self)}_${x._1};")
-            initVars = initVars.replace(s"${self}.`${x._1}_=`", s"this.`${self_name(self)}_${x._1}_=`")
+//            initVars = initVars.replace(s"${self}.${x._1};", s"this.${self_name(self)}_${x._1};")
+//            initVars = initVars.replace(s"${self}.`${x._1}_=`", s"this.`${self_name(self)}_${x._1}_=`")
+            initVars = initVars.replace(s"${self}.${x._1};", s"${x._1};")
+            initVars = initVars.replace(s"${self}.`${x._1}_=`", s"${x._1}_=`")
           })
-          s"var ${actorType.name}_${x._1}: ${changeTypes(x._2, false)}"
+//          s"var ${actorType.name}_${x._1}: ${changeTypes(x._2, false)}"
+          s"var ${x._1}: ${changeTypes(x._2, false)}"
         } else {
           ""
         }})

@@ -6,7 +6,9 @@ import squid.quasi.lift
 /* Auto generated from genItems */
 
 @lift
-class Item22 extends Item with Oatmeal {
+class Item22 (override var name: String, override var price: Double, override var priceUnit: Int,
+              override var discount: Double, override var stock: Int)
+  extends Item with Grain {
   //var age: Int = 0
 
   def main(): Unit = {

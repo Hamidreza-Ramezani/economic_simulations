@@ -6,7 +6,9 @@ import squid.quasi.lift
 /* Auto generated from genItems */
 
 @lift
-class Item18 extends Item with Ferraro {
+class Item18 (override var name: String, override var price: Double, override var priceUnit: Int,
+              override var discount: Double, override var stock: Int)
+  extends Item with Snack {
   //var age: Int = 0
 
   def main(): Unit = {

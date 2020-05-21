@@ -4,19 +4,17 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket.Supermarket
 import meta.example.supermarket.utils.to2Dec
 
-abstract class Item(val name: String, val price: Double,
-                    val priceUnit: Int, val discount: Double,
-                    val stock: Int, val category: String,
-                    val freshUntil: Int, val visibility: Double) extends Actor {
+trait Item extends Actor {
 
-//  val name: String
-//  val price: Double
-//  val priceUnit: Int
-//  val discount: Double
-//  val stock: Int
-//  val category: String
-//  val freshUntil: Int
-//  val visibility: Double
+  var name: String
+  var price: Double
+  var priceUnit: Int
+  var discount: Double
+  var stock: Int
+
+  val category: String
+  val freshUntil: Int
+  val visibility: Double
 
   var age: Int = 0
   var state: ItemState = ItemState()

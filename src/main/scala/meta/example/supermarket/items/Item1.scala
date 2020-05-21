@@ -7,11 +7,9 @@ import squid.quasi.lift
 /* Auto generated from genItems */
 
 @lift
-class Item1(override val name: String, override val price: Double, override val priceUnit: Int,
-            override val discount: Double, override val stock: Int,
-            override val category: String, override val freshUntil: Int,
-            override val visibility: Double)
-  extends Item(name, price, priceUnit, discount, stock, category, freshUntil, visibility) {
+class Item1(override var name: String, override var price: Double, override var priceUnit: Int,
+            override var discount: Double, override var stock: Int)
+  extends Item with Vegetable {
 
   def main(): Unit = {
 
