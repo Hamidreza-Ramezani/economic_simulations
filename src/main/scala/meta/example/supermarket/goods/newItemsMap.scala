@@ -2,12 +2,6 @@ package meta.example.supermarket.goods
 
 import scala.collection.mutable.Map
 
-/* Auto generated from genItems */
-
-trait newItem {
- var timeVar: Int
-}
-
 object newItemsMap {
   val totalItems: Int = 32
 

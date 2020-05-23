@@ -13,9 +13,9 @@ import scala.collection.mutable.{ListBuffer, Queue}
 
 @lift
 class Cashier extends CashierTrait {
-  var isFirstBasket: Boolean = true
 
   def scanItems(queue: mutable.Queue[ListBuffer[Item]]): Unit = {
+    var isFirstBasket: Boolean = true
     var customerBasket: ListBuffer[Item] = ListBuffer[Item]()
     var j: Int = 0
     while (queue.nonEmpty && j < numOfBasketsHandledInOneStep) {
@@ -34,16 +34,16 @@ class Cashier extends CashierTrait {
       }
       writer.write("Cashier's Actor id " + id + " scanned the customer's basket with size " + customerBasket.size + "\n")
       j = j + 1
-      //      isFirstBasket = true
+      isFirstBasket = true
     }
 
     // println("Customer's Actor id " + id + " is waiting")
 
-    if (queue.isEmpty) {
-      isFirstBasket = true
-    } else {
-      isFirstBasket = false
-    }
+    //    if (queue.isEmpty) {
+    //      isFirstBasket = true
+    //    } else {
+    //      isFirstBasket = false
+    //    }
   }
 
   def main(): Unit = {

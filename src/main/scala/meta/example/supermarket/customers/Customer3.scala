@@ -1,9 +1,10 @@
-package meta.example.supermarket.people
+package meta.example.supermarket.customers
 
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.categories.{articleName, gram}
+import meta.example.supermarket.people.{ImpulseShopper, MealPlan3, People, Weekly}
 import meta.example.supermarket.utils.randElement
 import squid.quasi.lift
 
@@ -66,7 +67,7 @@ class Customer3 extends People with Weekly with MealPlan3 with ImpulseShopper {
   def consumeFood3(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       var someFood: String = randElement(fridge.getAvailFood)
-      println("Customer's Actor id " + id + " consumes random food " + someFood)
+      println("Customer's Actor id " + id + " consumed random food " + someFood)
       println(" amount " + fridge.consume(someFood, 200))
     }
   }

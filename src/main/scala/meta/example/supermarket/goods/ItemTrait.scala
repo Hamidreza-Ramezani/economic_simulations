@@ -12,9 +12,9 @@ trait Item extends Actor {
   var discount: Double
   var stock: Int
 
-  val category: String
-  val freshUntil: Int
-  val visibility: Double
+  var category: String
+  var freshUntil: Int
+  var visibility: Double
 
   var age: Int = 0
   var state: ItemState = ItemState()

@@ -3,6 +3,7 @@ package meta.example.supermarket
 import meta.example.supermarket.utils.{divCeil, randElement, toInt}
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.goods.Item
+
 import scala.collection.mutable.Map
 
 class Fridge {

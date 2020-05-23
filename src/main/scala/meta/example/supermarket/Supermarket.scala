@@ -1,6 +1,6 @@
 package meta.example.supermarket
 
-import meta.example.supermarket.goods._
+import meta.example.supermarket.goods.{Item, _}
 import meta.example.supermarket.people.{CashierTrait, Employee, EmployeeTrait}
 import meta.example.supermarket.utils.randElement
 

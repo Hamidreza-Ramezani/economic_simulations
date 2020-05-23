@@ -1,7 +1,5 @@
 package meta.example.supermarket.goods
 
-import java.io.InvalidClassException
-
 final case class ItemState(var onDisplay: Boolean = true,
                            var inBasket: Boolean = false,
                            var isPurchased: Boolean = false,

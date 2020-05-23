@@ -1,8 +1,9 @@
 package meta.example.supermarket
 
+
 import meta.example.supermarket.goods.Item
 
-import scala.collection.mutable.{ArrayBuffer}
+import scala.collection.mutable.ArrayBuffer
 
 final class ItemDeque(var item: Item, var itemList: Vector[Item]) {
   private val itemDeque = ArrayBuffer[Item]()

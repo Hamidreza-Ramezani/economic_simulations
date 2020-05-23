@@ -75,7 +75,7 @@ trait People extends Actor {
   def consumeFood: Unit = {
     if (fridge.getAvailFood.size > 0) {
       val someFood: String = randElement(fridge.getAvailFood)
-      println("Customer's Actor id " + id + " consumes random food " + someFood)
+      println("Customer's Actor id " + id + " consumed random food " + someFood)
       println(" amount " + fridge.consume(someFood, 200))
     }
   }
