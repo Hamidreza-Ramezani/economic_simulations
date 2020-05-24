@@ -16,7 +16,6 @@ object testItemOnlyExample extends App {
   val cls3: ClassWithObject[Snack] = Snack.reflect(IR)
   val cls4: ClassWithObject[Grain] = Grain.reflect(IR)
   val cls5: ClassWithObject[Dairy] = Dairy.reflect(IR)
-
   val clsEmp1: ClassWithObject[Employee] = Employee.reflect(IR)
   val clsCust1: ClassWithObject[Customer1] = Customer1.reflect(IR)
   val clsCust2: ClassWithObject[Customer2] = Customer2.reflect(IR)
