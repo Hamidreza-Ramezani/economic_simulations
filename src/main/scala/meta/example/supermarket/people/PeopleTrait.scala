@@ -27,7 +27,7 @@ trait People extends Actor {
       foods.foreach(
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach(_ => {
-            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
+            val randFood: String = supermarket.getRandFood(categoryAmountPair._1.capitalize)
             if (this.writer != null) {
               writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + "\n")
             }
@@ -53,11 +53,11 @@ trait People extends Actor {
   }
 
   def addToBasket(item: String, onBudget: Boolean = true): Unit = {
-    supermarket.getRequestedItem(item, onBudget) match {
-      case Some(item1) =>
-        item1.state.addToBasket
-        basket += item1
-      case None =>
+
+    val requestedItem: Item = supermarket.getRequestedItem(item, onBudget)
+    if (item != null) {
+      requestedItem.state.addToBasket
+      basket += requestedItem
     }
   }
 

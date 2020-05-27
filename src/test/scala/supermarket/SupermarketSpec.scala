@@ -40,17 +40,17 @@ class SupermarketSpec extends FlatSpec with Matchers {
     supermarket1.warehouse should have size 3
   }
 
-  "The overloaded initializeItemDeque" should "update the warehouse" in {
-    supermarket1.initializeItemDeque(item4_1)
-    supermarket1.warehouse should have size 4
-  }
+//  "The overloaded initializeItemDeque" should "update the warehouse" in {
+//    supermarket1.initializeItemDeque(item4_1)
+//    supermarket1.warehouse should have size 4
+//  }
 
-  "Selling an item" should "update the state of the item and warehouse" in {
-    supermarket1.sell(item4_1.name)
-    supermarket1.warehouse should have size 3
-    item4_1.state.get should be ("isPurchased")
-
-  }
+//  "Selling an item" should "update the state of the item and warehouse" in {
+//    supermarket1.sell(item4_1.name)
+//    supermarket1.warehouse should have size 3
+//    item4_1.state.get should be ("isPurchased")
+//
+//  }
 
 
 

@@ -1,14 +1,18 @@
 package meta.example.supermarket
 
 import java.io.{File, PrintWriter}
+
+import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.Item
+import squid.quasi.lift
 //import meta.example.supermarket.goods_updated.Item
 import meta.example.supermarket.people.{CashierTrait, Employee, EmployeeTrait}
 import meta.example.supermarket.utils.randElement
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map, Queue}
 
-class Supermarket extends SummaryTrait {
+@lift
+class Supermarket extends Actor with SummaryTrait {
 
   val warehouse: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
@@ -20,27 +24,28 @@ class Supermarket extends SummaryTrait {
   var shelfCapacity: Int = 5
   var employee: EmployeeTrait = null
   var cashier: CashierTrait = null
-  val writer = new PrintWriter(new File("m/supermarket"))
+  writer = new PrintWriter(new File("m/supermarket"))
 
   def setShelfCapacity(shelfCapacity: Int): Unit = {
     this.shelfCapacity = shelfCapacity
   }
 
   def writeWarehouseToFile(): Unit = {
-    warehouse.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
+    warehouse.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
   }
 
   def recordWaste(category: String, wastedAmount: Int): Unit = {
     updateWasteSummary(category, wastedAmount)
   }
 
-  def initializeItemDeque(item: Item): Unit = {
-    warehouse += (item.name -> new Shelf(item))
-  }
+//  def initializeItemDeque(item: Item): Unit = {
+//    warehouse += Tuple2(item.name,new Shelf(item))
+//  }
 
-  def initializeItemDeque(item: Vector[Item]): Unit = {
-    item.groupBy(_.name).foreach(pair =>
-      warehouse += (pair._1 -> new Shelf(pair._2))
+
+  def initializeItemDeque(itemVec: Vector[Item]): Unit = {
+    itemVec.groupBy(_.name).foreach(pair =>
+      warehouse += Tuple2(pair._1,new Shelf(pair._2))
     )
   }
 
@@ -50,60 +55,41 @@ class Supermarket extends SummaryTrait {
     }
   }
 
-  def sell(item: String, fifo: Boolean = true): Option[Item] = {
-    val requested: Shelf = warehouse.getOrElse(item, new Shelf())
-    rmDiscarded(requested)
-    if (requested.isEmpty) {
-      //      sell(getRandFood(item.asInstanceOf[Item].category))
-      None
-    }
-
+  def getRequestedItem(item: String, fifo: Boolean = true): Item = {
     var requestedItem: Item = null
-    if (fifo) {
-      requestedItem = requested.popLeft
-    } else {
-      requestedItem = requested.popRight
-    }
-
-    //    addToScannerQueue(requestedItem)
-    while (requestedItem.state.get != "isPurchased") {
-      //do nothing
-    }
-    //    println(s"Item ${requestedItem.name} is scanned! " + requestedItem.id)
-    //    requestedItem.purchase
-    println(s"Item ${requestedItem.name} is sold! " + requestedItem.id)
-    Some(requestedItem)
-  }
-
-  def getRequestedItem(item: String, fifo: Boolean = true): Option[Item] = {
-    val requested: Shelf = warehouse.getOrElse(item, new Shelf())
-    rmDiscarded(requested)
-    if (requested.isEmpty) {
-      //      sell(getRandFood(item.asInstanceOf[Item].category))
-      None
-    }
-    var requestedItem: Item = null
-    if (fifo) {
-      requestedItem = requested.popLeft
-    } else {
-      requestedItem = requested.popRight
-    }
-    println(s"Item ${requestedItem.name} is requested! " + requestedItem.id)
-    Some(requestedItem)
-  }
-
-  def getRandFood(category: String): String = {
-    category.capitalize match {
-      case "Vegetable" => randElement(vegetables)
-      case "Meat" => randElement(meats)
-      case "Dairy" => randElement(dairy)
-      case "Snack" => randElement(snacks)
-      case "Grain" => randElement(grains)
-      case _ => {
-        println("Unrecognized food category name for generating food! Category is " + category);
-        throw new IllegalArgumentException
+    val requestedShelf: Shelf = warehouse.getOrElse(item, new Shelf())
+    rmDiscarded(requestedShelf)
+    if (!requestedShelf.isEmpty) {
+      if (fifo) {
+        requestedItem = requestedShelf.popLeft
+      } else {
+        requestedItem = requestedShelf.popRight
       }
+      println(s"Item ${requestedItem.name} is requested! " + requestedItem.id)
     }
+    requestedItem
+  }
+
+  def getRandFood(capitalizedCategory: String): String = {
+    var randomElement: String = ""
+    if (capitalizedCategory == "Vegetable") {
+      randomElement = randElement(vegetables)
+    }
+    else if (capitalizedCategory == "Meat") {
+      randomElement = randElement(meats)
+    }
+    else if (capitalizedCategory == "Dairy") {
+      randomElement = randElement(dairy)
+    }
+    else if (capitalizedCategory == "Snack") {
+      randomElement = randElement(snacks)
+    }
+    else if (capitalizedCategory == "Grain") {
+      randomElement = randElement(grains)
+    }
+    //todo: IllegalArgumentException
+    //    println("Unrecognized food category name for generating food! Category is " + category);
+    randomElement
   }
 }
 
