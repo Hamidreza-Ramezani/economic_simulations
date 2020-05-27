@@ -22,8 +22,10 @@ class Farmer() extends Actor {
 
   def main(): Unit = {
     while (true) {
+      println("I am sending a message to market to sell 500 units")
       val testResult = market.sell2(500)
-      println("TEST_VAR", testResult)
+      println("I received market's reply")
+//      println("TEST_VAR", testResult)
       waitTurns(1)
     }
   }

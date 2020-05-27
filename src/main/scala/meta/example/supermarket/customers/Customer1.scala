@@ -8,11 +8,13 @@ import meta.example.supermarket.goods.Item
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan1, People, Weekly}
 import meta.example.supermarket.utils.{randElement, toShoppingList}
 import squid.quasi.lift
+//import squid.quasi.dbg_lift
 
 import scala.util.Random
 import meta.example.supermarket.{Supermarket, categoryAmount, granularity, utils}
 
 import scala.collection.mutable.ListBuffer
+
 
 /* Auto generated from genCustomers */
 @lift
@@ -33,7 +35,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
   //      )
   //    }
   //  }
-  //
+
   //  def addListedItems(meal: Vector[(articleName, Int)], onBudget: Boolean): Unit = {
   //    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
   //    meal.toList.foreach(articlePair => {
@@ -43,30 +45,34 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
   //      }
   //    })
   //  }
-  //
+
   //  def add2Basket(itemStr: String, onBudget: Boolean): Unit = {
-  //    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
-  //    if (item.isDefined) {
-  //      val targetItem = item.get
-  //      targetItem.state.addToBasket
-  //      basket += targetItem
+  //
+  //    if (itemStr == "pork") {
+  //      SpecialInstructions.waitTurns(5)
   //    }
+  //    addToBasket(itemStr)
+  //    //    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
+  //    //    if (item.isDefined) {
+  //    //      val targetItem = item.get
+  //    //      targetItem.state.addToBasket
+  //    //      basket += targetItem
+  //    //    }
   //  }
 
 
-//  def isAllItemsScanned: Boolean = {
-//    println(frequency)
-//    var flag: Boolean = true
-//    this.basket.toList.foreach(item => {
-//      if (item.state.get != "isPurchased") {
-//        flag = false
-//      }
-//    })
-//    flag
-//  }
+  //    def isAllItemsScanned: Boolean = {
+  //      var flag: Boolean = true
+  //      this.basket.toList.foreach(item => {
+  //        if (item.state.get != "isPurchased") {
+  //          flag = false
+  //        }
+  //      })
+  //      flag
+  //    }
 
 
-  def consumeFood3(): Unit = {
+  def consumeFood2(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       var someFood: String = randElement(fridge.getAvailFood)
       println("Customer's Actor id " + id + " consumed random food " + someFood)
@@ -90,7 +96,8 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
           SpecialInstructions.waitTurns(1)
         }
         //        addListedItems(Vector((pair._1, pair._2)), onBudget = true)
-        addListedItemsToBasket(Vector((pair._1, pair._2)))
+        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
+        addListedItemsToBasket(Vector((pair._1, pair._2)), onBudget = true)
       }
     })
   }
@@ -150,7 +157,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
         consumeFood2(mealPlan)
-        consumeFood3()
+        consumeFood2()
         //        consumeFood(mealPlan)
         //        consumeFood
         writer.write(toString + "\n")

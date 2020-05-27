@@ -1,6 +1,9 @@
 package meta.example.supermarket
 
-import meta.example.supermarket.goods.{Item, _}
+import java.io.{File, PrintWriter}
+
+import meta.example.supermarket.goods.Item
+//import meta.example.supermarket.goods_updated.Item
 import meta.example.supermarket.people.{CashierTrait, Employee, EmployeeTrait}
 import meta.example.supermarket.utils.randElement
 
@@ -8,20 +11,27 @@ import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map, Queue}
 
 class Supermarket extends SummaryTrait {
-  val warehouse: mutable.Map[String, ItemDeque] = mutable.Map[String, ItemDeque]()
+
+  val warehouse: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-//  var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
+  //  var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
   val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   val meats: Vector[String] = categories.getArticleNames("Meat")
   val snacks: Vector[String] = categories.getArticleNames("Snack")
   val grains: Vector[String] = categories.getArticleNames("Grain")
-  val dairys: Vector[String] = categories.getArticleNames("Dairy")
+  val dairy: Vector[String] = categories.getArticleNames("Dairy")
   var shelfCapacity: Int = 5
   var employee: EmployeeTrait = null
   var cashier: CashierTrait = null
+  val writer = new PrintWriter(new File("m/supermarket"))
 
   def setShelfCapacity(shelfCapacity: Int): Unit = {
     this.shelfCapacity = shelfCapacity
+  }
+
+  def writeWarehouseToFile(): Unit = {
+    warehouse.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
+
   }
 
 
@@ -30,23 +40,23 @@ class Supermarket extends SummaryTrait {
   }
 
   def initializeItemDeque(item: Item): Unit = {
-    warehouse += (item.name -> new ItemDeque(item))
+    warehouse += (item.name -> new Shelf(item))
   }
 
   def initializeItemDeque(item: Vector[Item]): Unit = {
     item.groupBy(_.name).foreach(pair =>
-      warehouse += (pair._1 -> new ItemDeque(pair._2))
+      warehouse += (pair._1 -> new Shelf(pair._2))
     )
   }
 
-  def rmDiscarded(items: ItemDeque): Unit = {
+  def rmDiscarded(items: Shelf): Unit = {
     while (!items.isEmpty && items.peek.state.isDiscarded) {
       items.popLeft
     }
   }
 
   def sell(item: String, fifo: Boolean = true): Option[Item] = {
-    val requested: ItemDeque = warehouse.getOrElse(item, new ItemDeque())
+    val requested: Shelf = warehouse.getOrElse(item, new Shelf())
     rmDiscarded(requested)
     if (requested.isEmpty) {
       //      sell(getRandFood(item.asInstanceOf[Item].category))
@@ -71,7 +81,7 @@ class Supermarket extends SummaryTrait {
   }
 
   def getRequestedItem(item: String, fifo: Boolean = true): Option[Item] = {
-    val requested: ItemDeque = warehouse.getOrElse(item, new ItemDeque())
+    val requested: Shelf = warehouse.getOrElse(item, new Shelf())
     rmDiscarded(requested)
     if (requested.isEmpty) {
       //      sell(getRandFood(item.asInstanceOf[Item].category))
@@ -91,7 +101,7 @@ class Supermarket extends SummaryTrait {
     category.capitalize match {
       case "Vegetable" => randElement(vegetables)
       case "Meat" => randElement(meats)
-      case "Dairy" => randElement(dairys)
+      case "Dairy" => randElement(dairy)
       case "Snack" => randElement(snacks)
       case "Grain" => randElement(grains)
       case _ => {

@@ -1,25 +1,43 @@
 package meta.example.supermarket.goods
 
-import meta.classLifting.SpecialInstructions
-import meta.example.supermarket.granularity
-import squid.quasi.lift
+/* Auto generated from genGoods
+ Please adjust file categories for modification
+ */
 
-/* Auto generated from genItems */
+trait Snack {
+  val category: String = "Snack"
+  val freshUntil: Int = 100
+  val visibility: Double = 1.0
+}
 
-@lift
-class Snack(override var name: String, override var price: Double, override var priceUnit: Int,
-            override var discount: Double, override var stock: Int) extends Item {
+trait Kitkat extends Snack {
+  val name: String = "Kitkat"
+  val price: Double = 3.5
+  val priceUnit: Int = 300
+  val discount: Double = 0.0
+  val stock: Int = 10
+}
 
-  var category: String = "Snack"
-  var freshUntil: Int = 100 * granularity.hour
-  var visibility: Double = 1.0
+trait Ferraro extends Snack {
+  val name: String = "Ferraro"
+  val price: Double = 5.0
+  val priceUnit: Int = 250
+  val discount: Double = 0.0
+  val stock: Int = 10
+}
 
-  def main(): Unit = {
-    while (age < freshUntil && !state.isConsumed) {
-      itemInfo
-      SpecialInstructions.waitTurns(1)
-      age = age + 1
-    }
-    cleanExpired()
-  }
+trait DarkChocolate extends Snack {
+  val name: String = "DarkChocolate"
+  val price: Double = 1.8
+  val priceUnit: Int = 100
+  val discount: Double = 0.0
+  val stock: Int = 10
+}
+
+trait WhiteChocolate extends Snack {
+  val name: String = "WhiteChocolate"
+  val price: Double = 1.8
+  val priceUnit: Int = 100
+  val discount: Double = 0.0
+  val stock: Int = 10
 }

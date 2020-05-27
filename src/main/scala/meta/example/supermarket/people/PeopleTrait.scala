@@ -1,13 +1,10 @@
 package meta.example.supermarket.people
 
-import java.io._
-
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, getArticleUnit, gram}
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.{randElement, toShoppingList}
-
 import scala.collection.mutable.ListBuffer
 
 trait People extends Actor {
@@ -60,20 +57,48 @@ trait People extends Actor {
       case Some(item1) =>
         item1.state.addToBasket
         basket += item1
-      //        Supermarket.store.toBeScannedItems.enqueue(item1)
-      //        fridge.add(item1)
-
       case None =>
     }
-    //    supermarket.sell(item, onBudget) match {
-    //      case Some(item) => fridge.add(item)
-    //      case None =>
-    //    }
   }
+
+
+  //  def addRandItemsToBasket(shoppingList: categoryAmount): Unit = {
+  //    if (!needBased) {
+  //      val foods = utils.ccArgToIntVector(shoppingList)
+  //      foods.toList.foreach(
+  //        categoryAmountPair => {
+  //          List.fill(categoryAmountPair._2)(1).foreach(_ => {
+  //            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
+  //            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
+  //            addToBasket(randFood, onBudget = true)
+  //          })
+  //        }
+  //      )
+  //    }
+  //  }
+  //
+  //  def addListedItemsToBasket(meal: Vector[(articleName, Int)], onBudget: Boolean): Unit = {
+  //    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
+  //    meal.toList.foreach(articlePair => {
+  //      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
+  //        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
+  //        List.fill(shoppingList(articlePair._1))(1).foreach(_ => addToBasket(articlePair._1, onBudget))
+  //      }
+  //    })
+  //  }
+  //
+  //  def addToBasket(itemStr: String, onBudget: Boolean): Unit = {
+  //    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
+  //    if (item.isDefined) {
+  //      val targetItem = item.get
+  //      targetItem.state.addToBasket
+  //      basket += targetItem
+  //    }
+  //  }
 
   // Random consumption behavior
   def consumeFood: Unit = {
-    if (fridge.getAvailFood.size > 0) {
+    if (fridge.getAvailFood.nonEmpty) {
       val someFood: String = randElement(fridge.getAvailFood)
       println("Customer's Actor id " + id + " consumed random food " + someFood)
       println(" amount " + fridge.consume(someFood, 200))
@@ -87,7 +112,8 @@ trait People extends Actor {
       println("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed)
       if (consumed < pair._2) {
         println("Not enough food left! Do shopping!")
-        addListedItemsToBasket(Vector((pair._1, pair._2)))
+        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
+        addListedItemsToBasket(Vector((pair._1, pair._2)), onBudget = true)
       }
     })
   }

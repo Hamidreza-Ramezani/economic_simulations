@@ -8,7 +8,7 @@ import scala.collection.mutable.Map
 
 class Fridge {
   val amountMap: Map[articleName, gram] = Map().withDefaultValue(0)
-  val storage: Map[articleName, ItemDeque] = Map()
+  val storage: Map[articleName, Shelf] = Map()
   val opened: Map[articleName, gram] = Map().withDefaultValue(0)
 
   def isEmpty: Boolean = {
@@ -17,7 +17,7 @@ class Fridge {
 
   def add(item: Item): Unit = {
     getAmount(item.name) match {
-      case 0 => storage += (item.name -> new ItemDeque(item))
+      case 0 => storage += (item.name -> new Shelf(item))
       case _ => storage.get(item.name).get += item
     }
     val newAmount: Int = amountMap(item.name) + item.priceUnit

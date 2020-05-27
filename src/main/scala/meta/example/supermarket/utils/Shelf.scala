@@ -2,15 +2,22 @@ package meta.example.supermarket
 
 
 import meta.example.supermarket.goods.Item
+//import meta.example.supermarket.goods_updated.Item
 
 import scala.collection.mutable.ArrayBuffer
 
-final class ItemDeque(var item: Item, var itemList: Vector[Item]) {
-  private val itemDeque = ArrayBuffer[Item]()
+final class Shelf(var item: Item, var itemList: Vector[Item]) {
+  val itemDeque: ArrayBuffer[Item] = ArrayBuffer[Item]()
 
   def this(item: Item){
     this(item, itemList=null)
     itemDeque += item
+  }
+
+  override def toString: String = {
+    var str: String = ""
+    itemDeque.foreach(item => str += item.toString + "\n")
+    str
   }
 
   def this(itemList: Vector[Item]){

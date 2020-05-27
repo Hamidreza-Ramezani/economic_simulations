@@ -1,5 +1,3 @@
-import java.io.{File, PrintWriter}
-
 import meta.deep.runtime.{Actor, Message}
 import meta.example.supermarket.{Supermarket, granularity}
 import com.typesafe.scalalogging.Logger
@@ -39,7 +37,7 @@ object supermarketSimulation extends App {
     for (i <- actors.indices) {
       if (actors(i).getClass.getSimpleName == "Employee") {
         Supermarket.store.employee = actors(i).asInstanceOf[Employee]
-      } else if(actors(i).getClass.getSimpleName == "Cashier"){
+      } else if (actors(i).getClass.getSimpleName == "Cashier") {
         Supermarket.store.cashier = actors(i).asInstanceOf[Cashier]
       }
     }
@@ -53,6 +51,9 @@ object supermarketSimulation extends App {
           actors(i).writer.flush()
         }
       }
+      Supermarket.store.writer.write("\n \n" + "timer: " + timer + "\n \n")
+
+
       //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
@@ -79,6 +80,7 @@ object supermarketSimulation extends App {
           .run_until(timer)
       }
       }
+      Supermarket.store.writeWarehouseToFile()
       messages = actors.flatMap(_.getSendMessages)
       timer += 1
       //      println(Supermarket.store.isInvalids)
@@ -88,6 +90,8 @@ object supermarketSimulation extends App {
         actors(i).writer.close()
       }
     }
+    Supermarket.store.writer.close()
+
     val end = System.nanoTime()
     val consumed = end - start
     println("Time consumed", consumed)

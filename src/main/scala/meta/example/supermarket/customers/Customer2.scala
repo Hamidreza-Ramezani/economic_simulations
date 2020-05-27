@@ -64,7 +64,7 @@ class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
   //    flag
   //  }
 
-  def consumeFood3(): Unit = {
+  def consumeFood2(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       var someFood: String = randElement(fridge.getAvailFood)
       println("Customer's Actor id " + id + " consumed random food " + someFood)
@@ -88,7 +88,7 @@ class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
           SpecialInstructions.waitTurns(1)
         }
         //        addListedItems(Vector((pair._1, pair._2)), onBudget = true)
-        addListedItemsToBasket(Vector((pair._1, pair._2)))
+        addListedItemsToBasket(Vector((pair._1, pair._2)),onBudget = true)
       }
     })
   }
@@ -148,7 +148,7 @@ class Customer2 extends People with Weekly with MealPlan2 with ImpulseShopper {
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
         consumeFood2(mealPlan)
-        consumeFood3()
+        consumeFood2()
         //        consumeFood(mealPlan)
         //        consumeFood
         writer.write(toString + "\n")

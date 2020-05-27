@@ -102,6 +102,7 @@ project/plugins/project/
 .cache
 .lib/
 generated/main/scala/generated
+m/*
 
 #src/main/scala/meta/example/supermarket/items/*
 

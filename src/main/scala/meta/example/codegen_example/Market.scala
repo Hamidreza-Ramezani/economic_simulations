@@ -25,18 +25,18 @@ class Market extends Actor {
   }
 
   def main(): Unit = {
-    var x = 21
-    x = x + 1
-    var y = 11
-    var z = x + y
-    println(z)
+    //    var x = 21
+    //    x = x + 1
+    //    var y = 11
+    //    var z = x + y
+    //    println(z)
 
     while (true) {
-//      handleMessages()
+      //            handleMessages()
       //x = x + 1
       //println("Binding test:", x)
       sell(10)
-      recursiveTest(List(10, 20, 30))
+      //      recursiveTest(List(10, 20, 30))
       waitTurns(1)
     }
   }
