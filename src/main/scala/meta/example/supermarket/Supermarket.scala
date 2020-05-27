@@ -1,12 +1,10 @@
 package meta.example.supermarket
 
 import java.io.{File, PrintWriter}
-
 import meta.example.supermarket.goods.Item
 //import meta.example.supermarket.goods_updated.Item
 import meta.example.supermarket.people.{CashierTrait, Employee, EmployeeTrait}
 import meta.example.supermarket.utils.randElement
-
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map, Queue}
 
@@ -14,7 +12,6 @@ class Supermarket extends SummaryTrait {
 
   val warehouse: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-  //  var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
   val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   val meats: Vector[String] = categories.getArticleNames("Meat")
   val snacks: Vector[String] = categories.getArticleNames("Snack")
@@ -31,9 +28,7 @@ class Supermarket extends SummaryTrait {
 
   def writeWarehouseToFile(): Unit = {
     warehouse.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
-
   }
-
 
   def recordWaste(category: String, wastedAmount: Int): Unit = {
     updateWasteSummary(category, wastedAmount)

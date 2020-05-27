@@ -105,13 +105,13 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
     var initParams: String = compiledActorGraph.actorTypes.flatMap(actorType => {
       actorType.states.map(s => {
         self_name.keys.foreach(self => {
-          //          initVars = initVars.replace(s"${self}.${s.sym.name};", s"this.${self_name(self)}_${s.sym.name};")
-          //          initVars = initVars.replace(s"${self}.`${s.sym.name}_=`", s"this.`${self_name(self)}_${s.sym.name}_=`")
-          initVars = initVars.replace(s"${self}.${s.sym.name};", s"${s.sym.name};")
-          initVars = initVars.replace(s"${self}.`${s.sym.name}_=`", s"${s.sym.name}_=`")
+          initVars = initVars.replace(s"${self}.${s.sym.name};", s"this.${self_name(self)}_${s.sym.name};")
+          initVars = initVars.replace(s"${self}.`${s.sym.name}_=`", s"this.`${self_name(self)}_${s.sym.name}_=`")
+          //          initVars = initVars.replace(s"${self}.${s.sym.name};", s"${s.sym.name};")
+          //          initVars = initVars.replace(s"${self}.`${s.sym.name}_=`", s"${s.sym.name}_=`")
         })
-        //        s"  var ${actorType.name}_${s.sym.name}: ${changeTypes(s.tpe.rep.toString)} = ${changeTypes(IR.showScala(s.init.rep))}"
-        s"  var ${s.sym.name}: ${changeTypes(s.tpe.rep.toString)} = ${changeTypes(IR.showScala(s.init.rep))}"
+        s"  var ${actorType.name}_${s.sym.name}: ${changeTypes(s.tpe.rep.toString)} = ${changeTypes(IR.showScala(s.init.rep))}"
+        //        s"  var ${s.sym.name}: ${changeTypes(s.tpe.rep.toString)} = ${changeTypes(IR.showScala(s.init.rep))}"
       })
     }).mkString("\n")
 

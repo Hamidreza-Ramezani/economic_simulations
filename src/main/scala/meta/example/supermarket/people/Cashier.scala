@@ -13,9 +13,10 @@ import scala.collection.mutable.{ListBuffer, Queue}
 
 @lift
 class Cashier extends CashierTrait {
+  var isFirstBasket: Boolean = true
+
 
   def scanItems(queue: mutable.Queue[ListBuffer[Item]]): Unit = {
-    var isFirstBasket: Boolean = true
     var customerBasket: ListBuffer[Item] = ListBuffer[Item]()
     var j: Int = 0
     while (queue.nonEmpty && j < numOfBasketsHandledInOneStep) {
