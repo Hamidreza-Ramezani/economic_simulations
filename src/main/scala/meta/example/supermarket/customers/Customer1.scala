@@ -3,6 +3,7 @@ package meta.example.supermarket.customers
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
+import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan1, People, Weekly}
@@ -11,14 +12,14 @@ import squid.quasi.lift
 //import squid.quasi.dbg_lift
 
 import scala.util.Random
-import meta.example.supermarket.{Supermarket, categoryAmount, granularity, utils}
+import meta.example.supermarket.Supermarket
 
 import scala.collection.mutable.ListBuffer
 
 
 /* Auto generated from genCustomers */
 @lift
-class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
+class Customer1(var supermarket: SupermarketTrait) extends People with Weekly with MealPlan1 with ImpulseShopper {
 
 
   //  def addRandItems(shoppingList: categoryAmount): Unit = {
@@ -47,11 +48,6 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
   //  }
 
   //  def add2Basket(itemStr: String, onBudget: Boolean): Unit = {
-  //
-  //    if (itemStr == "pork") {
-  //      SpecialInstructions.waitTurns(5)
-  //    }
-  //    addToBasket(itemStr)
   //    //    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
   //    //    if (item.isDefined) {
   //    //      val targetItem = item.get
@@ -89,7 +85,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       if (consumed < pair._2) {
         writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
-        while (Supermarket.store.employee.state.get == "reFillingShelves") {
+        while (supermarket.employee.state.get == "reFillingShelves") {
           writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
           println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
           println()
@@ -111,7 +107,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       customerInfo
       writer.write(toString + "\n")
       //these functions should add the items to toBeScannedItems
-      while (Supermarket.store.employee.state.get == "reFillingShelves") {
+      while (supermarket.employee.state.get == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
         println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
         println("---------------------------------------------------------------------------------------------------")
@@ -127,7 +123,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
       addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       addRandItemsToBasket(shoppingList.randItems)
       println()
-      Supermarket.store.cashier.toBeScannedItems.enqueue(basket)
+      supermarket.cashier.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
       while (basket.exists(item => item.state.get != "isPurchased")) {
         writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
@@ -167,7 +163,7 @@ class Customer1 extends People with Weekly with MealPlan1 with ImpulseShopper {
         }
         if (basket.nonEmpty) {
           //now it should be added to the toBeScannedItems
-          Supermarket.store.cashier.toBeScannedItems.enqueue(basket)
+          supermarket.cashier.toBeScannedItems.enqueue(basket)
           while (basket.exists(item => item.state.get != "isPurchased")) {
             writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
             println("Customer's Actor id " + id + " is waiting for the cashier to scan items")

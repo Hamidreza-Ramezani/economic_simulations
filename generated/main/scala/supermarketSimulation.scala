@@ -1,7 +1,7 @@
 import meta.deep.runtime.{Actor, Message}
-import meta.example.supermarket.{Supermarket, granularity}
+import meta.example.supermarket.{SupermarketTrait, granularity}
 import com.typesafe.scalalogging.Logger
-import generated.{Cashier, Employee}
+import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
 import org.apache.log4j.BasicConfigurator
 
 object supermarketSimulation extends App {
@@ -17,6 +17,8 @@ object supermarketSimulation extends App {
   val runtime = Runtime.getRuntime
   BasicConfigurator.configure()
   val logger = Logger("Root")
+
+  var supermarket: SupermarketTrait = null
 
   def init(): Unit = {
     //    actors = generated.InitData.initActors.to[Array]
@@ -35,12 +37,19 @@ object supermarketSimulation extends App {
     //    println(this.getClass.getClassLoader)
     init()
     for (i <- actors.indices) {
-      if (actors(i).getClass.getSimpleName == "Employee") {
-        Supermarket.store.employee = actors(i).asInstanceOf[Employee]
-      } else if (actors(i).getClass.getSimpleName == "Cashier") {
-        Supermarket.store.cashier = actors(i).asInstanceOf[Cashier]
+      if (actors(i).getClass.getSimpleName == "Supermarket") {
+        supermarket = actors(i).asInstanceOf[SupermarketTrait]
       }
     }
+
+    for (i <- actors.indices) {
+      if (actors(i).getClass.getSimpleName == "Employee") {
+        supermarket.employee = actors(i).asInstanceOf[EmployeeTrait]
+      } else if (actors(i).getClass.getSimpleName == "Cashier") {
+        supermarket.cashier = actors(i).asInstanceOf[CashierTrait]
+      }
+    }
+
     val start = System.nanoTime()
     while (timer <= until) {
       val start_it = System.nanoTime()
@@ -51,14 +60,14 @@ object supermarketSimulation extends App {
           actors(i).writer.flush()
         }
       }
-      Supermarket.store.writer.write("\n \n" + "timer: " + timer + "\n \n")
+      //      supermarket.writer.write("\n \n" + "timer: " + timer + "\n \n")
 
 
       //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
-      while (Supermarket.store.isInvalids.nonEmpty) {
-        val toRemove = Supermarket.store.isInvalids.dequeue()
+      while (supermarket.isInvalids.nonEmpty) {
+        val toRemove = supermarket.isInvalids.dequeue()
         actors = actors.filter(_.id != toRemove)
       }
       //employee should refill the shelves
@@ -80,17 +89,17 @@ object supermarketSimulation extends App {
           .run_until(timer)
       }
       }
-      Supermarket.store.writeWarehouseToFile()
+      supermarket.writeWarehouseToFile()
       messages = actors.flatMap(_.getSendMessages)
       timer += 1
-      //      println(Supermarket.store.isInvalids)
+      //      println(supermarket.isInvalids)
     }
     for (i <- actors.indices) {
       if (actors(i).writer != null) {
         actors(i).writer.close()
       }
     }
-    Supermarket.store.writer.close()
+    supermarket.writer.close()
 
     val end = System.nanoTime()
     val consumed = end - start

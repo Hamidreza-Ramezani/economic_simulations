@@ -7,7 +7,7 @@ object Simulation extends App {
   var actors: List[Actor] = List()
   var messages: List[Message] = List()
   var timer: Int = 0
-  var until: Int = 10
+  var until: Int = 100
   var monitor_enabled: Boolean = false
 
   def init(): Unit = {

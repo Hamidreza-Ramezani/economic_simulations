@@ -3,8 +3,6 @@ package meta.example.supermarket.people
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions.waitTurns
-import meta.deep.runtime.Actor
-import meta.example.supermarket.Supermarket
 import meta.example.supermarket.goods.Item
 import squid.quasi.lift
 

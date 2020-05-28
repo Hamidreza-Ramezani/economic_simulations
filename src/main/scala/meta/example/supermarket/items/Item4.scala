@@ -1,12 +1,13 @@
 package meta.example.supermarket.goods
 
 import meta.classLifting.SpecialInstructions
+import meta.example.supermarket.{Supermarket, SupermarketTrait}
 import squid.quasi.lift
 
 /* Auto generated from genItems */
 
 @lift
-class Item4 extends Item with Broccoli {
+class Item4( var supermarket: SupermarketTrait) extends Item with Broccoli {
   //var age: Int = 0
 
   def main(): Unit = {

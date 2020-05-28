@@ -17,8 +17,8 @@ trait People extends Actor {
   val mealPlan: Vector[(articleName, gram)]
   val preference: String
   val mealCnt: Int
-  var supermarket: Supermarket = Supermarket.store
-  assert(supermarket.vegetables.size > 1) // store has been properly initialized
+  var supermarket: SupermarketTrait
+//  assert(supermarket.vegetables.size > 1) // store has been properly initialized
   val fridge: Fridge = new Fridge
 
   def addRandItemsToBasket(shoppingList: categoryAmount): Unit = {

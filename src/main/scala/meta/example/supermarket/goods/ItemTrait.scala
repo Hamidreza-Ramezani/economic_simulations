@@ -1,7 +1,7 @@
 package meta.example.supermarket.goods
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.Supermarket
+import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.utils.to2Dec
 
 trait Item extends Actor {
@@ -28,7 +28,7 @@ trait Item extends Actor {
 
   var age: Int = 0
   var state: ItemState = ItemState()
-  var supermarket: Supermarket = Supermarket.store
+  var supermarket: SupermarketTrait
 
   // need to explicitly pass the itemstate as a parameter
   def updateState(newState: String, itemState: ItemState): Unit = {
