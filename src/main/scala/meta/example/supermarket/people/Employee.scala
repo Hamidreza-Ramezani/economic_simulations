@@ -3,24 +3,24 @@ package meta.example.supermarket.people
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions.waitTurns
-import meta.example.supermarket.Supermarket
+import meta.example.supermarket.{Section, Supermarket}
 import meta.example.supermarket.goods._
 //import meta.example.supermarket.goods_updated.{Dairy, Grain, Meat, Snack, Vegetable, newItemsMap}
 import squid.quasi.lift
 
 @lift
-class Employee(var supermarket: Supermarket) extends EmployeeTrait {
+class Employee(var supermarket: Supermarket, var section: Section) extends EmployeeTrait {
 
   def getFreeSpace(item: String): Int = {
-    supermarket.shelfCapacity - supermarket.warehouse(item).size
+    section.shelfCapacity - section.shelves(item).size
   }
 
 
   def addSupply(): Unit = {
-    newItemsMap.itemMap.keys.toList.foreach(
+    section.articleNames.toList.foreach(
       itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(itemStr))
-        supermarket.warehouse(itemStr) += new_item.asInstanceOf[Item]
+        section.shelves(itemStr) += new_item.asInstanceOf[Item]
         writer.write("Employee's Actor id " + id + " Add new actor! name: " + itemStr + "\n")
       })
     )
@@ -34,40 +34,42 @@ class Employee(var supermarket: Supermarket) extends EmployeeTrait {
   def genNewItem(itemId: String): Item = {
     //    var lstOfNewItems: List[Item] = List()
     val index: Int = Integer.parseInt(itemId.replaceAll("Item", ""))
+    var item: Item = null
 
-    if (index == 32) new Item32(supermarket)
-    else if (index == 31) new Item31(supermarket)
-    else if (index == 30) new Item30(supermarket)
-    else if (index == 29) new Item29(supermarket)
-    else if (index == 28) new Item28(supermarket)
-    else if (index == 27) new Item27(supermarket)
-    else if (index == 26) new Item26(supermarket)
-    else if (index == 25) new Item25(supermarket)
-    else if (index == 24) new Item24(supermarket)
-    else if (index == 23) new Item23(supermarket)
-    else if (index == 22) new Item22(supermarket)
-    else if (index == 21) new Item21(supermarket)
-    else if (index == 20) new Item20(supermarket)
-    else if (index == 19) new Item19(supermarket)
-    else if (index == 18) new Item18(supermarket)
-    else if (index == 17) new Item17(supermarket)
-    else if (index == 16) new Item16(supermarket)
-    else if (index == 15) new Item15(supermarket)
-    else if (index == 14) new Item14(supermarket)
-    else if (index == 13) new Item13(supermarket)
-    else if (index == 12) new Item12(supermarket)
-    else if (index == 11) new Item11(supermarket)
-    else if (index == 10) new Item10(supermarket)
-    else if (index == 9) new Item9(supermarket)
-    else if (index == 8) new Item8(supermarket)
-    else if (index == 7) new Item7(supermarket)
-    else if (index == 6) new Item6(supermarket)
-    else if (index == 5) new Item5(supermarket)
-    else if (index == 4) new Item4(supermarket)
-    else if (index == 3) new Item3(supermarket)
-    else if (index == 2) new Item2(supermarket)
-    else if (index == 1) new Item1(supermarket)
-    else new Item1(supermarket)
+    if (index == 32) item = new Item32(supermarket, section)
+    else if (index == 31) item = new Item31(supermarket, section)
+    else if (index == 30) item = new Item30(supermarket, section)
+    else if (index == 29) item = new Item29(supermarket, section)
+    else if (index == 28) item = new Item28(supermarket, section)
+    else if (index == 27) item = new Item27(supermarket, section)
+    else if (index == 26) item = new Item26(supermarket, section)
+    else if (index == 25) item = new Item25(supermarket, section)
+    else if (index == 24) item = new Item24(supermarket, section)
+    else if (index == 23) item = new Item23(supermarket, section)
+    else if (index == 22) item = new Item22(supermarket, section)
+    else if (index == 21) item = new Item21(supermarket, section)
+    else if (index == 20) item = new Item20(supermarket, section)
+    else if (index == 19) item = new Item19(supermarket, section)
+    else if (index == 18) item = new Item18(supermarket, section)
+    else if (index == 17) item = new Item17(supermarket, section)
+    else if (index == 16) item = new Item16(supermarket, section)
+    else if (index == 15) item = new Item15(supermarket, section)
+    else if (index == 14) item = new Item14(supermarket, section)
+    else if (index == 13) item = new Item13(supermarket, section)
+    else if (index == 12) item = new Item12(supermarket, section)
+    else if (index == 11) item = new Item11(supermarket, section)
+    else if (index == 10) item = new Item10(supermarket, section)
+    else if (index == 9) item = new Item9(supermarket, section)
+    else if (index == 8) item = new Item8(supermarket, section)
+    else if (index == 7) item = new Item7(supermarket, section)
+    else if (index == 6) item = new Item6(supermarket, section)
+    else if (index == 5) item = new Item5(supermarket, section)
+    else if (index == 4) item = new Item4(supermarket, section)
+    else if (index == 3) item = new Item3(supermarket, section)
+    else if (index == 2) item = new Item2(supermarket, section)
+    else if (index == 1) item = new Item1(supermarket, section)
+    else println("Illegal Argument Exception")
+    item
 
     //    if (index == 32) new Dairy("Egg", 3.0, 250, 0.0, 3)
     //    else if (index == 31) new Dairy("Cream", 1.0, 50, 0.0, 3)

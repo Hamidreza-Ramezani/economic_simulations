@@ -53,7 +53,7 @@ trait People extends Actor {
   }
 
   def addToBasket(item: String, onBudget: Boolean = true): Unit = {
-
+    //if supermarket's section was busy, the customer has to wait
     val requestedItem: Item = supermarket.getRequestedItem(item, onBudget)
     if (item != null) {
       requestedItem.state.addToBasket

@@ -1,7 +1,7 @@
 package meta.example.supermarket.goods
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.SupermarketTrait
+import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import meta.example.supermarket.utils.to2Dec
 
 trait Item extends Actor {
@@ -29,6 +29,7 @@ trait Item extends Actor {
   var age: Int = 0
   var state: ItemState = ItemState()
   var supermarket: SupermarketTrait
+  var section: SectionTrait
 
   // need to explicitly pass the itemstate as a parameter
   def updateState(newState: String, itemState: ItemState): Unit = {
@@ -69,12 +70,16 @@ trait Item extends Actor {
     if (state.onDisplay) {
       discard
       itemInfo
-      supermarket.warehouse(name).popLeft
-      supermarket.recordWaste(category, priceUnit)
-      supermarket.isInvalids += id
+      section.shelves(name).popLeft
+      section.recordWaste(category, priceUnit)
+      section.isInvalids += id
+//      supermarket.warehouse(name).popLeft
+//      supermarket.recordWaste(category, priceUnit)
+//      supermarket.isInvalids += id
     } else if (state.isConsumed) {
       itemInfo
-      supermarket.isInvalids += id
+      section.isInvalids += id
+//      supermarket.isInvalids += id
     } else {
       expire
       itemInfo
@@ -86,7 +91,9 @@ trait Item extends Actor {
     assert(state.isExpired)
     discard
     itemInfo
-    supermarket.recordWaste(category, wastedAmount)
-    supermarket.isInvalids += id
+    section.recordWaste(category, wastedAmount)
+    section.isInvalids += id
+//    supermarket.recordWaste(category, wastedAmount)
+//    supermarket.isInvalids += id
   }
 }

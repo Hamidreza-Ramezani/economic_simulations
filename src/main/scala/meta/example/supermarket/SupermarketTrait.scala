@@ -7,7 +7,7 @@ import meta.example.supermarket.utils.randElement
 
 import scala.collection.mutable
 
-trait SupermarketTrait extends Actor with SummaryTrait{
+trait SupermarketTrait extends Actor with SummaryTrait {
 
   val warehouse: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
@@ -17,14 +17,27 @@ trait SupermarketTrait extends Actor with SummaryTrait{
   val dairy: Vector[String] = categories.getArticleNames("Dairy")
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
   var shelfCapacity: Int = 5
+  //todo : having a list of employees
   var employee: EmployeeTrait = null
   var cashier: CashierTrait = null
 
+  //todo: having a list of sections
+  //todo: all functions inside supermarket trait should be a wrapper for the functions inside the section class
+  //todo complete the body of this function
+  def getEmployeesState(): String = {
+    //if at least one of the employees is refilling the shelves the state would be the refilling the shelves
+    ""
+  }
+
+
+  def setShelfCapacity(shelfCapacity: Int): Unit = {
+    this.shelfCapacity = shelfCapacity
+  }
 
 
   def initializeItemDeque(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach(pair =>
-      warehouse += Tuple2(pair._1,new Shelf(pair._2))
+      warehouse += Tuple2(pair._1, new Shelf(pair._2))
     )
   }
 

@@ -5,10 +5,9 @@ import meta.classLifting.SpecialInstructions
 import squid.quasi.lift
 
 @lift
-class Supermarket extends SupermarketTrait {
-
+class Section(var sectionName: String) extends SectionTrait {
   def main(): Unit = {
-    writer = new PrintWriter(new File("m/supermarket"))
+    writer = new PrintWriter(new File("m/section" + sectionName))
     while (true) {
       SpecialInstructions.waitTurns(1)
     }
