@@ -59,7 +59,8 @@ trait Item extends Actor {
     if (state.onDisplay) {
       discard
       itemInfo
-      supermarket.warehouse(name).popLeft
+      //todo: need to uncomment the below line
+//      supermarket.warehouse(name).popLeft
       supermarket.recordWaste(category, priceUnit)
       supermarket.isInvalids += id
     } else if (state.isConsumed) {

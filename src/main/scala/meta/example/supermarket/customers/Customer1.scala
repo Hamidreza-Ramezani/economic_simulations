@@ -83,7 +83,7 @@ class Customer1(var supermarket: SupermarketTrait) extends People with Weekly wi
       if (consumed < pair._2) {
         writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
-        while (supermarket.getEmployeesState() == "reFillingShelves") {
+        while (supermarket.getEmployeesState == "reFillingShelves") {
           writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
           println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
           println()
@@ -105,7 +105,7 @@ class Customer1(var supermarket: SupermarketTrait) extends People with Weekly wi
       customerInfo
       writer.write(toString + "\n")
       //these functions should add the items to toBeScannedItems
-      while (supermarket.getEmployeesState() == "reFillingShelves") {
+      while (supermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
         println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
         println("---------------------------------------------------------------------------------------------------")

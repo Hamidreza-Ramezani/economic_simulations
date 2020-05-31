@@ -18,7 +18,7 @@ object supermarketSimulation extends App {
   BasicConfigurator.configure()
   val logger = Logger("Root")
 
-  var supermarket: SupermarketTrait = null
+  var supermarket: SupermarketTrait = _
 
   def init(): Unit = {
     //    actors = generated.InitData.initActors.to[Array]
@@ -44,7 +44,7 @@ object supermarketSimulation extends App {
 
     for (i <- actors.indices) {
       if (actors(i).getClass.getSimpleName == "Employee") {
-        supermarket.employee = actors(i).asInstanceOf[EmployeeTrait]
+        supermarket.employees += actors(i).asInstanceOf[EmployeeTrait]
       } else if (actors(i).getClass.getSimpleName == "Cashier") {
         supermarket.cashier = actors(i).asInstanceOf[CashierTrait]
       }
@@ -89,7 +89,7 @@ object supermarketSimulation extends App {
           .run_until(timer)
       }
       }
-      supermarket.writeWarehouseToFile()
+//      supermarket.writeWarehouseToFile()
       messages = actors.flatMap(_.getSendMessages)
       timer += 1
       //      println(supermarket.isInvalids)
@@ -99,8 +99,6 @@ object supermarketSimulation extends App {
         actors(i).writer.close()
       }
     }
-    supermarket.writer.close()
-
     val end = System.nanoTime()
     val consumed = end - start
     println("Time consumed", consumed)

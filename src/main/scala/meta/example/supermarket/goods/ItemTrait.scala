@@ -16,15 +16,15 @@ trait Item extends Actor {
   val freshUntil: Int
   val visibility: Double
 
-//  var name: String
-//  var price: Double
-//  var priceUnit: Int
-//  var discount: Double
-//  var stock: Int
-//
-//  var category: String
-//  var freshUntil: Int
-//  var visibility: Double
+  //  var name: String
+  //  var price: Double
+  //  var priceUnit: Int
+  //  var discount: Double
+  //  var stock: Int
+  //
+  //  var category: String
+  //  var freshUntil: Int
+  //  var visibility: Double
 
   var age: Int = 0
   var state: ItemState = ItemState()
@@ -73,13 +73,11 @@ trait Item extends Actor {
       section.shelves(name).popLeft
       section.recordWaste(category, priceUnit)
       section.isInvalids += id
-//      supermarket.warehouse(name).popLeft
-//      supermarket.recordWaste(category, priceUnit)
-//      supermarket.isInvalids += id
+      supermarket.isInvalids += id
     } else if (state.isConsumed) {
       itemInfo
       section.isInvalids += id
-//      supermarket.isInvalids += id
+      //      supermarket.isInvalids += id
     } else {
       expire
       itemInfo
@@ -93,7 +91,6 @@ trait Item extends Actor {
     itemInfo
     section.recordWaste(category, wastedAmount)
     section.isInvalids += id
-//    supermarket.recordWaste(category, wastedAmount)
-//    supermarket.isInvalids += id
+    supermarket.isInvalids += id
   }
 }

@@ -40,4 +40,39 @@ object newItemsMap {
     "Milk" -> "Item28",
     "Chicken" -> "Item12"
   )
+  // goodsName, sectionName
+  val categoryMap: Map[String, String] = Map(
+    "Yogurt" -> "Dairy",
+    "Squash" -> "Vegetable",
+    "Bacon" -> "Meat",
+    "Cheese" -> "Dairy",
+    "Ferraro" -> "Snack",
+    "Oatmeal" -> "Grain",
+    "Cabbage" -> "Vegetable",
+    "Beef" -> "Meat",
+    "Broccoli" -> "Vegetable",
+    "Noodles" -> "Grain",
+    "Eggplant" -> "Vegetable",
+    "Potato" -> "Vegetable",
+    "Celery" -> "Vegetable",
+    "Kitkat" -> "Snack",
+    "Pasta" -> "Grain",
+    "Cucumber" -> "Vegetable",
+    "Tomato" -> "Vegetable",
+    "Cereal" -> "Grain",
+    "Rice" -> "Grain",
+    "DarkChocolate" -> "Snack",
+    "Onion" -> "Vegetable",
+    "Carrots" -> "Vegetable",
+    "Cream" -> "Dairy",
+    "Lamb" -> "Meat",
+    "WhiteChocolate" -> "Snack",
+    "Bread" -> "Grain",
+    "Pork" -> "Meat",
+    "Mushroom" -> "Vegetable",
+    "Spaghetti" -> "Grain",
+    "Egg" -> "Dairy",
+    "Milk" -> "Dairy",
+    "Chicken" -> "Meat"
+  )
 }

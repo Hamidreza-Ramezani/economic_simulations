@@ -14,7 +14,7 @@ trait SectionTrait extends Actor with SummaryTrait {
   val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
   var shelfCapacity: Int = 5
-  var employee: EmployeeTrait = null
+//  var employee: EmployeeTrait = null
   //  var cashier: CashierTrait = null
 
   def setShelfCapacity(shelfCapacity: Int): Unit = {
@@ -27,9 +27,9 @@ trait SectionTrait extends Actor with SummaryTrait {
     )
   }
 
-  def writeWarehouseToFile(): Unit = {
-    shelves.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
-  }
+//  def writeWarehouseToFile(): Unit = {
+//    shelves.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
+//  }
 
   def recordWaste(category: String, wastedAmount: Int): Unit = {
     updateWasteSummary(category, wastedAmount)
