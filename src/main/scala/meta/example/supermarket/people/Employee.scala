@@ -17,6 +17,12 @@ class Employee(var supermarket: Supermarket, var section: Section) extends Emplo
 
 
   def addSupply(): Unit = {
+    writer.write("\n")
+    println()
+    writer.write("Employee's Actor id " + id + " is refilling the shelves")
+    println("Employee's Actor id " + id + " is refilling the shelves")
+    writer.write("\n")
+    println()
     section.articleNames.toList.foreach(
       itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
         val new_item: Item = genNewItem(newItemsMap.itemMap(itemStr))
@@ -28,7 +34,15 @@ class Employee(var supermarket: Supermarket, var section: Section) extends Emplo
 
   def shuffleShelves(): Unit = {
     //todo: add delay for the customers
-    //    Supermarket.store.warehouse.foreach(shelf => shelf._2.itemDeque.)
+    //Supermarket.store.warehouse.foreach(shelf => shelf._2.itemDeque.)
+    writer.write("\n")
+    println()
+    writer.write("Employee's Actor id " + id + " is shuffling the shelves")
+    println("Employee's Actor id " + id + " is shuffling the shelves")
+    writer.write("\n")
+    println()
+
+    section.shelves.toList.foreach(shelf => shelf._2.shuffle())
   }
 
   def genNewItem(itemId: String): Item = {
@@ -112,12 +126,12 @@ class Employee(var supermarket: Supermarket, var section: Section) extends Emplo
     writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
-      writer.write("\n")
-      println()
-      writer.write("Employee's Actor id " + id + " is refilling the shelves")
-      println("Employee's Actor id " + id + " is refilling the shelves")
-      writer.write("\n")
-      println()
+//      writer.write("\n")
+//      println()
+//      writer.write("Employee's Actor id " + id + " is refilling the shelves")
+//      println("Employee's Actor id " + id + " is refilling the shelves")
+//      writer.write("\n")
+//      println()
       addSupply()
       state.refillShelves
       waitTurns(1)
@@ -128,8 +142,35 @@ class Employee(var supermarket: Supermarket, var section: Section) extends Emplo
       println("Employee's Actor id " + id + " refilled the shelves")
       writer.write("\n")
       println()
-      //      waitTurns((1 * granularity.hour))
-      waitTurns(12)
+      waitTurns(23)
+
+      addSupply()
+      state.refillShelves
+      waitTurns(1)
+      state.walkAround
+      writer.write("\n")
+      println()
+      writer.write("Employee's Actor id " + id + " refilled the shelves")
+      println("Employee's Actor id " + id + " refilled the shelves")
+      writer.write("\n")
+      println()
+      waitTurns(23)
+
+
+      shuffleShelves()
+      state.shuffleShelves
+      waitTurns(1)
+      state.walkAround
+      writer.write("\n")
+      println()
+      writer.write("Employee's Actor id " + id + " shuffled the shelves")
+      println("Employee's Actor id " + id + " shuffled the shelves")
+      writer.write("\n")
+      println()
+
+
+
+
     }
   }
 }
