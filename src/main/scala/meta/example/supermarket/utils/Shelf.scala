@@ -17,8 +17,12 @@ final class Shelf(var item: Item, var itemList: Vector[Item]) {
   }
 
 
-  def shuffle(): Unit ={
-    itemDeque = util.Random.shuffle(itemDeque)
+  def shuffle(policy: ShufflingPolicy): Unit ={
+    policy match {
+      case FIFO =>
+      case LIFO => itemDeque = itemDeque.sortBy(_.age)
+    }
+//    itemDeque = util.Random.shuffle(itemDeque)
   }
   override def toString: String = {
     var str: String = ""

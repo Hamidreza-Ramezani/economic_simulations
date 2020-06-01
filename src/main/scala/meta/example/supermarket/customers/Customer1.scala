@@ -5,7 +5,7 @@ import java.io.{File, FileWriter, PrintWriter}
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.goods.Item
+import meta.example.supermarket.goods.{Item, newItemsMap}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan1, People, Weekly}
 import meta.example.supermarket.utils.{randElement, toShoppingList}
 import squid.quasi.lift
@@ -13,6 +13,7 @@ import squid.quasi.lift
 
 import scala.util.Random
 import scala.collection.mutable.ListBuffer
+import scala.collection.mutable
 
 
 /* Auto generated from genCustomers */
@@ -83,8 +84,10 @@ class Customer1(var supermarket: SupermarketTrait) extends People with Weekly wi
       if (consumed < pair._2) {
         writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
+//        val sectionName = newItemsMap.categoryMap(pair._1)
+//        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
         while (supermarket.getEmployeesState == "reFillingShelves") {
-          writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
+          writer.write("Customer's Actor id " + id + " is waiting for the employee " + "to refill the shelves" + "\n")
           println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
           println()
           SpecialInstructions.waitTurns(1)

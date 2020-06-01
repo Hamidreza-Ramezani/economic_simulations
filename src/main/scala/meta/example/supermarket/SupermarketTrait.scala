@@ -28,11 +28,10 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
   //todo: all functions inside supermarket trait should be a wrapper for the functions inside the section class
 
-  //todo complete the body of this function
+  //todo the body of this function needs to be revised
   def getEmployeesState: String = {
     //if at least one of the employees is refilling the shelves the state would be the refilling the shelves
     var result: String = ""
-//    val employees = warehouse.map(_.employee)
     employees.foreach(employee => if (employee.state.get == "reFillingShelves") {
       result = "reFillingShelves"
     })

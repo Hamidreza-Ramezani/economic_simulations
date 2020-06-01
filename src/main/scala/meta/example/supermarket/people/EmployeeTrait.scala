@@ -1,11 +1,11 @@
 package meta.example.supermarket.people
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.Supermarket
+import meta.example.supermarket.{Section, SectionTrait, Supermarket}
 
 trait EmployeeTrait extends Actor {
   var state: EmployeeState = EmployeeState()
-
+  var section: SectionTrait
 //  def getFreeSpace(item: String): Int = {
 //    Supermarket.store.shelfCapacity - Supermarket.store.warehouse(item).size
 //  }

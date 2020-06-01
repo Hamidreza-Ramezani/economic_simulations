@@ -5,7 +5,7 @@ import meta.classLifting.SpecialInstructions
 import squid.quasi.lift
 
 @lift
-class Section(var sectionName: String) extends SectionTrait {
+class Section(var sectionName: String,var sectionShufflingPolicy: ShufflingPolicy) extends SectionTrait {
   def main(): Unit = {
     writer = new PrintWriter(new File("m/section" + sectionName))
     while (true) {

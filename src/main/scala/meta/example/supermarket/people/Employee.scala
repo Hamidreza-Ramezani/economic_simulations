@@ -3,13 +3,13 @@ package meta.example.supermarket.people
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions.waitTurns
-import meta.example.supermarket.{Section, Supermarket}
+import meta.example.supermarket.{Section, SectionTrait, Supermarket}
 import meta.example.supermarket.goods._
 //import meta.example.supermarket.goods_updated.{Dairy, Grain, Meat, Snack, Vegetable, newItemsMap}
 import squid.quasi.lift
 
 @lift
-class Employee(var supermarket: Supermarket, var section: Section) extends EmployeeTrait {
+class Employee(var supermarket: Supermarket, var section: SectionTrait) extends EmployeeTrait {
 
   def getFreeSpace(item: String): Int = {
     section.shelfCapacity - section.shelves(item).size
@@ -42,7 +42,7 @@ class Employee(var supermarket: Supermarket, var section: Section) extends Emplo
     writer.write("\n")
     println()
 
-    section.shelves.toList.foreach(shelf => shelf._2.shuffle())
+    section.shelves.toList.foreach(shelf => shelf._2.shuffle(section.sectionShufflingPolicy))
   }
 
   def genNewItem(itemId: String): Item = {
