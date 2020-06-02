@@ -5,6 +5,34 @@ import meta.example.supermarket.{Carnivore, ShoppingList, Vegetarian, categoryAm
 
 /* Auto generated from genMealPlans */
 
+
+trait MealPlan_Dummy1 {
+  val preference: String = "Vegetarian"
+  val mealCnt: Int = 1
+  val mealPlan: Vector[(articleName, gram)] = Vector(8).flatMap(num => Vegetarian.mealPlan(num))
+  val randShoppingList: categoryAmount = categoryAmount(1, 0, 0, 0, 0)
+  //  val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+}
+
+trait MealPlan_Dummy2 {
+  val preference: String = "Vegetarian"
+  val mealCnt: Int = 1
+  val mealPlan: Vector[(articleName, gram)] = Vector(9).flatMap(num => Vegetarian.mealPlan(num))
+  val randShoppingList: categoryAmount = categoryAmount(1, 0, 0, 0, 0)
+  //  val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+}
+
+trait MealPlan_Dummy3 {
+  val preference: String = "Vegetarian"
+  val mealCnt: Int = 1
+  val mealPlan: Vector[(articleName, gram)] = Vector(10).flatMap(num => Vegetarian.mealPlan(num))
+  val randShoppingList: categoryAmount = categoryAmount(1, 0, 0, 0, 0)
+  //  val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+}
+
 trait MealPlan1 {
   val preference: String = "Vegetarian"
   val mealCnt: Int = 1
@@ -12,7 +40,6 @@ trait MealPlan1 {
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
   val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
 }
-
 
 trait MealPlan2 {
   val preference: String = "Vegetarian"
@@ -134,7 +161,7 @@ object mealPlanSummary {
   val total: Int = 14
 
   val mealPlanMap: Map[(String, Int), Vector[String]] = Map(
-    ("Carnivore",1) -> Vector("MealPlan9", "MealPlan10", "MealPlan11", "MealPlan12", "MealPlan13", "MealPlan14"),
-    ("Vegetarian",1) -> Vector("MealPlan1", "MealPlan2", "MealPlan3", "MealPlan4", "MealPlan5", "MealPlan6", "MealPlan7", "MealPlan8")
+    ("Carnivore", 1) -> Vector("MealPlan9", "MealPlan10", "MealPlan11", "MealPlan12", "MealPlan13", "MealPlan14"),
+    ("Vegetarian", 1) -> Vector("MealPlan1", "MealPlan2", "MealPlan3", "MealPlan4", "MealPlan5", "MealPlan6", "MealPlan7", "MealPlan8")
   )
 }

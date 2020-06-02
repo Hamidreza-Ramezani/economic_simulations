@@ -73,7 +73,37 @@ object Vegetarian {
       ("Cheese", 100),
       ("Onion", 50),
       ("DarkChocolate", 50)
+    ),
+    Vector(
+      ("Potato", 100),
+      ("Cucumber", 100),
+      ("Carrots", 100),
+      ("Cabbage", 100)
+    ),
+    Vector(
+      ("Eggplant", 200),
+      ("Onion", 50),
+      ("Cucumber", 100),
+      ("Tomato", 100),
+    ),
+    Vector(
+      ("Eggplant", 200),
+      ("Broccoli", 100),
+      ("Celery", 100),
+      ("Mushroom", 100),
     )
+//    Vector(
+//      ("Eggplant", 200),
+//      ("Potato", 100),
+//      ("Onion", 50),
+//      ("Broccoli", 100),
+//      ("Cucumber", 100),
+//      ("Carrots", 100),
+//      ("Celery", 100),
+//      ("Tomato", 100),
+//      ("Mushroom", 100),
+//      ("Cabbage", 100)
+//    )
   )
 
   def getRandShoppingList(listNum: Int = 1): categoryAmount = {

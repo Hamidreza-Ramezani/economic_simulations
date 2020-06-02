@@ -4,12 +4,13 @@ import meta.example.supermarket.utils.{divCeil, randElement, toInt}
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.goods.Item
 
-import scala.collection.mutable.Map
+import scala.collection.mutable
+import scala.collection.mutable.{ListBuffer, Map}
 
 class Fridge {
-  val amountMap: Map[articleName, gram] = Map().withDefaultValue(0)
-  val storage: Map[articleName, Shelf] = Map()
-  val opened: Map[articleName, gram] = Map().withDefaultValue(0)
+  val amountMap: mutable.Map[articleName, gram] = mutable.Map().withDefaultValue(0)
+  val storage: mutable.Map[articleName, ListBuffer[Item]] = mutable.Map()
+  val opened: mutable.Map[articleName, gram] = mutable.Map().withDefaultValue(0)
 
   def isEmpty: Boolean = {
     amountMap.size + storage.size == 0
@@ -17,8 +18,11 @@ class Fridge {
 
   def add(item: Item): Unit = {
     getAmount(item.name) match {
-      case 0 => storage += (item.name -> new Shelf(item))
-      case _ => storage.get(item.name).get += item
+      case 0 =>
+        val newLst = new ListBuffer[Item]()
+        newLst += item
+        storage += (item.name -> newLst)
+      case _ => storage(item.name) += item
     }
     val newAmount: Int = amountMap(item.name) + item.priceUnit
     amountMap += (item.name -> newAmount)
@@ -46,12 +50,12 @@ class Fridge {
   // Return the amount of unexpired food remains in the fridge
   def rmExpired(article: String): Int = {
     var expiredItem: Item = null
-    while (!storage(article).isEmpty && storage(article).peek.state.isExpired) {
-      expiredItem = storage(article).popLeft
+    while (storage(article).nonEmpty && storage(article).head.state.isExpired) {
+      expiredItem = storage(article).remove(0)
       amountMap += (article -> (amountMap(article) - opened(article)))
       expiredItem.cleanExpired(opened(article))
       opened += (article -> 0)
-      if (!storage(article).isEmpty) {
+      if (storage(article).nonEmpty) {
         opened += (article -> expiredItem.priceUnit)
       }
     }
@@ -64,7 +68,7 @@ class Fridge {
       consumeAll(article)
       currentAmount
     } else {
-      val targetUnit: Int = storage(article).peek.priceUnit
+      val targetUnit: Int = storage(article).head.priceUnit
       val actorCnt: Int = toInt(amount > opened(article)) * ((amount - opened(article)) / targetUnit)
       // Consume the opened ones first, if exist
       set2Consume(article, toInt(!notOpened(article) && (amount >= opened(article))))
@@ -86,7 +90,7 @@ class Fridge {
   // remove count number of instances of given article
   private def set2Consume(article: articleName, count: Int): Unit = {
     (1 to count).foreach(
-      _ => storage(article).popLeft.consume
+      _ => storage(article).remove(0).consume
     )
   }
 

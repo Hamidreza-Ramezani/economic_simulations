@@ -1,71 +1,75 @@
 package meta.example.supermarket
 
-
 import meta.example.supermarket.goods.Item
-
 import scala.collection.mutable.ListBuffer
-//import meta.example.supermarket.goods_updated.Item
 
-import scala.collection.mutable.ArrayBuffer
+class Shelf(var item: Item, var itemsList: ListBuffer[Item]) {
+  //  var itemsList: ListBuffer[Item] = ListBuffer[Item]()
 
-final class Shelf(var item: Item, var itemList: Vector[Item]) {
-  var itemDeque: ListBuffer[Item] = ListBuffer[Item]()
+  //  def this(item: Item) {
+  //    this(item, itemList = null)
+  //    itemsList += item
+  //  }
 
-  def this(item: Item){
-    this(item, itemList=null)
-    itemDeque += item
-  }
+  //  def this(itemsList: Vector[Item]) {
+  //    this(item = null, itemsList.to[ListBuffer])
+  //    this.itemsList ++= itemsList
+  //  }
+
+  //  def this() {
+  //    this(item = null, itemList = null)
+  //  }
 
 
-  def shuffle(policy: ShufflingPolicy): Unit ={
-    policy match {
-      case FIFO =>
-      case LIFO => itemDeque = itemDeque.sortBy(_.age)
+  def shuffle(policy: ShufflingPolicy): Unit = {
+    if (policy == LIFO) {
+      itemsList = itemsList.sortBy(_.age)
     }
-//    itemDeque = util.Random.shuffle(itemDeque)
+    //    policy match {
+    //      case FIFO =>
+    //      case LIFO => itemsList = itemsList.sortBy(_.age)
+    //    }
   }
+
   override def toString: String = {
     var str: String = ""
-    itemDeque.foreach(item => str += item.toString + "\n")
+    itemsList.foreach(item => str = str + item.toString + "\n")
     str
   }
 
-  def this(itemList: Vector[Item]){
-    this(item=null, itemList)
-    itemDeque ++= itemList
-  }
-
-  def this(){
-    this(item=null, itemList=null)
-  }
 
   def size: Int = {
-    itemDeque.size
+    itemsList.size
   }
 
   def +=(item: Item): Unit = {
-    itemDeque += item
+    itemsList += item
   }
 
   def +=(itemList: Vector[Item]): Unit = {
-    itemDeque ++= itemList
+    itemsList ++= itemList
   }
 
   def popLeft: Item = {
-    if (size == 0) throw new NoSuchElementException
-    itemDeque.remove(0)
+    //    if (size == 0) throw new NoSuchElementException
+    itemsList.remove(0)
   }
 
   def popRight: Item = {
-    if (size == 0) throw new NoSuchElementException
-    itemDeque.remove(size-1)
+    //    if (size == 0) throw new NoSuchElementException
+    itemsList.remove(size - 1)
+  }
+
+  def pickItem(index: Int): Item = {
+    //    if (size == 0) throw new NoSuchElementException
+    itemsList.remove(index)
   }
 
   def peek: Item = {
-    itemDeque(0)
+    itemsList.head
   }
 
   def isEmpty: Boolean = {
-    itemDeque.size == 0
+    itemsList.isEmpty
   }
 }

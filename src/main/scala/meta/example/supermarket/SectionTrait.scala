@@ -6,6 +6,7 @@ import meta.example.supermarket.people.EmployeeTrait
 import meta.example.supermarket.utils.randElement
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 trait SectionTrait extends Actor with SummaryTrait {
 
@@ -13,10 +14,9 @@ trait SectionTrait extends Actor with SummaryTrait {
   val articleNames: Vector[String] = categories.getArticleNames(sectionName)
   val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-  var shelfCapacity: Int = 5
+  var shelfCapacity: Int = 4
   //  var employee: EmployeeTrait = null
   //  var cashier: CashierTrait = null
-
   var sectionShufflingPolicy: ShufflingPolicy
 
 
@@ -26,7 +26,7 @@ trait SectionTrait extends Actor with SummaryTrait {
 
   def initializeItemDeque(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach(pair =>
-      shelves += Tuple2(pair._1, new Shelf(pair._2))
+      shelves += Tuple2(pair._1, new Shelf(null,pair._2.to[ListBuffer]))
     )
   }
 
@@ -46,7 +46,7 @@ trait SectionTrait extends Actor with SummaryTrait {
 
   def getRequestedItem(item: String, fifo: Boolean = true): Item = {
     var requestedItem: Item = null
-    val requestedShelf: Shelf = shelves.getOrElse(item, new Shelf())
+    val requestedShelf: Shelf = shelves.getOrElse(item, new Shelf(null,null))
     rmDiscarded(requestedShelf)
     if (!requestedShelf.isEmpty) {
       if (fifo) {

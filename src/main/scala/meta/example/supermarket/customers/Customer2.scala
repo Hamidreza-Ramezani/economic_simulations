@@ -4,7 +4,7 @@ import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.people.{ImpulseShopper, MealPlan2, People, Weekly}
+import meta.example.supermarket.people.{ImpulseShopper, MealPlan2, MealPlan_Dummy2, People, Weekly}
 import meta.example.supermarket.utils.randElement
 import squid.quasi.lift
 
@@ -17,7 +17,7 @@ import scala.collection.mutable.ListBuffer
 /* Auto generated from genCustomers */
 
 @lift
-class Customer2 (var supermarket: SupermarketTrait) extends People with Weekly with MealPlan2 with ImpulseShopper {
+class Customer2 (var supermarket: SupermarketTrait) extends People with Weekly with MealPlan_Dummy2 with ImpulseShopper {
 
 
   //  def addRandItems(shoppingList: categoryAmount): Unit = {
@@ -69,8 +69,11 @@ class Customer2 (var supermarket: SupermarketTrait) extends People with Weekly w
   def consumeFood2(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       var someFood: String = randElement(fridge.getAvailFood)
+      var consumedFoodAmount = fridge.consume(someFood, 200)
+      writer.write("Customer's Actor id " + id + " consumed random food " + someFood + "\n")
+      writer.write(" amount " + consumedFoodAmount + "\n")
       println("Customer's Actor id " + id + " consumed random food " + someFood)
-      println(" amount " + fridge.consume(someFood, 200))
+      println(" amount " + consumedFoodAmount)
     }
   }
 

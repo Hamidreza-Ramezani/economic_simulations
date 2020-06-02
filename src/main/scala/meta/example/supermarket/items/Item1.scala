@@ -19,5 +19,4 @@ class Item1(var supermarket: SupermarketTrait,var section: SectionTrait) extends
     }
     cleanExpired()
   }
-
 }
