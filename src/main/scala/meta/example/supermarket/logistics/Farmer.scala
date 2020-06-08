@@ -1,23 +1,31 @@
 package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.{Item, Item1, Item10, Item11, Item12, Item13, Item14, Item15, Item16, Item17, Item18, Item19, Item2, Item20, Item21, Item22, Item23, Item24, Item25, Item26, Item27, Item28, Item29, Item3, Item30, Item31, Item32, Item4, Item5, Item6, Item7, Item8, Item9, newItemsMap}
 import squid.quasi.lift
-
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable
 
 @lift
 class Farmer(var manufacturer: Manufacturer) extends Actor {
-  val cap = 10
+
+  var cap = manufacturer.truck.supermarket.shelfCapacity
+  var crops: mutable.Queue[Item] = new mutable.Queue[Item]
 
   def getFreeSpace(item: String): Int = {
-    cap - manufacturer.size
+    cap - manufacturer.storage.getOrElse(item, new mutable.Queue[Item]).size
   }
 
-  def loadManufacturer(): Unit = {
+  def sendToManufacturer(): Unit = {
+    while (crops.nonEmpty) {
+      var item = crops.dequeue()
+      manufacturer.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
+      item.state.inManufacturer
+    }
+  }
+
+  def doFarming(): Unit = {
     writer.write("\n")
     println()
     writer.write("Farmer's Actor id " + id + " is farming")
@@ -27,7 +35,9 @@ class Farmer(var manufacturer: Manufacturer) extends Actor {
     newItemsMap.itemMap.keys.toList.foreach(
       itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
         val new_item: Item = produce(newItemsMap.itemMap(itemStr))
-        manufacturer.storage.getOrElse(itemStr, new ListBuffer[Item]) += new_item
+        crops += new_item
+
+        //        manufacturer.storage.getOrElse(itemStr, new ListBuffer[Item]) += new_item
         //change the state of items
         writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
       })
@@ -81,7 +91,8 @@ class Farmer(var manufacturer: Manufacturer) extends Actor {
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       //TODO maybe changing this
-      loadManufacturer()
+      doFarming()
+      sendToManufacturer()
       SpecialInstructions.waitTurns(1)
     }
   }

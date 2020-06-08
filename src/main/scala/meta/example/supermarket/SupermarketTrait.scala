@@ -20,6 +20,10 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   //todo: having a list of sections
   var warehouse: ListBuffer[SectionTrait]
 
+
+  var storage: ListBuffer[Item] = new ListBuffer[Item]()
+
+
   //  val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   //  val meats: Vector[String] = categories.getArticleNames("Meat")
   //  val snacks: Vector[String] = categories.getArticleNames("Snack")

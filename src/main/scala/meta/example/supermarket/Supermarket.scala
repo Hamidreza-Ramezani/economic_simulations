@@ -1,11 +1,8 @@
 package meta.example.supermarket
 
 import java.io.{File, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
-import meta.example.supermarket.people.EmployeeTrait
 import squid.quasi.lift
-
 import scala.collection.mutable.ListBuffer
 
 @lift
