@@ -5,7 +5,7 @@ import meta.deep.codegen._
 import meta.deep.runtime.Actor
 import meta.deep.IR
 import meta.deep.IR.TopLevel._
-import meta.example.supermarket.{Section, Shelf, Supermarket}
+import meta.example.supermarket.{Section, Supermarket}
 import meta.example.supermarket.customers._
 import meta.example.supermarket.goods._
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck}

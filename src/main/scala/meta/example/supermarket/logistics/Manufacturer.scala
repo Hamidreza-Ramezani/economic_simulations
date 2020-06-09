@@ -1,65 +1,63 @@
 package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.Item
 import squid.quasi.lift
-
 import scala.collection.mutable
-import scala.collection.mutable.{Queue, Map}
 
 @lift
 class Manufacturer(var truck: Truck) extends Actor {
 
-
-  var storage: Map[String, Queue[Item]] = Map(
-    "Yogurt" -> Queue[Item],
-    "Squash" -> Queue[Item],
-    "Bacon" -> Queue[Item],
-    "Cheese" -> Queue[Item],
-    "Ferraro" -> Queue[Item],
-    "Oatmeal" -> Queue[Item],
-    "Cabbage" -> Queue[Item],
-    "Beef" -> Queue[Item],
-    "Broccoli" -> Queue[Item],
-    "Noodles" -> Queue[Item],
-    "Eggplant" -> Queue[Item],
-    "Potato" -> Queue[Item],
-    "Celery" -> Queue[Item],
-    "Kitkat" -> Queue[Item],
-    "Pasta" -> Queue[Item],
-    "Cucumber" -> Queue[Item],
-    "Tomato" -> Queue[Item],
-    "Cereal" -> Queue[Item],
-    "Rice" -> Queue[Item],
-    "DarkChocolate" -> Queue[Item],
-    "Onion" -> Queue[Item],
-    "Carrots" -> Queue[Item],
-    "Cream" -> Queue[Item],
-    "Lamb" -> Queue[Item],
-    "WhiteChocolate" -> Queue[Item],
-    "Bread" -> Queue[Item],
-    "Pork" -> Queue[Item],
-    "Mushroom" -> Queue[Item],
-    "Spaghetti" -> Queue[Item],
-    "Egg" -> Queue[Item],
-    "Milk" -> Queue[Item],
-    "Chicken" -> Queue[Item]
+  var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
+    "Yogurt" -> new mutable.Queue[Item],
+    "Squash" -> new mutable.Queue[Item],
+    "Bacon" -> new mutable.Queue[Item],
+    "Cheese" -> new mutable.Queue[Item],
+    "Ferraro" -> new mutable.Queue[Item],
+    "Oatmeal" -> new mutable.Queue[Item],
+    "Cabbage" -> new mutable.Queue[Item],
+    "Beef" -> new mutable.Queue[Item],
+    "Broccoli" -> new mutable.Queue[Item],
+    "Noodles" -> new mutable.Queue[Item],
+    "Eggplant" -> new mutable.Queue[Item],
+    "Potato" -> new mutable.Queue[Item],
+    "Celery" -> new mutable.Queue[Item],
+    "Kitkat" -> new mutable.Queue[Item],
+    "Pasta" -> new mutable.Queue[Item],
+    "Cucumber" -> new mutable.Queue[Item],
+    "Tomato" -> new mutable.Queue[Item],
+    "Cereal" -> new mutable.Queue[Item],
+    "Rice" -> new mutable.Queue[Item],
+    "DarkChocolate" -> new mutable.Queue[Item],
+    "Onion" -> new mutable.Queue[Item],
+    "Carrots" -> new mutable.Queue[Item],
+    "Cream" -> new mutable.Queue[Item],
+    "Lamb" -> new mutable.Queue[Item],
+    "WhiteChocolate" -> new mutable.Queue[Item],
+    "Bread" -> new mutable.Queue[Item],
+    "Pork" -> new mutable.Queue[Item],
+    "Mushroom" -> new mutable.Queue[Item],
+    "Spaghetti" -> new mutable.Queue[Item],
+    "Egg" -> new mutable.Queue[Item],
+    "Milk" -> new mutable.Queue[Item],
+    "Chicken" -> new mutable.Queue[Item]
   )
 
+
   def processFood(): Unit = {
-    storage.keys.foreach { itemStr =>
-      var queue = storage(itemStr)
-      queue.foreach(item => {
+    storage.keys.toList.foreach { itemStr =>
+      val queue = storage(itemStr)
+      queue.toList.foreach(_ => {
       })
     }
   }
 
+
   def loadTruck(): Unit = {
-    storage.keys.foreach { itemStr =>
-      var queue = storage(itemStr)
+    storage.keys.toList.foreach { itemStr =>
+      val queue = storage(itemStr)
       while (queue.nonEmpty) {
         var item = queue.dequeue()
         truck.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
@@ -77,5 +75,4 @@ class Manufacturer(var truck: Truck) extends Actor {
       SpecialInstructions.waitTurns(1)
     }
   }
-
 }

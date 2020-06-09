@@ -10,7 +10,8 @@ import scala.collection.mutable
 @lift
 class Farmer(var manufacturer: Manufacturer) extends Actor {
 
-  var cap = manufacturer.truck.supermarket.shelfCapacity
+  //  var cap = manufacturer.truck.supermarket.shelfCapacity
+  var cap = 4
   var crops: mutable.Queue[Item] = new mutable.Queue[Item]
 
   def getFreeSpace(item: String): Int = {
@@ -19,7 +20,7 @@ class Farmer(var manufacturer: Manufacturer) extends Actor {
 
   def sendToManufacturer(): Unit = {
     while (crops.nonEmpty) {
-      var item = crops.dequeue()
+      val item = crops.dequeue()
       manufacturer.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
       item.state.inManufacturer
     }

@@ -9,43 +9,43 @@ import meta.example.supermarket.goods.Item
 import squid.quasi.lift
 
 import scala.collection.mutable
-import scala.collection.mutable.{Map, Queue}
 
 @lift
 class Truck(var supermarket: SupermarketTrait) extends Actor {
-  var storage: Map[String, Queue[Item]] = Map(
-    "Yogurt" -> Queue[Item],
-    "Squash" -> Queue[Item],
-    "Bacon" -> Queue[Item],
-    "Cheese" -> Queue[Item],
-    "Ferraro" -> Queue[Item],
-    "Oatmeal" -> Queue[Item],
-    "Cabbage" -> Queue[Item],
-    "Beef" -> Queue[Item],
-    "Broccoli" -> Queue[Item],
-    "Noodles" -> Queue[Item],
-    "Eggplant" -> Queue[Item],
-    "Potato" -> Queue[Item],
-    "Celery" -> Queue[Item],
-    "Kitkat" -> Queue[Item],
-    "Pasta" -> Queue[Item],
-    "Cucumber" -> Queue[Item],
-    "Tomato" -> Queue[Item],
-    "Cereal" -> Queue[Item],
-    "Rice" -> Queue[Item],
-    "DarkChocolate" -> Queue[Item],
-    "Onion" -> Queue[Item],
-    "Carrots" -> Queue[Item],
-    "Cream" -> Queue[Item],
-    "Lamb" -> Queue[Item],
-    "WhiteChocolate" -> Queue[Item],
-    "Bread" -> Queue[Item],
-    "Pork" -> Queue[Item],
-    "Mushroom" -> Queue[Item],
-    "Spaghetti" -> Queue[Item],
-    "Egg" -> Queue[Item],
-    "Milk" -> Queue[Item],
-    "Chicken" -> Queue[Item]
+
+  var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
+    "Yogurt" -> new mutable.Queue[Item],
+    "Squash" -> new mutable.Queue[Item],
+    "Bacon" -> new mutable.Queue[Item],
+    "Cheese" -> new mutable.Queue[Item],
+    "Ferraro" -> new mutable.Queue[Item],
+    "Oatmeal" -> new mutable.Queue[Item],
+    "Cabbage" -> new mutable.Queue[Item],
+    "Beef" -> new mutable.Queue[Item],
+    "Broccoli" -> new mutable.Queue[Item],
+    "Noodles" -> new mutable.Queue[Item],
+    "Eggplant" -> new mutable.Queue[Item],
+    "Potato" -> new mutable.Queue[Item],
+    "Celery" -> new mutable.Queue[Item],
+    "Kitkat" -> new mutable.Queue[Item],
+    "Pasta" -> new mutable.Queue[Item],
+    "Cucumber" -> new mutable.Queue[Item],
+    "Tomato" -> new mutable.Queue[Item],
+    "Cereal" -> new mutable.Queue[Item],
+    "Rice" -> new mutable.Queue[Item],
+    "DarkChocolate" -> new mutable.Queue[Item],
+    "Onion" -> new mutable.Queue[Item],
+    "Carrots" -> new mutable.Queue[Item],
+    "Cream" -> new mutable.Queue[Item],
+    "Lamb" -> new mutable.Queue[Item],
+    "WhiteChocolate" -> new mutable.Queue[Item],
+    "Bread" -> new mutable.Queue[Item],
+    "Pork" -> new mutable.Queue[Item],
+    "Mushroom" -> new mutable.Queue[Item],
+    "Spaghetti" -> new mutable.Queue[Item],
+    "Egg" -> new mutable.Queue[Item],
+    "Milk" -> new mutable.Queue[Item],
+    "Chicken" -> new mutable.Queue[Item]
   )
 
 
@@ -53,17 +53,18 @@ class Truck(var supermarket: SupermarketTrait) extends Actor {
     //TODO changing the state of the items: done
     //todo changing the constructor of item class. it probably should not take supermarket and section
     //todo we first should try to initialize supermarket and section of items here is truck class: done
-      storage.keys.foreach { itemStr =>
+    storage.keys.toList.foreach { itemStr =>
       var queue = storage(itemStr)
-      queue.foreach(item => {
+      queue.toList.foreach(item => {
         item.supermarket = supermarket
         item.section = supermarket.warehouse.filter(_.sectionName == item.category).head
       })
     }
   }
 
+
   def unloadTruck(): Unit = {
-    storage.keys.foreach { itemStr =>
+    storage.keys.toList.foreach { itemStr =>
       var queue = storage(itemStr)
       while (queue.nonEmpty) {
         var item = queue.dequeue()

@@ -28,7 +28,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
     while (supermarket.storage.size < supermarket.shelfCapacity * newItemsMap.totalItems) {
       SpecialInstructions.waitTurns(1)
     }
-    supermarket.storage.foreach { item =>
+    supermarket.storage.toList.foreach { item =>
       section.shelves(item.name) += item
       item.state.loadInShelves
       writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
