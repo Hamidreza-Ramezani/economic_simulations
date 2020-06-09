@@ -55,7 +55,7 @@ class MainInit {
     sectionLst += sectionGrain
 
 
-    val supermarket = new Supermarket(sectionLst)
+    var supermarket = new Supermarket(sectionLst)
     l_repeat.append(supermarket)
     l ++= l_repeat
     l_repeat.clear()
@@ -172,6 +172,11 @@ class MainInit {
     l ++= l_repeat
     l_repeat.clear()
 
+
+
+
+
+
     //    (1 to 1).foreach(_ => l_repeat.append(new Item12(supermarket, sectionMeat)))
     //    supermarket.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
     //    l ++= l_repeat
@@ -277,7 +282,13 @@ class MainInit {
     //    l ++= l_repeat
     //    l_repeat.clear()
 
-
+    supermarket.warehouse.toList.foreach { section =>
+      section.shelves.toList.foreach { shelf =>
+        shelf._2.itemsList.toList.foreach { item =>
+          item.state.loadInShelves
+        }
+      }
+    }
     l.toList
   }
 }
