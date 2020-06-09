@@ -26,7 +26,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
     println("Employee's Actor id " + id + " is refilling the shelves")
     writer.write("\n")
     println()
-    while (supermarket.storage.size < supermarket.shelfCapacity * newItemsMap.totalItems) {
+    while (supermarket.storage.size < supermarket.shelfCapacity * newItemsMap.itemMap_test.size) {
       SpecialInstructions.waitTurns(1)
     }
     supermarket.storage.toList.foreach { item =>

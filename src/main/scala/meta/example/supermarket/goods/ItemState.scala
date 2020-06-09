@@ -25,6 +25,9 @@ final case class ItemState(
     else if (inStorage) {
       "inStorage"
     }
+    else if (onDisplay) {
+      "onDisplay"
+    }
     else if (isDiscarded) {
       "isDiscarded"
     }

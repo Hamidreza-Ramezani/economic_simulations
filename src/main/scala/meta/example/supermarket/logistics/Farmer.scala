@@ -11,7 +11,8 @@ import scala.collection.mutable
 class Farmer(var manufacturer: ManufacturerTrait) extends Actor {
 
   //  var cap = manufacturer.truck.supermarket.shelfCapacity
-  var cap = 4
+
+  var cap = 5
   var crops: mutable.Queue[Item] = new mutable.Queue[Item]
 
   def getFreeSpace(item: String): Int = {
@@ -33,9 +34,9 @@ class Farmer(var manufacturer: ManufacturerTrait) extends Actor {
     println("Farmer's Actor id " + id + " is farming")
     writer.write("\n")
     println()
-    newItemsMap.itemMap.keys.toList.foreach(
+    newItemsMap.itemMap_test.keys.toList.foreach(
       itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
-        val new_item: Item = produce(newItemsMap.itemMap(itemStr))
+        val new_item: Item = produce(newItemsMap.itemMap_test(itemStr))
         crops += new_item
 
         //        manufacturer.storage.getOrElse(itemStr, new ListBuffer[Item]) += new_item
@@ -94,7 +95,7 @@ class Farmer(var manufacturer: ManufacturerTrait) extends Actor {
       //TODO maybe changing this
       doFarming()
       sendToManufacturer()
-      SpecialInstructions.waitTurns(1)
+      SpecialInstructions.waitTurns(239)
     }
   }
 }

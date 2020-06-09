@@ -4,6 +4,23 @@ import scala.collection.mutable.Map
 
 object newItemsMap {
   val totalItems: Int = 32
+  val totalItems_test = 11
+
+
+  // goodsName, itemName
+  val itemMap_test: Map[String, String] = Map(
+    "Squash" -> "Item11",
+    "Cabbage" -> "Item10",
+    "Broccoli" -> "Item4",
+    "Eggplant" -> "Item1",
+    "Potato" -> "Item2",
+    "Celery" -> "Item7",
+    "Cucumber" -> "Item5",
+    "Tomato" -> "Item8",
+    "Onion" -> "Item3",
+    "Carrots" -> "Item6",
+    "Mushroom" -> "Item9",
+  )
 
   // goodsName, itemName
   val itemMap: Map[String, String] = Map(
