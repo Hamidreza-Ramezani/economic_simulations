@@ -19,6 +19,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
 
 
   def addSupply(): Unit = {
+    state.refillShelves
     writer.write("\n")
     println()
     writer.write("Employee's Actor id " + id + " is refilling the shelves")
@@ -145,7 +146,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
       //      writer.write("\n")
       //      println()
       addSupply()
-      state.refillShelves
+//      state.refillShelves
       waitTurns(1)
       state.walkAround
       writer.write("\n")
@@ -157,7 +158,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
       waitTurns(23)
 
       addSupply()
-      state.refillShelves
+//      state.refillShelves
       waitTurns(1)
       state.walkAround
       writer.write("\n")
@@ -170,7 +171,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
 
 
       shuffleShelves()
-      state.shuffleShelves
+//      state.shuffleShelves
       waitTurns(1)
       state.walkAround
       writer.write("\n")

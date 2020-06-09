@@ -8,7 +8,7 @@ import squid.quasi.lift
 import scala.collection.mutable
 
 @lift
-class Farmer(var manufacturer: Manufacturer) extends Actor {
+class Farmer(var manufacturer: ManufacturerTrait) extends Actor {
 
   //  var cap = manufacturer.truck.supermarket.shelfCapacity
   var cap = 4
