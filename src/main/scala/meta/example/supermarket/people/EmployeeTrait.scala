@@ -6,6 +6,7 @@ import meta.example.supermarket.{Section, SectionTrait, Supermarket}
 trait EmployeeTrait extends Actor {
   var state: EmployeeState = EmployeeState()
   var section: SectionTrait
+  var hasItemsOnTheWay: Boolean = true
 //  def getFreeSpace(item: String): Int = {
 //    Supermarket.store.shelfCapacity - Supermarket.store.warehouse(item).size
 //  }

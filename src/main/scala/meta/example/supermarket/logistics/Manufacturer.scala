@@ -67,7 +67,7 @@ class Manufacturer(var truck: TruckTrait) extends ManufacturerTrait{
   }
 
   def main(): Unit = {
-    writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+    writer = new PrintWriter(new FileWriter(new File("m/agentManufacturer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       processFood()

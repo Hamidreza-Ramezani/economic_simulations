@@ -3,7 +3,6 @@ package meta.example.supermarket
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.{Item, newItemsMap}
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
-
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
@@ -11,7 +10,7 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
   //  val warehouse: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-  var shelfCapacity: Int = 5
+//  var shelfCapacity: Int = 5
   //todo : having a list of employees
   var employees: ListBuffer[EmployeeTrait] = new ListBuffer[EmployeeTrait]()
   //  var employee: EmployeeTrait = null
@@ -19,10 +18,14 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
   //todo: having a list of sections
   var warehouse: ListBuffer[SectionTrait]
+  var storage: ListBuffer[Item] = new ListBuffer[Item]()
+  var itemsRecentlyOrdered: Boolean = true
+  var shelfCapacity: Int = warehouse.head.shelfCapacity
 
 
-  var   storage: ListBuffer[Item] = new ListBuffer[Item]()
-
+  def getOverallFreeSpace(): Int = {
+    1
+  }
 
   //  val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   //  val meats: Vector[String] = categories.getArticleNames("Meat")

@@ -73,7 +73,7 @@ class MainInit {
     l_repeat.clear()
 
 
-    val farmer = new Farmer(manufacturer)
+    val farmer = new Farmer(manufacturer,supermarket)
     l_repeat.append(farmer)
     l ++= l_repeat
     l_repeat.clear()

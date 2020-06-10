@@ -3,15 +3,14 @@ package meta.example.supermarket.logistics
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
-import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
-import meta.example.supermarket.goods.Item
 import squid.quasi.lift
-
-import scala.collection.mutable
 
 @lift
 class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
+
+
+
 
 //  var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
 //    "Yogurt" -> new mutable.Queue[Item],
@@ -70,18 +69,18 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
         var item = queue.dequeue()
         supermarket.storage += item
         item.state.loadInStorage
-
         //ok, lets think how to add items into supermarket
         //we need to add it to a list so that the employee has access to that list
         //then change the employee code base
         // TODO add the item into supermarket: done,
         //  changing the state of the item: done
+        supermarket.itemsRecentlyOrdered = false
       }
     }
   }
 
   def main(): Unit = {
-    writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+    writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       doTransport()

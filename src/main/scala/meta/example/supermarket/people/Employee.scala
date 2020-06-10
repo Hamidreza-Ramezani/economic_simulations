@@ -1,24 +1,33 @@
 package meta.example.supermarket.people
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
-import meta.example.supermarket.goods.{Item, newItemsMap}
+import meta.example.supermarket.goods.Item
 import meta.example.supermarket.{SectionTrait, Supermarket}
 import squid.quasi.lift
-
 import scala.collection.mutable.ListBuffer
 
 @lift
 class Employee(var supermarket: Supermarket, var section: SectionTrait) extends EmployeeTrait {
 
   //  def getFreeSpace(item: String): Int = {
-  //    section.shelfCapacity - section.shelves(item).size
+  //      section.shelfCapacity - section.shelves(item).size
   //  }
 
 
+  def orderItems(): Unit = {
+    //calling farmer
+    state.refillShelves
+    supermarket.itemsRecentlyOrdered = true
+    SpecialInstructions.waitTurns(3)
+  }
+
   def addSupply(): Unit = {
+    //check if the number of items in supermarket is full
+    if (section.isNotFull()){
+      orderItems()
+    }
     state.refillShelves
     writer.write("\n")
     println()
@@ -26,13 +35,20 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
     println("Employee's Actor id " + id + " is refilling the shelves")
     writer.write("\n")
     println()
-    while (supermarket.storage.size < supermarket.shelfCapacity * newItemsMap.itemMap_test.size) {
+    //employee has to make sure that the items are arrived
+    //employee should check a variable in while true loop
+    while (supermarket.itemsRecentlyOrdered){
       SpecialInstructions.waitTurns(1)
     }
+//    while (supermarket.storage.size < supermarket.getOverallFreeSpace()) {
+//      SpecialInstructions.waitTurns(1)
+//    }
+
     supermarket.storage.toList.foreach { item =>
       section.shelves(item.name) += item
       item.state.loadInShelves
       writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
+//      println("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
     }
     supermarket.storage = new ListBuffer[Item]()
 
@@ -145,8 +161,14 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
       //      println("Employee's Actor id " + id + " is refilling the shelves")
       //      writer.write("\n")
       //      println()
+
+      //employee should wait as long as truck is in the route
+      //how to understand whether any crops is in route or not
+      //when farmer produced a crop, it should notify the employee
+
+
       addSupply()
-//      state.refillShelves
+      //      state.refillShelves
       waitTurns(1)
       state.walkAround
       writer.write("\n")
@@ -158,7 +180,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
       waitTurns(23)
 
       addSupply()
-//      state.refillShelves
+      //      state.refillShelves
       waitTurns(1)
       state.walkAround
       writer.write("\n")
@@ -171,7 +193,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
 
 
       shuffleShelves()
-//      state.shuffleShelves
+      //      state.shuffleShelves
       waitTurns(1)
       state.walkAround
       writer.write("\n")

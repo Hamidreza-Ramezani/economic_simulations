@@ -1,11 +1,13 @@
 package meta.example.supermarket.logistics
 
 import meta.deep.runtime.Actor
+import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.goods.Item
 
 import scala.collection.mutable
 
 trait TruckTrait extends Actor {
+  var supermarket: SupermarketTrait
 
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],
