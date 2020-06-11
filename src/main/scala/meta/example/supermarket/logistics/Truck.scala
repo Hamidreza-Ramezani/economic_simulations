@@ -1,7 +1,6 @@
 package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.SupermarketTrait
 import squid.quasi.lift
@@ -11,47 +10,18 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
 
 
 
-
-//  var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
-//    "Yogurt" -> new mutable.Queue[Item],
-//    "Squash" -> new mutable.Queue[Item],
-//    "Bacon" -> new mutable.Queue[Item],
-//    "Cheese" -> new mutable.Queue[Item],
-//    "Ferraro" -> new mutable.Queue[Item],
-//    "Oatmeal" -> new mutable.Queue[Item],
-//    "Cabbage" -> new mutable.Queue[Item],
-//    "Beef" -> new mutable.Queue[Item],
-//    "Broccoli" -> new mutable.Queue[Item],
-//    "Noodles" -> new mutable.Queue[Item],
-//    "Eggplant" -> new mutable.Queue[Item],
-//    "Potato" -> new mutable.Queue[Item],
-//    "Celery" -> new mutable.Queue[Item],
-//    "Kitkat" -> new mutable.Queue[Item],
-//    "Pasta" -> new mutable.Queue[Item],
-//    "Cucumber" -> new mutable.Queue[Item],
-//    "Tomato" -> new mutable.Queue[Item],
-//    "Cereal" -> new mutable.Queue[Item],
-//    "Rice" -> new mutable.Queue[Item],
-//    "DarkChocolate" -> new mutable.Queue[Item],
-//    "Onion" -> new mutable.Queue[Item],
-//    "Carrots" -> new mutable.Queue[Item],
-//    "Cream" -> new mutable.Queue[Item],
-//    "Lamb" -> new mutable.Queue[Item],
-//    "WhiteChocolate" -> new mutable.Queue[Item],
-//    "Bread" -> new mutable.Queue[Item],
-//    "Pork" -> new mutable.Queue[Item],
-//    "Mushroom" -> new mutable.Queue[Item],
-//    "Spaghetti" -> new mutable.Queue[Item],
-//    "Egg" -> new mutable.Queue[Item],
-//    "Milk" -> new mutable.Queue[Item],
-//    "Chicken" -> new mutable.Queue[Item]
-//  )
-
+  def checkIfThereIsOrderFromManufacturer(): Unit = {
+    truckState = relaxing
+    while (truckState != receivedOrderFromManufacturer) {
+      SpecialInstructions.waitTurns(1)
+    }
+    println("truck received an order from the manufacturer")
+    writer.write("truck received an order from the manufacturer" + "\n")
+  }
 
   def doTransport(): Unit = {
-    //TODO changing the state of the items: done
     //todo changing the constructor of item class. it probably should not take supermarket and section
-    //todo we first should try to initialize supermarket and section of items here is truck class: done
+    truckState = isDriving
     storage.keys.toList.foreach { itemStr =>
       var queue = storage(itemStr)
       queue.toList.foreach(item => {
@@ -59,10 +29,14 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
         item.section = supermarket.warehouse.filter(_.sectionName == item.category).head
       })
     }
+    if (storage.filterKeys(k => storage(k).nonEmpty).nonEmpty) {
+    }
   }
 
-
   def unloadTruck(): Unit = {
+    println("The truck transported the food")
+    writer.write("The truck transported the food")
+    truckState = unloadingTruck
     storage.keys.toList.foreach { itemStr =>
       var queue = storage(itemStr)
       while (queue.nonEmpty) {
@@ -83,7 +57,10 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
     writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
+      //todo truck should wait as long as manufacturer does not notify them
+      checkIfThereIsOrderFromManufacturer()
       doTransport()
+      SpecialInstructions.waitTurns(1)
       unloadTruck()
       SpecialInstructions.waitTurns(1)
     }

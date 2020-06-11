@@ -104,7 +104,7 @@ class Customer1(var supermarket: SupermarketTrait) extends People with Weekly wi
 
   def main(): Unit = {
     var enteredWhileLoop: Boolean = false
-    writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+    writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       println("---------------------------------------------------------------------------------------------------")

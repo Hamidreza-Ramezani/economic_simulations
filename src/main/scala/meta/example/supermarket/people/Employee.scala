@@ -18,15 +18,28 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
 
   def orderItems(): Unit = {
     //calling farmer
+    println("Employee's Actor id " + id + " ordered some items")
+    writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
     state.refillShelves
     supermarket.itemsRecentlyOrdered = true
-    SpecialInstructions.waitTurns(3)
+    List.fill(3)(1).foreach { _ =>
+      println("Employee's Actor id " + id + " is waiting for the truck")
+      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
+      SpecialInstructions.waitTurns(1)
+    }
   }
 
   def addSupply(): Unit = {
     //check if the number of items in supermarket is full
-    if (section.isNotFull()){
+    if (section.isNotFull()) {
       orderItems()
+    }
+    //employee has to make sure that the items are arrived
+    //employee should check a variable in while true loop
+    while (supermarket.itemsRecentlyOrdered) {
+      println("Employee's Actor id " + id + " is waiting for the truck")
+      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
+      SpecialInstructions.waitTurns(1)
     }
     state.refillShelves
     writer.write("\n")
@@ -35,20 +48,10 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
     println("Employee's Actor id " + id + " is refilling the shelves")
     writer.write("\n")
     println()
-    //employee has to make sure that the items are arrived
-    //employee should check a variable in while true loop
-    while (supermarket.itemsRecentlyOrdered){
-      SpecialInstructions.waitTurns(1)
-    }
-//    while (supermarket.storage.size < supermarket.getOverallFreeSpace()) {
-//      SpecialInstructions.waitTurns(1)
-//    }
-
     supermarket.storage.toList.foreach { item =>
       section.shelves(item.name) += item
       item.state.loadInShelves
       writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
-//      println("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
     }
     supermarket.storage = new ListBuffer[Item]()
 
@@ -64,6 +67,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
   def shuffleShelves(): Unit = {
     //todo: add delay for the customers
     //Supermarket.store.warehouse.foreach(shelf => shelf._2.itemDeque.)
+    state.shuffleShelves
     writer.write("\n")
     println()
     writer.write("Employee's Actor id " + id + " is shuffling the shelves")
@@ -152,7 +156,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
   //  }
 
   def main(): Unit = {
-    writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+    writer = new PrintWriter(new FileWriter(new File("m/agentEmployee" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       //      writer.write("\n")
@@ -162,48 +166,33 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
       //      writer.write("\n")
       //      println()
 
-      //employee should wait as long as truck is in the route
-      //how to understand whether any crops is in route or not
-      //when farmer produced a crop, it should notify the employee
-
-
       addSupply()
-      //      state.refillShelves
       waitTurns(1)
       state.walkAround
-      writer.write("\n")
+      writer.write("\n" + "Employee's Actor id " + id + " refilled the shelves" + "\n")
       println()
-      writer.write("Employee's Actor id " + id + " refilled the shelves")
       println("Employee's Actor id " + id + " refilled the shelves")
-      writer.write("\n")
       println()
       waitTurns(23)
 
+
       addSupply()
-      //      state.refillShelves
       waitTurns(1)
       state.walkAround
-      writer.write("\n")
+      writer.write("\n" + "Employee's Actor id " + id + " refilled the shelves" + "\n")
       println()
-      writer.write("Employee's Actor id " + id + " refilled the shelves")
       println("Employee's Actor id " + id + " refilled the shelves")
-      writer.write("\n")
       println()
       waitTurns(23)
 
 
       shuffleShelves()
-      //      state.shuffleShelves
       waitTurns(1)
       state.walkAround
-      writer.write("\n")
+      writer.write("\n" + "Employee's Actor id " + id + " shuffled the shelves" + "\n")
       println()
-      writer.write("Employee's Actor id " + id + " shuffled the shelves")
       println("Employee's Actor id " + id + " shuffled the shelves")
-      writer.write("\n")
       println()
-
-
     }
   }
 }

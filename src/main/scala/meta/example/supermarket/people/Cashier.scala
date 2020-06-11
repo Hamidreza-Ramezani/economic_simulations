@@ -46,7 +46,7 @@ class Cashier extends CashierTrait {
   }
 
   def main(): Unit = {
-    writer = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+    writer = new PrintWriter(new FileWriter(new File("m/agentCashier" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       scanItems(toBeScannedItems)

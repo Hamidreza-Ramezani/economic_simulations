@@ -7,6 +7,7 @@ import scala.collection.mutable
 
 trait ManufacturerTrait extends Actor{
 
+  var manufacturerState: ManufacturerState = chilling
   var truck: TruckTrait
 
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(

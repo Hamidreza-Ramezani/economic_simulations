@@ -70,13 +70,20 @@ object supermarketSimulation extends App {
         val toRemove = supermarket.isInvalids.dequeue()
         actors = actors.filter(_.id != toRemove)
       }
+
+      for (i <- actors.indices) {
+        if (actors(i).getClass.getSimpleName == "Farmer") {
+          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
+        }
+      }
+
+      collect(timer)
       //employee should refill the shelves
       for (i <- actors.indices) {
         if (actors(i).getClass.getSimpleName == "Employee") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }
-      collect(timer)
       //cashier should do his/her task
       for (i <- actors.indices) {
         if (actors(i).getClass.getSimpleName == "Cashier") {

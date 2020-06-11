@@ -15,34 +15,41 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
   //  var cap: Int = supermarket.shelfCapacity
   var cap: Int = 5
   var crops: mutable.Queue[Item] = new mutable.Queue[Item]
+  var farmerState: FarmerState = doNothing
 
   def getFreeSpace(item: String): Int = {
     //        cap - manufacturer.storage.getOrElse(item, new mutable.Queue[Item]).size
     cap - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves(item).size
   }
 
-  def checkIfThereIsOrder(): Unit = {
+  def checkIfThereIsOrderFromSupermarket(): Unit = {
+    farmerState = doNothing
     while (!supermarket.itemsRecentlyOrdered) {
       SpecialInstructions.waitTurns(1)
     }
-    println("farmer realized that there is an order from the supermarket")
+    farmerState = receivedOrderFromSupermarket
+    println("farmer received an order from the supermarket")
+    writer.write("farmer received an order from the supermarket" + "\n")
   }
 
   def sendToManufacturer(): Unit = {
     while (crops.nonEmpty) {
       val item = crops.dequeue()
       manufacturer.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
-      item.state.inManufacturer
+      item.state.loadInManufacturer
     }
+    farmerState = sendOrderToManufacturer
+    manufacturer.manufacturerState = receivedOrderFromFarmer
+    println("farmer sent the crops to the manufacturer")
+    writer.write("farmer sent the crops to the manufacturer" + "\n")
   }
 
   def doFarming(): Unit = {
-    writer.write("\n")
+    farmerState = isFarming
     println()
-    writer.write("Farmer's Actor id " + id + " is farming")
     println("Farmer's Actor id " + id + " is farming")
-    writer.write("\n")
     println()
+    writer.write("\n" + "Farmer's Actor id " + id + " is farming" + "\n")
     newItemsMap.itemMap_test.keys.toList.foreach(
       itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
         val new_item: Item = produce(newItemsMap.itemMap_test(itemStr))
@@ -54,7 +61,6 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
       })
     )
   }
-
 
   def produce(itemId: String): Item = {
     val index: Int = Integer.parseInt(itemId.replaceAll("Item", ""))
@@ -102,8 +108,9 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
     writer.write("timer: " + timer + "\n\n\n")
     writer.flush()
     while (true) {
-      checkIfThereIsOrder()
+      checkIfThereIsOrderFromSupermarket()
       doFarming()
+      SpecialInstructions.waitTurns(1)
       sendToManufacturer()
       SpecialInstructions.waitTurns(5)
     }

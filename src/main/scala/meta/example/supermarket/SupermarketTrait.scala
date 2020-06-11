@@ -15,17 +15,11 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   var employees: ListBuffer[EmployeeTrait] = new ListBuffer[EmployeeTrait]()
   //  var employee: EmployeeTrait = null
   var cashier: CashierTrait = null
-
-  //todo: having a list of sections
   var warehouse: ListBuffer[SectionTrait]
   var storage: ListBuffer[Item] = new ListBuffer[Item]()
   var itemsRecentlyOrdered: Boolean = true
   var shelfCapacity: Int = warehouse.head.shelfCapacity
 
-
-  def getOverallFreeSpace(): Int = {
-    1
-  }
 
   //  val vegetables: Vector[String] = categories.getArticleNames("Vegetable")
   //  val meats: Vector[String] = categories.getArticleNames("Meat")

@@ -21,33 +21,11 @@ class MainInit {
 
 
     val sectionVegetable = new Section("Vegetable", FIFO)
-    l_repeat.append(sectionVegetable)
-    l ++= l_repeat
-    l_repeat.clear()
-
     val sectionMeat = new Section("Meat", FIFO)
-    l_repeat.append(sectionMeat)
-    l ++= l_repeat
-    l_repeat.clear()
-
     val sectionDairy = new Section("Dairy", FIFO)
-    l_repeat.append(sectionDairy)
-    l ++= l_repeat
-    l_repeat.clear()
-
     val sectionSnack = new Section("Snack", FIFO)
-    l_repeat.append(sectionSnack)
-    l ++= l_repeat
-    l_repeat.clear()
-
     val sectionGrain = new Section("Grain", LIFO)
-    l_repeat.append(sectionGrain)
-    l ++= l_repeat
-    l_repeat.clear()
-
     var sectionLst = new ListBuffer[SectionTrait]()
-
-
     sectionLst += sectionVegetable
     sectionLst += sectionMeat
     sectionLst += sectionDairy
@@ -55,26 +33,50 @@ class MainInit {
     sectionLst += sectionGrain
 
 
-    var supermarket = new Supermarket(sectionLst)
-    l_repeat.append(supermarket)
+    val supermarket = new Supermarket(sectionLst)
+    val truck = new Truck(supermarket)
+    val manufacturer = new Manufacturer(truck)
+    val farmer = new Farmer(manufacturer, supermarket)
+
+
+    l_repeat.append(farmer)
     l ++= l_repeat
     l_repeat.clear()
 
 
-    val truck = new Truck(supermarket)
+    l_repeat.append(manufacturer)
+    l ++= l_repeat
+    l_repeat.clear()
+
     l_repeat.append(truck)
     l ++= l_repeat
     l_repeat.clear()
 
 
-    val manufacturer = new Manufacturer(truck)
-    l_repeat.append(manufacturer)
+    l_repeat.append(supermarket)
     l ++= l_repeat
     l_repeat.clear()
 
 
-    val farmer = new Farmer(manufacturer,supermarket)
-    l_repeat.append(farmer)
+    l_repeat.append(sectionGrain)
+    l ++= l_repeat
+    l_repeat.clear()
+
+
+    l_repeat.append(sectionSnack)
+    l ++= l_repeat
+    l_repeat.clear()
+
+    l_repeat.append(sectionDairy)
+    l ++= l_repeat
+    l_repeat.clear()
+
+
+    l_repeat.append(sectionMeat)
+    l ++= l_repeat
+    l_repeat.clear()
+
+    l_repeat.append(sectionVegetable)
     l ++= l_repeat
     l_repeat.clear()
 

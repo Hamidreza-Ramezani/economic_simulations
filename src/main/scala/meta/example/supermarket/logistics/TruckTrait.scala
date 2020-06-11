@@ -7,7 +7,9 @@ import meta.example.supermarket.goods.Item
 import scala.collection.mutable
 
 trait TruckTrait extends Actor {
+
   var supermarket: SupermarketTrait
+  var truckState: TruckState = relaxing
 
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],
