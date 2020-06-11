@@ -81,6 +81,14 @@ class MainInit {
     l_repeat.clear()
 
 
+    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionVegetable)))
+    l ++= l_repeat
+    l_repeat.clear()
+
+    (1 to 1).foreach(_ => l_repeat.append(new Cashier))
+    l ++= l_repeat
+    l_repeat.clear()
+
     (1 to 1).foreach(_ => l_repeat.append(new Customer1(supermarket)))
     l ++= l_repeat
     l_repeat.clear()
@@ -93,9 +101,6 @@ class MainInit {
     l ++= l_repeat
     l_repeat.clear()
 
-    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionVegetable)))
-    l ++= l_repeat
-    l_repeat.clear()
 
     //    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionMeat)))
     //    l ++= l_repeat
@@ -113,9 +118,7 @@ class MainInit {
     //    l ++= l_repeat
     //    l_repeat.clear()
 
-    (1 to 1).foreach(_ => l_repeat.append(new Cashier))
-    l ++= l_repeat
-    l_repeat.clear()
+
 
 
     (1 to 1).foreach(_ => l_repeat.append(new Item1(supermarket, sectionVegetable)))

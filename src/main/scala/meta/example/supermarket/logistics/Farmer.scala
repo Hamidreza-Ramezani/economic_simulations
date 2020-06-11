@@ -28,6 +28,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
       SpecialInstructions.waitTurns(1)
     }
     farmerState = receivedOrderFromSupermarket
+    println("---------------------------------------------------------------------------------------------------")
     println("farmer received an order from the supermarket")
     writer.write("farmer received an order from the supermarket" + "\n")
   }
@@ -40,14 +41,16 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
     }
     farmerState = sendOrderToManufacturer
     manufacturer.manufacturerState = receivedOrderFromFarmer
+    println("---------------------------------------------------------------------------------------------------")
     println("farmer sent the crops to the manufacturer")
+    println("---------------------------------------------------------------------------------------------------")
     writer.write("farmer sent the crops to the manufacturer" + "\n")
   }
 
   def doFarming(): Unit = {
     farmerState = isFarming
-    println()
     println("Farmer's Actor id " + id + " is farming")
+    println("---------------------------------------------------------------------------------------------------")
     println()
     writer.write("\n" + "Farmer's Actor id " + id + " is farming" + "\n")
     newItemsMap.itemMap_test.keys.toList.foreach(

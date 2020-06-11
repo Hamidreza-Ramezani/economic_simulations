@@ -15,7 +15,9 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
     while (truckState != receivedOrderFromManufacturer) {
       SpecialInstructions.waitTurns(1)
     }
+    println("---------------------------------------------------------------------------------------------------")
     println("truck received an order from the manufacturer")
+    println("---------------------------------------------------------------------------------------------------")
     writer.write("truck received an order from the manufacturer" + "\n")
   }
 
@@ -34,7 +36,9 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
   }
 
   def unloadTruck(): Unit = {
+    println("---------------------------------------------------------------------------------------------------")
     println("The truck transported the food")
+    println("---------------------------------------------------------------------------------------------------")
     writer.write("The truck transported the food")
     truckState = unloadingTruck
     storage.keys.toList.foreach { itemStr =>

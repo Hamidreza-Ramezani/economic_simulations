@@ -15,7 +15,9 @@ class Manufacturer(var truck: TruckTrait) extends ManufacturerTrait {
     while (manufacturerState != receivedOrderFromFarmer) {
       SpecialInstructions.waitTurns(1)
     }
+    println("---------------------------------------------------------------------------------------------------")
     println("manufacturer received an order from the farmer")
+    println("---------------------------------------------------------------------------------------------------")
     writer.write("manufacturer received an order from the farmer" + "\n")
   }
 
@@ -34,7 +36,9 @@ class Manufacturer(var truck: TruckTrait) extends ManufacturerTrait {
   }
 
   def loadTruck(): Unit = {
+    println("---------------------------------------------------------------------------------------------------")
     println("The manufacturer processed the food")
+    println("---------------------------------------------------------------------------------------------------")
     writer.write("The manufacturer processed the food")
     manufacturerState = sendOrderToTruck
     truck.truckState = receivedOrderFromManufacturer

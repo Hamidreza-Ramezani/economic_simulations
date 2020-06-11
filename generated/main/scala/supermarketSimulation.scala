@@ -79,17 +79,17 @@ object supermarketSimulation extends App {
 
       collect(timer)
       //employee should refill the shelves
-      for (i <- actors.indices) {
-        if (actors(i).getClass.getSimpleName == "Employee") {
-          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-        }
-      }
-      //cashier should do his/her task
-      for (i <- actors.indices) {
-        if (actors(i).getClass.getSimpleName == "Cashier") {
-          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-        }
-      }
+//      for (i <- actors.indices) {
+//        if (actors(i).getClass.getSimpleName == "Employee") {
+//          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
+//        }
+//      }
+//      //cashier should do his/her task
+//      for (i <- actors.indices) {
+//        if (actors(i).getClass.getSimpleName == "Cashier") {
+//          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
+//        }
+//      }
       actors = actors.map { a => {
         a.cleanSendMessage
           .addReceiveMessages(mx.getOrElse(a.id, List()))

@@ -18,12 +18,19 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
 
   def orderItems(): Unit = {
     //calling farmer
+    println("---------------------------------------------------------------------------------------------------")
     println("Employee's Actor id " + id + " ordered some items")
+    println("Employee's Actor id " + id + " is waiting for the truck")
+    println("---------------------------------------------------------------------------------------------------")
     writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
+    writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
     state.refillShelves
     supermarket.itemsRecentlyOrdered = true
-    List.fill(3)(1).foreach { _ =>
+    SpecialInstructions.waitTurns(1)
+    List.fill(2)(1).foreach { _ =>
+      println("---------------------------------------------------------------------------------------------------")
       println("Employee's Actor id " + id + " is waiting for the truck")
+      println("---------------------------------------------------------------------------------------------------")
       writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
       SpecialInstructions.waitTurns(1)
     }
