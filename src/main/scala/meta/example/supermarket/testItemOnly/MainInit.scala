@@ -35,8 +35,8 @@ class MainInit {
 
     val supermarket = new Supermarket(sectionLst)
     val truck = new Truck(supermarket)
-    val manufacturer = new Manufacturer(truck)
-    val farmer = new Farmer(manufacturer, supermarket)
+    val manufacturer = new Manufacturer(truck,supermarket)
+    val farmer = new Farmer(manufacturer)
 
 
     l_repeat.append(farmer)
@@ -81,7 +81,7 @@ class MainInit {
     l_repeat.clear()
 
 
-    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionVegetable,farmer)))
+    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionVegetable,manufacturer)))
     l ++= l_repeat
     l_repeat.clear()
 

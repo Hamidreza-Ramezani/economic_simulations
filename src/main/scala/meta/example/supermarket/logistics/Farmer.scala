@@ -2,33 +2,26 @@ package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
 import meta.classLifting.SpecialInstructions
-import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.goods.{Item, Item1, Item10, Item11, Item12, Item13, Item14, Item15, Item16, Item17, Item18, Item19, Item2, Item20, Item21, Item22, Item23, Item24, Item25, Item26, Item27, Item28, Item29, Item3, Item30, Item31, Item32, Item4, Item5, Item6, Item7, Item8, Item9, newItemsMap}
 import squid.quasi.lift
 import meta.example.supermarket.goods.newItemsMap
 import scala.collection.mutable
 
 @lift
-class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTrait) extends FarmerTrait {
+class Farmer(var manufacturer: ManufacturerTrait) extends FarmerTrait {
 
-
-  def getFreeSpace(item: String): Int = {
-    //        cap - manufacturer.storage.getOrElse(item, new mutable.Queue[Item]).size
-    cap - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves(item).size
-  }
-
-  def checkIfThereIsOrderFromSupermarket(): Unit = {
+  def checkIfThereIsOrderFromManufacturer(): Unit = {
     farmerState = doNothing
-    while (farmerState != receivedOrderFromSupermarket) {
-      SpecialInstructions.waitTurns(1)
-    }
-//    while (!supermarket.itemsRecentlyOrdered) {
+//    while (farmerState != receivedRequestFromManufacturer) {
 //      SpecialInstructions.waitTurns(1)
 //    }
-//    farmerState = receivedOrderFromSupermarket
+    while (manufacturer.manufacturerState != receivedOrderFromSupermarket) {
+      SpecialInstructions.waitTurns(1)
+    }
+    SpecialInstructions.waitTurns(1)
     println("---------------------------------------------------------------------------------------------------")
-    println("farmer received an order from the supermarket")
-    writer.write("farmer received an order from the supermarket" + "\n")
+    println("farmer received an order from the manufacturer")
+    writer.write("farmer received an order from the manufacturer" + "\n")
   }
 
   def sendToManufacturer(): Unit = {
@@ -37,8 +30,8 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
       manufacturer.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
       item.state.loadInManufacturer
     }
-    farmerState = sendOrderToManufacturer
-    manufacturer.manufacturerState = receivedOrderFromFarmer
+    farmerState = sendProductsToManufacturer
+    manufacturer.manufacturerState = receivedNoticeFromFarmer
     println("---------------------------------------------------------------------------------------------------")
     println("farmer sent the crops to the manufacturer")
     println("---------------------------------------------------------------------------------------------------")
@@ -109,11 +102,11 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
     writer.write("timer: " + timer + "\n\n\n")
     writer.flush()
     while (true) {
-      checkIfThereIsOrderFromSupermarket()
+      checkIfThereIsOrderFromManufacturer()
       doFarming()
       SpecialInstructions.waitTurns(1)
       sendToManufacturer()
-      SpecialInstructions.waitTurns(5)
+      SpecialInstructions.waitTurns(1)
     }
   }
 }

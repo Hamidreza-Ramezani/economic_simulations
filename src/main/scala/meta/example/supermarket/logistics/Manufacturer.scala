@@ -1,24 +1,46 @@
 package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
-import meta.example.supermarket.goods.Item
+import meta.example.supermarket.SupermarketTrait
+import meta.example.supermarket.goods.{Item, newItemsMap}
 import squid.quasi.lift
+
 import scala.collection.mutable
 
 @lift
-class Manufacturer(var truck: TruckTrait) extends ManufacturerTrait {
+class Manufacturer(var truck: TruckTrait, var supermarket: SupermarketTrait) extends ManufacturerTrait {
 
 
-  def checkIfThereIsOrderFromFarmer(): Unit = {
+//  override def getFreeSpace(item: String): Int = {
+//    capacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves(item).size
+//  }
+
+  def checkIfThereIsOrderFromSupermarket(): Unit = {
     manufacturerState = chilling
-    while (manufacturerState != receivedOrderFromFarmer) {
+    while (manufacturerState != receivedOrderFromSupermarket) {
       SpecialInstructions.waitTurns(1)
     }
     println("---------------------------------------------------------------------------------------------------")
-    println("manufacturer received an order from the farmer")
+    println("manufacturer received an order from the supermarket")
+    writer.write("manufacturer received an order from the supermarket" + "\n")
+  }
+
+
+  def checkIfThereIsUpdateFromFarmer(): Unit = {
+    manufacturerState = waitingForFarmer
+    while (manufacturerState != receivedNoticeFromFarmer) {
+      SpecialInstructions.waitTurns(1)
+    }
     println("---------------------------------------------------------------------------------------------------")
-    writer.write("manufacturer received an order from the farmer" + "\n")
+    println("manufacturer received an update from the farmer")
+    println("---------------------------------------------------------------------------------------------------")
+    writer.write("manufacturer received an update from the farmer" + "\n")
+  }
+
+  def giveOrderToFarmer(): Unit = {
+
   }
 
 
@@ -40,7 +62,7 @@ class Manufacturer(var truck: TruckTrait) extends ManufacturerTrait {
     println("The manufacturer processed the food")
     println("---------------------------------------------------------------------------------------------------")
     writer.write("The manufacturer processed the food")
-    manufacturerState = sendOrderToTruck
+    manufacturerState = loadedTruck
     truck.truckState = receivedOrderFromManufacturer
     storage.keys.toList.foreach { itemStr =>
       val queue = storage(itemStr)
@@ -57,11 +79,12 @@ class Manufacturer(var truck: TruckTrait) extends ManufacturerTrait {
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
       //todo manufacturer should wait as long as farmer does not notify them
-      checkIfThereIsOrderFromFarmer()
+      checkIfThereIsOrderFromSupermarket()
+      checkIfThereIsUpdateFromFarmer()
       processFood()
       SpecialInstructions.waitTurns(1)
       loadTruck()
-      SpecialInstructions.waitTurns(1)
+      SpecialInstructions.waitTurns(5)
     }
   }
 }

@@ -1,16 +1,16 @@
 package meta.example.supermarket.people
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.logistics.{Farmer, FarmerTrait, TruckTrait}
+import meta.example.supermarket.logistics.{Farmer, FarmerTrait, ManufacturerTrait, TruckTrait}
 import meta.example.supermarket.{Section, SectionTrait, Supermarket}
 
 trait EmployeeTrait extends Actor {
   var state: EmployeeState = EmployeeState()
   var section: SectionTrait
   var hasItemsOnTheWay: Boolean = true
-  var farmer:FarmerTrait
-
-  var truck:TruckTrait = farmer.manufacturer.truck
+//  var farmer:FarmerTrait
+  var manufacturer: ManufacturerTrait
+  var truck:TruckTrait = manufacturer.truck
 
 //  def getFreeSpace(item: String): Int = {
 //    Supermarket.store.shelfCapacity - Supermarket.store.warehouse(item).size
