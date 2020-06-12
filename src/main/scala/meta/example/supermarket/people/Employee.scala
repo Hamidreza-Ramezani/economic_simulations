@@ -1,15 +1,18 @@
 package meta.example.supermarket.people
 
 import java.io.{File, FileWriter, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.example.supermarket.goods.Item
+import meta.example.supermarket.logistics.{Farmer, FarmerTrait, receivedOrderFromSupermarket, unloadingTruck}
 import meta.example.supermarket.{SectionTrait, Supermarket}
 import squid.quasi.lift
+
 import scala.collection.mutable.ListBuffer
 
 @lift
-class Employee(var supermarket: Supermarket, var section: SectionTrait) extends EmployeeTrait {
+class Employee(var supermarket: Supermarket, var section: SectionTrait, var farmer: FarmerTrait) extends EmployeeTrait {
 
   //  def getFreeSpace(item: String): Int = {
   //      section.shelfCapacity - section.shelves(item).size
@@ -25,9 +28,11 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
     writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
     writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
     state.refillShelves
-    supermarket.itemsRecentlyOrdered = true
+    //    supermarket.itemsRecentlyOrdered = true
+    farmer.farmerState = receivedOrderFromSupermarket
+
     SpecialInstructions.waitTurns(1)
-    List.fill(2)(1).foreach { _ =>
+    while (truck.truckState != unloadingTruck) {
       println("---------------------------------------------------------------------------------------------------")
       println("Employee's Actor id " + id + " is waiting for the truck")
       println("---------------------------------------------------------------------------------------------------")
@@ -43,11 +48,16 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait) extends 
     }
     //employee has to make sure that the items are arrived
     //employee should check a variable in while true loop
-    while (supermarket.itemsRecentlyOrdered) {
-      println("Employee's Actor id " + id + " is waiting for the truck")
-      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
-      SpecialInstructions.waitTurns(1)
-    }
+    //    while (truck.truckState != unloadingTruck) {
+    //      println("Employee's Actor id " + id + " is waiting for the truck")
+    //      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
+    //      SpecialInstructions.waitTurns(1)
+    //    }
+    //    while (supermarket.itemsRecentlyOrdered) {
+    //      println("Employee's Actor id " + id + " is waiting for the truck")
+    //      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
+    //      SpecialInstructions.waitTurns(1)
+    //    }
     state.refillShelves
     writer.write("\n")
     println()

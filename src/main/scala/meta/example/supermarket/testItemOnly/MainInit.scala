@@ -81,7 +81,7 @@ class MainInit {
     l_repeat.clear()
 
 
-    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionVegetable)))
+    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionVegetable,farmer)))
     l ++= l_repeat
     l_repeat.clear()
 

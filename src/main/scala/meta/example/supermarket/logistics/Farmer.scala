@@ -2,7 +2,6 @@ package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
 import meta.classLifting.SpecialInstructions
-import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.goods.{Item, Item1, Item10, Item11, Item12, Item13, Item14, Item15, Item16, Item17, Item18, Item19, Item2, Item20, Item21, Item22, Item23, Item24, Item25, Item26, Item27, Item28, Item29, Item3, Item30, Item31, Item32, Item4, Item5, Item6, Item7, Item8, Item9, newItemsMap}
 import squid.quasi.lift
@@ -10,12 +9,8 @@ import meta.example.supermarket.goods.newItemsMap
 import scala.collection.mutable
 
 @lift
-class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTrait) extends Actor {
+class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTrait) extends FarmerTrait {
 
-  //  var cap: Int = supermarket.shelfCapacity
-  var cap: Int = 5
-  var crops: mutable.Queue[Item] = new mutable.Queue[Item]
-  var farmerState: FarmerState = doNothing
 
   def getFreeSpace(item: String): Int = {
     //        cap - manufacturer.storage.getOrElse(item, new mutable.Queue[Item]).size
@@ -24,10 +19,13 @@ class Farmer(var manufacturer: ManufacturerTrait, var supermarket: SupermarketTr
 
   def checkIfThereIsOrderFromSupermarket(): Unit = {
     farmerState = doNothing
-    while (!supermarket.itemsRecentlyOrdered) {
+    while (farmerState != receivedOrderFromSupermarket) {
       SpecialInstructions.waitTurns(1)
     }
-    farmerState = receivedOrderFromSupermarket
+//    while (!supermarket.itemsRecentlyOrdered) {
+//      SpecialInstructions.waitTurns(1)
+//    }
+//    farmerState = receivedOrderFromSupermarket
     println("---------------------------------------------------------------------------------------------------")
     println("farmer received an order from the supermarket")
     writer.write("farmer received an order from the supermarket" + "\n")

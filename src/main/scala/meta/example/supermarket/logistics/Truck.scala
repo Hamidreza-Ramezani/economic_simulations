@@ -52,7 +52,7 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
         //then change the employee code base
         // TODO add the item into supermarket: done,
         //  changing the state of the item: done
-        supermarket.itemsRecentlyOrdered = false
+//        supermarket.itemsRecentlyOrdered = false
       }
     }
   }
