@@ -78,13 +78,12 @@ class Manufacturer(var truck: TruckTrait, var supermarket: SupermarketTrait) ext
     writer = new PrintWriter(new FileWriter(new File("m/agentManufacturer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
-      //todo manufacturer should wait as long as farmer does not notify them
       checkIfThereIsOrderFromSupermarket()
       checkIfThereIsUpdateFromFarmer()
       processFood()
       SpecialInstructions.waitTurns(1)
       loadTruck()
-      SpecialInstructions.waitTurns(5)
+      SpecialInstructions.waitTurns(1)
     }
   }
 }
