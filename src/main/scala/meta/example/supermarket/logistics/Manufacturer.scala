@@ -4,7 +4,7 @@ import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.SupermarketTrait
-import meta.example.supermarket.goods.{Item, newItemsMap}
+import meta.example.supermarket.goods.Item
 import squid.quasi.lift
 
 import scala.collection.mutable
@@ -26,7 +26,6 @@ class Manufacturer(var truck: TruckTrait, var supermarket: SupermarketTrait) ext
     println("manufacturer received an order from the supermarket")
     writer.write("manufacturer received an order from the supermarket" + "\n")
   }
-
 
   def checkIfThereIsUpdateFromFarmer(): Unit = {
     manufacturerState = waitingForFarmer
