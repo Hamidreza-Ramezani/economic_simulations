@@ -1,11 +1,13 @@
 package meta.deep.runtime
 
-import java.io.{File, FileWriter, PrintWriter}
+import java.io.PrintWriter
 import java.util.UUID
 
 import meta.deep.runtime.Actor.AgentId
+import meta.example.supermarket.worldmap.{Tile, World}
 
 import scala.collection.mutable.{ListBuffer, Map}
+import scala.util.Random
 
 /**
   * This object handles the unique id generation of an actor
@@ -35,22 +37,22 @@ object Monitor {
   private var daily_aggregate: Map[String, Int] = Map[String, Int]()
 
   def logAggregate(attr: String, num: Int = 1): Unit = {
-    if (!aggregates.get(attr).isDefined){
+    if (!aggregates.get(attr).isDefined) {
       aggregates += (attr -> num)
     } else {
-      aggregates += (attr -> (aggregates.get(attr).get+num))
+      aggregates += (attr -> (aggregates.get(attr).get + num))
     }
   }
 
   def logTimeseries(attr: String, num: Int = 1): Unit = {
-    if (!daily_aggregate.get(attr).isDefined){
+    if (!daily_aggregate.get(attr).isDefined) {
       daily_aggregate += (attr -> num)
     } else {
-      daily_aggregate += (attr -> (daily_aggregate.get(attr).get+num))
+      daily_aggregate += (attr -> (daily_aggregate.get(attr).get + num))
     }
   }
 
-  def initTimeseries(attr: String *): Unit = {
+  def initTimeseries(attr: String*): Unit = {
     attr.foreach(x =>
       timeseries += (x -> ListBuffer())
     )
@@ -64,15 +66,17 @@ object Monitor {
     daily_aggregate.clear()
   }
 
-  def eachIteration(action:()=>Unit =
-                    ()=>{println("Monitor stats: " + aggregates)}): Unit = {
+  def eachIteration(action: () => Unit =
+                    () => {
+                      println("Monitor stats: " + aggregates)
+                    }): Unit = {
     (action())
     timeElapse()
   }
 
-  def onCompletion(action:()=>Unit =
-                    ()=>println("Summary: \n" + aggregates
-                    + "\nTimeseries:\n" + timeseries)): Unit = {
+  def onCompletion(action: () => Unit =
+                   () => println("Summary: \n" + aggregates
+                     + "\nTimeseries:\n" + timeseries)): Unit = {
     (action())
   }
 }
@@ -104,21 +108,24 @@ abstract class Message extends Serializable {
 
 /**
   * This represents a message, which is used for sending something to another actor
-  * @param senderId the id of the sender
+  *
+  * @param senderId   the id of the sender
   * @param receiverId the id of the receiver
-  * @param methodId the id of the method which should be called
-  * @param argss the arguments of the method
+  * @param methodId   the id of the method which should be called
+  * @param argss      the arguments of the method
   */
 case class RequestMessage(override val senderId: Actor.AgentId,
                           override val receiverId: Actor.AgentId,
                           methodId: Int,
                           argss: List[List[Any]])
-    extends Message {
+  extends Message {
 
   var future: Future[Any] = Future[Any]()
+
   /**
     * this functions simplified the replying to a method
-    * @param owner the sender of the reply message
+    *
+    * @param owner       the sender of the reply message
     * @param returnValue the return value/answer for the request message
     */
   def reply(owner: Actor, returnValue: Any): Unit = {
@@ -130,19 +137,20 @@ case class RequestMessage(override val senderId: Actor.AgentId,
 
 /**
   * This class is used to answer to a received message.
-  * @param senderId the id of the sender
+  *
+  * @param senderId   the id of the sender
   * @param receiverId the id of the receiver
-  * @param arg the return value of the method/answer of the request message
+  * @param arg        the return value of the method/answer of the request message
   */
 case class ResponseMessage(override val senderId: Actor.AgentId,
                            override val receiverId: Actor.AgentId,
                            arg: Any)
-    extends Message
+  extends Message
 
 case class Future[+T](var isCompleted: Boolean = false,
                       val value: Option[T] = None,
-                      val id: String = UUID.randomUUID().toString){
-  def setValue[U >: T](y: U): Future[U] ={
+                      val id: String = UUID.randomUUID().toString) {
+  def setValue[U >: T](y: U): Future[U] = {
     Future(true, Some(y), id)
   }
 }
@@ -158,10 +166,61 @@ class Actor {
   var timer: Int = 0
   var current_pos: Int = 0
   var monitor = Monitor
-//  var writer: PrintWriter = new PrintWriter(new FileWriter(new File("m/agent" + id)))
+  //  var writer: PrintWriter = new PrintWriter(new FileWriter(new File("m/agent" + id)))
   var writer: PrintWriter = null
 
+  var xPosition: Int = 0
+  var yPosition: Int = 0
+  var canMove: Boolean = false
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
+
+  def setInitialPosition(x: Int, y:Int, canMove:Boolean): Unit = {
+    this.xPosition = x
+    this.yPosition = y
+    this.canMove = canMove
+  }
+
+  def move(world: World): Unit = {
+    if (canMove) {
+      val coordinates: Array[Array[Tile]] = world.coordinates
+      val worldRows: Int = coordinates(0).length
+      val worldCols: Int = coordinates.length
+      val randomInt: Random = new Random()
+      var directionOptions: ListBuffer[Int] = new ListBuffer[Int]
+      directionOptions += 1
+      directionOptions += 2
+      directionOptions += 3
+      directionOptions += 4
+      /*
+       * 1 = move up		3 = move down
+       * 2 = move right	4 = move left
+       */
+      // Entity is in left column
+      if (this.xPosition == 0) {
+        directionOptions -= 4
+      }
+      // Entity is in right column
+      else if (this.xPosition == worldCols) {
+        directionOptions -= 2
+      }
+      // Entity is in top row
+      if (this.yPosition == 0) {
+        directionOptions -= 1
+      }
+      // Entity is in bottom row
+      else if (this.yPosition == worldRows) {
+        directionOptions -= 3
+      }
+      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
+      randomMove match {
+        case 1 => this.yPosition = this.yPosition - 1
+        case 2 => this.xPosition = this.xPosition + 1
+        case 3 => this.yPosition = this.yPosition + 1
+        case 4 => this.xPosition = this.xPosition - 1
+      }
+    }
+  }
+
 
   final def isCompleted(future_obj: Future[Any]): Boolean = {
     async_messages.get(future_obj.id).isDefined
@@ -171,7 +230,7 @@ class Actor {
     async_messages.get(future_obj.id).get.value.get.asInstanceOf[T]
   }
 
-  final def clearFutureObj(future_obj: Future[Any]): None.type ={
+  final def clearFutureObj(future_obj: Future[Any]): None.type = {
     async_messages = async_messages.-(future_obj.id)
     None
   }
@@ -190,7 +249,7 @@ class Actor {
     * A map of listeners, which is required to register a listener for a response of a request message
     */
   protected var responseListeners
-    : Map[String, Message => Unit] = Map()
+  : Map[String, Message => Unit] = Map()
 
   /**
     * Adds one message to the sendActions list, which will be collected and distributed at the end of the step
@@ -231,6 +290,7 @@ class Actor {
 
   /**
     * This returns all messages, which are sent via sendMessage
+    *
     * @return the actor itself
     */
   final def getSendMessages: List[Message] = {
@@ -239,6 +299,7 @@ class Actor {
 
   /**
     * This resets sendMessages, so that getSendMessages is empty again
+    *
     * @return the actor itself
     */
   final def cleanSendMessage: Actor = {
@@ -260,6 +321,7 @@ class Actor {
   /**
     * This function removes all receivedMessages of type RequestMessage from the receivedMessages list
     * and returns them to the method caller
+    *
     * @return a list of receivedMessages of type RequestMessage
     */
   final def popRequestMessages: List[RequestMessage] = {
@@ -274,6 +336,7 @@ class Actor {
   /**
     * This function removes all receivedMessages of type ResponseMessage from the receivedMessages list
     * and returns them to the method caller
+    *
     * @return a list of receivedMessages of type ResponseMessage
     */
   final def popResponseMessages: List[ResponseMessage] = {
@@ -287,6 +350,7 @@ class Actor {
 
   /**
     * This runs the stepFunction until the timer > until
+    *
     * @param until how long the code should be executed
     * @return the actor itself
     */
@@ -303,6 +367,7 @@ class Actor {
   /**
     * Executes one step in the simulation.
     * By default it does not change the pos and increases the timer at 1 (next step)
+    *
     * @return a function, which takes the position and timer and
     *         returns the next position and timer which should be passed again
     *         when calling this function the next time.

@@ -4,7 +4,6 @@ import meta.deep.runtime.Actor
 import scala.collection.mutable.ListBuffer
 
 class World(width: Int, height: Int) {
-
   var coordinates: Array[Array[Tile]] = Array.ofDim[Tile](width, height)
   val tiles: ListBuffer[Tile] = new ListBuffer[Tile]()
   for (i <- 0 until width) {
@@ -14,21 +13,21 @@ class World(width: Int, height: Int) {
     }
   }
 
-  //    def addEntity(actor: Actor): Unit = {
-  //      val x = actor.xPosition();
-  //      val y = actor.yPosition();
-  //      coordinates(x)(y).addEntity(actor);
-  //    }
+  def addEntity(actor: Actor): Unit = {
+    val x = actor.xPosition
+    val y = actor.yPosition
+    coordinates(x)(y).addEntity(actor)
+  }
 
   def setTileType(x: Int, y: Int, myType: String): Unit = {
     coordinates(x)(y).setType(myType)
   }
 
-  def getTiles(): ListBuffer[Tile] = {
-    new ListBuffer[Tile]
+  def getTiles: ListBuffer[Tile] = {
+    tiles
   }
 
-  def getEntities(): ListBuffer[Actor] = {
+  def getEntities: ListBuffer[Actor] = {
     val entities: ListBuffer[Actor] = new ListBuffer[Actor]()
     coordinates.foreach {
       row =>
@@ -39,7 +38,3 @@ class World(width: Int, height: Int) {
     entities
   }
 }
-
-//object World{
-//
-//}

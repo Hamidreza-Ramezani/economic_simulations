@@ -1,32 +1,36 @@
-//package meta.example.supermarket.worldmap
+package meta.example.supermarket.worldmap
 
-//class Test {
+import meta.deep.runtime.Actor
+import scala.collection.mutable.ListBuffer
 
-////  public static void main(String[] args) {
-////    // Creators
-////    World worldMap = new World(mapWidth, mapHeight);
-////    Character john = new Character("John", 0, 0);
-////    Character mary = new Character("Mary", 1, 4);
-////    worldMap.addEntity(john);
-////    worldMap.addEntity(mary);
-////
-////    for (int x = 0; x < mapWidth; x++) {
-////      worldMap.setTileType(x, 5, "forest");
-////    }
-////
-////    // Printing out info about character(s)
-////    //I think the world map should  have a list of characters.
-////
-////    for (Character character : charList) {
-////      System.out.print(character+": " + character.getName() + "\n");
-////    }
-////    System.out.print("\n"+charList.size() + " characters in play\n\n");
-////    List<Tile> tileList = worldMap.getTiles();
-////    // Printing out info about tile(s)
-////    for (Tile tile : tileList) {
-////      System.out.print(tile + " type: " + tile.getType() + "\n");
-////    }
-////    System.out.print("\n"+tileList.size() + " tiles in play");
-////  }
-//
-//}
+object Test extends App {
+  def main(): Unit = {
+    val mapWidth = 5
+    val mapHeight = 5
+    val worldMap = new World(mapWidth, mapHeight)
+    //    val john = new Actor("John", 0, 0)
+    //    val mary = new Actor("Mary", 1, 4)
+    val john = new Actor()
+    val mary = new Actor()
+    john.setInitialPosition(0, 0, canMove = true)
+    mary.setInitialPosition(1, 4, canMove = true)
+    val actors: ListBuffer[Actor] = new ListBuffer[Actor]
+    actors += john
+    actors += mary
+    worldMap.addEntity(john)
+    worldMap.addEntity(mary)
+    for (i <- 0 until mapWidth) {
+      worldMap.setTileType(i, 4, "forest")
+    }
+    //I think the world map should  have a list of characters.
+    actors.foreach(actor => println("actor id: " + actor.id + "\n"))
+    println("\n" + actors.size + " characters in play\n\n")
+    val tileList: ListBuffer[Tile] = worldMap.getTiles
+    tileList.foreach { tile =>
+      println(tile + " type: " + tile.getType + " entities: " + tile.entities + "\n" );
+    }
+    println("\n" + tileList.size + " tiles in play")
+  }
+
+  main()
+}

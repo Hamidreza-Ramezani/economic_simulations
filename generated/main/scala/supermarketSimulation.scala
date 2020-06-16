@@ -57,6 +57,7 @@ object supermarketSimulation extends App {
       for (i <- actors.indices) {
         if (actors(i).writer != null) {
           actors(i).writer.write("\n \n" + "timer: " + timer + "\n \n")
+          actors(i).writer.write("\n \n" + "position: x = " + actors(i).xPosition + "  y = " + actors(i).yPosition + "\n \n")
           actors(i).writer.flush()
         }
       }
