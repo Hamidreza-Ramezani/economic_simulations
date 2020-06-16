@@ -1,23 +1,25 @@
-//package meta.example.supermarket.worldmap
-//
-//import scala.collection.mutable.ListBuffer
-////import scala.tools.nsc.doc.model.Entity
-//
-//class Tile (xPos: Int, yPos: Int) {
-//  var  typee: String
-//
-//   var entities: ListBuffer[Entity] = new ListBuffer[Entity]
-//
-//  def setType(typee: String ): Unit = {
-//    this.typee = typee;
-//  }
-//  def  getType(): String =  {
-//    return type;
-//  }
-//  def addEntity(e: Entity): Unit = {
-//    entities.add(e);
-//  }
-//  def removeEntity(e: Entity ): Unit = {
-//    entities.remove(e);
-//  }
-//}
+package meta.example.supermarket.worldmap
+
+import meta.deep.runtime.Actor
+import scala.collection.mutable.ListBuffer
+
+class Tile(xPos: Int, yPos: Int) {
+  var myType: String = ""
+  var entities: ListBuffer[Actor] = new ListBuffer[Actor]
+
+  def setType(myType: String): Unit = {
+    this.myType = myType
+  }
+
+  def getType: String = {
+    myType
+  }
+
+  def addEntity(actor: Actor): Unit = {
+    entities += actor
+  }
+
+  def removeEntity(actor: Actor): Unit = {
+    entities -= actor
+  }
+}

@@ -1,7 +1,7 @@
 //package meta.example.supermarket.worldmap
-//
+
 //class Test {
-//
+
 ////  public static void main(String[] args) {
 ////    // Creators
 ////    World worldMap = new World(mapWidth, mapHeight);
