@@ -3,7 +3,6 @@ package meta.example.supermarket
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.randElement
-
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
@@ -17,7 +16,13 @@ trait SectionTrait extends Actor with SummaryTrait {
   //  var employee: EmployeeTrait = null
   //  var cashier: CashierTrait = null
   var sectionShufflingPolicy: ShufflingPolicy
+  canMove = false
+  var supermarket: SupermarketTrait = null
 
+  override def setInitialPosition(x: Int, y:Int): Unit = {
+    this.xPosition = supermarket.xPosition
+    this.yPosition = supermarket.yPosition
+  }
 
   def isNotFull(): Boolean = {
     shelves.foreach(shelf =>

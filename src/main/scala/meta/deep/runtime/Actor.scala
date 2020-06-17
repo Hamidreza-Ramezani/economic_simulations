@@ -171,13 +171,13 @@ class Actor {
 
   var xPosition: Int = 0
   var yPosition: Int = 0
-  var canMove: Boolean = false
+  var canMove: Boolean = true
+
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
 
-  def setInitialPosition(x: Int, y:Int, canMove:Boolean): Unit = {
+  def setInitialPosition(x: Int, y:Int): Unit = {
     this.xPosition = x
     this.yPosition = y
-    this.canMove = canMove
   }
 
   def move(world: World): Unit = {

@@ -12,6 +12,7 @@ trait ManufacturerTrait extends Actor {
   var truck: TruckTrait
   var supermarket: SupermarketTrait
   var capacity: Int = supermarket.shelfCapacity
+  canMove = false
 
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],

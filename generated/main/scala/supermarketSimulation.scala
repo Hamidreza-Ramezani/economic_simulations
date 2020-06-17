@@ -1,8 +1,11 @@
 import meta.deep.runtime.{Actor, Message}
-import meta.example.supermarket.{SupermarketTrait, granularity}
+import meta.example.supermarket.{SectionTrait, SupermarketTrait, granularity}
 import com.typesafe.scalalogging.Logger
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
 import org.apache.log4j.BasicConfigurator
+import meta.example.supermarket.worldmap.World
+
+import scala.util.Random
 
 object supermarketSimulation extends App {
 
@@ -11,14 +14,15 @@ object supermarketSimulation extends App {
   var messages: List[Message] = List()
   var timer: Int = 0
   var until: Int = 10 * granularity.hour
-  //  val shelfCapacity: Int = 10
-  //  val unitLoad: Int = 5 //
   val memUnit: Int = 1024 // KB
   val runtime = Runtime.getRuntime
   BasicConfigurator.configure()
   val logger = Logger("Root")
-
   var supermarket: SupermarketTrait = _
+  val mapWidth = 10
+  val mapHeight = 10
+  val worldMap = new World(mapWidth, mapHeight)
+
 
   def init(): Unit = {
     //    actors = generated.InitData.initActors.to[Array]
@@ -26,20 +30,29 @@ object supermarketSimulation extends App {
   }
 
   def collect(current_time: Int): Unit = {
-    meta.deep.runtime.Actor.newActors.map(i => i.timer = current_time)
+    meta.deep.runtime.Actor.newActors.foreach(i => i.timer = current_time)
     actors = actors ::: meta.deep.runtime.Actor.newActors.toList
+    meta.deep.runtime.Actor.newActors.toList.foreach(actor => worldMap.addEntity(actor))
     meta.deep.runtime.Actor.newActors.clear()
   }
 
-  //  val writer = new PrintWriter(new File("output.log"))
-
   def main(): Unit = {
-    //    println(this.getClass.getClassLoader)
     init()
     for (i <- actors.indices) {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
         supermarket = actors(i).asInstanceOf[SupermarketTrait]
       }
+    }
+
+    for (i <- actors.indices) {
+      if (actors(i).getClass.getSimpleName == "Section") {
+        actors(i).asInstanceOf[SectionTrait].supermarket = supermarket
+      }
+    }
+
+    for (i <- actors.indices) {
+      actors(i).setInitialPosition(Random.nextInt(mapWidth), Random.nextInt(mapHeight))
+      worldMap.addEntity(actors(i))
     }
 
     for (i <- actors.indices) {
@@ -52,7 +65,6 @@ object supermarketSimulation extends App {
 
     val start = System.nanoTime()
     while (timer <= until) {
-      val start_it = System.nanoTime()
       println("TIMER", timer)
       for (i <- actors.indices) {
         if (actors(i).writer != null) {
@@ -61,9 +73,6 @@ object supermarketSimulation extends App {
           actors(i).writer.flush()
         }
       }
-      //      supermarket.writer.write("\n \n" + "timer: " + timer + "\n \n")
-
-
       //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
@@ -79,28 +88,14 @@ object supermarketSimulation extends App {
       }
 
       collect(timer)
-      //employee should refill the shelves
-//      for (i <- actors.indices) {
-//        if (actors(i).getClass.getSimpleName == "Employee") {
-//          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-//        }
-//      }
-//      //cashier should do his/her task
-//      for (i <- actors.indices) {
-//        if (actors(i).getClass.getSimpleName == "Cashier") {
-//          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-//        }
-//      }
       actors = actors.map { a => {
         a.cleanSendMessage
           .addReceiveMessages(mx.getOrElse(a.id, List()))
           .run_until(timer)
       }
       }
-//      supermarket.writeWarehouseToFile()
       messages = actors.flatMap(_.getSendMessages)
       timer += 1
-      //      println(supermarket.isInvalids)
     }
     for (i <- actors.indices) {
       if (actors(i).writer != null) {

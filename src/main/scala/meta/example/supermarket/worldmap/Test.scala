@@ -8,12 +8,10 @@ object Test extends App {
     val mapWidth = 5
     val mapHeight = 5
     val worldMap = new World(mapWidth, mapHeight)
-    //    val john = new Actor("John", 0, 0)
-    //    val mary = new Actor("Mary", 1, 4)
     val john = new Actor()
     val mary = new Actor()
-    john.setInitialPosition(0, 0, canMove = true)
-    mary.setInitialPosition(1, 4, canMove = true)
+    john.setInitialPosition(0, 0)
+    mary.setInitialPosition(1, 4)
     val actors: ListBuffer[Actor] = new ListBuffer[Actor]
     actors += john
     actors += mary

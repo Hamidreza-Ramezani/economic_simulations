@@ -1,22 +1,16 @@
 package meta.example.supermarket.people
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.logistics.{ManufacturerTrait, receivedOrderFromSupermarket, unloadingTruck}
-import meta.example.supermarket.{SectionTrait, Supermarket}
+import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import squid.quasi.lift
-
 import scala.collection.mutable.ListBuffer
 
 @lift
-class Employee(var supermarket: Supermarket, var section: SectionTrait, var manufacturer: ManufacturerTrait) extends EmployeeTrait {
-
-  //  def getFreeSpace(item: String): Int = {
-  //      section.shelfCapacity - section.shelves(item).size
-  //  }
+class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var manufacturer: ManufacturerTrait) extends EmployeeTrait {
 
 
   def orderItems(): Unit = {
@@ -28,7 +22,7 @@ class Employee(var supermarket: Supermarket, var section: SectionTrait, var manu
     writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
     writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
     state.refillShelves
-//    farmer.farmerState = receivedRequestFromSupermarket
+    //    farmer.farmerState = receivedRequestFromSupermarket
     manufacturer.manufacturerState = receivedOrderFromSupermarket
     SpecialInstructions.waitTurns(1)
     while (truck.truckState != unloadingTruck) {
