@@ -2,12 +2,16 @@ package meta.example.supermarket.testItemOnly
 
 import meta.deep.runtime.Actor
 import squid.quasi.lift
+
 import scala.collection.mutable.ListBuffer
 import meta.example.supermarket.{FIFO, LIFO, Section, SectionTrait, Supermarket}
 import meta.example.supermarket.customers._
 import meta.example.supermarket.goods._
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck}
 import meta.example.supermarket.people._
+import meta.example.supermarket.worldmap.World
+
+import scala.util.Random
 
 /* Auto generated from genExample*/
 
@@ -17,6 +21,10 @@ class MainInit {
   def main(): List[Actor] = {
     val l = ListBuffer[Actor]()
     val l_repeat = ListBuffer[Actor]()
+
+    val mapWidth = 10
+    val mapHeight = 10
+    val worldMap = new World(mapWidth, mapHeight)
 
 
     val sectionVegetable = new Section("Vegetable", FIFO)
@@ -197,6 +205,17 @@ class MainInit {
     supermarket.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
     l ++= l_repeat
     l_repeat.clear()
+
+
+    l.toList.foreach { actor =>
+      actor.setInitialPosition(Random.nextInt(mapWidth), Random.nextInt(mapHeight))
+      worldMap.addEntity(actor)
+    }
+
+    l_repeat.append(worldMap)
+    l ++= l_repeat
+    l_repeat.clear()
+
 
 
     //    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket, sectionVegetable,manufacturer)))

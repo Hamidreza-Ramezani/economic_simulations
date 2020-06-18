@@ -4,7 +4,7 @@ import java.io.PrintWriter
 import java.util.UUID
 
 import meta.deep.runtime.Actor.AgentId
-import meta.example.supermarket.worldmap.{Tile, World}
+import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, World, WorldTrait}
 
 import scala.collection.mutable.{ListBuffer, Map}
 import scala.util.Random
@@ -180,43 +180,46 @@ class Actor {
     this.yPosition = y
   }
 
-  def move(world: World): Unit = {
+  def move(world: WorldTrait, direction: Direction): Unit = {
     if (canMove) {
       val coordinates: Array[Array[Tile]] = world.coordinates
       val worldRows: Int = coordinates(0).length
       val worldCols: Int = coordinates.length
       val randomInt: Random = new Random()
-      var directionOptions: ListBuffer[Int] = new ListBuffer[Int]
-      directionOptions += 1
-      directionOptions += 2
-      directionOptions += 3
-      directionOptions += 4
+      var directionOptions: ListBuffer[Direction] = new ListBuffer[Direction]
+      directionOptions += Up
+      directionOptions += Right
+      directionOptions += Down
+      directionOptions += Left
       /*
        * 1 = move up		3 = move down
        * 2 = move right	4 = move left
        */
       // Entity is in left column
       if (this.xPosition == 0) {
-        directionOptions -= 4
+        directionOptions -= Left
       }
       // Entity is in right column
       else if (this.xPosition == worldCols) {
-        directionOptions -= 2
+        directionOptions -= Right
       }
       // Entity is in top row
       if (this.yPosition == 0) {
-        directionOptions -= 1
+        directionOptions -= Up
       }
       // Entity is in bottom row
       else if (this.yPosition == worldRows) {
-        directionOptions -= 3
+        directionOptions -= Down
       }
-      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
-      randomMove match {
-        case 1 => this.yPosition = this.yPosition - 1
-        case 2 => this.xPosition = this.xPosition + 1
-        case 3 => this.yPosition = this.yPosition + 1
-        case 4 => this.xPosition = this.xPosition - 1
+//      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
+
+      if (directionOptions.contains(direction)){
+        direction match {
+          case Up => this.yPosition = this.yPosition + 1
+          case Right => this.xPosition = this.xPosition + 1
+          case Down => this.yPosition = this.yPosition - 1
+          case Left => this.xPosition = this.xPosition - 1
+        }
       }
     }
   }

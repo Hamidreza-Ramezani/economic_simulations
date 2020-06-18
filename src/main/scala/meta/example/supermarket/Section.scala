@@ -8,7 +8,6 @@ import squid.quasi.lift
 class Section(var sectionName: String,var sectionShufflingPolicy: ShufflingPolicy) extends SectionTrait {
 
 
-
   def main(): Unit = {
     writer = new PrintWriter(new File("m/section" + sectionName))
     while (true) {

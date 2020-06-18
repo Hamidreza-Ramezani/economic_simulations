@@ -191,6 +191,7 @@ class Customer1(var supermarket: SupermarketTrait) extends People with Weekly wi
         }
         SpecialInstructions.waitTurns(12)
       })
+
     }
   }
 }

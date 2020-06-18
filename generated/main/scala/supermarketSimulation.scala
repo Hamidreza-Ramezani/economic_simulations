@@ -3,7 +3,7 @@ import meta.example.supermarket.{SectionTrait, SupermarketTrait, granularity}
 import com.typesafe.scalalogging.Logger
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
 import org.apache.log4j.BasicConfigurator
-import meta.example.supermarket.worldmap.World
+import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, World, WorldTrait}
 
 import scala.util.Random
 
@@ -19,9 +19,11 @@ object supermarketSimulation extends App {
   BasicConfigurator.configure()
   val logger = Logger("Root")
   var supermarket: SupermarketTrait = _
-  val mapWidth = 10
-  val mapHeight = 10
-  val worldMap = new World(mapWidth, mapHeight)
+
+  var worldMap: WorldTrait = _
+  //  val mapWidth = worldMap.width
+  //  val mapHeight = worldMap.height
+  //  val worldMap = new World(mapWidth, mapHeight)
 
 
   def init(): Unit = {
@@ -32,7 +34,10 @@ object supermarketSimulation extends App {
   def collect(current_time: Int): Unit = {
     meta.deep.runtime.Actor.newActors.foreach(i => i.timer = current_time)
     actors = actors ::: meta.deep.runtime.Actor.newActors.toList
-    meta.deep.runtime.Actor.newActors.toList.foreach(actor => worldMap.addEntity(actor))
+    meta.deep.runtime.Actor.newActors.toList.foreach { actor =>
+      actor.setInitialPosition(Random.nextInt(worldMap.width), Random.nextInt(worldMap.height))
+      worldMap.addEntity(actor)
+    }
     meta.deep.runtime.Actor.newActors.clear()
   }
 
@@ -42,18 +47,25 @@ object supermarketSimulation extends App {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
         supermarket = actors(i).asInstanceOf[SupermarketTrait]
       }
-    }
-
-    for (i <- actors.indices) {
-      if (actors(i).getClass.getSimpleName == "Section") {
-        actors(i).asInstanceOf[SectionTrait].supermarket = supermarket
+      else if (actors(i).getClass.getSimpleName == "World") {
+        worldMap = actors(i).asInstanceOf[WorldTrait]
       }
+
     }
 
-    for (i <- actors.indices) {
-      actors(i).setInitialPosition(Random.nextInt(mapWidth), Random.nextInt(mapHeight))
-      worldMap.addEntity(actors(i))
-    }
+    //    for (i <- actors.indices) {
+    //      if (actors(i).getClass.getSimpleName == "Section") {
+    //        actors(i).asInstanceOf[SectionTrait].supermarket = supermarket
+    //      }
+    //    }
+
+    //    for (i <- actors.indices) {
+    //      if (actors(i).getClass.getSimpleName == "World") {
+    //        worldMap = actors(i).asInstanceOf[WorldTrait]
+    //      }
+    //      //      actors(i).setInitialPosition(Random.nextInt(mapWidth), Random.nextInt(mapHeight))
+    //      //      worldMap.addEntity(actors(i))
+    //    }
 
     for (i <- actors.indices) {
       if (actors(i).getClass.getSimpleName == "Employee") {
@@ -84,6 +96,16 @@ object supermarketSimulation extends App {
       for (i <- actors.indices) {
         if (actors(i).getClass.getSimpleName == "Farmer") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
+
+          //          if (timer == 100) {
+          //            actors(i).move(worldMap, Left)
+          //          }
+          //          if (timer == 150) {
+          //            actors(i).move(worldMap, Up)
+          //            actors(i).move(worldMap, Up)
+          //            actors(i).move(worldMap, Right)
+          //            actors(i).move(worldMap, Right)
+          //          }
         }
       }
 

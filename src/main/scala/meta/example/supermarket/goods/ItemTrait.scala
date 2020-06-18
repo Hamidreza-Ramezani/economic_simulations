@@ -31,10 +31,10 @@ trait Item extends Actor {
   var supermarket: SupermarketTrait
   var section: SectionTrait
 
-  override def setInitialPosition(x: Int, y:Int): Unit = {
-    this.xPosition = supermarket.xPosition
-    this.yPosition = supermarket.yPosition
-  }
+//  override def setInitialPosition(x: Int, y:Int): Unit = {
+//    this.xPosition = supermarket.xPosition
+//    this.yPosition = supermarket.yPosition
+//  }
 
 
   // need to explicitly pass the itemstate as a parameter

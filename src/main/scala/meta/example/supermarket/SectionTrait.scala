@@ -17,12 +17,12 @@ trait SectionTrait extends Actor with SummaryTrait {
   //  var cashier: CashierTrait = null
   var sectionShufflingPolicy: ShufflingPolicy
   canMove = false
-  var supermarket: SupermarketTrait = null
+//  var supermarket: SupermarketTrait
 
-  override def setInitialPosition(x: Int, y:Int): Unit = {
-    this.xPosition = supermarket.xPosition
-    this.yPosition = supermarket.yPosition
-  }
+//  override def setInitialPosition(x: Int, y:Int): Unit = {
+//    this.xPosition = supermarket.xPosition
+//    this.yPosition = supermarket.yPosition
+//  }
 
   def isNotFull(): Boolean = {
     shelves.foreach(shelf =>
