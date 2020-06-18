@@ -176,6 +176,8 @@ class Actor {
 
   var xPosition: Int = 0
   var yPosition: Int = 0
+  var oldXPosition: Int = 0
+  var oldYPosition: Int = 0
   var canMove: Boolean = true
 
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
@@ -190,7 +192,6 @@ class Actor {
       val coordinates: Array[Array[Tile]] = world.coordinates
       val worldRows: Int = coordinates(0).length
       val worldCols: Int = coordinates.length
-      val randomInt: Random = new Random()
       var directionOptions: ListBuffer[Direction] = new ListBuffer[Direction]
       directionOptions += Up
       directionOptions += Right
@@ -219,12 +220,16 @@ class Actor {
       //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
 
       if (directionOptions.contains(direction)) {
+        this.oldXPosition = this.xPosition
+        this.oldYPosition = this.yPosition
         direction match {
           case Up => this.yPosition = this.yPosition + 1
           case Right => this.xPosition = this.xPosition + 1
           case Down => this.yPosition = this.yPosition - 1
           case Left => this.xPosition = this.xPosition - 1
         }
+        //update map
+        world.updateMap(this)
       }
     }
   }

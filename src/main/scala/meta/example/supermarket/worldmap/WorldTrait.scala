@@ -8,8 +8,10 @@ trait WorldTrait extends Actor {
   var width: Int
   var height: Int
 
-  var coordinates: Array[Array[Tile]] = Array.ofDim[Tile](width, height)
-  val tiles: ListBuffer[Tile] = new ListBuffer[Tile]()
+  val coordinates: Array[Array[Tile]] = Array.ofDim[Tile](width, height)
+  val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
+  var tiles: ListBuffer[Tile] = new ListBuffer[Tile]()
+
   for (i <- 0 until width) {
     for (j <- 0 until height) {
       coordinates(i)(j) = new Tile(i, j)
@@ -26,6 +28,19 @@ trait WorldTrait extends Actor {
     val x = actor.xPosition
     val y = actor.yPosition
     coordinates(x)(y).addEntity(actor)
+  }
+
+  def removeOldEntity(actor: Actor): Unit = {
+    val x = actor.oldXPosition
+    val y = actor.oldYPosition
+    coordinates(x)(y).removeEntity(actor)
+  }
+
+  def updateMap(actor: Actor): Unit = {
+    removeOldEntity(actor)
+    addEntity(actor)
+    val coordinates_copy = coordinates.clone()
+    tiles = coordinates_copy.flatten.to[ListBuffer]
   }
 
   def setTileType(x: Int, y: Int, myType: String): Unit = {
@@ -50,7 +65,7 @@ trait WorldTrait extends Actor {
 
   override def toString = {
     var s = ""
-    tiles.foreach{
+    tiles.foreach {
       tile =>
         s += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
     }

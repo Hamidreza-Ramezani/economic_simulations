@@ -19,7 +19,7 @@ object supermarketSimulation extends App {
   BasicConfigurator.configure()
   val logger = Logger("Root")
   var supermarket: SupermarketTrait = _
-//  var worldMap: WorldTrait = _
+  var worldMap: WorldTrait = _
 
 
   def init(): Unit = {
@@ -43,9 +43,9 @@ object supermarketSimulation extends App {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
         supermarket = actors(i).asInstanceOf[SupermarketTrait]
       }
-      //      else if (actors(i).getClass.getSimpleName == "World") {
-      //        worldMap = actors(i).asInstanceOf[WorldTrait]
-      //      }
+      else if (actors(i).getClass.getSimpleName == "World") {
+        worldMap = actors(i).asInstanceOf[WorldTrait]
+      }
     }
 
     for (i <- actors.indices) {
@@ -77,16 +77,9 @@ object supermarketSimulation extends App {
       for (i <- actors.indices) {
         if (actors(i).getClass.getSimpleName == "Farmer") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-
-          //          if (timer == 100) {
-          //            actors(i).move(worldMap, Left)
-          //          }
-          //          if (timer == 150) {
-          //            actors(i).move(worldMap, Up)
-          //            actors(i).move(worldMap, Up)
-          //            actors(i).move(worldMap, Right)
-          //            actors(i).move(worldMap, Right)
-          //          }
+//          if (timer % 10 == 0) {
+//            actors(i).move(worldMap, Left)
+//          }
         }
       }
 
