@@ -6,6 +6,7 @@ import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan2, MealPlan_Dummy2, People, Weekly}
 import meta.example.supermarket.utils.randElement
+import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
 
 import scala.util.Random
@@ -17,7 +18,7 @@ import scala.collection.mutable.ListBuffer
 /* Auto generated from genCustomers */
 
 @lift
-class Customer2 (var supermarket: SupermarketTrait) extends People with Weekly with MealPlan_Dummy2 with ImpulseShopper {
+class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extends People with Weekly with MealPlan_Dummy2 with ImpulseShopper {
 
 
   //  def addRandItems(shoppingList: categoryAmount): Unit = {
@@ -100,6 +101,9 @@ class Customer2 (var supermarket: SupermarketTrait) extends People with Weekly w
   }
 
   def main(): Unit = {
+    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    world.addEntity(this)
+
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
     writer.write("timer: " + timer + "\n\n\n")

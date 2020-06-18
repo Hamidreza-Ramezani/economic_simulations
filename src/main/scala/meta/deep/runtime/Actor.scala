@@ -6,6 +6,7 @@ import java.util.UUID
 import meta.deep.runtime.Actor.AgentId
 import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, World, WorldTrait}
 
+import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
 import scala.util.Random
 
@@ -16,6 +17,10 @@ import scala.util.Random
 object Actor {
   type AgentId = Long
   var lastAgentId: AgentId = 0
+  //  val mapWidth = 10
+  //  val mapHeight = 10
+  //  var world: WorldTrait = _
+
 
   /**
     * Generates a new id for an agent and returns it
@@ -34,21 +39,21 @@ object Monitor {
   val aggregates: Map[String, Int] = Map[String, Int]()
   val timeseries: Map[String, ListBuffer[Int]] = Map[String, ListBuffer[Int]]()
 
-  private var daily_aggregate: Map[String, Int] = Map[String, Int]()
+  private var daily_aggregate: mutable.Map[String, Int] = mutable.Map[String, Int]()
 
   def logAggregate(attr: String, num: Int = 1): Unit = {
-    if (!aggregates.get(attr).isDefined) {
+    if (aggregates.get(attr).isEmpty) {
       aggregates += (attr -> num)
     } else {
-      aggregates += (attr -> (aggregates.get(attr).get + num))
+      aggregates += (attr -> (aggregates(attr) + num))
     }
   }
 
   def logTimeseries(attr: String, num: Int = 1): Unit = {
-    if (!daily_aggregate.get(attr).isDefined) {
+    if (daily_aggregate.get(attr).isEmpty) {
       daily_aggregate += (attr -> num)
     } else {
-      daily_aggregate += (attr -> (daily_aggregate.get(attr).get + num))
+      daily_aggregate += (attr -> (daily_aggregate(attr) + num))
     }
   }
 
@@ -70,14 +75,14 @@ object Monitor {
                     () => {
                       println("Monitor stats: " + aggregates)
                     }): Unit = {
-    (action())
+    action()
     timeElapse()
   }
 
   def onCompletion(action: () => Unit =
                    () => println("Summary: \n" + aggregates
                      + "\nTimeseries:\n" + timeseries)): Unit = {
-    (action())
+    action()
   }
 }
 
@@ -148,10 +153,10 @@ case class ResponseMessage(override val senderId: Actor.AgentId,
   extends Message
 
 case class Future[+T](var isCompleted: Boolean = false,
-                      val value: Option[T] = None,
-                      val id: String = UUID.randomUUID().toString) {
+                      value: Option[T] = None,
+                      id: String = UUID.randomUUID().toString) {
   def setValue[U >: T](y: U): Future[U] = {
-    Future(true, Some(y), id)
+    Future(isCompleted = true, Some(y), id)
   }
 }
 
@@ -167,7 +172,7 @@ class Actor {
   var current_pos: Int = 0
   var monitor = Monitor
   //  var writer: PrintWriter = new PrintWriter(new FileWriter(new File("m/agent" + id)))
-  var writer: PrintWriter = null
+  var writer: PrintWriter = _
 
   var xPosition: Int = 0
   var yPosition: Int = 0
@@ -175,7 +180,7 @@ class Actor {
 
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
 
-  def setInitialPosition(x: Int, y:Int): Unit = {
+  def setInitialPosition(x: Int, y: Int): Unit = {
     this.xPosition = x
     this.yPosition = y
   }
@@ -211,9 +216,9 @@ class Actor {
       else if (this.yPosition == worldRows) {
         directionOptions -= Down
       }
-//      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
+      //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
 
-      if (directionOptions.contains(direction)){
+      if (directionOptions.contains(direction)) {
         direction match {
           case Up => this.yPosition = this.yPosition + 1
           case Right => this.xPosition = this.xPosition + 1

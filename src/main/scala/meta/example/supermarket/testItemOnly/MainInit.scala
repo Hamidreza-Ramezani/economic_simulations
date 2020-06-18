@@ -9,7 +9,7 @@ import meta.example.supermarket.customers._
 import meta.example.supermarket.goods._
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck}
 import meta.example.supermarket.people._
-import meta.example.supermarket.worldmap.World
+import meta.example.supermarket.worldmap.{World, WorldTrait}
 
 import scala.util.Random
 
@@ -24,14 +24,13 @@ class MainInit {
 
     val mapWidth = 10
     val mapHeight = 10
-    val worldMap = new World(mapWidth, mapHeight)
+    val worldMap: WorldTrait = new World(mapWidth, mapHeight)
 
-
-    val sectionVegetable = new Section("Vegetable", FIFO)
-    val sectionMeat = new Section("Meat", FIFO)
-    val sectionDairy = new Section("Dairy", FIFO)
-    val sectionSnack = new Section("Snack", FIFO)
-    val sectionGrain = new Section("Grain", LIFO)
+    val sectionVegetable = new Section("Vegetable", FIFO, worldMap)
+    val sectionMeat = new Section("Meat", FIFO, worldMap)
+    val sectionDairy = new Section("Dairy", FIFO, worldMap)
+    val sectionSnack = new Section("Snack", FIFO, worldMap)
+    val sectionGrain = new Section("Grain", LIFO, worldMap)
 
 
     var sectionLst = new ListBuffer[SectionTrait]()
@@ -42,36 +41,36 @@ class MainInit {
     sectionLst += sectionGrain
 
 
-    val supermarket = new Supermarket(sectionLst)
-    val truck = new Truck(supermarket)
-    val manufacturer = new Manufacturer(truck, supermarket)
-    val farmer = new Farmer(manufacturer)
-    val employee1 = new Employee(supermarket, sectionVegetable, manufacturer)
-    val cashier1 = new Cashier
+    val supermarket = new Supermarket(sectionLst, worldMap)
+    val truck = new Truck(supermarket, worldMap)
+    val manufacturer = new Manufacturer(truck, supermarket, worldMap)
+    val farmer = new Farmer(manufacturer, worldMap)
+    val employee1 = new Employee(supermarket, sectionVegetable, manufacturer, worldMap)
+    val cashier1 = new Cashier(worldMap)
 
-    val customer1 = new Customer1(supermarket)
-    val customer2 = new Customer2(supermarket)
-    val customer3 = new Customer3(supermarket)
-
-
-    val item1 = new Item1(supermarket, sectionVegetable)
-    val item2 = new Item2(supermarket, sectionVegetable)
-    val item3 = new Item3(supermarket, sectionVegetable)
-    val item4 = new Item4(supermarket, sectionVegetable)
-    val item5 = new Item5(supermarket, sectionVegetable)
-    val item6 = new Item6(supermarket, sectionVegetable)
-    val item7 = new Item7(supermarket, sectionVegetable)
-    val item8 = new Item8(supermarket, sectionVegetable)
-    val item9 = new Item9(supermarket, sectionVegetable)
-    val item10 = new Item10(supermarket, sectionVegetable)
-    val item11 = new Item11(supermarket, sectionVegetable)
+    val customer1 = new Customer1(supermarket, worldMap)
+    val customer2 = new Customer2(supermarket, worldMap)
+    val customer3 = new Customer3(supermarket, worldMap)
 
 
-//    sectionVegetable.supermarket = supermarket
-//    sectionMeat.supermarket = supermarket
-//    sectionDairy.supermarket = supermarket
-//    sectionSnack.supermarket = supermarket
-//    sectionGrain.supermarket = supermarket
+    val item1 = new Item1(supermarket, sectionVegetable, worldMap)
+    val item2 = new Item2(supermarket, sectionVegetable, worldMap)
+    val item3 = new Item3(supermarket, sectionVegetable, worldMap)
+    val item4 = new Item4(supermarket, sectionVegetable, worldMap)
+    val item5 = new Item5(supermarket, sectionVegetable, worldMap)
+    val item6 = new Item6(supermarket, sectionVegetable, worldMap)
+    val item7 = new Item7(supermarket, sectionVegetable, worldMap)
+    val item8 = new Item8(supermarket, sectionVegetable, worldMap)
+    val item9 = new Item9(supermarket, sectionVegetable, worldMap)
+    val item10 = new Item10(supermarket, sectionVegetable, worldMap)
+    val item11 = new Item11(supermarket, sectionVegetable, worldMap)
+
+
+    //    sectionVegetable.supermarket = supermarket
+    //    sectionMeat.supermarket = supermarket
+    //    sectionDairy.supermarket = supermarket
+    //    sectionSnack.supermarket = supermarket
+    //    sectionGrain.supermarket = supermarket
 
 
     l_repeat.append(farmer)
@@ -207,10 +206,10 @@ class MainInit {
     l_repeat.clear()
 
 
-    l.toList.foreach { actor =>
-      actor.setInitialPosition(Random.nextInt(mapWidth), Random.nextInt(mapHeight))
-      worldMap.addEntity(actor)
-    }
+    //    l.toList.foreach { actor =>
+    //      actor.setInitialPosition(Random.nextInt(worldMap.width), Random.nextInt(worldMap.height))
+    //      worldMap.addEntity(actor)
+    //    }
 
     l_repeat.append(worldMap)
     l ++= l_repeat

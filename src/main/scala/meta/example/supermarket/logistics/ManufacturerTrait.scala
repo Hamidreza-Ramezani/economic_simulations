@@ -3,11 +3,14 @@ package meta.example.supermarket.logistics
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.goods.{Item, newItemsMap}
+import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable
 
 trait ManufacturerTrait extends Actor {
 
+
+  var world: WorldTrait
   var manufacturerState: ManufacturerState = chilling
   var truck: TruckTrait
   var supermarket: SupermarketTrait

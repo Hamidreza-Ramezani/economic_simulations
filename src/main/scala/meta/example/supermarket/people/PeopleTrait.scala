@@ -5,9 +5,13 @@ import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, getArticleUnit, gram}
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.{randElement, toShoppingList}
+import meta.example.supermarket.worldmap.WorldTrait
+
 import scala.collection.mutable.ListBuffer
 
 trait People extends Actor {
+
+  var world: WorldTrait
   //  val age: Int
   val frequency: Int
   val priceConscious: Double
@@ -18,7 +22,7 @@ trait People extends Actor {
   val preference: String
   val mealCnt: Int
   var supermarket: SupermarketTrait
-//  assert(supermarket.vegetables.size > 1) // store has been properly initialized
+  //  assert(supermarket.vegetables.size > 1) // store has been properly initialized
   val fridge: Fridge = new Fridge
 
   def addRandItemsToBasket(shoppingList: categoryAmount): Unit = {

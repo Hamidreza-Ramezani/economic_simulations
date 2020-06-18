@@ -4,13 +4,15 @@ import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.example.supermarket.goods.Item
+import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
 
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Queue}
+import scala.util.Random
 
 @lift
-class Cashier extends CashierTrait {
+class Cashier(var world: WorldTrait) extends CashierTrait {
   var isFirstBasket: Boolean = true
 
 
@@ -46,6 +48,9 @@ class Cashier extends CashierTrait {
   }
 
   def main(): Unit = {
+    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    world.addEntity(this)
+
     writer = new PrintWriter(new FileWriter(new File("m/agentCashier" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {

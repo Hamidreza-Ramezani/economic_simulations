@@ -1,5 +1,7 @@
 package meta.example.supermarket.worldmap
 
+import java.io.{File, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import squid.quasi.lift
@@ -8,7 +10,10 @@ import squid.quasi.lift
 class World(var width: Int, var height: Int) extends WorldTrait {
 
   def main(): Unit = {
+    writer = new PrintWriter(new File("m/agentWorldMap" + id))
     while (true) {
+      writer.write("\n\n" + "Timer " + timer + "\n\n")
+      writer.write(this.toString)
       SpecialInstructions.waitTurns(1)
     }
   }

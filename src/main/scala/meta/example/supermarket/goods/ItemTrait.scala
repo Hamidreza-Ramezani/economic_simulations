@@ -3,9 +3,11 @@ package meta.example.supermarket.goods
 import meta.deep.runtime.Actor
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import meta.example.supermarket.utils.to2Dec
+import meta.example.supermarket.worldmap.WorldTrait
 
 trait Item extends Actor {
 
+  var world: WorldTrait
   val name: String
   val price: Double
   val priceUnit: Int
@@ -31,10 +33,21 @@ trait Item extends Actor {
   var supermarket: SupermarketTrait
   var section: SectionTrait
 
-//  override def setInitialPosition(x: Int, y:Int): Unit = {
-//    this.xPosition = supermarket.xPosition
-//    this.yPosition = supermarket.yPosition
-//  }
+  override def setInitialPosition(x: Int, y: Int): Unit = {
+    world.tiles.foreach {
+      tile =>
+        tile.entities.foreach {
+          entity =>
+            if (entity.getClass.getSimpleName == "Supermarket") {
+              this.xPosition = entity.xPosition
+              this.yPosition = entity.yPosition
+            }
+        }
+    }
+
+    //    this.xPosition = supermarket.xPosition
+    //    this.yPosition = supermarket.yPosition
+  }
 
 
   // need to explicitly pass the itemstate as a parameter

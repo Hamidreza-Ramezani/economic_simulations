@@ -3,14 +3,18 @@ package meta.example.supermarket
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.{Item, newItemsMap}
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
+import meta.example.supermarket.worldmap.WorldTrait
+
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 trait SupermarketTrait extends Actor with SummaryTrait {
 
+
+  var world: WorldTrait
   //  val warehouse: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-//  var shelfCapacity: Int = 5
+  //  var shelfCapacity: Int = 5
   //todo : having a list of employees
   var employees: ListBuffer[EmployeeTrait] = new ListBuffer[EmployeeTrait]()
   //  var employee: EmployeeTrait = null

@@ -1,16 +1,20 @@
 package meta.example.supermarket.people
 
 import java.io.{File, FileWriter, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.logistics.{ManufacturerTrait, receivedOrderFromSupermarket, unloadingTruck}
+import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import squid.quasi.lift
+
 import scala.collection.mutable.ListBuffer
+import scala.util.Random
 
 @lift
-class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var manufacturer: ManufacturerTrait) extends EmployeeTrait {
+class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var manufacturer: ManufacturerTrait, var world: WorldTrait) extends EmployeeTrait {
 
 
   def orderItems(): Unit = {
@@ -166,6 +170,9 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
   //  }
 
   def main(): Unit = {
+    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    world.addEntity(this)
+
     writer = new PrintWriter(new FileWriter(new File("m/agentEmployee" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {

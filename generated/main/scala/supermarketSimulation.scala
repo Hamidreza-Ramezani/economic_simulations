@@ -19,11 +19,7 @@ object supermarketSimulation extends App {
   BasicConfigurator.configure()
   val logger = Logger("Root")
   var supermarket: SupermarketTrait = _
-
-  var worldMap: WorldTrait = _
-  //  val mapWidth = worldMap.width
-  //  val mapHeight = worldMap.height
-  //  val worldMap = new World(mapWidth, mapHeight)
+//  var worldMap: WorldTrait = _
 
 
   def init(): Unit = {
@@ -35,8 +31,8 @@ object supermarketSimulation extends App {
     meta.deep.runtime.Actor.newActors.foreach(i => i.timer = current_time)
     actors = actors ::: meta.deep.runtime.Actor.newActors.toList
     meta.deep.runtime.Actor.newActors.toList.foreach { actor =>
-      actor.setInitialPosition(Random.nextInt(worldMap.width), Random.nextInt(worldMap.height))
-      worldMap.addEntity(actor)
+      //      actor.setInitialPosition(Random.nextInt(worldMap.width), Random.nextInt(worldMap.height))
+      //      worldMap.addEntity(actor)
     }
     meta.deep.runtime.Actor.newActors.clear()
   }
@@ -47,25 +43,10 @@ object supermarketSimulation extends App {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
         supermarket = actors(i).asInstanceOf[SupermarketTrait]
       }
-      else if (actors(i).getClass.getSimpleName == "World") {
-        worldMap = actors(i).asInstanceOf[WorldTrait]
-      }
-
+      //      else if (actors(i).getClass.getSimpleName == "World") {
+      //        worldMap = actors(i).asInstanceOf[WorldTrait]
+      //      }
     }
-
-    //    for (i <- actors.indices) {
-    //      if (actors(i).getClass.getSimpleName == "Section") {
-    //        actors(i).asInstanceOf[SectionTrait].supermarket = supermarket
-    //      }
-    //    }
-
-    //    for (i <- actors.indices) {
-    //      if (actors(i).getClass.getSimpleName == "World") {
-    //        worldMap = actors(i).asInstanceOf[WorldTrait]
-    //      }
-    //      //      actors(i).setInitialPosition(Random.nextInt(mapWidth), Random.nextInt(mapHeight))
-    //      //      worldMap.addEntity(actors(i))
-    //    }
 
     for (i <- actors.indices) {
       if (actors(i).getClass.getSimpleName == "Employee") {

@@ -1,7 +1,6 @@
 package meta.example.supermarket.worldmap
 
 import meta.deep.runtime.Actor
-
 import scala.collection.mutable.ListBuffer
 
 trait WorldTrait extends Actor {
@@ -48,4 +47,13 @@ trait WorldTrait extends Actor {
     entities
   }
 
+
+  override def toString = {
+    var s = ""
+    tiles.foreach{
+      tile =>
+        s += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
+    }
+    s
+  }
 }

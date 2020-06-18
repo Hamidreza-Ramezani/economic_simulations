@@ -1,13 +1,16 @@
 package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.SupermarketTrait
+import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
 
-@lift
-class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
+import scala.util.Random
 
+@lift
+class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends TruckTrait {
 
 
   def checkIfThereIsOrderFromManufacturer(): Unit = {
@@ -52,12 +55,15 @@ class Truck(var supermarket: SupermarketTrait) extends TruckTrait {
         //then change the employee code base
         // TODO add the item into supermarket: done,
         //  changing the state of the item: done
-//        supermarket.itemsRecentlyOrdered = false
+        //        supermarket.itemsRecentlyOrdered = false
       }
     }
   }
 
   def main(): Unit = {
+    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    world.addEntity(this)
+
     writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {

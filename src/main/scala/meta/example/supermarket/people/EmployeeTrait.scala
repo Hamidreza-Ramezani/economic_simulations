@@ -2,6 +2,7 @@ package meta.example.supermarket.people
 
 import meta.deep.runtime.Actor
 import meta.example.supermarket.logistics.{Farmer, FarmerTrait, ManufacturerTrait, TruckTrait}
+import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{Section, SectionTrait, Supermarket, SupermarketTrait}
 
 trait EmployeeTrait extends Actor {
@@ -11,6 +12,7 @@ trait EmployeeTrait extends Actor {
   var manufacturer: ManufacturerTrait
   var truck: TruckTrait = manufacturer.truck
   var supermarket: SupermarketTrait
+  var world: WorldTrait
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
     this.xPosition = supermarket.xPosition

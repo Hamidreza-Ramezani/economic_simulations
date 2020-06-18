@@ -8,6 +8,7 @@ import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.goods.{Item, newItemsMap}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan1, MealPlan_Dummy1, People, Weekly}
 import meta.example.supermarket.utils.{randElement, toShoppingList}
+import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
 //import squid.quasi.dbg_lift
 
@@ -18,7 +19,7 @@ import scala.collection.mutable
 
 /* Auto generated from genCustomers */
 @lift
-class Customer1(var supermarket: SupermarketTrait) extends People with Weekly with MealPlan_Dummy1 with ImpulseShopper {
+class Customer1(var supermarket: SupermarketTrait, var world: WorldTrait) extends People with Weekly with MealPlan_Dummy1 with ImpulseShopper {
 
 
   //  def addRandItems(shoppingList: categoryAmount): Unit = {
@@ -87,8 +88,8 @@ class Customer1(var supermarket: SupermarketTrait) extends People with Weekly wi
       if (consumed < pair._2) {
         writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
-//        val sectionName = newItemsMap.categoryMap(pair._1)
-//        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
+        //        val sectionName = newItemsMap.categoryMap(pair._1)
+        //        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
         while (supermarket.getEmployeesState == "reFillingShelves") {
           writer.write("Customer's Actor id " + id + " is waiting for the employee " + "to refill the shelves" + "\n")
           println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
@@ -103,6 +104,8 @@ class Customer1(var supermarket: SupermarketTrait) extends People with Weekly wi
   }
 
   def main(): Unit = {
+    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    world.addEntity(this)
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
