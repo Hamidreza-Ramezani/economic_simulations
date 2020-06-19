@@ -7,40 +7,42 @@ trait WorldTrait extends Actor {
 
   var width: Int
   var height: Int
-
   val coordinates: Array[Array[Tile]] = Array.ofDim[Tile](width, height)
   val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
-  var tiles: ListBuffer[Tile] = new ListBuffer[Tile]()
+  var coordinates_flattened: ListBuffer[Tile] = new ListBuffer[Tile]()
 
   for (i <- 0 until width) {
     for (j <- 0 until height) {
       coordinates(i)(j) = new Tile(i, j)
-      tiles += coordinates(i)(j)
+      coordinates_flattened += coordinates(i)(j)
     }
   }
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
-    this.xPosition = 0
-    this.yPosition = 0
+    this.initialXPosition = 0
+    this.initialYPosition = 0
+    currentXPosition = initialXPosition
+    currentYPosition = initialYPosition
   }
 
-  def addEntity(actor: Actor): Unit = {
-    val x = actor.xPosition
-    val y = actor.yPosition
-    coordinates(x)(y).addEntity(actor)
+  def addActor(actor: Actor): Unit = {
+    //todo: shall we use initial positions?
+    val x = actor.currentXPosition
+    val y = actor.currentYPosition
+    coordinates(x)(y).addActor(actor)
   }
 
-  def removeOldEntity(actor: Actor): Unit = {
+  def removeOldActor(actor: Actor): Unit = {
     val x = actor.oldXPosition
     val y = actor.oldYPosition
-    coordinates(x)(y).removeEntity(actor)
+    coordinates(x)(y).removeActor(actor)
   }
 
   def updateMap(actor: Actor): Unit = {
-    removeOldEntity(actor)
-    addEntity(actor)
+    removeOldActor(actor)
+    addActor(actor)
     val coordinates_copy = coordinates.clone()
-    tiles = coordinates_copy.flatten.to[ListBuffer]
+    coordinates_flattened = coordinates_copy.flatten.to[ListBuffer]
   }
 
   def setTileType(x: Int, y: Int, myType: String): Unit = {
@@ -48,27 +50,26 @@ trait WorldTrait extends Actor {
   }
 
   def getTiles: ListBuffer[Tile] = {
-    tiles
+    coordinates_flattened
   }
 
-  def getEntities: ListBuffer[Actor] = {
-    val entities: ListBuffer[Actor] = new ListBuffer[Actor]()
+  def getActors: ListBuffer[Actor] = {
+    val actors: ListBuffer[Actor] = new ListBuffer[Actor]()
     coordinates.foreach {
       row =>
         row.foreach {
-          tile => entities.append(tile.entities: _*)
+          tile => actors.append(tile.actors: _*)
         }
     }
-    entities
+    actors
   }
 
-
   override def toString = {
-    var s = ""
-    tiles.foreach {
+    var str = ""
+    coordinates_flattened.foreach {
       tile =>
-        s += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
+        str += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
     }
-    s
+    str
   }
 }

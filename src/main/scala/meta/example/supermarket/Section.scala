@@ -15,7 +15,7 @@ class Section(var sectionName: String,var sectionShufflingPolicy: ShufflingPolic
   def main(): Unit = {
     writer = new PrintWriter(new File("m/agentSection" + sectionName + id))
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-    world.addEntity(this)
+    world.addActor(this)
 
     while (true) {
       //      shelves.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))

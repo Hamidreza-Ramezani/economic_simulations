@@ -15,7 +15,7 @@ class Item15(var supermarket: SupermarketTrait, var section: SectionTrait, var w
 
   def main(): Unit = {
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-    world.addEntity(this)
+    world.addActor(this)
 
     while (age < freshUntil && !state.isConsumed) {
       itemInfo

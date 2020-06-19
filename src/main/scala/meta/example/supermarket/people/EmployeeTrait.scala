@@ -15,8 +15,10 @@ trait EmployeeTrait extends Actor {
   var world: WorldTrait
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
-    this.xPosition = supermarket.xPosition
-    this.yPosition = supermarket.yPosition
+    this.initialXPosition = supermarket.initialXPosition
+    this.initialYPosition = supermarket.initialYPosition
+    currentXPosition = initialXPosition
+    currentYPosition = initialYPosition
   }
 
 

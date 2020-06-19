@@ -43,9 +43,9 @@ object supermarketSimulation extends App {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
         supermarket = actors(i).asInstanceOf[SupermarketTrait]
       }
-      else if (actors(i).getClass.getSimpleName == "World") {
-        worldMap = actors(i).asInstanceOf[WorldTrait]
-      }
+//      else if (actors(i).getClass.getSimpleName == "World") {
+//        worldMap = actors(i).asInstanceOf[WorldTrait]
+//      }
     }
 
     for (i <- actors.indices) {
@@ -62,7 +62,7 @@ object supermarketSimulation extends App {
       for (i <- actors.indices) {
         if (actors(i).writer != null) {
           actors(i).writer.write("\n \n" + "timer: " + timer + "\n \n")
-          actors(i).writer.write("\n \n" + "position: x = " + actors(i).xPosition + "  y = " + actors(i).yPosition + "\n \n")
+          actors(i).writer.write("\n \n" + "position: x = " + actors(i).currentXPosition + "  y = " + actors(i).currentYPosition + "\n \n")
           actors(i).writer.flush()
         }
       }
@@ -77,9 +77,6 @@ object supermarketSimulation extends App {
       for (i <- actors.indices) {
         if (actors(i).getClass.getSimpleName == "Farmer") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-//          if (timer % 10 == 0) {
-//            actors(i).move(worldMap, Left)
-//          }
         }
       }
 

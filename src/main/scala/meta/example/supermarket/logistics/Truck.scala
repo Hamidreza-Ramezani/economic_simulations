@@ -62,11 +62,31 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
 
   def main(): Unit = {
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-    world.addEntity(this)
+    world.addActor(this)
 
     writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
+
+      if(timer % 7 == 0 ){
+        if (timer != 0){
+          writer.write("Truck goes toward the supermarket. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+          println("Truck goes toward the supermarket. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+          move(world,supermarket)
+          SpecialInstructions.waitTurns(1)
+          writer.write("Truck gets into the supermarket. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
+          println("Truck gets into the supermarket. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
+          SpecialInstructions.waitTurns(1)
+//          writer.write("Truck goes toward its initial position. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
+//          println("Truck goes toward its initial position. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
+//          comeBackToInitialPoint(world)
+//          SpecialInstructions.waitTurns(1)
+//          writer.write("Truck gets home. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
+//          println("Truck gets home. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
+        }
+      }
+
+
       //todo truck should wait as long as manufacturer does not notify them
       checkIfThereIsOrderFromManufacturer()
       doTransport()

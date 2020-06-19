@@ -49,7 +49,7 @@ class Cashier(var world: WorldTrait) extends CashierTrait {
 
   def main(): Unit = {
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-    world.addEntity(this)
+    world.addActor(this)
 
     writer = new PrintWriter(new FileWriter(new File("m/agentCashier" + id)))
     writer.write("timer: " + timer + "\n\n\n")

@@ -173,18 +173,52 @@ class Actor {
   var monitor = Monitor
   //  var writer: PrintWriter = new PrintWriter(new FileWriter(new File("m/agent" + id)))
   var writer: PrintWriter = _
-
-  var xPosition: Int = 0
-  var yPosition: Int = 0
+  var initialXPosition: Int = 0
+  var initialYPosition: Int = 0
+  var currentXPosition: Int = 0
+  var currentYPosition: Int = 0
   var oldXPosition: Int = 0
   var oldYPosition: Int = 0
   var canMove: Boolean = true
-
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
 
   def setInitialPosition(x: Int, y: Int): Unit = {
-    this.xPosition = x
-    this.yPosition = y
+    this.initialXPosition = x
+    this.initialYPosition = y
+    currentXPosition = initialXPosition
+    currentYPosition = initialYPosition
+  }
+
+  def manhattanDistanceFrom(actor: Actor): Int = {
+    val xDifference = (this.currentXPosition - actor.currentXPosition).abs
+    val yDifference = (this.currentYPosition - actor.currentYPosition).abs
+    val distance: Int = xDifference + yDifference
+    distance
+  }
+
+  def comeBackToInitialPoint(world: WorldTrait): Unit = {
+    move(world, initialXPosition, initialYPosition)
+  }
+
+  def move(world: WorldTrait, target: Actor): Unit = {
+    move(world, target.currentXPosition, target.currentYPosition)
+  }
+
+  def move(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+    if (canMove) {
+      while (currentXPosition < targetXPosition) {
+        move(world, Right)
+      }
+      while (currentXPosition > targetXPosition) {
+        move(world, Left)
+      }
+      while (currentYPosition < targetYPosition) {
+        move(world, Up)
+      }
+      while (currentYPosition > targetYPosition) {
+        move(world, Down)
+      }
+    }
   }
 
   def move(world: WorldTrait, direction: Direction): Unit = {
@@ -202,31 +236,31 @@ class Actor {
        * 2 = move right	4 = move left
        */
       // Entity is in left column
-      if (this.xPosition == 0) {
+      if (this.currentXPosition == 0) {
         directionOptions -= Left
       }
       // Entity is in right column
-      else if (this.xPosition == worldCols) {
+      else if (this.currentXPosition == worldCols) {
         directionOptions -= Right
       }
       // Entity is in top row
-      if (this.yPosition == 0) {
+      if (this.currentYPosition == 0) {
         directionOptions -= Up
       }
       // Entity is in bottom row
-      else if (this.yPosition == worldRows) {
+      else if (this.currentYPosition == worldRows) {
         directionOptions -= Down
       }
       //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
 
       if (directionOptions.contains(direction)) {
-        this.oldXPosition = this.xPosition
-        this.oldYPosition = this.yPosition
+        this.oldXPosition = this.currentXPosition
+        this.oldYPosition = this.currentYPosition
         direction match {
-          case Up => this.yPosition = this.yPosition + 1
-          case Right => this.xPosition = this.xPosition + 1
-          case Down => this.yPosition = this.yPosition - 1
-          case Left => this.xPosition = this.xPosition - 1
+          case Up => this.currentYPosition = this.currentYPosition + 1
+          case Right => this.currentXPosition = this.currentXPosition + 1
+          case Down => this.currentYPosition = this.currentYPosition - 1
+          case Left => this.currentXPosition = this.currentXPosition - 1
         }
         //update map
         world.updateMap(this)

@@ -105,7 +105,7 @@ class Customer1(var supermarket: SupermarketTrait, var world: WorldTrait) extend
 
   def main(): Unit = {
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-    world.addEntity(this)
+    world.addActor(this)
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
     writer.write("timer: " + timer + "\n\n\n")

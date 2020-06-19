@@ -34,16 +34,18 @@ trait Item extends Actor {
   var section: SectionTrait
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
-    world.tiles.foreach {
+    world.coordinates_flattened.foreach {
       tile =>
-        tile.entities.foreach {
-          entity =>
-            if (entity.getClass.getSimpleName == "Supermarket") {
-              this.xPosition = entity.xPosition
-              this.yPosition = entity.yPosition
+        tile.actors.foreach {
+          supermarket =>
+            if (supermarket.getClass.getSimpleName == "Supermarket") {
+              this.initialXPosition = supermarket.initialXPosition
+              this.initialYPosition = supermarket.initialYPosition
             }
         }
     }
+    currentXPosition = initialXPosition
+    currentYPosition = initialYPosition
 
     //    this.xPosition = supermarket.xPosition
     //    this.yPosition = supermarket.yPosition

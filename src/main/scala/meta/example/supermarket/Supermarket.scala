@@ -15,7 +15,7 @@ class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait
 
   def main(): Unit = {
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-    world.addEntity(this)
+    world.addActor(this)
     writer = new PrintWriter(new File("m/agentSupermarket" + id))
     while (true) {
       writer.write("\n\n" + "Timer " + timer + "\n\n")
