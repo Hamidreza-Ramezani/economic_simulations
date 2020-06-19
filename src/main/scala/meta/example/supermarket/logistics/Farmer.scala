@@ -3,6 +3,7 @@ package meta.example.supermarket.logistics
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
+import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.{Item, Item1, Item10, Item11, Item12, Item13, Item14, Item15, Item16, Item17, Item18, Item19, Item2, Item20, Item21, Item22, Item23, Item24, Item25, Item26, Item27, Item28, Item29, Item3, Item30, Item31, Item32, Item4, Item5, Item6, Item7, Item8, Item9, newItemsMap}
 import squid.quasi.lift
 import meta.example.supermarket.goods.newItemsMap
@@ -13,6 +14,29 @@ import scala.util.Random
 
 @lift
 class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends FarmerTrait {
+
+  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+
+    move(world, initialXPosition, initialYPosition)
+    SpecialInstructions.waitTurns(1)
+
+    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  }
+
+  override def move(world: WorldTrait, target: Actor): Unit = {
+    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+
+    move(world, target.currentXPosition, target.currentYPosition)
+    SpecialInstructions.waitTurns(1)
+
+    writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+  }
+
 
   def checkIfThereIsOrderFromManufacturer(): Unit = {
     farmerState = doNothing

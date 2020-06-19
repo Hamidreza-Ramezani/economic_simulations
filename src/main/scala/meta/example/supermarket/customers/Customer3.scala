@@ -3,6 +3,7 @@ package meta.example.supermarket.customers
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
+import meta.deep.runtime.Actor
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan3, MealPlan_Dummy3, People, Weekly}
 import meta.example.supermarket.utils.randElement
@@ -20,6 +21,28 @@ import scala.collection.mutable.ListBuffer
 @lift
 class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extends People with Weekly with MealPlan_Dummy3 with ImpulseShopper {
 
+
+  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+
+    move(world, initialXPosition, initialYPosition)
+    SpecialInstructions.waitTurns(1)
+
+    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  }
+
+  override def move(world: WorldTrait, target: Actor): Unit = {
+    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+
+    move(world, target.currentXPosition, target.currentYPosition)
+    SpecialInstructions.waitTurns(1)
+
+    writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+  }
 
   //  def addRandItems(shoppingList: categoryAmount): Unit = {
   //    if (!needBased) {

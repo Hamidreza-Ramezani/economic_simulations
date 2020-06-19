@@ -3,6 +3,7 @@ package meta.example.supermarket.logistics
 import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
+import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
@@ -11,6 +12,29 @@ import scala.util.Random
 
 @lift
 class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends TruckTrait {
+
+
+  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+
+    move(world, initialXPosition, initialYPosition)
+    SpecialInstructions.waitTurns(1)
+
+    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  }
+
+  override def move(world: WorldTrait, target: Actor): Unit = {
+    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+
+    move(world, target.currentXPosition, target.currentYPosition)
+    SpecialInstructions.waitTurns(1)
+
+    writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+  }
 
 
   def checkIfThereIsOrderFromManufacturer(): Unit = {
@@ -63,29 +87,16 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
   def main(): Unit = {
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
-
     writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
-
-      if(timer % 7 == 0 ){
-        if (timer != 0){
-          writer.write("Truck goes toward the supermarket. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-          println("Truck goes toward the supermarket. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-          move(world,supermarket)
+      if (timer % 7 == 0) {
+        if (timer != 0) {
+          move(world, supermarket)
           SpecialInstructions.waitTurns(1)
-          writer.write("Truck gets into the supermarket. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
-          println("Truck gets into the supermarket. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
-          SpecialInstructions.waitTurns(1)
-//          writer.write("Truck goes toward its initial position. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
-//          println("Truck goes toward its initial position. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
-//          comeBackToInitialPoint(world)
-//          SpecialInstructions.waitTurns(1)
-//          writer.write("Truck gets home. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
-//          println("Truck gets home. x: " + currentXPosition + " y: " + currentYPosition + "\n\n\n")
+          comeBackToInitialPoint(world)
         }
       }
-
 
       //todo truck should wait as long as manufacturer does not notify them
       checkIfThereIsOrderFromManufacturer()

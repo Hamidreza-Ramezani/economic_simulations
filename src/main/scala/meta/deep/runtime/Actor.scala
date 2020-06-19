@@ -245,11 +245,11 @@ class Actor {
       }
       // Entity is in top row
       if (this.currentYPosition == 0) {
-        directionOptions -= Up
+        directionOptions -= Down
       }
       // Entity is in bottom row
       else if (this.currentYPosition == worldRows) {
-        directionOptions -= Down
+        directionOptions -= Up
       }
       //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
 
