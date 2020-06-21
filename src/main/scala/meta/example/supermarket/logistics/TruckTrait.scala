@@ -13,6 +13,22 @@ trait TruckTrait extends Actor {
   var supermarket: SupermarketTrait
   var truckState: TruckState = relaxing
 
+  override def setInitialPosition(x: Int, y: Int): Unit = {
+    world.coordinates_flattened.foreach {
+      tile =>
+        tile.actors.foreach {
+          supermarket =>
+            if (supermarket.getClass.getSimpleName == "Manufacturer") {
+              this.initialXPosition = supermarket.initialXPosition
+              this.initialYPosition = supermarket.initialYPosition
+            }
+        }
+    }
+    currentXPosition = initialXPosition
+    currentYPosition = initialYPosition
+  }
+
+
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],
     "Cabbage" -> new mutable.Queue[Item],

@@ -6,9 +6,6 @@ import org.apache.log4j.BasicConfigurator
 import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, World, WorldTrait}
 import com.jakewharton.fliptables.FlipTable
 
-
-import scala.util.Random
-
 object supermarketSimulation extends App {
 
   //  var actors: Array[Actor] = Array()
