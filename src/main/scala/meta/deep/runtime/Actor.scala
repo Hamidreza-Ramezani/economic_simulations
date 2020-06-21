@@ -168,6 +168,7 @@ case class Future[+T](var isCompleted: Boolean = false,
 class Actor {
 
   var id: AgentId = Actor.getNextAgentId
+  var agentName: String = getClass.getSimpleName
   var timer: Int = 0
   var current_pos: Int = 0
   var monitor = Monitor
@@ -188,6 +189,14 @@ class Actor {
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
   }
+
+  def manhattanDistanceFromHome(): Int = {
+    val xDifference = (this.currentXPosition - initialXPosition).abs
+    val yDifference = (this.currentYPosition - initialYPosition).abs
+    val distance: Int = xDifference + yDifference
+    distance
+  }
+
 
   def manhattanDistanceFrom(actor: Actor): Int = {
     val xDifference = (this.currentXPosition - actor.currentXPosition).abs

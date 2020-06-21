@@ -3,7 +3,7 @@ package meta.example.supermarket.worldmap
 import meta.deep.runtime.Actor
 import scala.collection.mutable.ListBuffer
 
-class Tile (xPos: Int, yPos: Int) {
+class Tile(xPos: Int, yPos: Int) {
   var tileType: String = ""
   var actors: ListBuffer[Actor] = new ListBuffer[Actor]
 
@@ -31,7 +31,7 @@ class Tile (xPos: Int, yPos: Int) {
     actors -= actor
   }
 
-  def manhattanDistanceFrom(tile:Tile): Int = {
+  def manhattanDistanceFrom(tile: Tile): Int = {
     val xDifference = (this.xPos - tile.getX()).abs
     val yDifference = (this.yPos - tile.getY()).abs
     val distance: Int = xDifference + yDifference
@@ -40,9 +40,9 @@ class Tile (xPos: Int, yPos: Int) {
 
   override def toString = {
     var str = ""
-    actors.foreach{
+    actors.foreach {
       actor =>
-        str += "id: " + actor.id + " \n"
+        str += actor.agentName + " id: " + actor.id + " \n"
     }
     str += "\n \n \n \n"
     str

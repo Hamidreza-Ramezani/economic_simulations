@@ -2,13 +2,14 @@ package meta.example.supermarket.worldmap
 
 import meta.deep.runtime.Actor
 import scala.collection.mutable.ListBuffer
+import com.jakewharton.fliptables.FlipTable
+
 
 trait WorldTrait extends Actor {
-
   var width: Int
   var height: Int
   val coordinates: Array[Array[Tile]] = Array.ofDim[Tile](width, height)
-  val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
+  //  val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
   var coordinates_flattened: ListBuffer[Tile] = new ListBuffer[Tile]()
 
   for (i <- 0 until width) {
@@ -66,10 +67,16 @@ trait WorldTrait extends Actor {
 
   override def toString = {
     var str = ""
-    coordinates_flattened.foreach {
-      tile =>
-        str += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
-    }
+    var coordinates_copy: Array[Array[Tile]] = coordinates.clone()
+    val data: Array[Array[String]] = coordinates_copy.map(row => row.map(tile => tile.toString))
+    val range: Array[Int] = coordinates_copy.indices.toArray
+    val headers: Array[String] = range.map(entry => entry.toString)
+
+    str = FlipTable.of(headers, data)
+//    coordinates_flattened.foreach {
+//      tile =>
+//        str += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
+//    }
     str
   }
 }

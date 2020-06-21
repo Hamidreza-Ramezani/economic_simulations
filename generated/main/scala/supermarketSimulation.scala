@@ -4,6 +4,8 @@ import com.typesafe.scalalogging.Logger
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
 import org.apache.log4j.BasicConfigurator
 import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, World, WorldTrait}
+import com.jakewharton.fliptables.FlipTable
+
 
 import scala.util.Random
 
@@ -43,9 +45,9 @@ object supermarketSimulation extends App {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
         supermarket = actors(i).asInstanceOf[SupermarketTrait]
       }
-//      else if (actors(i).getClass.getSimpleName == "World") {
-//        worldMap = actors(i).asInstanceOf[WorldTrait]
-//      }
+      //      else if (actors(i).getClass.getSimpleName == "World") {
+      //        worldMap = actors(i).asInstanceOf[WorldTrait]
+      //      }
     }
 
     for (i <- actors.indices) {
@@ -62,7 +64,6 @@ object supermarketSimulation extends App {
       for (i <- actors.indices) {
         if (actors(i).writer != null) {
           actors(i).writer.write("\n \n" + "timer: " + timer + "\n \n")
-          actors(i).writer.write("\n \n" + "position: x = " + actors(i).currentXPosition + "  y = " + actors(i).currentYPosition + "\n \n")
           actors(i).writer.flush()
         }
       }
@@ -87,6 +88,14 @@ object supermarketSimulation extends App {
           .run_until(timer)
       }
       }
+
+      for (i <- actors.indices) {
+        if (actors(i).writer != null && actors(i).getClass.getSimpleName != "World") {
+          actors(i).writer.write("\n \n" + "position: x = " + actors(i).currentXPosition + "  y = " + actors(i).currentYPosition + "\n \n")
+          actors(i).writer.flush()
+        }
+      }
+
       messages = actors.flatMap(_.getSendMessages)
       timer += 1
     }
@@ -98,6 +107,7 @@ object supermarketSimulation extends App {
     val end = System.nanoTime()
     val consumed = end - start
     println("Time consumed", consumed)
+
   }
 
   main()

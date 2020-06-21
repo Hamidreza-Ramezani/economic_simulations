@@ -18,8 +18,8 @@ class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
     writer = new PrintWriter(new File("m/agentSupermarket" + id))
+    writer.write("\n\n" + "timer: " + timer + "\n\n")
     while (true) {
-      writer.write("\n\n" + "Timer " + timer + "\n\n")
       warehouse.toList.foreach(section => section.shelves.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString)))
       SpecialInstructions.waitTurns(1)
     }
