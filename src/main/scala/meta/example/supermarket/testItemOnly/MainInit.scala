@@ -23,7 +23,7 @@ class MainInit {
     val l_repeat = ListBuffer[Actor]()
 
     val mapWidth = 10
-    val mapHeight = 10
+    val mapHeight = 8
     val worldMap: WorldTrait = new World(mapWidth, mapHeight)
 
     val sectionVegetable = new Section("Vegetable", FIFO, worldMap)

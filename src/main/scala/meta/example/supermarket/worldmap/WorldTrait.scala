@@ -68,14 +68,15 @@ trait WorldTrait extends Actor {
     var str = ""
     var coordinates_copy: Array[Array[Tile]] = coordinates.clone()
     val data: Array[Array[String]] = coordinates_copy.map(row => row.map(tile => tile.toString))
-    val range: Array[Int] = coordinates_copy.indices.toArray
+    //    val range: Array[Int] = coordinates_copy.indices.toArray
+    val range: Array[Int] = coordinates_copy(0).indices.toArray
     val headers: Array[String] = range.map(entry => entry.toString)
 
     str = FlipTable.of(headers, data)
-//    coordinates_flattened.foreach {
-//      tile =>
-//        str += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
-//    }
+    //    coordinates_flattened.foreach {
+    //      tile =>
+    //        str += "x: " + tile.getX() + " y: " + tile.getY() + "\n" + tile.toString
+    //    }
     str
   }
 }
