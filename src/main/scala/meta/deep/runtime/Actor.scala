@@ -216,16 +216,16 @@ class Actor {
   def move(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
       while (currentXPosition < targetXPosition) {
-        move(world, Down)
-      }
-      while (currentXPosition > targetXPosition) {
-        move(world, Up)
-      }
-      while (currentYPosition < targetYPosition) {
         move(world, Right)
       }
-      while (currentYPosition > targetYPosition) {
+      while (currentXPosition > targetXPosition) {
         move(world, Left)
+      }
+      while (currentYPosition < targetYPosition) {
+        move(world, Up)
+      }
+      while (currentYPosition > targetYPosition) {
+        move(world, Down)
       }
     }
   }
@@ -246,19 +246,19 @@ class Actor {
        */
       // Entity is in left column
       if (this.currentXPosition == 0) {
-        directionOptions -= Up
+        directionOptions -= Left
       }
       // Entity is in right column
       else if (this.currentXPosition == worldCols) {
-        directionOptions -= Down
+        directionOptions -= Right
       }
       // Entity is in top row
       if (this.currentYPosition == 0) {
-        directionOptions -= Left
+        directionOptions -= Down
       }
       // Entity is in bottom row
       else if (this.currentYPosition == worldRows) {
-        directionOptions -= Right
+        directionOptions -= Up
       }
       //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
 
@@ -266,10 +266,10 @@ class Actor {
         this.oldXPosition = this.currentXPosition
         this.oldYPosition = this.currentYPosition
         direction match {
-          case Right => this.currentYPosition = this.currentYPosition + 1
-          case Down => this.currentXPosition = this.currentXPosition + 1
-          case Left => this.currentYPosition = this.currentYPosition - 1
-          case Up => this.currentXPosition = this.currentXPosition - 1
+          case Up => this.currentYPosition = this.currentYPosition + 1
+          case Right => this.currentXPosition = this.currentXPosition + 1
+          case Down => this.currentYPosition = this.currentYPosition - 1
+          case Left => this.currentXPosition = this.currentXPosition - 1
         }
         //update map
         world.updateMap(this)

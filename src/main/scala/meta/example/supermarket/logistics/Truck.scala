@@ -40,28 +40,28 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
     if (canMove) {
 
       while (currentXPosition < targetXPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Down)
-      }
-      while (currentXPosition > targetXPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Up)
-      }
-      while (currentYPosition < targetYPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Right)
       }
-      while (currentYPosition > targetYPosition) {
+      while (currentXPosition > targetXPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Left)
+      }
+      while (currentYPosition < targetYPosition) {
+        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        SpecialInstructions.waitTurns(1)
+        move(world, Up)
+      }
+      while (currentYPosition > targetYPosition) {
+        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        SpecialInstructions.waitTurns(1)
+        move(world, Down)
       }
     }
   }

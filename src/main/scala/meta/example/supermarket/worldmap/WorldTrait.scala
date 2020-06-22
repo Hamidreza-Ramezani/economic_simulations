@@ -7,14 +7,14 @@ import com.jakewharton.fliptables.FlipTable
 trait WorldTrait extends Actor {
   var width: Int
   var height: Int
-  val coordinates: Array[Array[Tile]] = Array.ofDim[Tile](width, height)
+  val coordinates: Array[Array[Tile]] = Array.ofDim[Tile](height, width)
   //  val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
   var coordinates_flattened: ListBuffer[Tile] = new ListBuffer[Tile]()
 
   for (i <- 0 until width) {
     for (j <- 0 until height) {
-      coordinates(i)(j) = new Tile(i, j)
-      coordinates_flattened += coordinates(i)(j)
+      coordinates(height - 1 - j)(i) = new Tile(i, j)
+      coordinates_flattened += coordinates(height - 1 - j)(i)
     }
   }
 
@@ -29,13 +29,13 @@ trait WorldTrait extends Actor {
     //todo: shall we use initial positions?
     val x = actor.currentXPosition
     val y = actor.currentYPosition
-    coordinates(x)(y).addActor(actor)
+    coordinates(height - 1 - y)(x).addActor(actor)
   }
 
   def removeOldActor(actor: Actor): Unit = {
     val x = actor.oldXPosition
     val y = actor.oldYPosition
-    coordinates(x)(y).removeActor(actor)
+    coordinates(height - 1 - y)(x).removeActor(actor)
   }
 
   def updateMap(actor: Actor): Unit = {
@@ -46,7 +46,7 @@ trait WorldTrait extends Actor {
   }
 
   def setTileType(x: Int, y: Int, myType: String): Unit = {
-    coordinates(x)(y).setType(myType)
+    coordinates(height - 1 - y)(x).setType(myType)
   }
 
   def getTiles: ListBuffer[Tile] = {
