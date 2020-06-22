@@ -20,7 +20,6 @@ object supermarketSimulation extends App {
   var supermarket: SupermarketTrait = _
   var worldMap: WorldTrait = _
 
-
   def init(): Unit = {
     //    actors = generated.InitData.initActors.to[Array]
     actors = generated.InitData.initActors
@@ -71,13 +70,11 @@ object supermarketSimulation extends App {
         val toRemove = supermarket.isInvalids.dequeue()
         actors = actors.filter(_.id != toRemove)
       }
-
       for (i <- actors.indices) {
         if (actors(i).getClass.getSimpleName == "Farmer") {
           actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
         }
       }
-
       collect(timer)
       actors = actors.map { a => {
         a.cleanSendMessage
@@ -85,14 +82,12 @@ object supermarketSimulation extends App {
           .run_until(timer)
       }
       }
-
       for (i <- actors.indices) {
         if (actors(i).writer != null && actors(i).getClass.getSimpleName != "World") {
           actors(i).writer.write("\n \n" + "position: x = " + actors(i).currentXPosition + "  y = " + actors(i).currentYPosition + "\n \n")
           actors(i).writer.flush()
         }
       }
-
       messages = actors.flatMap(_.getSendMessages)
       timer += 1
     }

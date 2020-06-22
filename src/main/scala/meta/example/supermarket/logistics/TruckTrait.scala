@@ -17,10 +17,10 @@ trait TruckTrait extends Actor {
     world.coordinates_flattened.foreach {
       tile =>
         tile.actors.foreach {
-          supermarket =>
-            if (supermarket.getClass.getSimpleName == "Manufacturer") {
-              this.initialXPosition = supermarket.initialXPosition
-              this.initialYPosition = supermarket.initialYPosition
+          manufacturer =>
+            if (manufacturer.getClass.getSimpleName == "Manufacturer") {
+              this.initialXPosition = manufacturer.initialXPosition
+              this.initialYPosition = manufacturer.initialYPosition
             }
         }
     }

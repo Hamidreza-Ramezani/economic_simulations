@@ -4,7 +4,6 @@ import meta.deep.runtime.Actor
 import scala.collection.mutable.ListBuffer
 import com.jakewharton.fliptables.FlipTable
 
-
 trait WorldTrait extends Actor {
   var width: Int
   var height: Int
