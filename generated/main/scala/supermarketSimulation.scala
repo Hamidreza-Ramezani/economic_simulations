@@ -3,7 +3,7 @@ import meta.example.supermarket.{SectionTrait, SupermarketTrait, granularity}
 import com.typesafe.scalalogging.Logger
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
 import org.apache.log4j.BasicConfigurator
-import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, World, WorldTrait}
+import meta.example.supermarket.worldmap.{Direction, Up, Left, Right, Tile, Down, World, WorldTrait}
 import com.jakewharton.fliptables.FlipTable
 
 object supermarketSimulation extends App {

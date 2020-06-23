@@ -4,7 +4,7 @@ import java.io.PrintWriter
 import java.util.UUID
 
 import meta.deep.runtime.Actor.AgentId
-import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, World, WorldTrait}
+import meta.example.supermarket.worldmap.{Direction, Up, Left, Right, Tile, Down, World, WorldTrait}
 
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
@@ -222,10 +222,10 @@ class Actor {
         move(world, Left)
       }
       while (currentYPosition < targetYPosition) {
-        move(world, Up)
+        move(world, Down)
       }
       while (currentYPosition > targetYPosition) {
-        move(world, Down)
+        move(world, Up)
       }
     }
   }
@@ -236,9 +236,9 @@ class Actor {
       val worldRows: Int = coordinates.length
       val worldCols: Int = coordinates(0).length
       var directionOptions: ListBuffer[Direction] = new ListBuffer[Direction]
-      directionOptions += Up
-      directionOptions += Right
       directionOptions += Down
+      directionOptions += Right
+      directionOptions += Up
       directionOptions += Left
       /*
        * 1 = move up		3 = move down
@@ -254,11 +254,11 @@ class Actor {
       }
       // Entity is in top row
       if (this.currentYPosition == 0) {
-        directionOptions -= Down
+        directionOptions -= Up
       }
       // Entity is in bottom row
       else if (this.currentYPosition == worldRows - 1 ) {
-        directionOptions -= Up
+        directionOptions -= Down
       }
       //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
 
@@ -266,9 +266,9 @@ class Actor {
         this.oldXPosition = this.currentXPosition
         this.oldYPosition = this.currentYPosition
         direction match {
-          case Up => this.currentYPosition = this.currentYPosition + 1
+          case Down => this.currentYPosition = this.currentYPosition + 1
           case Right => this.currentXPosition = this.currentXPosition + 1
-          case Down => this.currentYPosition = this.currentYPosition - 1
+          case Up => this.currentYPosition = this.currentYPosition - 1
           case Left => this.currentXPosition = this.currentXPosition - 1
         }
         //update map

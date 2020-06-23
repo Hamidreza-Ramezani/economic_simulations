@@ -13,8 +13,8 @@ trait WorldTrait extends Actor {
 
   for (i <- 0 until width) {
     for (j <- 0 until height) {
-      coordinates(height - 1 - j)(i) = new Tile(i, j)
-      coordinates_flattened += coordinates(height - 1 - j)(i)
+      coordinates(j)(i) = new Tile(i, j)
+      coordinates_flattened += coordinates(j)(i)
     }
   }
 
@@ -29,13 +29,13 @@ trait WorldTrait extends Actor {
     //todo: shall we use initial positions?
     val x = actor.currentXPosition
     val y = actor.currentYPosition
-    coordinates(height - 1 - y)(x).addActor(actor)
+    coordinates(y)(x).addActor(actor)
   }
 
   def removeOldActor(actor: Actor): Unit = {
     val x = actor.oldXPosition
     val y = actor.oldYPosition
-    coordinates(height - 1 - y)(x).removeActor(actor)
+    coordinates(y)(x).removeActor(actor)
   }
 
   def updateMap(actor: Actor): Unit = {
@@ -46,7 +46,7 @@ trait WorldTrait extends Actor {
   }
 
   def setTileType(x: Int, y: Int, myType: String): Unit = {
-    coordinates(height - 1 - y)(x).setType(myType)
+    coordinates(y)(x).setType(myType)
   }
 
   def getTiles: ListBuffer[Tile] = {
@@ -68,9 +68,17 @@ trait WorldTrait extends Actor {
     var str = ""
     val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
     val data: Array[Array[String]] = coordinates_copy.map(row => row.map(tile => tile.toString))
-    val range: Array[Int] = coordinates_copy(0).indices.toArray
-    val headers: Array[String] = range.map(entry => entry.toString)
+    val range1: Array[Int] = coordinates_copy.indices.toArray
+    val indicesArray: Array[Array[String]] = Array(range1.map(entry => entry.toString)).transpose
 
+    for (i <- data.indices) {
+      data(i) = indicesArray(i) ++ data(i)
+    }
+    //    val dataWithIndices: Array[Array[String]] = indicesArray ++ data
+
+    val range2: Array[Int] = coordinates_copy(0).indices.toArray
+    var headers: Array[String] = range2.map(entry => entry.toString)
+    headers = Array("") ++ headers
     str = FlipTable.of(headers, data)
     //    coordinates_flattened.foreach {
     //      tile =>

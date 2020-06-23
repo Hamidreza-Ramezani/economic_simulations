@@ -7,7 +7,7 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan3, MealPlan_Dummy3, People, Weekly}
 import meta.example.supermarket.utils.randElement
-import meta.example.supermarket.worldmap.{Down, Left, Right, Up, WorldTrait}
+import meta.example.supermarket.worldmap.{Up, Left, Right, Down, WorldTrait}
 import squid.quasi.lift
 
 import scala.util.Random
@@ -48,27 +48,27 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
 
       while (currentXPosition < targetXPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Right)
       }
       while (currentXPosition > targetXPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Left)
       }
       while (currentYPosition < targetYPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Up)
-      }
-      while (currentYPosition > targetYPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Down)
+      }
+      while (currentYPosition > targetYPosition) {
+        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+        println(     "agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        SpecialInstructions.waitTurns(1)
+        move(world, Up)
       }
     }
   }
