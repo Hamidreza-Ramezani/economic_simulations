@@ -7,7 +7,7 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan3, MealPlan_Dummy3, People, Weekly}
 import meta.example.supermarket.utils.randElement
-import meta.example.supermarket.worldmap.WorldTrait
+import meta.example.supermarket.worldmap.{Down, Left, Right, Up, WorldTrait}
 import squid.quasi.lift
 
 import scala.util.Random
@@ -21,28 +21,58 @@ import scala.collection.mutable.ListBuffer
 @lift
 class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extends People with Weekly with MealPlan_Dummy3 with ImpulseShopper {
 
-
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-    move(world, initialXPosition, initialYPosition)
-    SpecialInstructions.waitTurns(1)
+    move2(world, initialXPosition, initialYPosition)
+    //    SpecialInstructions.waitTurns(1)
 
     writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
   }
 
   override def move(world: WorldTrait, target: Actor): Unit = {
-    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
-    move(world, target.currentXPosition, target.currentYPosition)
-    SpecialInstructions.waitTurns(1)
+    move2(world, target.currentXPosition, target.currentYPosition)
+    //    SpecialInstructions.waitTurns(1)
 
-    writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets into the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
   }
+
+  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+    if (canMove) {
+
+      while (currentXPosition < targetXPosition) {
+        writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        SpecialInstructions.waitTurns(1)
+        move(world, Right)
+      }
+      while (currentXPosition > targetXPosition) {
+        writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        SpecialInstructions.waitTurns(1)
+        move(world, Left)
+      }
+      while (currentYPosition < targetYPosition) {
+        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        SpecialInstructions.waitTurns(1)
+        move(world, Up)
+      }
+      while (currentYPosition > targetYPosition) {
+        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        SpecialInstructions.waitTurns(1)
+        move(world, Down)
+      }
+    }
+  }
+
 
   //  def addRandItems(shoppingList: categoryAmount): Unit = {
   //    if (!needBased) {
@@ -90,16 +120,16 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
   //    }
 
 
-  def consumeFood2(): Unit = {
-    if (fridge.getAvailFood.nonEmpty) {
-      var someFood: String = randElement(fridge.getAvailFood)
-      var consumedFoodAmount = fridge.consume(someFood, 200)
-      writer.write("Customer's Actor id " + id + " consumed random food " + someFood + "\n")
-      writer.write(" amount " + consumedFoodAmount + "\n")
-      println("Customer's Actor id " + id + " consumed random food " + someFood)
-      println(" amount " + consumedFoodAmount)
-    }
-  }
+  //  def consumeFood2(): Unit = {
+  //    if (fridge.getAvailFood.nonEmpty) {
+  //      var someFood: String = randElement(fridge.getAvailFood)
+  //      var consumedFoodAmount = fridge.consume(someFood, 200)
+  //      writer.write("Customer's Actor id " + id + " consumed random food " + someFood + "\n")
+  //      writer.write(" amount " + consumedFoodAmount + "\n")
+  //      println("Customer's Actor id " + id + " consumed random food " + someFood)
+  //      println(" amount " + consumedFoodAmount)
+  //    }
+  //  }
 
   //   Target consumption behavior
   def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {
@@ -110,8 +140,11 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       if (consumed < pair._2) {
         writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
+        move(world, supermarket)
+        //        val sectionName = newItemsMap.categoryMap(pair._1)
+        //        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
         while (supermarket.getEmployeesState == "reFillingShelves") {
-          writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
+          writer.write("Customer's Actor id " + id + " is waiting for the employee " + "to refill the shelves" + "\n")
           println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
           println()
           SpecialInstructions.waitTurns(1)
@@ -126,7 +159,6 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
   def main(): Unit = {
     setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
-
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
@@ -134,6 +166,7 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       println("---------------------------------------------------------------------------------------------------")
       customerInfo
       writer.write(toString + "\n")
+      move(world, supermarket)
       //these functions should add the items to toBeScannedItems
       while (supermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
@@ -164,6 +197,7 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
       println("---------------------------------------------------------------------------------------------------")
       println("shopping basket of Customer's Actor id " + id + " was scanned")
+      comeBackToInitialPoint(world)
       basket.toList.foreach(item => {
         writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
         println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
@@ -177,11 +211,11 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       //       while (! all_Items_Scanned){
       //       specialInstructions.waitTurns(1)
       //       }
-
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
         consumeFood2(mealPlan)
-        consumeFood2()
+        //        consumeFood2()
+        consumeRandomFood()
         //        consumeFood(mealPlan)
         //        consumeFood
         writer.write(toString + "\n")
@@ -203,6 +237,8 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
           println("---------------------------------------------------------------------------------------------------")
           writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
           println("shopping basket of Customer's Actor id " + id + " was scanned")
+          comeBackToInitialPoint(world)
+
           basket.toList.foreach(item => {
             writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
             println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
@@ -215,6 +251,7 @@ class Customer3(var supermarket: SupermarketTrait, var world: WorldTrait) extend
         }
         SpecialInstructions.waitTurns(12)
       })
+
     }
   }
 }

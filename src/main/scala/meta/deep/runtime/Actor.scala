@@ -233,8 +233,8 @@ class Actor {
   def move(world: WorldTrait, direction: Direction): Unit = {
     if (canMove) {
       val coordinates: Array[Array[Tile]] = world.coordinates
-      val worldRows: Int = coordinates(0).length
-      val worldCols: Int = coordinates.length
+      val worldRows: Int = coordinates.length
+      val worldCols: Int = coordinates(0).length
       var directionOptions: ListBuffer[Direction] = new ListBuffer[Direction]
       directionOptions += Up
       directionOptions += Right
@@ -249,7 +249,7 @@ class Actor {
         directionOptions -= Left
       }
       // Entity is in right column
-      else if (this.currentXPosition == worldCols) {
+      else if (this.currentXPosition == worldCols -1 ) {
         directionOptions -= Right
       }
       // Entity is in top row
@@ -257,7 +257,7 @@ class Actor {
         directionOptions -= Down
       }
       // Entity is in bottom row
-      else if (this.currentYPosition == worldRows) {
+      else if (this.currentYPosition == worldRows - 1 ) {
         directionOptions -= Up
       }
       //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))

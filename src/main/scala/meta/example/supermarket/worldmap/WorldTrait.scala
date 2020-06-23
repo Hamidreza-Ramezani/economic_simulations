@@ -66,9 +66,8 @@ trait WorldTrait extends Actor {
 
   override def toString = {
     var str = ""
-    var coordinates_copy: Array[Array[Tile]] = coordinates.clone()
+    val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
     val data: Array[Array[String]] = coordinates_copy.map(row => row.map(tile => tile.toString))
-    //    val range: Array[Int] = coordinates_copy.indices.toArray
     val range: Array[Int] = coordinates_copy(0).indices.toArray
     val headers: Array[String] = range.map(entry => entry.toString)
 

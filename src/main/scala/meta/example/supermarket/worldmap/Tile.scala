@@ -39,7 +39,8 @@ class Tile(xPos: Int, yPos: Int) {
   }
 
   override def toString = {
-    var str = ""
+    var str = "                "
+        str += "\n"
     actors.foreach {
       actor =>
         str += actor.agentName + " id: " + actor.id + " \n"

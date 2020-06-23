@@ -101,7 +101,7 @@ trait People extends Actor {
   //  }
 
   // Random consumption behavior
-  def consumeFood: Unit = {
+  def consumeRandomFood(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       val someFood: String = randElement(fridge.getAvailFood)
       println("Customer's Actor id " + id + " consumed random food " + someFood)
