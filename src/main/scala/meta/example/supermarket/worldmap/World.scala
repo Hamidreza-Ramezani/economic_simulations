@@ -10,7 +10,6 @@ import squid.quasi.lift
 class World(var width: Int, var height: Int) extends WorldTrait {
 
   def main(): Unit = {
-    writer = new PrintWriter(new File("m/agentWorldMap" + id))
     writer.write("\n\n" + "timer: " + timer + "\n\n")
     while (true) {
       writer.write(this.toString)

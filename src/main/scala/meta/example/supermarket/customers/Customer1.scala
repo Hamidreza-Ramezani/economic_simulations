@@ -8,7 +8,7 @@ import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan_Dummy1, People, Weekly}
 import meta.example.supermarket.utils.randElement
-import meta.example.supermarket.worldmap.{Up, Left, Right, Down, WorldTrait}
+import meta.example.supermarket.worldmap.{Down, Left, PrivateProperty, Right, Up, WorldTrait}
 import squid.quasi.lift
 //import squid.quasi.dbg_lift
 
@@ -32,14 +32,14 @@ class Customer1(var supermarket: SupermarketTrait, var world: WorldTrait) extend
   }
 
   override def move(world: WorldTrait, target: Actor): Unit = {
-    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
     move2(world, target.currentXPosition, target.currentYPosition)
     //    SpecialInstructions.waitTurns(1)
 
-    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  gets into the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
   }
 
   def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
@@ -156,7 +156,15 @@ class Customer1(var supermarket: SupermarketTrait, var world: WorldTrait) extend
   }
 
   def main(): Unit = {
-    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+
+    var randomWidth = Random.nextInt(world.width)
+    var randomHeight = Random.nextInt(world.height)
+    while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty) {
+      randomWidth = Random.nextInt(world.width)
+      randomHeight = Random.nextInt(world.height)
+    }
+    setInitialPosition(randomWidth, randomHeight)
+//    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))

@@ -98,6 +98,7 @@ object supermarketSimulation extends App {
     }
     val end = System.nanoTime()
     val consumed = end - start
+//    println("\u001B[34mTime consumed", consumed)
     println("Time consumed", consumed)
 
   }

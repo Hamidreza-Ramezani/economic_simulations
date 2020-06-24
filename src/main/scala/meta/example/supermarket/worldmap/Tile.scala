@@ -1,10 +1,19 @@
 package meta.example.supermarket.worldmap
 
 import meta.deep.runtime.Actor
+import scala.io.AnsiColor._
 import scala.collection.mutable.ListBuffer
+import scala.tools.nsc.doc.base.comment.Bold
+
+sealed trait TileType;
+
+case object PrivateProperty extends TileType;
+
+case object Street extends TileType;
+
 
 class Tile(xPos: Int, yPos: Int) {
-  var tileType: String = ""
+  var tileType: TileType = PrivateProperty
   var actors: ListBuffer[Actor] = new ListBuffer[Actor]
 
   def getX(): Int = {
@@ -15,11 +24,11 @@ class Tile(xPos: Int, yPos: Int) {
     yPos
   }
 
-  def setType(myType: String): Unit = {
+  def setType(myType: TileType): Unit = {
     this.tileType = myType
   }
 
-  def getType: String = {
+  def getType: TileType = {
     tileType
   }
 
@@ -38,14 +47,38 @@ class Tile(xPos: Int, yPos: Int) {
     distance
   }
 
+
   override def toString = {
     var str = "                "
-        str += "\n"
+//    str += "\n"
+//    str += "x: " + getX() + " y: " + getY()
+    str += "\n"
+//    str +=  s"${BLUE}" + tileType.toString
+    if(tileType == PrivateProperty){
+      str += "..........\n"
+      str += "..........\n"
+      str += "..........\n"
+      str += "..........\n"
+      str += "..........\n"
+    }
+//    str += tileType.toString
+//    str += "\n"
     actors.foreach {
       actor =>
         str += actor.agentName + " id: " + actor.id + " \n"
     }
     str += "\n \n \n \n"
+    str
+  }
+  def toString2 = {
+    var str = "tile x: " + getX() + " y: " + getY()
+    str += "\n"
+    str += tileType.toString
+    str += "\n"
+    actors.foreach {
+      actor =>
+        str += actor.agentName + " id: " + actor.id + " \n"
+    }
     str
   }
 }

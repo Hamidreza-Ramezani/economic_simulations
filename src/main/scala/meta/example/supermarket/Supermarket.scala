@@ -3,7 +3,7 @@ package meta.example.supermarket
 import java.io.{File, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
-import meta.example.supermarket.worldmap.WorldTrait
+import meta.example.supermarket.worldmap.{PrivateProperty, Street, WorldTrait}
 import squid.quasi.lift
 
 import scala.collection.mutable.ListBuffer
@@ -15,7 +15,13 @@ class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait
 
 
   def main(): Unit = {
-    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    var randomWidth = Random.nextInt(world.width)
+    var randomHeight = Random.nextInt(world.height)
+    while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty) {
+      randomWidth = Random.nextInt(world.width)
+      randomHeight = Random.nextInt(world.height)
+    }
+    setInitialPosition(randomWidth, randomHeight)
     world.addActor(this)
     writer = new PrintWriter(new File("m/agentSupermarket" + id))
     writer.write("\n\n" + "timer: " + timer + "\n\n")

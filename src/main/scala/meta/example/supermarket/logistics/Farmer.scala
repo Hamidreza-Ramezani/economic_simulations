@@ -126,7 +126,14 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
   }
 
   def main(): Unit = {
-    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    var randomWidth = Random.nextInt(world.width)
+    var randomHeight = Random.nextInt(world.height)
+    while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty) {
+      randomWidth = Random.nextInt(world.width)
+      randomHeight = Random.nextInt(world.height)
+    }
+    setInitialPosition(randomWidth, randomHeight)
+//    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
     writer = new PrintWriter(new FileWriter(new File("m/agentFarmer" + id)))
     writer.write("timer: " + timer + "\n\n\n")

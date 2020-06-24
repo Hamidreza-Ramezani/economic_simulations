@@ -1,8 +1,14 @@
 package meta.example.supermarket.worldmap
 
+import java.io.{File, PrintWriter}
+
+import scala.util.control.Breaks._
 import meta.deep.runtime.Actor
+
 import scala.collection.mutable.ListBuffer
 import com.jakewharton.fliptables.FlipTable
+
+import scala.util.Random
 
 trait WorldTrait extends Actor {
   var width: Int
@@ -10,13 +16,112 @@ trait WorldTrait extends Actor {
   val coordinates: Array[Array[Tile]] = Array.ofDim[Tile](height, width)
   //  val coordinates_copy: Array[Array[Tile]] = coordinates.clone()
   var coordinates_flattened: ListBuffer[Tile] = new ListBuffer[Tile]()
+  var streets: ListBuffer[Tile] = new ListBuffer[Tile]
+  var properties: ListBuffer[Tile] = new ListBuffer[Tile]
+  var requiredNumberOfProperties: Int = 10
+  writer = new PrintWriter(new File("m/agentWorldMap" + id))
 
   for (i <- 0 until width) {
     for (j <- 0 until height) {
       coordinates(j)(i) = new Tile(i, j)
       coordinates_flattened += coordinates(j)(i)
+      if (Random.nextInt(100) > 50) {
+        setTileType(i, j, Street)
+        streets += coordinates(j)(i)
+      }
+      else {
+        properties += coordinates(j)(i)
+      }
     }
   }
+  writer.write("Before flood fill algorithm:\n")
+  writer.write(this.toString)
+  initializeTileType()
+  writer.write("\nafter flood fill algorithm:\n")
+  writer.write(this.toString)
+
+  def initializeTileType(): Unit = {
+    breakable {
+      while (true) {
+        //if (no PP is in a deadlock position)
+        //choose randomly one of the streets and do the flood fill
+        //List of all streets vs List of connected streets, then break else change those PPs into Street
+        if (properties.size < requiredNumberOfProperties) {
+          throw CustomException("the number of available properties is too low")
+        }
+        properties.foreach {
+          property =>
+            if (numberOfStreetNeighbors(property) == 0) {
+              property.setType(Street)
+              properties -= property
+              streets += property
+              println(property.toString2 + "changed to street")
+              writer.write(property.toString2 + "changed to street\n\n\n")
+            }
+        }
+        var randomStreet: Tile = streets(Random.nextInt(streets.size - 1))
+        val connectedTiles = Util.floodFill(coordinates, randomStreet.getX(), randomStreet.getY())
+        if (connectedTiles.size == streets.size) {
+          break()
+        }
+        var randomProperty: Tile = properties(Random.nextInt(properties.size - 1))
+        randomProperty.setType(Street)
+        properties -= randomProperty
+        streets += randomProperty
+        println(randomProperty.toString2 + "changed to street")
+        writer.write(randomProperty.toString2 + "changed to street\n\n\n")
+        while (properties.size < requiredNumberOfProperties) {
+          randomStreet = streets(Random.nextInt(streets.size - 1))
+          randomStreet.setType(PrivateProperty)
+          streets -= randomStreet
+          properties += randomStreet
+          println(randomStreet.toString2 + "changed to property")
+          writer.write(randomStreet.toString2 + "changed to property\n\n\n")
+
+          //          throw CustomException("the number of available properties is too low")
+        }
+      }
+
+    }
+
+
+  }
+
+  def numberOfStreetNeighbors(tile: Tile): Int = {
+    var connectedStreetNeighbors: ListBuffer[Tile] = new ListBuffer[Tile]
+    val worldRows: Int = coordinates.length
+    val worldCols: Int = coordinates(0).length
+    // tile is in left column
+    if (tile.getX() != 0) {
+      var leftNeighbor: Tile = coordinates(tile.getY())(tile.getX() - 1)
+      if (leftNeighbor.tileType == Street) {
+        connectedStreetNeighbors += leftNeighbor
+      }
+    }
+    // Entity is in right column
+    if (tile.getX() != worldCols - 1) {
+      var rightNeighbor: Tile = coordinates(tile.getY())(tile.getX() + 1)
+      if (rightNeighbor.tileType == Street) {
+        connectedStreetNeighbors += rightNeighbor
+      }
+    }
+    // Entity is in top row
+    if (tile.getY() != 0) {
+      var topNeighbor: Tile = coordinates(tile.getY() - 1)(tile.getX())
+      if (topNeighbor.tileType == Street) {
+        connectedStreetNeighbors += topNeighbor
+      }
+    }
+    // Entity is in bottom row
+    if (tile.getY() != worldRows - 1) {
+      var bottomNeighbor: Tile = coordinates(tile.getY() + 1)(tile.getX())
+      if (bottomNeighbor.tileType == Street) {
+        connectedStreetNeighbors += bottomNeighbor
+      }
+    }
+    connectedStreetNeighbors.size
+  }
+
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
     this.initialXPosition = 0
@@ -45,7 +150,7 @@ trait WorldTrait extends Actor {
     coordinates_flattened = coordinates_copy.flatten.to[ListBuffer]
   }
 
-  def setTileType(x: Int, y: Int, myType: String): Unit = {
+  def setTileType(x: Int, y: Int, myType: TileType): Unit = {
     coordinates(y)(x).setType(myType)
   }
 
