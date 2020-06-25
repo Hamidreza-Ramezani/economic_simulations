@@ -4,7 +4,7 @@ sealed  trait ManufacturerState {
 
 }
 
-case object chilling extends ManufacturerState
+case object idle extends ManufacturerState
 case object waitingForFarmer extends ManufacturerState
 case object receivedNoticeFromFarmer extends ManufacturerState
 case object receivedOrderFromSupermarket extends ManufacturerState

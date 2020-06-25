@@ -55,7 +55,7 @@ trait WorldTrait extends Actor {
               property.setType(Street)
               properties -= property
               streets += property
-              println(property.toString2 + "changed to street")
+//              println(property.toString2 + "changed to street")
               writer.write(property.toString2 + "changed to street\n\n\n")
             }
         }
@@ -68,14 +68,14 @@ trait WorldTrait extends Actor {
         randomProperty.setType(Street)
         properties -= randomProperty
         streets += randomProperty
-        println(randomProperty.toString2 + "changed to street")
+//        println(randomProperty.toString2 + "changed to street")
         writer.write(randomProperty.toString2 + "changed to street\n\n\n")
         while (properties.size < requiredNumberOfProperties) {
           randomStreet = streets(Random.nextInt(streets.size - 1))
           randomStreet.setType(PrivateProperty)
           streets -= randomStreet
           properties += randomStreet
-          println(randomStreet.toString2 + "changed to property")
+//          println(randomStreet.toString2 + "changed to property")
           writer.write(randomStreet.toString2 + "changed to property\n\n\n")
 
           //          throw CustomException("the number of available properties is too low")

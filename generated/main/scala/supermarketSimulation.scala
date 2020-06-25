@@ -1,10 +1,9 @@
-import meta.deep.runtime.{Actor, Message}
-import meta.example.supermarket.{SectionTrait, SupermarketTrait, granularity}
 import com.typesafe.scalalogging.Logger
+import meta.deep.runtime.{Actor, Message}
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
+import meta.example.supermarket.worldmap.WorldTrait
+import meta.example.supermarket.{SupermarketTrait, granularity}
 import org.apache.log4j.BasicConfigurator
-import meta.example.supermarket.worldmap.{Direction, Up, Left, Right, Tile, Down, World, WorldTrait}
-import com.jakewharton.fliptables.FlipTable
 
 object supermarketSimulation extends App {
 

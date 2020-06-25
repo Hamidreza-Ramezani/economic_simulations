@@ -16,11 +16,8 @@ trait SectionTrait extends Actor with SummaryTrait {
   val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
   var shelfCapacity: Int = 5
-  //  var employee: EmployeeTrait = null
-  //  var cashier: CashierTrait = null
   var sectionShufflingPolicy: ShufflingPolicy
   canMove = false
-  //  var supermarket: SupermarketTrait
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
     world.coordinates_flattened.foreach {
@@ -35,8 +32,6 @@ trait SectionTrait extends Actor with SummaryTrait {
     }
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
-    //    this.xPosition = supermarket.xPosition
-    //    this.yPosition = supermarket.yPosition
   }
 
   def isNotFull(): Boolean = {

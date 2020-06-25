@@ -19,7 +19,7 @@ import scala.collection.mutable.ListBuffer
 /* Auto generated from genCustomers */
 
 @lift
-class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extends People with Weekly with MealPlan_Dummy2 with ImpulseShopper {
+class Customer2(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait) extends People with Weekly with MealPlan_Dummy2 with ImpulseShopper {
 
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -48,25 +48,25 @@ class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extend
 
       while (currentXPosition < targetXPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Right)
       }
       while (currentXPosition > targetXPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Left)
       }
       while (currentYPosition < targetYPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Down)
       }
       while (currentYPosition > targetYPosition) {
         writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+        println("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
         SpecialInstructions.waitTurns(1)
         move(world, Up)
       }
@@ -140,10 +140,11 @@ class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       if (consumed < pair._2) {
         writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
-        move(world, supermarket)
+        var pickedSupermarket = pickSupermarket()
+        move(world, pickedSupermarket)
         //        val sectionName = newItemsMap.categoryMap(pair._1)
         //        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
-        while (supermarket.getEmployeesState == "reFillingShelves") {
+        while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
           writer.write("Customer's Actor id " + id + " is waiting for the employee " + "to refill the shelves" + "\n")
           println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
           println()
@@ -151,7 +152,7 @@ class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extend
         }
         //        addListedItems(Vector((pair._1, pair._2)), onBudget = true)
         //        addListedItemsToBasket(Vector((pair._1, pair._2)))
-        addListedItemsToBasket(Vector((pair._1, pair._2)), onBudget = true)
+        addListedItemsToBasket(Vector((pair._1, pair._2)), pickedSupermarket)
       }
     })
   }
@@ -174,9 +175,10 @@ class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       println("---------------------------------------------------------------------------------------------------")
       customerInfo
       writer.write(toString + "\n")
-      move(world, supermarket)
+      var pickedSupermarket: SupermarketTrait = pickSupermarket()
+      move(world, pickedSupermarket)
       //these functions should add the items to toBeScannedItems
-      while (supermarket.getEmployeesState == "reFillingShelves") {
+      while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
         println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
         println("---------------------------------------------------------------------------------------------------")
@@ -189,10 +191,10 @@ class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       }
       //      addListedItems(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       //      addRandItems(shoppingList.randItems)
-      addListedItemsToBasket(shoppingList.targetItems, (Random.nextFloat < priceConscious))
-      addRandItemsToBasket(shoppingList.randItems)
+      addListedItemsToBasket(shoppingList.targetItems, pickedSupermarket, Random.nextFloat < priceConscious)
+      addRandItemsToBasket(shoppingList.randItems, pickedSupermarket)
       println()
-      supermarket.cashier.toBeScannedItems.enqueue(basket)
+      pickedSupermarket.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
       while (basket.exists(item => item.state.get != "isPurchased")) {
         writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
@@ -221,6 +223,7 @@ class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extend
       //       }
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
+        pickedSupermarket = pickSupermarket()
         consumeFood2(mealPlan)
         //        consumeFood2()
         consumeRandomFood()
@@ -233,7 +236,7 @@ class Customer2(var supermarket: SupermarketTrait, var world: WorldTrait) extend
         }
         if (basket.nonEmpty) {
           //now it should be added to the toBeScannedItems
-          supermarket.cashier.toBeScannedItems.enqueue(basket)
+          pickedSupermarket.toBeScannedItems.enqueue(basket)
           while (basket.exists(item => item.state.get != "isPurchased")) {
             writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
             println("Customer's Actor id " + id + " is waiting for the cashier to scan items")

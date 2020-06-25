@@ -11,7 +11,7 @@ trait ManufacturerTrait extends Actor {
 
 
   var world: WorldTrait
-  var manufacturerState: ManufacturerState = chilling
+  var manufacturerState: ManufacturerState = idle
   var truck: TruckTrait
   var supermarket: SupermarketTrait
   var capacity: Int = supermarket.shelfCapacity
