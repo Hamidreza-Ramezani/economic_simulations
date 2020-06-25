@@ -38,8 +38,8 @@ override def comeBackToInitialPoint(world: WorldTrait): Unit = {
 
 
   def main(): Unit = {
-    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-    world.addActor(this)
+//    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+//    world.addActor(this)
 
     while (age < freshUntil && !state.isConsumed) {
       itemInfo
