@@ -1,9 +1,7 @@
 package meta.example.supermarket.worldmap
 
 import meta.deep.runtime.Actor
-import scala.io.AnsiColor._
 import scala.collection.mutable.ListBuffer
-import scala.tools.nsc.doc.base.comment.Bold
 
 sealed trait TileType;
 
@@ -15,6 +13,27 @@ case object Street extends TileType;
 class Tile(xPos: Int, yPos: Int) {
   var tileType: TileType = PrivateProperty
   var actors: ListBuffer[Actor] = new ListBuffer[Actor]
+  var parent: Tile = null
+  var g_cost = 0
+  var h_cost = 0
+  var f_cost = 0
+
+
+  def setParent(parent: Tile): Unit = {
+    this.parent = parent
+  }
+
+  def setFCost(): Unit = {
+    f_cost = g_cost + h_cost
+  }
+
+  def setGCost(): Unit = {
+    g_cost = parent.g_cost + 1
+  }
+
+  def setHCost(goal: Tile): Unit = {
+    h_cost = manhattanDistanceFrom(goal)
+  }
 
   def getX(): Int = {
     xPos
@@ -50,19 +69,19 @@ class Tile(xPos: Int, yPos: Int) {
 
   override def toString = {
     var str = "                "
-//    str += "\n"
-//    str += "x: " + getX() + " y: " + getY()
+    //    str += "\n"
+    //    str += "x: " + getX() + " y: " + getY()
     str += "\n"
-//    str +=  s"${BLUE}" + tileType.toString
-    if(tileType == PrivateProperty){
+    //    str +=  s"${BLUE}" + tileType.toString
+    if (tileType == PrivateProperty) {
       str += "..........\n"
       str += "..........\n"
       str += "..........\n"
       str += "..........\n"
       str += "..........\n"
     }
-//    str += tileType.toString
-//    str += "\n"
+    //    str += tileType.toString
+    //    str += "\n"
     actors.foreach {
       actor =>
         str += actor.agentName + " id: " + actor.id + " \n"
@@ -70,6 +89,7 @@ class Tile(xPos: Int, yPos: Int) {
     str += "\n \n \n \n"
     str
   }
+
   def toString2 = {
     var str = "tile x: " + getX() + " y: " + getY()
     str += "\n"
@@ -79,6 +99,12 @@ class Tile(xPos: Int, yPos: Int) {
       actor =>
         str += actor.agentName + " id: " + actor.id + " \n"
     }
+    str
+  }
+
+  def toString3 = {
+    var str = "tile x: " + getX() + " y: " + getY()
+//    var str = "tile x: " + getX() + " y: " + getY() + "\n"
     str
   }
 }

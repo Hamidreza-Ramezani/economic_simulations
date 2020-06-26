@@ -7,7 +7,7 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan2, MealPlan_Dummy2, People, Weekly}
 import meta.example.supermarket.utils.randElement
-import meta.example.supermarket.worldmap.{Down, Left, PrivateProperty, Right, Up, WorldTrait}
+import meta.example.supermarket.worldmap.{Down, Left, PrivateProperty, Right, Tile, Up, Utils, WorldTrait}
 import squid.quasi.lift
 
 import scala.util.Random
@@ -45,91 +45,59 @@ class Customer2(var supermarkets: ListBuffer[SupermarketTrait], var world: World
 
   def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
-
-      while (currentXPosition < targetXPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Right)
-      }
-      while (currentXPosition > targetXPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Left)
-      }
-      while (currentYPosition < targetYPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Down)
-      }
-      while (currentYPosition > targetYPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Up)
+      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
+      path.toList.foreach {
+        tile =>
+          if (currentXPosition < tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Right)
+          }
+          if (currentXPosition > tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Left)
+          }
+          if (currentYPosition < tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Down)
+          }
+          if (currentYPosition > tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Up)
+          }
       }
     }
   }
 
 
-  //  def addRandItems(shoppingList: categoryAmount): Unit = {
-  //    if (!needBased) {
-  //      val foods = utils.ccArgToIntVector(shoppingList)
-  //      foods.toList.foreach(
-  //        categoryAmountPair => {
-  //          List.fill(categoryAmountPair._2)(1).foreach(_ => {
-  //            val randFood: String = supermarket.getRandFood(categoryAmountPair._1)
-  //            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
-  //            add2Basket(randFood, onBudget = true)
-  //          })
-  //        }
-  //      )
-  //    }
-  //  }
-
-  //  def addListedItems(meal: Vector[(articleName, Int)], onBudget: Boolean): Unit = {
-  //    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
-  //    meal.toList.foreach(articlePair => {
-  //      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
-  //        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
-  //        List.fill(shoppingList(articlePair._1))(1).foreach(_ => add2Basket(articlePair._1, onBudget))
-  //      }
-  //    })
-  //  }
-
-  //  def add2Basket(itemStr: String, onBudget: Boolean): Unit = {
-  //    //    val item: Option[Item] = supermarket.getRequestedItem(itemStr, onBudget)
-  //    //    if (item.isDefined) {
-  //    //      val targetItem = item.get
-  //    //      targetItem.state.addToBasket
-  //    //      basket += targetItem
-  //    //    }
-  //  }
-
-
-  //    def isAllItemsScanned: Boolean = {
-  //      var flag: Boolean = true
-  //      this.basket.toList.foreach(item => {
-  //        if (item.state.get != "isPurchased") {
-  //          flag = false
-  //        }
-  //      })
-  //      flag
-  //    }
-
-
-  //  def consumeFood2(): Unit = {
-  //    if (fridge.getAvailFood.nonEmpty) {
-  //      var someFood: String = randElement(fridge.getAvailFood)
-  //      var consumedFoodAmount = fridge.consume(someFood, 200)
-  //      writer.write("Customer's Actor id " + id + " consumed random food " + someFood + "\n")
-  //      writer.write(" amount " + consumedFoodAmount + "\n")
-  //      println("Customer's Actor id " + id + " consumed random food " + someFood)
-  //      println(" amount " + consumedFoodAmount)
-  //    }
-  //  }
+  //  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+//    if (canMove) {
+//
+//      while (currentXPosition < targetXPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Right)
+//      }
+//      while (currentXPosition > targetXPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Left)
+//      }
+//      while (currentYPosition < targetYPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Down)
+//      }
+//      while (currentYPosition > targetYPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Up)
+//      }
+//    }
+//  }
 
   //   Target consumption behavior
   def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {

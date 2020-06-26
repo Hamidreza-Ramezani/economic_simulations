@@ -1,11 +1,14 @@
 package meta.example.supermarket.logistics
 
 import java.io.{File, FileWriter, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
-import meta.example.supermarket.worldmap.{Up, Left, Right, Down, WorldTrait}
+import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
 import squid.quasi.lift
+
+import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 @lift
@@ -38,33 +41,59 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
 
   def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
-
-      while (currentXPosition < targetXPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Right)
-      }
-      while (currentXPosition > targetXPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Left)
-      }
-      while (currentYPosition < targetYPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Down)
-      }
-      while (currentYPosition > targetYPosition) {
-        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-        println(     "agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-        SpecialInstructions.waitTurns(1)
-        move(world, Up)
+      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
+      path.toList.foreach {
+        tile =>
+          if (currentXPosition < tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Right)
+          }
+          if (currentXPosition > tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Left)
+          }
+          if (currentYPosition < tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Down)
+          }
+          if (currentYPosition > tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Up)
+          }
       }
     }
   }
+
+
+  //  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+//    if (canMove) {
+//
+//      while (currentXPosition < targetXPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println(     "agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Right)
+//      }
+//      while (currentXPosition > targetXPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println(     "agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Left)
+//      }
+//      while (currentYPosition < targetYPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println(     "agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Down)
+//      }
+//      while (currentYPosition > targetYPosition) {
+//        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+//        println(     "agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+//        SpecialInstructions.waitTurns(1)
+//        move(world, Up)
+//      }
+//    }
+//  }
 
 
   def checkIfThereIsOrderFromManufacturer(): Unit = {

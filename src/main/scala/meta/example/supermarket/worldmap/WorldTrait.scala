@@ -40,6 +40,9 @@ trait WorldTrait extends Actor {
   writer.write("\nafter flood fill algorithm:\n")
   writer.write(this.toString)
 
+//  Utils.printPath(this,coordinates(0)(0), coordinates(7)(7))
+
+
   def initializeTileType(): Unit = {
     breakable {
       while (true) {
@@ -55,12 +58,12 @@ trait WorldTrait extends Actor {
               property.setType(Street)
               properties -= property
               streets += property
-//              println(property.toString2 + "changed to street")
+              //              println(property.toString2 + "changed to street")
               writer.write(property.toString2 + "changed to street\n\n\n")
             }
         }
         var randomStreet: Tile = streets(Random.nextInt(streets.size - 1))
-        val connectedTiles = Util.floodFill(coordinates, randomStreet.getX(), randomStreet.getY())
+        val connectedTiles = Utils.floodFill(coordinates, randomStreet.getX(), randomStreet.getY())
         if (connectedTiles.size == streets.size) {
           break()
         }
@@ -68,14 +71,14 @@ trait WorldTrait extends Actor {
         randomProperty.setType(Street)
         properties -= randomProperty
         streets += randomProperty
-//        println(randomProperty.toString2 + "changed to street")
+        //        println(randomProperty.toString2 + "changed to street")
         writer.write(randomProperty.toString2 + "changed to street\n\n\n")
         while (properties.size < requiredNumberOfProperties) {
           randomStreet = streets(Random.nextInt(streets.size - 1))
           randomStreet.setType(PrivateProperty)
           streets -= randomStreet
           properties += randomStreet
-//          println(randomStreet.toString2 + "changed to property")
+          //          println(randomStreet.toString2 + "changed to property")
           writer.write(randomStreet.toString2 + "changed to property\n\n\n")
 
           //          throw CustomException("the number of available properties is too low")
@@ -128,6 +131,37 @@ trait WorldTrait extends Actor {
     this.initialYPosition = 0
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
+  }
+
+  def getStreetNeighbors(tile: Tile,goal:Tile): ListBuffer[Tile] = {
+    var neighbors: ListBuffer[Tile] = new ListBuffer[Tile]
+    val worldRows: Int = coordinates.length
+    val worldCols: Int = coordinates(0).length
+    if (tile.getX() != 0) {
+      var leftNeighbor = coordinates(tile.getY())(tile.getX() - 1)
+      if (leftNeighbor.tileType != PrivateProperty || leftNeighbor == goal) {
+        neighbors += leftNeighbor
+      }
+    }
+    if (tile.getX() != worldCols - 1) {
+      var rightNeighbor = coordinates(tile.getY())(tile.getX() + 1)
+      if (rightNeighbor.tileType != PrivateProperty || rightNeighbor == goal) {
+        neighbors += rightNeighbor
+      }
+    }
+    if (tile.getY() != 0) {
+      var upNeighbor = coordinates(tile.getY() - 1)(tile.getX())
+      if (upNeighbor.tileType != PrivateProperty || upNeighbor == goal) {
+        neighbors += upNeighbor
+      }
+    }
+    if (tile.getY() != worldRows - 1) {
+      var downNeighbor = coordinates(tile.getY() + 1)(tile.getX())
+      if (downNeighbor.tileType != PrivateProperty|| downNeighbor == goal) {
+        neighbors += downNeighbor
+      }
+    }
+    neighbors
   }
 
   def addActor(actor: Actor): Unit = {

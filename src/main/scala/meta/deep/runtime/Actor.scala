@@ -4,7 +4,7 @@ import java.io.PrintWriter
 import java.util.UUID
 
 import meta.deep.runtime.Actor.AgentId
-import meta.example.supermarket.worldmap.{Direction, Up, Left, Right, Tile, Down, World, WorldTrait}
+import meta.example.supermarket.worldmap.{Direction, Down, Left, Right, Tile, Up, Utils, World, WorldTrait}
 
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
@@ -215,18 +215,34 @@ class Actor {
 
   def move(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
-      while (currentXPosition < targetXPosition) {
-        move(world, Right)
+      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
+      path.foreach {
+        tile =>
+          if (currentXPosition < tile.getX()) {
+            move(world, Right)
+          }
+          if (currentXPosition > tile.getX()) {
+            move(world, Left)
+          }
+          if (currentYPosition < tile.getY()) {
+            move(world, Down)
+          }
+          if (currentYPosition > tile.getY()) {
+            move(world, Up)
+          }
       }
-      while (currentXPosition > targetXPosition) {
-        move(world, Left)
-      }
-      while (currentYPosition < targetYPosition) {
-        move(world, Down)
-      }
-      while (currentYPosition > targetYPosition) {
-        move(world, Up)
-      }
+      //      while (currentXPosition < targetXPosition) {
+      //        move(world, Right)
+      //      }
+      //      while (currentXPosition > targetXPosition) {
+      //        move(world, Left)
+      //      }
+      //      while (currentYPosition < targetYPosition) {
+      //        move(world, Down)
+      //      }
+      //      while (currentYPosition > targetYPosition) {
+      //        move(world, Up)
+      //      }
     }
   }
 
@@ -249,7 +265,7 @@ class Actor {
         directionOptions -= Left
       }
       // Entity is in right column
-      else if (this.currentXPosition == worldCols -1 ) {
+      else if (this.currentXPosition == worldCols - 1) {
         directionOptions -= Right
       }
       // Entity is in top row
@@ -257,7 +273,7 @@ class Actor {
         directionOptions -= Up
       }
       // Entity is in bottom row
-      else if (this.currentYPosition == worldRows - 1 ) {
+      else if (this.currentYPosition == worldRows - 1) {
         directionOptions -= Down
       }
       //      val randomMove = directionOptions(randomInt.nextInt(directionOptions.size))
