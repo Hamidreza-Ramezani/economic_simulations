@@ -13,22 +13,20 @@ import scala.util.Random
 class Manufacturer(var truck: TruckTrait, var supermarket: SupermarketTrait, var world: WorldTrait) extends ManufacturerTrait {
 
 
-  //  override def getFreeSpace(item: String): Int = {
-  //    capacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves(item).size
-  //  }
-
-  def checkIfThereIsOrderFromSupermarket(): Unit = {
-    manufacturerState = idle
-    while (manufacturerState != receivedOrderFromSupermarket) {
-      SpecialInstructions.waitTurns(1)
-    }
+  def placeOrderToFarmer(): Unit = {
+//    manufacturerState = idle
+//    SpecialInstructions.waitTurns(30)
+    manufacturerState = waitingForFarmer
+    //    while (manufacturerState != receivedOrderFromSupermarket) {
+    //      SpecialInstructions.waitTurns(1)
+    //    }
     println("---------------------------------------------------------------------------------------------------")
-    println("manufacturer received an order from the supermarket")
-    writer.write("manufacturer received an order from the supermarket" + "\n")
+    println("manufacturer ordered some food")
+    writer.write("manufacturer ordered some food" + "\n")
   }
 
   def checkIfThereIsUpdateFromFarmer(): Unit = {
-    manufacturerState = waitingForFarmer
+//    manufacturerState = waitingForFarmer
     while (manufacturerState != receivedNoticeFromFarmer) {
       SpecialInstructions.waitTurns(1)
     }
@@ -37,11 +35,6 @@ class Manufacturer(var truck: TruckTrait, var supermarket: SupermarketTrait, var
     println("---------------------------------------------------------------------------------------------------")
     writer.write("manufacturer received an update from the farmer" + "\n")
   }
-
-  def giveOrderToFarmer(): Unit = {
-
-  }
-
 
   def processFood(): Unit = {
     manufacturerState = isProcessing
@@ -85,12 +78,14 @@ class Manufacturer(var truck: TruckTrait, var supermarket: SupermarketTrait, var
     writer = new PrintWriter(new FileWriter(new File("m/agentManufacturer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
-      checkIfThereIsOrderFromSupermarket()
+      placeOrderToFarmer()
       checkIfThereIsUpdateFromFarmer()
       processFood()
       SpecialInstructions.waitTurns(1)
       loadTruck()
-      SpecialInstructions.waitTurns(1)
+      manufacturerState = idle
+      SpecialInstructions.waitTurns(30)
+//      SpecialInstructions.waitTurns(1)
     }
   }
 }

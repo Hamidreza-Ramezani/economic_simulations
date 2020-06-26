@@ -9,13 +9,12 @@ import scala.collection.mutable
 
 trait ManufacturerTrait extends Actor {
 
-
   var world: WorldTrait
   var manufacturerState: ManufacturerState = idle
   var truck: TruckTrait
   var supermarket: SupermarketTrait
-  var capacity: Int = supermarket.shelfCapacity
   canMove = false
+  //  var capacity: Int = supermarket.shelfCapacity
 
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],
@@ -32,10 +31,6 @@ trait ManufacturerTrait extends Actor {
   )
 
   def getFreeSpace(item: String): Int = {
-    capacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves(item).size
+    supermarket.shelfCapacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves(item).size
   }
-
-
-  //  def getFreeSpace(item: String): Int
-
 }

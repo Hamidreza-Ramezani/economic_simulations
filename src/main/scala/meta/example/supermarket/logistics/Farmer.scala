@@ -39,10 +39,9 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     //    while (farmerState != receivedRequestFromManufacturer) {
     //      SpecialInstructions.waitTurns(1)
     //    }
-    while (manufacturer.manufacturerState != receivedOrderFromSupermarket) {
+    while (manufacturer.manufacturerState != waitingForFarmer) {
       SpecialInstructions.waitTurns(1)
     }
-    SpecialInstructions.waitTurns(1)
     println("---------------------------------------------------------------------------------------------------")
     println("farmer received an order from the manufacturer")
     writer.write("farmer received an order from the manufacturer" + "\n")

@@ -6,7 +6,7 @@ import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.Item
-import meta.example.supermarket.logistics.{ManufacturerTrait, receivedOrderFromSupermarket, unloadingTruck}
+import meta.example.supermarket.logistics.{ManufacturerTrait, unloadingTruck}
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import squid.quasi.lift
@@ -44,14 +44,14 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
   def orderItems(): Unit = {
     //calling farmer
     println("---------------------------------------------------------------------------------------------------")
-    println("Employee's Actor id " + id + " ordered some items")
+    //    println("Employee's Actor id " + id + " ordered some items")
     println("Employee's Actor id " + id + " is waiting for the truck")
     println("---------------------------------------------------------------------------------------------------")
-    writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
+    //    writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
     writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
     state.refillShelves
     //    farmer.farmerState = receivedRequestFromSupermarket
-    manufacturer.manufacturerState = receivedOrderFromSupermarket
+    //    manufacturer.manufacturerState = receivedOrderFromSupermarket
     SpecialInstructions.waitTurns(1)
     while (truck.truckState != unloadingTruck) {
       println("---------------------------------------------------------------------------------------------------")
@@ -66,6 +66,19 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     //check if the number of items in supermarket is full
     if (section.isNotFull()) {
       orderItems()
+      state.refillShelves
+      writer.write("\n")
+      println()
+      writer.write("Employee's Actor id " + id + " is refilling the shelves")
+      println("Employee's Actor id " + id + " is refilling the shelves")
+      writer.write("\n")
+      println()
+      supermarket.storage.toList.foreach { item =>
+        section.shelves(item.name) += item
+        item.state.loadInShelves
+        writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
+      }
+      supermarket.storage = new ListBuffer[Item]()
     }
     //employee has to make sure that the items are arrived
     //employee should check a variable in while true loop
@@ -79,19 +92,6 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     //      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
     //      SpecialInstructions.waitTurns(1)
     //    }
-    state.refillShelves
-    writer.write("\n")
-    println()
-    writer.write("Employee's Actor id " + id + " is refilling the shelves")
-    println("Employee's Actor id " + id + " is refilling the shelves")
-    writer.write("\n")
-    println()
-    supermarket.storage.toList.foreach { item =>
-      section.shelves(item.name) += item
-      item.state.loadInShelves
-      writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
-    }
-    supermarket.storage = new ListBuffer[Item]()
 
     //    section.articleNames.toList.foreach(
     //      itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
