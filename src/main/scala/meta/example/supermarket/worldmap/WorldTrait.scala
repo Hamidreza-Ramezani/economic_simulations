@@ -25,6 +25,7 @@ trait WorldTrait extends Actor {
     for (j <- 0 until height) {
       coordinates(j)(i) = new Tile(i, j)
       coordinates_flattened += coordinates(j)(i)
+      coordinates(j)(i).world = this
       if (Random.nextInt(100) > 50) {
         setTileType(i, j, Street)
         streets += coordinates(j)(i)
@@ -40,7 +41,6 @@ trait WorldTrait extends Actor {
   writer.write("\nafter flood fill algorithm:\n")
   writer.write(this.toString)
 
-//  Utils.printPath(this,coordinates(0)(0), coordinates(7)(7))
 
 
   def initializeTileType(): Unit = {

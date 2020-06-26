@@ -13,26 +13,19 @@ case object Street extends TileType;
 class Tile(xPos: Int, yPos: Int) {
   var tileType: TileType = PrivateProperty
   var actors: ListBuffer[Actor] = new ListBuffer[Actor]
-  var parent: Tile = null
-  var g_cost = 0
-  var h_cost = 0
-  var f_cost = 0
+  var world: WorldTrait = null
 
 
-  def setParent(parent: Tile): Unit = {
-    this.parent = parent
+  def actualDistanceFrom(tile: Tile): Int = {
+    var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(yPos)(xPos), world.coordinates(tile.getY())(tile.getX()))
+    path.length
   }
 
-  def setFCost(): Unit = {
-    f_cost = g_cost + h_cost
-  }
-
-  def setGCost(): Unit = {
-    g_cost = parent.g_cost + 1
-  }
-
-  def setHCost(goal: Tile): Unit = {
-    h_cost = manhattanDistanceFrom(goal)
+  def manhattanDistanceFrom(tile: Tile): Int = {
+    val xDifference = (this.xPos - tile.getX()).abs
+    val yDifference = (this.yPos - tile.getY()).abs
+    val distance: Int = xDifference + yDifference
+    distance
   }
 
   def getX(): Int = {
@@ -57,13 +50,6 @@ class Tile(xPos: Int, yPos: Int) {
 
   def removeActor(actor: Actor): Unit = {
     actors -= actor
-  }
-
-  def manhattanDistanceFrom(tile: Tile): Int = {
-    val xDifference = (this.xPos - tile.getX()).abs
-    val yDifference = (this.yPos - tile.getY()).abs
-    val distance: Int = xDifference + yDifference
-    distance
   }
 
 
@@ -104,7 +90,7 @@ class Tile(xPos: Int, yPos: Int) {
 
   def toString3 = {
     var str = "tile x: " + getX() + " y: " + getY()
-//    var str = "tile x: " + getX() + " y: " + getY() + "\n"
+    //    var str = "tile x: " + getX() + " y: " + getY() + "\n"
     str
   }
 }

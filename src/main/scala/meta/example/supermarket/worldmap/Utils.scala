@@ -89,7 +89,7 @@ object Utils {
               break()
             }
             else {
-              val neighborNewFCost = gCost(currentTile) + 1 + neighbor.h_cost
+              val neighborNewFCost = gCost(currentTile) + 1 + hCost(neighbor)
               if (neighborNewFCost < fCost(neighbor) || !open.contains(neighbor)) {
                 parentMap(neighbor) = currentTile
                 gCost(neighbor) = gCost(currentTile) + 1
@@ -123,19 +123,17 @@ object Utils {
     var parentMap = AStar(world, source, goal)
     var path: ListBuffer[Tile] = new ListBuffer[Tile]
     var currentTile = goal
-//    path += goal
     while (currentTile != source){
       path += currentTile
       currentTile = parentMap(currentTile)
     }
+    //    println("the path from " + source.toString3 + " to " + goal.toString3 + " is:")
+    //    path.foreach{
+    //      tile =>
+    //        println(tile.toString3)
+    //    }
+
     path = path.reverse
     path
-//    println("the path from " + source.toString3 + " to " + goal.toString3 + " is:")
-//    world.writer.write("the path from " + source.toString3 + " to " + goal.toString3 + " is:\n")
-//    path.foreach{
-//      tile =>
-//        println(tile.toString3)
-//        world.writer.write(tile.toString3 + "\n")
-//    }
   }
 }
