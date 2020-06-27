@@ -40,14 +40,14 @@ class MainInit {
 
 
     val supermarket1 = new Supermarket(sectionLst, worldMap)
+    val supermarkets:ListBuffer[SupermarketTrait] = new ListBuffer[SupermarketTrait]
+    supermarkets += supermarket1
     val truck = new Truck(supermarket1, worldMap)
-    val manufacturer = new Manufacturer(truck, supermarket1, worldMap)
+    val manufacturer = new Manufacturer(truck, supermarkets, worldMap)
     val farmer = new Farmer(manufacturer, worldMap)
     val employee1 = new Employee(supermarket1, sectionVegetable, manufacturer, worldMap)
     val cashier1 = new Cashier(supermarket1, worldMap)
 
-    val supermarkets:ListBuffer[SupermarketTrait] = new ListBuffer[SupermarketTrait]
-    supermarkets += supermarket1
 
     val customer1 = new Customer1(supermarkets, worldMap)
     val customer2 = new Customer2(supermarkets, worldMap)

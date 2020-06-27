@@ -15,7 +15,7 @@ trait SectionTrait extends Actor with SummaryTrait {
   val articleNames: Vector[String] = categories.getArticleNames(sectionName)
   val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-  var shelfCapacity: Int = 5
+  var shelfCapacity: Int = 6
   var sectionShufflingPolicy: ShufflingPolicy
   canMove = false
 

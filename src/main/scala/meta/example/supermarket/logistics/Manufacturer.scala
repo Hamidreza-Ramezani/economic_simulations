@@ -7,11 +7,11 @@ import meta.example.supermarket.goods.Item
 import meta.example.supermarket.worldmap.{PrivateProperty, WorldTrait}
 import squid.quasi.lift
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 @lift
-class Manufacturer(var truck: TruckTrait, var supermarket: SupermarketTrait, var world: WorldTrait) extends ManufacturerTrait {
-
+class Manufacturer(var truck: TruckTrait, var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait) extends ManufacturerTrait {
 
   def placeOrderToFarmer(): Unit = {
 //    manufacturerState = idle
