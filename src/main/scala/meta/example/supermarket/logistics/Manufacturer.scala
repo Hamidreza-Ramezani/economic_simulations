@@ -21,8 +21,8 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
     //      SpecialInstructions.waitTurns(1)
     //    }
     println("---------------------------------------------------------------------------------------------------")
-    println("manufacturer ordered some food")
-    writer.write("manufacturer ordered some food" + "\n")
+    println("manufacturer ordered some food to the farmer")
+    writer.write("manufacturer ordered some food to the farmer" + "\n")
   }
 
   def checkIfThereIsUpdateFromFarmer(): Unit = {
@@ -59,14 +59,16 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
     supermarkets.toList.foreach {
       supermarket =>
         if (numberOfItemsSupermarketNeeds(supermarket) > 0) {
-          writer.write("supermarket id" + supermarket.id + " whole needs: " + numberOfItemsSupermarketNeeds(supermarket) + "\n")
+          writer.write("supermarket id" + supermarket.id + " whole needs: " + numberOfItemsSupermarketNeeds(supermarket) + " items\n")
           var randomTruck = trucks.head
           while (randomTruck.truckState != relaxed) {
             val randomNumber = Random.nextInt(trucks.size)
             randomTruck = trucks(randomNumber)
           }
           randomTruck.supermarket = supermarket
-          supermarket.employees.toList.foreach{
+          writer.write("truck " + randomTruck.id + " is assigned to go to supermarket" + supermarket.id + "\n")
+          println("truck " + randomTruck.id + " is assigned to go to supermarket" + supermarket.id)
+          supermarket.employees.toList.foreach {
             employee =>
               employee.truck = randomTruck
           }
@@ -107,8 +109,9 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
       processFood()
       SpecialInstructions.waitTurns(1)
       loadTruck()
+      SpecialInstructions.waitTurns(1)
       manufacturerState = idle
-      SpecialInstructions.waitTurns(30)
+      SpecialInstructions.waitTurns(29)
       //      SpecialInstructions.waitTurns(1)
     }
   }

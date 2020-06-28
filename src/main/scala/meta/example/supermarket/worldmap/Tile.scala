@@ -14,7 +14,7 @@ class Tile(xPos: Int, yPos: Int) {
   var tileType: TileType = PrivateProperty
   var actors: ListBuffer[Actor] = new ListBuffer[Actor]
   var world: WorldTrait = null
-
+  var hasOwner: Boolean = false
 
   def actualDistanceFrom(tile: Tile): Int = {
     var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(yPos)(xPos), world.coordinates(tile.getY())(tile.getX()))

@@ -26,7 +26,10 @@ trait People extends Actor {
 
   //todo refactor it
   def pickSupermarket(): SupermarketTrait = {
-    supermarkets.head
+    var supermarket = supermarkets.head
+    writer.write("customer " + id + " chose supermarket "+ supermarket.id + "\n")
+    println("customer " + id + " chose supermarket "+ supermarket.id)
+    supermarket
   }
 
 

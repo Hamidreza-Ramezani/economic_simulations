@@ -1,13 +1,10 @@
 package meta.example.supermarket.worldmap
 
 import java.io.{File, PrintWriter}
-
 import scala.util.control.Breaks._
 import meta.deep.runtime.Actor
-
 import scala.collection.mutable.ListBuffer
 import com.jakewharton.fliptables.FlipTable
-
 import scala.util.Random
 
 trait WorldTrait extends Actor {
