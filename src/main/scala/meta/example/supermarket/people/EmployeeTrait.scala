@@ -10,8 +10,8 @@ trait EmployeeTrait extends Actor {
   var section: SectionTrait
   var hasItemsOnTheWay: Boolean = true
   var manufacturer: ManufacturerTrait
-  var truck: TruckTrait = manufacturer.truck
   var supermarket: SupermarketTrait
+  var truck: TruckTrait = null
   var world: WorldTrait
 
   override def setInitialPosition(x: Int, y: Int): Unit = {

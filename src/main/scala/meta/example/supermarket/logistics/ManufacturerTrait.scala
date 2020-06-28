@@ -11,12 +11,10 @@ trait ManufacturerTrait extends Actor {
 
   var world: WorldTrait
   var manufacturerState: ManufacturerState = idle
-  var truck: TruckTrait
-//  var supermarket: SupermarketTrait
+  var trucks: ListBuffer[TruckTrait]
   var supermarkets: ListBuffer[SupermarketTrait]
-  canMove = false
 
-  //  var capacity: Int = supermarket.shelfCapacity
+  canMove = false
 
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],
@@ -32,6 +30,13 @@ trait ManufacturerTrait extends Actor {
     "Mushroom" -> new mutable.Queue[Item]
   )
 
+
+  def numberOfItemsSupermarketNeeds(supermarket: SupermarketTrait): Int = {
+    var inventoryList: mutable.Map[String, Int]  = getFreeSpace(supermarket)
+    val result = inventoryList.foldLeft(0)(_ + _._2)
+    result
+  }
+
   def getFreeSpace(): mutable.Map[String, Int] = {
     var aggregatedMap: mutable.Map[String, Int] = mutable.Map().withDefaultValue(0)
     supermarkets.toList.foreach {
@@ -39,7 +44,6 @@ trait ManufacturerTrait extends Actor {
     }
     aggregatedMap
   }
-
 
   def getFreeSpace(supermarket: SupermarketTrait): mutable.Map[String, Int] = {
     var inventoryList: mutable.Map[String, Int] = mutable.Map()

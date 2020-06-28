@@ -6,7 +6,7 @@ import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.Item
-import meta.example.supermarket.logistics.{ManufacturerTrait, unloadingTruck}
+import meta.example.supermarket.logistics.{ManufacturerTrait, loadedTruck, unloadingTruck}
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import squid.quasi.lift
@@ -53,6 +53,10 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     //    farmer.farmerState = receivedRequestFromSupermarket
     //    manufacturer.manufacturerState = receivedOrderFromSupermarket
     SpecialInstructions.waitTurns(1)
+    while (manufacturer.manufacturerState != loadedTruck){
+      SpecialInstructions.waitTurns(1)
+    }
+//    truck = manufacturer.trucks.filter(truck => truck.supermarket == this.supermarket).head
     while (truck.truckState != unloadingTruck) {
       println("---------------------------------------------------------------------------------------------------")
       println("Employee's Actor id " + id + " is waiting for the truck")

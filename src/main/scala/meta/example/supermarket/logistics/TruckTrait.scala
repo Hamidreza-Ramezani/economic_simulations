@@ -10,8 +10,8 @@ import scala.collection.mutable
 trait TruckTrait extends Actor {
 
   var world: WorldTrait
-  var supermarket: SupermarketTrait
-  var truckState: TruckState = relaxing
+  var supermarket: SupermarketTrait = null
+  var truckState: TruckState = relaxed
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
     world.coordinates_flattened.foreach {

@@ -11,11 +11,11 @@ import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 @lift
-class Manufacturer(var truck: TruckTrait, var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait) extends ManufacturerTrait {
+class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait) extends ManufacturerTrait {
 
   def placeOrderToFarmer(): Unit = {
-//    manufacturerState = idle
-//    SpecialInstructions.waitTurns(30)
+    //    manufacturerState = idle
+    //    SpecialInstructions.waitTurns(30)
     manufacturerState = waitingForFarmer
     //    while (manufacturerState != receivedOrderFromSupermarket) {
     //      SpecialInstructions.waitTurns(1)
@@ -26,7 +26,7 @@ class Manufacturer(var truck: TruckTrait, var supermarkets: ListBuffer[Supermark
   }
 
   def checkIfThereIsUpdateFromFarmer(): Unit = {
-//    manufacturerState = waitingForFarmer
+    //    manufacturerState = waitingForFarmer
     while (manufacturerState != receivedNoticeFromFarmer) {
       SpecialInstructions.waitTurns(1)
     }
@@ -50,20 +50,44 @@ class Manufacturer(var truck: TruckTrait, var supermarkets: ListBuffer[Supermark
   }
 
   def loadTruck(): Unit = {
+    //in the list of supermarkets, we should find a supermarket that lacks some items
+    //randomly choose a truck
+    //assign that supermarket to that truck's supermarket attribute
+    //load the truck from part of the manufacturer's storage
+    //that part should be based on the supermarket's needs
+
+    supermarkets.toList.foreach {
+      supermarket =>
+        if (numberOfItemsSupermarketNeeds(supermarket) > 0) {
+          writer.write("supermarket id" + supermarket.id + " whole needs: " + numberOfItemsSupermarketNeeds(supermarket) + "\n")
+          var randomTruck = trucks.head
+          while (randomTruck.truckState != relaxed) {
+            val randomNumber = Random.nextInt(trucks.size)
+            randomTruck = trucks(randomNumber)
+          }
+          randomTruck.supermarket = supermarket
+          supermarket.employees.toList.foreach{
+            employee =>
+              employee.truck = randomTruck
+          }
+          randomTruck.truckState = receivedOrderFromManufacturer
+          storage.keys.toList.foreach { itemStr =>
+            val queue = storage(itemStr)
+            var numberOfItems = getFreeSpace(supermarket)(itemStr)
+            while (numberOfItems > 0) {
+              numberOfItems = numberOfItems - 1
+              var item = queue.dequeue()
+              randomTruck.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
+              item.state.loadInTruck
+            }
+          }
+        }
+    }
     println("---------------------------------------------------------------------------------------------------")
     println("The manufacturer processed the food")
     println("---------------------------------------------------------------------------------------------------")
     writer.write("The manufacturer processed the food")
     manufacturerState = loadedTruck
-    truck.truckState = receivedOrderFromManufacturer
-    storage.keys.toList.foreach { itemStr =>
-      val queue = storage(itemStr)
-      while (queue.nonEmpty) {
-        var item = queue.dequeue()
-        truck.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
-        item.state.loadInTruck
-      }
-    }
   }
 
   def main(): Unit = {
@@ -85,7 +109,7 @@ class Manufacturer(var truck: TruckTrait, var supermarkets: ListBuffer[Supermark
       loadTruck()
       manufacturerState = idle
       SpecialInstructions.waitTurns(30)
-//      SpecialInstructions.waitTurns(1)
+      //      SpecialInstructions.waitTurns(1)
     }
   }
 }

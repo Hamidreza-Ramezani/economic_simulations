@@ -3,7 +3,7 @@ package meta.example.supermarket.testItemOnly
 import meta.deep.runtime.Actor
 import meta.example.supermarket.customers._
 import meta.example.supermarket.goods._
-import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck}
+import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck, TruckTrait}
 import meta.example.supermarket.people._
 import meta.example.supermarket.worldmap.{World, WorldTrait}
 import meta.example.supermarket._
@@ -42,8 +42,10 @@ class MainInit {
     val supermarket1 = new Supermarket(sectionLst, worldMap)
     val supermarkets:ListBuffer[SupermarketTrait] = new ListBuffer[SupermarketTrait]
     supermarkets += supermarket1
-    val truck = new Truck(supermarket1, worldMap)
-    val manufacturer = new Manufacturer(truck, supermarkets, worldMap)
+    val truck = new Truck(worldMap)
+    var trucks =  new ListBuffer[TruckTrait]
+    trucks += truck
+    val manufacturer = new Manufacturer(trucks, supermarkets, worldMap)
     val farmer = new Farmer(manufacturer, worldMap)
     val employee1 = new Employee(supermarket1, sectionVegetable, manufacturer, worldMap)
     val cashier1 = new Cashier(supermarket1, worldMap)

@@ -10,15 +10,12 @@ import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 @lift
-class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends TruckTrait {
-
+class Truck(var world: WorldTrait) extends TruckTrait {
 
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-    //    SpecialInstructions.waitTurns(manhattanDistanceFromHome())
-    //    SpecialInstructions.waitTurns(1)
     move2(world, initialXPosition, initialYPosition)
 
     writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -29,8 +26,6 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
     writer.write("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
-    //    SpecialInstructions.waitTurns(manhattanDistanceFrom(target))
-    //    SpecialInstructions.waitTurns(1)
     move2(world, target.currentXPosition, target.currentYPosition)
 
     writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -62,40 +57,8 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
     }
   }
 
-
-  //  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
-//    if (canMove) {
-//
-//      while (currentXPosition < targetXPosition) {
-//        writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-//        println(     "agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-//        SpecialInstructions.waitTurns(1)
-//        move(world, Right)
-//      }
-//      while (currentXPosition > targetXPosition) {
-//        writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-//        println(     "agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-//        SpecialInstructions.waitTurns(1)
-//        move(world, Left)
-//      }
-//      while (currentYPosition < targetYPosition) {
-//        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-//        println(     "agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-//        SpecialInstructions.waitTurns(1)
-//        move(world, Down)
-//      }
-//      while (currentYPosition > targetYPosition) {
-//        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-//        println(     "agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-//        SpecialInstructions.waitTurns(1)
-//        move(world, Up)
-//      }
-//    }
-//  }
-
-
   def checkIfThereIsOrderFromManufacturer(): Unit = {
-    truckState = relaxing
+    truckState = relaxed
     while (truckState != receivedOrderFromManufacturer) {
       SpecialInstructions.waitTurns(1)
     }
@@ -132,12 +95,6 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
         var item = queue.dequeue()
         supermarket.storage += item
         item.state.loadInStorage
-        //ok, lets think how to add items into supermarket
-        //we need to add it to a list so that the employee has access to that list
-        //then change the employee code base
-        // TODO add the item into supermarket: done,
-        //  changing the state of the item: done
-        //        supermarket.itemsRecentlyOrdered = false
       }
     }
   }
@@ -148,15 +105,6 @@ class Truck(var supermarket: SupermarketTrait, var world: WorldTrait) extends Tr
     writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
-//      if (timer % 7 == 0) {
-//        if (timer != 0) {
-//          move(world, supermarket)
-//          SpecialInstructions.waitTurns(1)
-//          comeBackToInitialPoint(world)
-//        }
-//      }
-
-      //todo truck should wait as long as manufacturer does not notify them
       checkIfThereIsOrderFromManufacturer()
       doTransport()
       SpecialInstructions.waitTurns(1)

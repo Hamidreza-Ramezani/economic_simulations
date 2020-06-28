@@ -71,9 +71,6 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
       itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
         val new_item: Item = produce(newItemsMap.itemMap_test(itemStr))
         crops += new_item
-
-        //        manufacturer.storage.getOrElse(itemStr, new ListBuffer[Item]) += new_item
-        //change the state of items
         writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
       })
     )
