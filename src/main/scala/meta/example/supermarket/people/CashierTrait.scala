@@ -13,22 +13,28 @@ trait CashierTrait extends Actor {
   var world: WorldTrait
   var numOfBasketsHandledInOneStep: Int = 1
   var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
-  var supermarket:SupermarketTrait
+  var supermarket: SupermarketTrait
 
 
   override def setInitialPosition(x: Int, y: Int): Unit = {
-    world.coordinates_flattened.foreach {
-      tile =>
-        tile.actors.foreach {
-          supermarket =>
-            if (supermarket.getClass.getSimpleName == "Supermarket") {
-              this.initialXPosition = supermarket.initialXPosition
-              this.initialYPosition = supermarket.initialYPosition
-            }
-        }
-    }
+    this.initialXPosition = supermarket.initialXPosition
+    this.initialYPosition = supermarket.initialYPosition
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
+
+
+    //    world.coordinates_flattened.foreach {
+    //      tile =>
+    //        tile.actors.foreach {
+    //          actor =>
+    //            if (actor.getClass.getSimpleName == "Supermarket") {
+    //              this.initialXPosition = actor.initialXPosition
+    //              this.initialYPosition = actor.initialYPosition
+    //            }
+    //        }
+    //    }
+    //    currentXPosition = initialXPosition
+    //    currentYPosition = initialYPosition
   }
 
 

@@ -183,12 +183,19 @@ class Actor {
   var canMove: Boolean = true
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
 
-  def setInitialPosition(x: Int, y: Int): Unit = {
+  def setInitialPosition(world: WorldTrait,x: Int, y: Int): Unit = {
     this.initialXPosition = x
     this.initialYPosition = y
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
+    world.coordinates(y)(x).hasOwner = true
   }
+
+  def actualDistanceFrom(world: WorldTrait, actor: Actor): Int = {
+    val distance: Int = world.coordinates(currentYPosition)(currentXPosition).actualDistanceFrom(world.coordinates(actor.currentYPosition)(actor.currentXPosition))
+    distance
+  }
+
 
   def manhattanDistanceFromHome(): Int = {
     val xDifference = (this.currentXPosition - initialXPosition).abs

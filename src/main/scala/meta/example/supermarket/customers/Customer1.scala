@@ -126,11 +126,11 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
 
     var randomWidth = Random.nextInt(world.width)
     var randomHeight = Random.nextInt(world.height)
-    while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty) {
+    while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty || world.coordinates(randomHeight)(randomWidth).hasOwner) {
       randomWidth = Random.nextInt(world.width)
       randomHeight = Random.nextInt(world.height)
     }
-    setInitialPosition(randomWidth, randomHeight)
+    setInitialPosition(world,randomWidth, randomHeight)
     //    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
     var enteredWhileLoop: Boolean = false

@@ -63,9 +63,9 @@ class Truck(var world: WorldTrait) extends TruckTrait {
       SpecialInstructions.waitTurns(1)
     }
     println("---------------------------------------------------------------------------------------------------")
-    println("truck received an order from the manufacturer")
+    println("truck id " + id + " received an order from the manufacturer")
     println("---------------------------------------------------------------------------------------------------")
-    writer.write("truck received an order from the manufacturer" + "\n")
+    writer.write("truck id " + id + " received an order from the manufacturer" + "\n")
   }
 
   def doTransport(): Unit = {
@@ -85,9 +85,9 @@ class Truck(var world: WorldTrait) extends TruckTrait {
 
   def unloadTruck(): Unit = {
     println("---------------------------------------------------------------------------------------------------")
-    println("The truck transported the food")
+    println("The truck id " + id + " unloaded the items")
     println("---------------------------------------------------------------------------------------------------")
-    writer.write("The truck transported the food")
+    writer.write("The truck id" + id + " unloaded the items")
     truckState = unloadingTruck
     storage.keys.toList.foreach { itemStr =>
       var queue = storage(itemStr)

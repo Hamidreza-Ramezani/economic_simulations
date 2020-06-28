@@ -17,11 +17,11 @@ class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait
   def main(): Unit = {
     var randomWidth = Random.nextInt(world.width)
     var randomHeight = Random.nextInt(world.height)
-    while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty) {
+    while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty || world.coordinates(randomHeight)(randomWidth).hasOwner) {
       randomWidth = Random.nextInt(world.width)
       randomHeight = Random.nextInt(world.height)
     }
-    setInitialPosition(randomWidth, randomHeight)
+    setInitialPosition(world, randomWidth, randomHeight)
     world.addActor(this)
     writer = new PrintWriter(new File("m/agentSupermarket" + id))
     writer.write("\n\n" + "timer: " + timer + "\n\n")

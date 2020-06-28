@@ -33,23 +33,23 @@ trait Item extends Actor {
   var supermarket: SupermarketTrait
   var section: SectionTrait
 
-  override def setInitialPosition(x: Int, y: Int): Unit = {
-    world.coordinates_flattened.foreach {
-      tile =>
-        tile.actors.foreach {
-          supermarket =>
-            if (supermarket.getClass.getSimpleName == "Supermarket") {
-              this.initialXPosition = supermarket.initialXPosition
-              this.initialYPosition = supermarket.initialYPosition
-            }
-        }
-    }
-    currentXPosition = initialXPosition
-    currentYPosition = initialYPosition
-
-    //    this.xPosition = supermarket.xPosition
-    //    this.yPosition = supermarket.yPosition
-  }
+  //  override def setInitialPosition(x: Int, y: Int): Unit = {
+  //    world.coordinates_flattened.foreach {
+  //      tile =>
+  //        tile.actors.foreach {
+  //          actor =>
+  //            if (actor.getClass.getSimpleName == "Supermarket") {
+  //              this.initialXPosition = actor.initialXPosition
+  //              this.initialYPosition = actor.initialYPosition
+  //            }
+  //        }
+  //    }
+  //    currentXPosition = initialXPosition
+  //    currentYPosition = initialYPosition
+  //
+  //    //    this.xPosition = supermarket.xPosition
+  //    //    this.yPosition = supermarket.yPosition
+  //  }
 
 
   // need to explicitly pass the itemstate as a parameter
@@ -80,11 +80,23 @@ trait Item extends Actor {
   }
 
   def itemInfo: Unit = {
-    println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}")
+    //    println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}")
+    if (state.get != "inFarm" && state.get != "inManufacturer" && state.get != "inTruck") {
+      println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get} ${supermarket.id}")
+    }
+    else {
+      println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}")
+    }
+
   }
 
   override def toString: String = {
-    f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}"
+    if (state.get != "inFarm" && state.get != "inManufacturer" && state.get != "inTruck") {
+      return f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get} ${supermarket.id}"
+    }
+    else {
+      return f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}"
+    }
   }
 
   def cleanExpired(): Unit = {

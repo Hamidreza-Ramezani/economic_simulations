@@ -23,8 +23,8 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   var storage: ListBuffer[Item] = new ListBuffer[Item]()
   var itemsRecentlyOrdered: Boolean = true
   var shelfCapacity: Int = warehouse.head.shelfCapacity
-  canMove = false
   var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
+  canMove = false
 
 
   //  val vegetables: Vector[String] = categories.getArticleNames("Vegetable")

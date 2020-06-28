@@ -43,25 +43,25 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
 
   def orderItems(): Unit = {
     //calling farmer
-    println("---------------------------------------------------------------------------------------------------")
-    //    println("Employee's Actor id " + id + " ordered some items")
-    println("Employee's Actor id " + id + " is waiting for the truck")
-    println("---------------------------------------------------------------------------------------------------")
-    //    writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
-    writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
+    //    println("---------------------------------------------------------------------------------------------------")
+    //        println("Employee's Actor id " + id + " ordered some items")
+    //    println("Employee's Actor id " + id + " is waiting for the truck")
+    //    println("---------------------------------------------------------------------------------------------------")
+    //        writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
+    //    writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
     state.refillShelves
     //    farmer.farmerState = receivedRequestFromSupermarket
     //    manufacturer.manufacturerState = receivedOrderFromSupermarket
-    SpecialInstructions.waitTurns(1)
-    while (manufacturer.manufacturerState != loadedTruck){
+    //    SpecialInstructions.waitTurns(1)
+    while (manufacturer.manufacturerState != loadedTruck) {
       SpecialInstructions.waitTurns(1)
     }
-//    truck = manufacturer.trucks.filter(truck => truck.supermarket == this.supermarket).head
+    //    truck = manufacturer.trucks.filter(truck => truck.supermarket == this.supermarket).head
     while (truck.truckState != unloadingTruck) {
       println("---------------------------------------------------------------------------------------------------")
-      println("Employee's Actor id " + id + " is waiting for the truck")
+      println("Employee's Actor id " + id + " is waiting for the truck id " + truck.id )
       println("---------------------------------------------------------------------------------------------------")
-      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
+      writer.write("Employee's Actor id " + id + " is waiting for the truck id " + truck.id + "\n")
       SpecialInstructions.waitTurns(1)
     }
   }

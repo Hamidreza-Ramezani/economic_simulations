@@ -26,10 +26,23 @@ trait People extends Actor {
 
   //todo refactor it
   def pickSupermarket(): SupermarketTrait = {
-    var supermarket = supermarkets.head
-    writer.write("customer " + id + " chose supermarket "+ supermarket.id + "\n")
-    println("customer " + id + " chose supermarket "+ supermarket.id)
-    supermarket
+    writer.write("The distance of customer " + id + " from close supermarkets are:" + "\n")
+    println("The distance of customer " + id + " from close supermarkets are:")
+    var selectedSupermarket = supermarkets.head
+    var minDistance: Int = world.height * world.width
+    supermarkets.foreach {
+      supermarket =>
+        var distance = actualDistanceFrom(world, supermarket)
+        writer.write("supermarket id " + supermarket.id + " Distance: " + distance + "\n")
+        println("supermarket id " + supermarket.id + " Distance: " + distance)
+        if (distance < minDistance) {
+          minDistance = distance
+          selectedSupermarket = supermarket
+        }
+    }
+    writer.write("customer " + id + " chose supermarket " + selectedSupermarket.id + "\n")
+    println("customer " + id + " chose supermarket " + selectedSupermarket.id)
+    selectedSupermarket
   }
 
 
@@ -44,7 +57,7 @@ trait People extends Actor {
               writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + "\n")
             }
             println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
-            addToBasket(randFood,pickedSupermarket)
+            addToBasket(randFood, pickedSupermarket)
           })
         }
       )

@@ -5,6 +5,8 @@ import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SupermarketTrait, granularity}
 import org.apache.log4j.BasicConfigurator
 
+import scala.collection.mutable.ListBuffer
+
 object supermarketSimulation extends App {
 
   //  var actors: Array[Actor] = Array()
@@ -16,7 +18,7 @@ object supermarketSimulation extends App {
   val runtime = Runtime.getRuntime
   BasicConfigurator.configure()
   val logger = Logger("Root")
-  var supermarket: SupermarketTrait = _
+  var supermarkets: ListBuffer[SupermarketTrait] = new ListBuffer[SupermarketTrait]
   var worldMap: WorldTrait = _
 
   def init(): Unit = {
@@ -38,7 +40,7 @@ object supermarketSimulation extends App {
     init()
     for (i <- actors.indices) {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
-        supermarket = actors(i).asInstanceOf[SupermarketTrait]
+        supermarkets += actors(i).asInstanceOf[SupermarketTrait]
       }
       //      else if (actors(i).getClass.getSimpleName == "World") {
       //        worldMap = actors(i).asInstanceOf[WorldTrait]
@@ -47,8 +49,10 @@ object supermarketSimulation extends App {
 
     for (i <- actors.indices) {
       if (actors(i).getClass.getSimpleName == "Employee") {
+        var supermarket = actors(i).asInstanceOf[EmployeeTrait].supermarket
         supermarket.employees += actors(i).asInstanceOf[EmployeeTrait]
       } else if (actors(i).getClass.getSimpleName == "Cashier") {
+        var supermarket = actors(i).asInstanceOf[CashierTrait].supermarket
         supermarket.cashier = actors(i).asInstanceOf[CashierTrait]
       }
     }
@@ -65,9 +69,12 @@ object supermarketSimulation extends App {
       //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
-      while (supermarket.isInvalids.nonEmpty) {
-        val toRemove = supermarket.isInvalids.dequeue()
-        actors = actors.filter(_.id != toRemove)
+      supermarkets.foreach{
+        supermarket =>
+          while (supermarket.isInvalids.nonEmpty) {
+            val toRemove = supermarket.isInvalids.dequeue()
+            actors = actors.filter(_.id != toRemove)
+          }
       }
       for (i <- actors.indices) {
         if (actors(i).getClass.getSimpleName == "Farmer") {

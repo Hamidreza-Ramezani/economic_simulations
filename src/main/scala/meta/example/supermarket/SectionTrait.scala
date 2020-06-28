@@ -15,24 +15,24 @@ trait SectionTrait extends Actor with SummaryTrait {
   val articleNames: Vector[String] = categories.getArticleNames(sectionName)
   val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-  var shelfCapacity: Int = 6
+  var shelfCapacity: Int = 5
   var sectionShufflingPolicy: ShufflingPolicy
   canMove = false
 
-  override def setInitialPosition(x: Int, y: Int): Unit = {
-    world.coordinates_flattened.foreach {
-      tile =>
-        tile.actors.foreach {
-          supermarket =>
-            if (supermarket.getClass.getSimpleName == "Supermarket") {
-              this.initialXPosition = supermarket.initialXPosition
-              this.initialYPosition = supermarket.initialYPosition
-            }
-        }
-    }
-    currentXPosition = initialXPosition
-    currentYPosition = initialYPosition
-  }
+//  override def setInitialPosition(x: Int, y: Int): Unit = {
+//    world.coordinates_flattened.foreach {
+//      tile =>
+//        tile.actors.foreach {
+//          actor =>
+//            if (actor.getClass.getSimpleName == "Supermarket") {
+//              this.initialXPosition = actor.initialXPosition
+//              this.initialYPosition = actor.initialYPosition
+//            }
+//        }
+//    }
+//    currentXPosition = initialXPosition
+//    currentYPosition = initialYPosition
+//  }
 
   def isNotFull(): Boolean = {
     shelves.foreach(shelf =>
