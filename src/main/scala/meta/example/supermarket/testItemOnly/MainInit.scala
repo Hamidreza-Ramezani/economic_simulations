@@ -127,15 +127,15 @@ class MainInit {
     val item10_2 = new Item10(supermarket2, sectionVegetable2, worldMap)
     val item11_2 = new Item11(supermarket2, sectionVegetable2, worldMap)
 
-    val item1_3= new Item1(supermarket3, sectionVegetable3, worldMap)
-    val item2_3= new Item2(supermarket3, sectionVegetable3, worldMap)
-    val item3_3= new Item3(supermarket3, sectionVegetable3, worldMap)
-    val item4_3= new Item4(supermarket3, sectionVegetable3, worldMap)
-    val item5_3= new Item5(supermarket3, sectionVegetable3, worldMap)
-    val item6_3= new Item6(supermarket3, sectionVegetable3, worldMap)
-    val item7_3= new Item7(supermarket3, sectionVegetable3, worldMap)
-    val item8_3= new Item8(supermarket3, sectionVegetable3, worldMap)
-    val item9_3= new Item9(supermarket3, sectionVegetable3, worldMap)
+    val item1_3 = new Item1(supermarket3, sectionVegetable3, worldMap)
+    val item2_3 = new Item2(supermarket3, sectionVegetable3, worldMap)
+    val item3_3 = new Item3(supermarket3, sectionVegetable3, worldMap)
+    val item4_3 = new Item4(supermarket3, sectionVegetable3, worldMap)
+    val item5_3 = new Item5(supermarket3, sectionVegetable3, worldMap)
+    val item6_3 = new Item6(supermarket3, sectionVegetable3, worldMap)
+    val item7_3 = new Item7(supermarket3, sectionVegetable3, worldMap)
+    val item8_3 = new Item8(supermarket3, sectionVegetable3, worldMap)
+    val item9_3 = new Item9(supermarket3, sectionVegetable3, worldMap)
     val item10_3 = new Item10(supermarket3, sectionVegetable3, worldMap)
     val item11_3 = new Item11(supermarket3, sectionVegetable3, worldMap)
 
@@ -362,7 +362,6 @@ class MainInit {
     l_repeat.clear()
 
 
-
     l_repeat.append(item1_2)
     supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
     l ++= l_repeat
@@ -427,8 +426,6 @@ class MainInit {
     supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
     l ++= l_repeat
     l_repeat.clear()
-
-
 
 
     l_repeat.append(item1_3)
@@ -709,6 +706,14 @@ class MainInit {
     //    l_repeat.clear()
 
 
+    supermarket1.employees += employee1
+    supermarket2.employees += employee2
+    supermarket3.employees += employee3
+
+    supermarket1.cashiers += cashier1
+    supermarket2.cashiers += cashier2
+    supermarket3.cashiers += cashier3
+
     supermarket1.warehouse.toList.foreach { section =>
       section.shelves.toList.foreach { shelf =>
         shelf._2.itemsList.toList.foreach { item =>
@@ -716,6 +721,7 @@ class MainInit {
         }
       }
     }
+
     supermarket2.warehouse.toList.foreach { section =>
       section.shelves.toList.foreach { shelf =>
         shelf._2.itemsList.toList.foreach { item =>
@@ -723,6 +729,7 @@ class MainInit {
         }
       }
     }
+
     supermarket3.warehouse.toList.foreach { section =>
       section.shelves.toList.foreach { shelf =>
         shelf._2.itemsList.toList.foreach { item =>

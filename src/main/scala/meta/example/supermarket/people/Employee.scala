@@ -198,7 +198,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
   //  }
 
   def main(): Unit = {
-    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    setInitialPosition(world,Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
 
     writer = new PrintWriter(new FileWriter(new File("m/agentEmployee" + id)))

@@ -12,13 +12,9 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
 
   var world: WorldTrait
-  //  val warehouse: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-  //  var shelfCapacity: Int = 5
-  //todo : having a list of employees
   var employees: ListBuffer[EmployeeTrait] = new ListBuffer[EmployeeTrait]()
-  //  var employee: EmployeeTrait = null
-  var cashier: CashierTrait = null
+  var cashiers: ListBuffer[CashierTrait] = new ListBuffer[CashierTrait]()
   var warehouse: ListBuffer[SectionTrait]
   var storage: ListBuffer[Item] = new ListBuffer[Item]()
   var itemsRecentlyOrdered: Boolean = true

@@ -42,19 +42,6 @@ object supermarketSimulation extends App {
       if (actors(i).getClass.getSimpleName == "Supermarket") {
         supermarkets += actors(i).asInstanceOf[SupermarketTrait]
       }
-      //      else if (actors(i).getClass.getSimpleName == "World") {
-      //        worldMap = actors(i).asInstanceOf[WorldTrait]
-      //      }
-    }
-
-    for (i <- actors.indices) {
-      if (actors(i).getClass.getSimpleName == "Employee") {
-        var supermarket = actors(i).asInstanceOf[EmployeeTrait].supermarket
-        supermarket.employees += actors(i).asInstanceOf[EmployeeTrait]
-      } else if (actors(i).getClass.getSimpleName == "Cashier") {
-        var supermarket = actors(i).asInstanceOf[CashierTrait].supermarket
-        supermarket.cashier = actors(i).asInstanceOf[CashierTrait]
-      }
     }
 
     val start = System.nanoTime()
@@ -69,7 +56,7 @@ object supermarketSimulation extends App {
       //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
-      supermarkets.foreach{
+      supermarkets.foreach {
         supermarket =>
           while (supermarket.isInvalids.nonEmpty) {
             val toRemove = supermarket.isInvalids.dequeue()
@@ -104,7 +91,6 @@ object supermarketSimulation extends App {
     }
     val end = System.nanoTime()
     val consumed = end - start
-//    println("\u001B[34mTime consumed", consumed)
     println("Time consumed", consumed)
 
   }

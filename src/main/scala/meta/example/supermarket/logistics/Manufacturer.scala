@@ -62,6 +62,9 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
           writer.write("supermarket id" + supermarket.id + " whole needs: " + numberOfItemsSupermarketNeeds(supermarket) + " items\n")
           var randomTruck = trucks.head
           while (randomTruck.truckState != relaxed) {
+            if(trucks.filter(truck => truck.truckState == relaxed).size == 0){
+              SpecialInstructions.waitTurns(1)
+            }
             val randomNumber = Random.nextInt(trucks.size)
             randomTruck = trucks(randomNumber)
           }

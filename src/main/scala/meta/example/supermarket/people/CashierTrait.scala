@@ -16,7 +16,7 @@ trait CashierTrait extends Actor {
   var supermarket: SupermarketTrait
 
 
-  override def setInitialPosition(x: Int, y: Int): Unit = {
+  override def setInitialPosition(world: WorldTrait, x: Int, y: Int): Unit = {
     this.initialXPosition = supermarket.initialXPosition
     this.initialYPosition = supermarket.initialYPosition
     currentXPosition = initialXPosition
@@ -38,8 +38,12 @@ trait CashierTrait extends Actor {
   }
 
 
+
+
+
   def setNumOfBasketHandledInOneStep(numOfBasketsHandledInOneStep: Int): Unit = {
     this.numOfBasketsHandledInOneStep = numOfBasketsHandledInOneStep
   }
 
+  override def toString = s"Cashier id ($id)   "
 }

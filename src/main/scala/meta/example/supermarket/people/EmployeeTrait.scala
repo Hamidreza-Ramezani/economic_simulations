@@ -8,18 +8,21 @@ import meta.example.supermarket.{Section, SectionTrait, Supermarket, Supermarket
 trait EmployeeTrait extends Actor {
   var state: EmployeeState = EmployeeState()
   var section: SectionTrait
-  var hasItemsOnTheWay: Boolean = true
   var manufacturer: ManufacturerTrait
   var supermarket: SupermarketTrait
   var truck: TruckTrait = null
   var world: WorldTrait
+//  var hasItemsOnTheWay: Boolean = true
 
-  override def setInitialPosition(x: Int, y: Int): Unit = {
+  override def setInitialPosition(world: WorldTrait, x: Int, y: Int): Unit = {
     this.initialXPosition = supermarket.initialXPosition
     this.initialYPosition = supermarket.initialYPosition
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
   }
+
+
+  override def toString = s"Employee id ${id}  "
 
 
   //  def getFreeSpace(item: String): Int = {
@@ -55,4 +58,5 @@ trait EmployeeTrait extends Actor {
   //      })
   //    )
   //  }
+
 }
