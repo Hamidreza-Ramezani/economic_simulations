@@ -8,7 +8,6 @@ import meta.example.supermarket.people._
 import meta.example.supermarket.worldmap.{World, WorldTrait}
 import meta.example.supermarket._
 import squid.quasi.lift
-
 import scala.collection.mutable.ListBuffer
 
 /* Auto generated from genExample*/
@@ -17,8 +16,11 @@ import scala.collection.mutable.ListBuffer
 class MainInit {
   //this class specifies the actors of the simulation
   def main(): List[Actor] = {
-    val l = ListBuffer[Actor]()
-    val l_repeat = ListBuffer[Actor]()
+    var actors = ListBuffer[Actor]()
+    val actors_repeat = ListBuffer[Actor]()
+    val supermarketItems1 = ListBuffer[Item]()
+    val supermarketItems2 = ListBuffer[Item]()
+    val supermarketItems3 = ListBuffer[Item]()
 
     val mapWidth = 10
     val mapHeight = 8
@@ -98,9 +100,6 @@ class MainInit {
     val customer1 = new Customer1(supermarkets, worldMap)
     val customer2 = new Customer2(supermarkets, worldMap)
     val customer3 = new Customer3(supermarkets, worldMap)
-    //    val customer1 = new Customer1(supermarket1, worldMap)
-    //    val customer2 = new Customer2(supermarket1, worldMap)
-    //    val customer3 = new Customer3(supermarket1, worldMap)
 
 
     val item1_1 = new Item1(supermarket1, sectionVegetable1, worldMap)
@@ -139,573 +138,6 @@ class MainInit {
     val item10_3 = new Item10(supermarket3, sectionVegetable3, worldMap)
     val item11_3 = new Item11(supermarket3, sectionVegetable3, worldMap)
 
-
-    //    sectionVegetable1.supermarket1 = supermarket1
-    //    sectionMeat1.supermarket1 = supermarket1
-    //    sectionDairy1.supermarket1 = supermarket1
-    //    sectionSnack1.supermarket1 = supermarket1
-    //    sectionGrain1.supermarket1 = supermarket1
-
-
-    l_repeat.append(farmer)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(manufacturer)
-    l ++= l_repeat
-    l_repeat.clear()
-
-    l_repeat.append(truck1)
-    l ++= l_repeat
-    l_repeat.clear()
-    l_repeat.append(truck2)
-    l ++= l_repeat
-    l_repeat.clear()
-    l_repeat.append(truck3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(supermarket1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionGrain1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionSnack1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-    l_repeat.append(sectionDairy1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionMeat1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-    l_repeat.append(sectionVegetable1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(employee1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(cashier1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(supermarket2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionGrain2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionSnack2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-    l_repeat.append(sectionDairy2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionMeat2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-    l_repeat.append(sectionVegetable2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(employee2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(cashier2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(supermarket3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionGrain3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionSnack3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-    l_repeat.append(sectionDairy3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(sectionMeat3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-    l_repeat.append(sectionVegetable3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(employee3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(cashier3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(customer1)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(customer2)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(customer3)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item1_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item2_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item3_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item4_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item5_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item6_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item7_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item8_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item9_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item10_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item11_1)
-    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item1_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item2_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item3_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item4_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item5_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item6_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item7_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item8_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item9_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item10_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item11_2)
-    supermarket2.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item1_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item2_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item3_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item4_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item5_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item6_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item7_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item8_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item9_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item10_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    l_repeat.append(item11_3)
-    supermarket3.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-    //    l.toList.foreach { actor =>
-    //      actor.setInitialPosition(Random.nextInt(worldMap.width), Random.nextInt(worldMap.height))
-    //      worldMap.addEntity(actor)
-    //    }
-
-    l_repeat.append(worldMap)
-    l ++= l_repeat
-    l_repeat.clear()
-
-
-
-    //    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket1, sectionVegetable1,manufacturer)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Cashier))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Customer1(supermarket1)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Customer2(supermarket1)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Customer3(supermarket1)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-
-    //    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket1, sectionMeat1)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket1, sectionDairy1)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket1, sectionSnack1)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Employee(supermarket1, sectionGrain1)))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item1(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item2(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item3(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item4(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item5(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item6(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item7(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item8(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item9(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item10(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item11(supermarket1, sectionVegetable1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item12(supermarket1, sectionMeat1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item13(supermarket1, sectionMeat1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item14(supermarket1, sectionMeat1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item15(supermarket1, sectionMeat1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item16(supermarket1, sectionMeat1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item17(supermarket1, sectionSnack1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item18(supermarket1, sectionSnack1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item19(supermarket1, sectionSnack1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item20(supermarket1, sectionSnack1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item21(supermarket1, sectionGrain1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item22(supermarket1, sectionGrain1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item23(supermarket1, sectionGrain1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item24(supermarket1, sectionGrain1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item25(supermarket1, sectionGrain1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item26(supermarket1, sectionGrain1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item27(supermarket1, sectionGrain1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item28(supermarket1, sectionDairy1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item29(supermarket1, sectionDairy1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item30(supermarket1, sectionDairy1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item31(supermarket1, sectionDairy1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-    //
-    //    (1 to 1).foreach(_ => l_repeat.append(new Item32(supermarket1, sectionDairy1)))
-    //    supermarket1.initializeItemDeque(l_repeat.toVector.map(_.asInstanceOf[Item]))
-    //    l ++= l_repeat
-    //    l_repeat.clear()
-
-
     supermarket1.employees += employee1
     supermarket2.employees += employee2
     supermarket3.employees += employee3
@@ -713,6 +145,92 @@ class MainInit {
     supermarket1.cashiers += cashier1
     supermarket2.cashiers += cashier2
     supermarket3.cashiers += cashier3
+
+    actors += farmer
+    actors += manufacturer
+
+    actors += truck1
+    actors += truck2
+    actors += truck3
+
+    actors += supermarket1
+    actors += sectionGrain1
+    actors += sectionSnack1
+    actors += sectionDairy1
+    actors += sectionMeat1
+    actors += sectionVegetable1
+    actors += employee1
+    actors += cashier1
+
+    actors += supermarket2
+    actors += sectionGrain2
+    actors += sectionSnack2
+    actors += sectionDairy2
+    actors += sectionMeat2
+    actors += sectionVegetable2
+    actors += employee2
+    actors += cashier2
+
+    actors += supermarket3
+    actors += sectionGrain3
+    actors += sectionSnack3
+    actors += sectionDairy3
+    actors += sectionMeat3
+    actors += sectionVegetable3
+    actors += employee3
+    actors += cashier3
+
+    actors += customer1
+    actors += customer2
+    actors += customer3
+
+
+    supermarketItems1 += item1_1
+    supermarketItems1 += item2_1
+    supermarketItems1 += item3_1
+    supermarketItems1 += item4_1
+    supermarketItems1 += item5_1
+    supermarketItems1 += item6_1
+    supermarketItems1 += item7_1
+    supermarketItems1 += item8_1
+    supermarketItems1 += item9_1
+    supermarketItems1 += item10_1
+    supermarketItems1 += item11_1
+
+    supermarketItems2 += item1_2
+    supermarketItems2 += item2_2
+    supermarketItems2 += item3_2
+    supermarketItems2 += item4_2
+    supermarketItems2 += item5_2
+    supermarketItems2 += item6_2
+    supermarketItems2 += item7_2
+    supermarketItems2 += item8_2
+    supermarketItems2 += item9_2
+    supermarketItems2 += item10_2
+    supermarketItems2 += item11_2
+
+    supermarketItems3 += item1_3
+    supermarketItems3 += item2_3
+    supermarketItems3 += item3_3
+    supermarketItems3 += item4_3
+    supermarketItems3 += item5_3
+    supermarketItems3 += item6_3
+    supermarketItems3 += item7_3
+    supermarketItems3 += item8_3
+    supermarketItems3 += item9_3
+    supermarketItems3 += item10_3
+    supermarketItems3 += item11_3
+
+    actors = actors ++ supermarketItems1
+    actors = actors ++ supermarketItems2
+    actors = actors ++ supermarketItems3
+
+    actors += worldMap
+
+    supermarket1.initializeItemDeque(supermarketItems1.toVector)
+    supermarket2.initializeItemDeque(supermarketItems2.toVector)
+    supermarket3.initializeItemDeque(supermarketItems3.toVector)
+
 
     supermarket1.warehouse.toList.foreach { section =>
       section.shelves.toList.foreach { shelf =>
@@ -737,6 +255,7 @@ class MainInit {
         }
       }
     }
-    l.toList
+
+    actors.toList
   }
 }
