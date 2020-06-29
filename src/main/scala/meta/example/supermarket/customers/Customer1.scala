@@ -1,7 +1,6 @@
 package meta.example.supermarket.customers
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
@@ -9,10 +8,9 @@ import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan_Dummy1, People, Weekly}
 import meta.example.supermarket.worldmap.{Down, Left, PrivateProperty, Right, Tile, Up, Utils, WorldTrait}
 import squid.quasi.lift
-//import squid.quasi.dbg_lift
-
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
+//import squid.quasi.dbg_lift
 
 
 /* Auto generated from genCustomers */
@@ -65,36 +63,6 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       }
     }
   }
-
-  //  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
-  //    if (canMove) {
-  //
-  //      while (currentXPosition < targetXPosition) {
-  //        writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //        println("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //        SpecialInstructions.waitTurns(1)
-  //        move(world, Right)
-  //      }
-  //      while (currentXPosition > targetXPosition) {
-  //        writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //        println("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //        SpecialInstructions.waitTurns(1)
-  //        move(world, Left)
-  //      }
-  //      while (currentYPosition < targetYPosition) {
-  //        writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //        println("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //        SpecialInstructions.waitTurns(1)
-  //        move(world, Down)
-  //      }
-  //      while (currentYPosition > targetYPosition) {
-  //        writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //        println("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //        SpecialInstructions.waitTurns(1)
-  //        move(world, Up)
-  //      }
-  //    }
-  //  }
 
   //   Target consumption behavior
   def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {

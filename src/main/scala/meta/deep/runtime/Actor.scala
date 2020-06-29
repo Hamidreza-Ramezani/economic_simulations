@@ -289,10 +289,18 @@ class Actor {
         this.oldXPosition = this.currentXPosition
         this.oldYPosition = this.currentYPosition
         direction match {
-          case Down => this.currentYPosition = this.currentYPosition + 1
-          case Right => this.currentXPosition = this.currentXPosition + 1
-          case Up => this.currentYPosition = this.currentYPosition - 1
-          case Left => this.currentXPosition = this.currentXPosition - 1
+          case Down =>
+            this.currentYPosition = this.currentYPosition + 1
+            writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+          case Right =>
+            this.currentXPosition = this.currentXPosition + 1
+            writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+          case Up =>
+            this.currentYPosition = this.currentYPosition - 1
+            writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+          case Left =>
+            this.currentXPosition = this.currentXPosition - 1
+            writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
         }
         //update map
         world.updateMap(this)

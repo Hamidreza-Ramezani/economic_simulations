@@ -1,10 +1,8 @@
 import com.typesafe.scalalogging.Logger
 import meta.deep.runtime.{Actor, Message}
-import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SupermarketTrait, granularity}
 import org.apache.log4j.BasicConfigurator
-
 import scala.collection.mutable.ListBuffer
 
 object supermarketSimulation extends App {
@@ -29,10 +27,6 @@ object supermarketSimulation extends App {
   def collect(current_time: Int): Unit = {
     meta.deep.runtime.Actor.newActors.foreach(i => i.timer = current_time)
     actors = actors ::: meta.deep.runtime.Actor.newActors.toList
-    meta.deep.runtime.Actor.newActors.toList.foreach { actor =>
-      //      actor.setInitialPosition(Random.nextInt(worldMap.width), Random.nextInt(worldMap.height))
-      //      worldMap.addEntity(actor)
-    }
     meta.deep.runtime.Actor.newActors.clear()
   }
 
@@ -53,7 +47,6 @@ object supermarketSimulation extends App {
           actors(i).writer.flush()
         }
       }
-      //      collect(timer)
       val mx = messages.groupBy(_.receiverId)
       // remove invalid actors
       supermarkets.foreach {

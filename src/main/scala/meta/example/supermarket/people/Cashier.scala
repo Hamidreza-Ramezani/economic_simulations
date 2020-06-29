@@ -1,7 +1,6 @@
 package meta.example.supermarket.people
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
@@ -9,7 +8,6 @@ import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
-
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Queue}
 import scala.util.Random
