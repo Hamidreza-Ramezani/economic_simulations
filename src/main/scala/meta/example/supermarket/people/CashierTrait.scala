@@ -4,7 +4,6 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.worldmap.WorldTrait
-
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 

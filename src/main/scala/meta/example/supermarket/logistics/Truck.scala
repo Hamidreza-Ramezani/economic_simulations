@@ -100,7 +100,7 @@ class Truck(var world: WorldTrait) extends TruckTrait {
   }
 
   def main(): Unit = {
-    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    setInitialPosition(world, Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
     writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))
     writer.write("timer: " + timer + "\n\n\n")

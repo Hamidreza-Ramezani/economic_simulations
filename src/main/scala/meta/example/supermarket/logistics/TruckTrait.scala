@@ -13,7 +13,7 @@ trait TruckTrait extends Actor {
   var supermarket: SupermarketTrait = null
   var truckState: TruckState = relaxed
 
-  override def setInitialPosition(x: Int, y: Int): Unit = {
+  override def setInitialPosition(worldTrait: WorldTrait, x: Int, y: Int): Unit = {
     world.coordinates_flattened.foreach {
       tile =>
         tile.actors.foreach {

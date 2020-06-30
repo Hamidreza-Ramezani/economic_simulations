@@ -19,20 +19,20 @@ trait SectionTrait extends Actor with SummaryTrait {
   var sectionShufflingPolicy: ShufflingPolicy
   canMove = false
 
-//  override def setInitialPosition(x: Int, y: Int): Unit = {
-//    world.coordinates_flattened.foreach {
-//      tile =>
-//        tile.actors.foreach {
-//          actor =>
-//            if (actor.getClass.getSimpleName == "Supermarket") {
-//              this.initialXPosition = actor.initialXPosition
-//              this.initialYPosition = actor.initialYPosition
-//            }
-//        }
-//    }
-//    currentXPosition = initialXPosition
-//    currentYPosition = initialYPosition
-//  }
+  //  override def setInitialPosition(x: Int, y: Int): Unit = {
+  //    world.coordinates_flattened.foreach {
+  //      tile =>
+  //        tile.actors.foreach {
+  //          actor =>
+  //            if (actor.getClass.getSimpleName == "Supermarket") {
+  //              this.initialXPosition = actor.initialXPosition
+  //              this.initialYPosition = actor.initialYPosition
+  //            }
+  //        }
+  //    }
+  //    currentXPosition = initialXPosition
+  //    currentYPosition = initialYPosition
+  //  }
 
   def isNotFull(): Boolean = {
     shelves.foreach(shelf =>
@@ -52,6 +52,12 @@ trait SectionTrait extends Actor with SummaryTrait {
       shelves += Tuple2(pair._1, new Shelf(null, pair._2.to[ListBuffer]))
     )
   }
+
+  //  def initializeShelves(): Unit = {
+  //    itemVec.groupBy(_.name).foreach(pair =>
+  //      shelves += Tuple2(pair._1, new Shelf(null, pair._2.to[ListBuffer]))
+  //    )
+  //  }
 
   //  def writeWarehouseToFile(): Unit = {
   //    shelves.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))

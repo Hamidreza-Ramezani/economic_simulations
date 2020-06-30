@@ -6,19 +6,19 @@ import scala.collection.mutable.ListBuffer
 class Shelf(var item: Item, var itemsList: ListBuffer[Item]) {
   //  var itemsList: ListBuffer[Item] = ListBuffer[Item]()
 
-  //  def this(item: Item) {
-  //    this(item, itemList = null)
-  //    itemsList += item
-  //  }
+//    def this(item: Item) {
+//      this(item, itemsList = new ListBuffer[Item])
+//      itemsList += item
+//    }
 
   //  def this(itemsList: Vector[Item]) {
   //    this(item = null, itemsList.to[ListBuffer])
   //    this.itemsList ++= itemsList
   //  }
 
-  //  def this() {
-  //    this(item = null, itemList = null)
-  //  }
+    def this() {
+      this(item = null, itemsList = new ListBuffer[Item])
+    }
 
 
   def shuffle(policy: ShufflingPolicy): Unit = {
