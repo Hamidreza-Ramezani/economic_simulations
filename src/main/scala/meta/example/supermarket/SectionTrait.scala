@@ -13,7 +13,7 @@ trait SectionTrait extends Actor with SummaryTrait {
   var world: WorldTrait
   var sectionName: String
   val articleNames: Vector[String] = categories.getArticleNames(sectionName)
-  val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
+  val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]().withDefaultValue(new Shelf())
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
   var shelfCapacity: Int = 5
   var sectionShufflingPolicy: ShufflingPolicy
@@ -47,14 +47,14 @@ trait SectionTrait extends Actor with SummaryTrait {
     this.shelfCapacity = shelfCapacity
   }
 
-    def initializeItemDeque(item: Item): Unit = {
-      if (shelves.get(item.name).isEmpty){
-        shelves += Tuple2(item.name,new Shelf(item))
-      }
-      else {
-        shelves(item.name).+=(item)
-      }
+  def initializeItemDeque(item: Item): Unit = {
+    if (shelves.get(item.name).isEmpty) {
+      shelves += Tuple2(item.name, new Shelf(item))
     }
+    else {
+      shelves(item.name).+=(item)
+    }
+  }
 
   def initializeItemDeque(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach(pair =>

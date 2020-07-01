@@ -19,7 +19,6 @@ class Shelf(var item: Item, var itemsList: ListBuffer[Item]) {
     this(item = null, itemsList = new ListBuffer[Item])
   }
 
-
   def shuffle(policy: ShufflingPolicy): Unit = {
     if (policy == LIFO) {
       itemsList = itemsList.sortBy(_.age)
@@ -31,7 +30,6 @@ class Shelf(var item: Item, var itemsList: ListBuffer[Item]) {
     itemsList.foreach(item => str = str + item.toString + "\n")
     str
   }
-
 
   def size: Int = {
     itemsList.size

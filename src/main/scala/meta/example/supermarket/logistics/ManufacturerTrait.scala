@@ -55,6 +55,6 @@ trait ManufacturerTrait extends Actor {
   }
 
   def getFreeSpace(supermarket: SupermarketTrait, item: String): Int = {
-    supermarket.shelfCapacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves.getOrElse(item, new Shelf()).size
+    supermarket.shelfCapacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves.get(item).size
   }
 }
