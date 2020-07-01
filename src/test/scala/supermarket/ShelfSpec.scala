@@ -1,20 +1,17 @@
 package supermarket
 
 import meta.example.supermarket.customers.Customer1
-import meta.example.supermarket.{FIFO, LIFO, Section, SectionTrait, Supermarket, SupermarketTrait, categoryAmount}
-import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4, ItemState, newItemsMap}
+import meta.example.supermarket.{FIFO, LIFO, Section, SectionTrait, Shelf, Supermarket, SupermarketTrait}
+import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4}
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck, TruckTrait}
 import meta.example.supermarket.people.{Cashier, Employee}
 import meta.example.supermarket.worldmap.{World, WorldTrait}
 import org.scalatest._
 
-import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
+class ShelfSpec extends FlatSpec with Matchers {
 
-
-
-class ItemSpec extends FlatSpec with Matchers {
   val supermarketItems1: ListBuffer[Item] = ListBuffer[Item]()
 
   val mapWidth = 10
@@ -128,90 +125,57 @@ class ItemSpec extends FlatSpec with Matchers {
 
 
 
-
-  "Age of new item" should "be 0" in {
-    item1_1.age should be (0)
+  "shelf" should "be able to construct from an empty parameter list" in {
+    val newDeque = new Shelf()
+    newDeque should have size 0
   }
 
-  "State of new item" should "be onDisplay" in {
-    item1_1.state.get should be ("onDisplay")
+  "Item deque" should "be able to construct from a list of Item" in {
+    val newDeque = new Shelf(Vector(item1_1, item2_1, item3_1))
+    newDeque should have size 3
   }
 
-  "Fields of Item1" should "match values defined" in {
-    item1_1.id should be (14)
-    item1_1.category should be ("Vegetable")
-    item1_1.name should be ("Eggplant")
-    item1_1.discount should be (0.0)
-    item1_1.stock should be (3)
-    item1_1.priceUnit should be (200)
-    item1_1.price should be (2.0)
-    item1_1.freshUntil should be (120) //depends on the system granularity
-    item1_1.visibility should be (1.0)
+  "Item deque" should "be able to construct from a single Item" in {
+    val newDeque = new Shelf(item1_2)
+    newDeque should have size 1
   }
 
-  "Transition functions defined in ItemState" should "update the state" in {
-    item1_1.state.purchase
-    item1_1.state.get should be ("isPurchased")
-    item1_1.state.consume
-    item1_1.state.get should be ("isConsumed")
-    item1_1.state.discard
-    item1_1.state.get should be ("isDiscarded")
+  "Item deque +=" should "add an Item to the queue" in {
+    val emptyDeque = new Shelf()
+    emptyDeque+= item1_3
+    emptyDeque should have size 1
   }
 
-  "Item update state" should "update the state with new state" in {
-    item1_2.id should be (15)
-    item1_2.state.get should be ("onDisplay")
-    item1_2.updateState("isPurchased", item1_2.state)
-    item1_2.state.get should be ("isPurchased")
-    item1_2.updateState("isDiscarded", item1_2.state)
-    item1_2.state.get should be ("isDiscarded")
-    item1_2.updateState("isConsumed", item1_2.state)
-    item1_2.state.get should be ("isConsumed")
-    a [IllegalArgumentException] should be thrownBy {
-      item1_2.updateState("randomState", item1_2.state)
+  "Item deque +=" should "add a list of Item to the queue" in {
+    val emptyDeque = new Shelf()
+    emptyDeque += Vector(item1_4, item2_2, item3_2)
+    emptyDeque should have size 3
+    emptyDeque += Vector(item1_5, item2_3)
+    emptyDeque should have size 5
+  }
+
+  "Item deque popLeft" should "remove the first inserted Item" in {
+    val newDeque = new Shelf(Vector(item1_6, item2_4, item3_3))
+    newDeque.popLeft should be (item1_6)
+    newDeque should have size 2
+  }
+
+  "Item deque popRight" should "remove the last inserted Item" in {
+    val newDeque = new Shelf(Vector(item1_7, item2_5, item3_4))
+    newDeque.popRight should be (item3_4)
+    newDeque should have size 2
+    newDeque += Vector(item1_7, item2_5)
+    newDeque should have size 4
+    newDeque.popRight should be (item2_5)
+  }
+
+  "Remove from an empty item deque" should "throw NoSuchElementException" in {
+    val emptyDeque = new Shelf()
+    a [NoSuchElementException] should be thrownBy {
+      emptyDeque.popLeft
     }
-  }
-
-  "Item action" should "update the state with new state" in {
-    item1_3.id should be (16)
-    item1_3.state.get should be ("onDisplay")
-    item1_3.purchase
-    item1_3.state.get should be ("isPurchased")
-    item1_3.discard
-    item1_3.state.get should be ("isDiscarded")
-    item1_3.consume
-    item1_3.state.get should be ("isConsumed")
-  }
-
-  "store" should "have no isInvalids and waste summary is empty" in {
-    supermarket1.isInvalids should have size 0
-    supermarket1.wasteSummary should be (categoryAmount())
-  }
-
-  "Clean expired" should "set the state to discard" in {
-    item1_4.id should be (17)
-    item1_4.cleanExpired
-    item1_4.state.get should be ("isDiscarded")
-  }
-
-  it should "record waste in supermarket wasteSummary" in {
-    supermarket1.wasteSummary should be (categoryAmount(0,0,0,0,0))
-  }
-
-  "Supermarket isInvalids" should "record items been discarded through cleanExpired only" in {
-    supermarket1.isInvalids should have size 1
-    supermarket1.isInvalids should be (mutable.Queue(17))
-  }
-
-  "Invalid item state" should "throw IllegalArgumentException" in {
-    val randState = ItemState(inFarm = false)
-    a [IllegalArgumentException] should be thrownBy {
-      randState.get
+    a [NoSuchElementException] should be thrownBy {
+      emptyDeque.popRight
     }
-  }
-
-  "ItemMap" should "contain mappings" in {
-//    newItemsMap.itemMap should have size > 0
-    newItemsMap.itemMap.size should be > 0
   }
 }

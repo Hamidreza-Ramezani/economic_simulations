@@ -4,31 +4,26 @@ import meta.example.supermarket.goods.Item
 import scala.collection.mutable.ListBuffer
 
 class Shelf(var item: Item, var itemsList: ListBuffer[Item]) {
-  //  var itemsList: ListBuffer[Item] = ListBuffer[Item]()
 
-//    def this(item: Item) {
-//      this(item, itemsList = new ListBuffer[Item])
-//      itemsList += item
-//    }
+  def this(item: Item) {
+    this(item, itemsList = new ListBuffer[Item])
+    itemsList += item
+  }
 
-  //  def this(itemsList: Vector[Item]) {
-  //    this(item = null, itemsList.to[ListBuffer])
-  //    this.itemsList ++= itemsList
-  //  }
+  def this(itemsList: Vector[Item]) {
+    this(item = null, itemsList.to[ListBuffer])
+    //    this.itemsList ++= itemsList
+  }
 
-    def this() {
-      this(item = null, itemsList = new ListBuffer[Item])
-    }
+  def this() {
+    this(item = null, itemsList = new ListBuffer[Item])
+  }
 
 
   def shuffle(policy: ShufflingPolicy): Unit = {
     if (policy == LIFO) {
       itemsList = itemsList.sortBy(_.age)
     }
-    //    policy match {
-    //      case FIFO =>
-    //      case LIFO => itemsList = itemsList.sortBy(_.age)
-    //    }
   }
 
   override def toString: String = {
@@ -51,12 +46,12 @@ class Shelf(var item: Item, var itemsList: ListBuffer[Item]) {
   }
 
   def popLeft: Item = {
-    //    if (size == 0) throw new NoSuchElementException
+    if (size == 0) throw new NoSuchElementException
     itemsList.remove(0)
   }
 
   def popRight: Item = {
-    //    if (size == 0) throw new NoSuchElementException
+    if (size == 0) throw new NoSuchElementException
     itemsList.remove(size - 1)
   }
 

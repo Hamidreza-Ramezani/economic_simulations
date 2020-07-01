@@ -47,6 +47,15 @@ trait SectionTrait extends Actor with SummaryTrait {
     this.shelfCapacity = shelfCapacity
   }
 
+    def initializeItemDeque(item: Item): Unit = {
+      if (shelves.get(item.name).isEmpty){
+        shelves += Tuple2(item.name,new Shelf(item))
+      }
+      else {
+        shelves(item.name).+=(item)
+      }
+    }
+
   def initializeItemDeque(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach(pair =>
       shelves += Tuple2(pair._1, new Shelf(null, pair._2.to[ListBuffer]))

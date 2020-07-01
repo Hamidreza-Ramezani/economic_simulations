@@ -49,8 +49,11 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   def initializeItemDeque(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach(pair =>
       pair._2(0).section.initializeItemDeque(pair._2)
-      //      warehouse += Tuple2(pair._1, new Shelf(pair._2))
     )
+  }
+
+  def initializeItemDeque(item: Item): Unit = {
+    item.section.initializeItemDeque(item)
   }
 
 
