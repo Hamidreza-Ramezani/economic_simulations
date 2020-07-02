@@ -39,7 +39,6 @@ trait WorldTrait extends Actor {
   writer.write(this.toString)
 
 
-
   def initializeTileType(): Unit = {
     breakable {
       while (true) {
@@ -77,14 +76,10 @@ trait WorldTrait extends Actor {
           properties += randomStreet
           //          println(randomStreet.toString2 + "changed to property")
           writer.write(randomStreet.toString2 + "changed to property\n\n\n")
-
           //          throw CustomException("the number of available properties is too low")
         }
       }
-
     }
-
-
   }
 
   def numberOfStreetNeighbors(tile: Tile): Int = {
@@ -123,14 +118,17 @@ trait WorldTrait extends Actor {
   }
 
 
-  override def setInitialPosition(x: Int, y: Int): Unit = {
+  override def setInitialPosition(worldTrait: WorldTrait, x: Int, y: Int): Unit = {
     this.initialXPosition = 0
     this.initialYPosition = 0
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
+    oldXPosition = initialXPosition
+    oldYPosition = initialYPosition
+
   }
 
-  def getStreetNeighbors(tile: Tile,goal:Tile): ListBuffer[Tile] = {
+  def getStreetNeighbors(tile: Tile, goal: Tile): ListBuffer[Tile] = {
     var neighbors: ListBuffer[Tile] = new ListBuffer[Tile]
     val worldRows: Int = coordinates.length
     val worldCols: Int = coordinates(0).length
@@ -154,7 +152,7 @@ trait WorldTrait extends Actor {
     }
     if (tile.getY() != worldRows - 1) {
       var downNeighbor = coordinates(tile.getY() + 1)(tile.getX())
-      if (downNeighbor.tileType != PrivateProperty|| downNeighbor == goal) {
+      if (downNeighbor.tileType != PrivateProperty || downNeighbor == goal) {
         neighbors += downNeighbor
       }
     }

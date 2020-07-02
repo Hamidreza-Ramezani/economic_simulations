@@ -26,6 +26,9 @@ trait TruckTrait extends Actor {
     }
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
+    oldXPosition = initialXPosition
+    oldYPosition = initialYPosition
+
   }
 
 

@@ -56,12 +56,6 @@ trait SupermarketTrait extends Actor with SummaryTrait {
     item.section.initializeItemDeque(item)
   }
 
-
-  //  def writeWarehouseToFile(): Unit = {
-  //    warehouse.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
-  //  }
-
-
   def recordWaste(category: String, wastedAmount: Int): Unit = {
     updateWasteSummary(category, wastedAmount)
   }

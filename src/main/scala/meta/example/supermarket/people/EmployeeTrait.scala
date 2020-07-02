@@ -19,6 +19,9 @@ trait EmployeeTrait extends Actor {
     this.initialYPosition = supermarket.initialYPosition
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
+    oldXPosition = initialXPosition
+    oldYPosition = initialYPosition
+
   }
 
 

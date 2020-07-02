@@ -20,7 +20,8 @@ trait CashierTrait extends Actor {
     this.initialYPosition = supermarket.initialYPosition
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
-
+    oldXPosition = initialXPosition
+    oldYPosition = initialYPosition
 
     //    world.coordinates_flattened.foreach {
     //      tile =>

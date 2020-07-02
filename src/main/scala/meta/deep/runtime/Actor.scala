@@ -188,6 +188,8 @@ class Actor {
     this.initialYPosition = y
     currentXPosition = initialXPosition
     currentYPosition = initialYPosition
+    oldXPosition = initialXPosition
+    oldYPosition = initialYPosition
     world.coordinates(y)(x).hasOwner = true
   }
 
