@@ -125,7 +125,7 @@ class PeopleSpec extends FlatSpec with Matchers {
   supermarketItems1 += item10_1
   supermarketItems1 += item11_1
 
-  supermarket1.initializeItemDeque(supermarketItems1.toVector)
+  supermarket1.initializeShelves(supermarketItems1.toVector)
 
 
   supermarket1.warehouse.toList.foreach { section =>
@@ -136,7 +136,7 @@ class PeopleSpec extends FlatSpec with Matchers {
     }
   }
   // populate with Broccoli, Beef, Rice, and WhiteChocolate. Same as defined in shoppingList
-  supermarket1.initializeItemDeque(Vector(item1_1, item2_1, item3_1, item4_1))
+  supermarket1.initializeShelves(Vector(item1_1, item2_1, item3_1, item4_1))
 
   "Buy listed items" should "populate the fridge" in {
 //    println(customer1.mealPlan)

@@ -1,7 +1,7 @@
 package meta.example.supermarket.logistics
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.{Shelf, SupermarketTrait}
+import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.goods.{Item, newItemsMap}
 import meta.example.supermarket.worldmap.WorldTrait
 
@@ -55,6 +55,6 @@ trait ManufacturerTrait extends Actor {
   }
 
   def getFreeSpace(supermarket: SupermarketTrait, item: String): Int = {
-    supermarket.shelfCapacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves.get(item).size
+    supermarket.shelfCapacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(item)).head.shelves(item).size
   }
 }

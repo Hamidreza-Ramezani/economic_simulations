@@ -13,11 +13,16 @@ trait SectionTrait extends Actor with SummaryTrait {
   var world: WorldTrait
   var sectionName: String
   val articleNames: Vector[String] = categories.getArticleNames(sectionName)
-  val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]().withDefaultValue(new Shelf())
+  val shelves: mutable.Map[String, Shelf] = mutable.Map[String, Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
   var shelfCapacity: Int = 5
   var sectionShufflingPolicy: ShufflingPolicy
   canMove = false
+
+  articleNames.foreach {
+    article =>
+      shelves += (article -> new Shelf(article))
+  }
 
   //  override def setInitialPosition(x: Int, y: Int): Unit = {
   //    world.coordinates_flattened.foreach {
@@ -47,8 +52,8 @@ trait SectionTrait extends Actor with SummaryTrait {
     this.shelfCapacity = shelfCapacity
   }
 
-  def initializeItemDeque(item: Item): Unit = {
-    if (shelves.get(item.name).isEmpty) {
+  def initializeShelf(item: Item): Unit = {
+    if (shelves(item.name).isEmpty) {
       shelves += Tuple2(item.name, new Shelf(item))
     }
     else {
@@ -56,21 +61,16 @@ trait SectionTrait extends Actor with SummaryTrait {
     }
   }
 
-  def initializeItemDeque(itemVec: Vector[Item]): Unit = {
+  def initializeShelves(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach(pair =>
-      shelves += Tuple2(pair._1, new Shelf(null, pair._2.to[ListBuffer]))
+      if (shelves(pair._1).isEmpty) {
+        shelves += Tuple2(pair._1, new Shelf(null, pair._1, pair._2.to[ListBuffer]))
+      }
+      else {
+        shelves(pair._1).+=(itemVec)
+      }
     )
   }
-
-  //  def initializeShelves(): Unit = {
-  //    itemVec.groupBy(_.name).foreach(pair =>
-  //      shelves += Tuple2(pair._1, new Shelf(null, pair._2.to[ListBuffer]))
-  //    )
-  //  }
-
-  //  def writeWarehouseToFile(): Unit = {
-  //    shelves.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString))
-  //  }
 
   def recordWaste(category: String, wastedAmount: Int): Unit = {
     updateWasteSummary(category, wastedAmount)
@@ -84,7 +84,7 @@ trait SectionTrait extends Actor with SummaryTrait {
 
   def getRequestedItem(item: String, fifo: Boolean = true): Item = {
     var requestedItem: Item = null
-    val requestedShelf: Shelf = shelves.getOrElse(item, new Shelf(null, null))
+    val requestedShelf: Shelf = shelves.getOrElse(item, new Shelf(null, "", null))
     rmDiscarded(requestedShelf)
     if (!requestedShelf.isEmpty) {
       if (fifo) {
@@ -100,5 +100,4 @@ trait SectionTrait extends Actor with SummaryTrait {
   def getRandFood(): String = {
     randElement(articleNames)
   }
-
 }

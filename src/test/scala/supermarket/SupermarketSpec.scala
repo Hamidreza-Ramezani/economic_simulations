@@ -1,11 +1,11 @@
 package supermarket
 
 import meta.example.supermarket.customers.Customer1
-import meta.example.supermarket.{FIFO, LIFO, Section, SectionTrait, Shelf, Supermarket, SupermarketTrait}
 import meta.example.supermarket.goods._
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck, TruckTrait}
 import meta.example.supermarket.people.{Cashier, Employee}
 import meta.example.supermarket.worldmap.{World, WorldTrait}
+import meta.example.supermarket._
 import org.scalatest._
 
 import scala.collection.mutable.ListBuffer
@@ -97,13 +97,13 @@ class SupermarketSpec extends FlatSpec with Matchers {
   }
 
   "initializeItemDeque" should "update the warehouse" in {
-    supermarket1.initializeItemDeque(items)
-    sectionVegetable1.shelves should have size 3
+    supermarket1.initializeShelves(items)
+    sectionVegetable1.shelves should have size 11
   }
 
   "The overloaded initializeItemDeque" should "update the warehouse" in {
-    supermarket1.initializeItemDeque(item4_1)
-    sectionVegetable1.shelves should have size 4
+    supermarket1.initializeShelf(item4_1)
+    sectionVegetable1.shelves should have size 11
   }
 
 //  "Selling an item" should "update the state of the item in the warehouse" in {

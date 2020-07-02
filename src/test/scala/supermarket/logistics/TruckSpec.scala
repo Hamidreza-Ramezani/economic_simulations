@@ -119,7 +119,7 @@ class TruckSpec extends FlatSpec with Matchers{
   items += item4_6
   items += item4_7
 
-  supermarket1.initializeItemDeque(initialItems.toVector)
+  supermarket1.initializeShelves(initialItems.toVector)
 //  supermarket1.storage = supermarket1.storage ++ supermarketItems1
 
   items.foreach {

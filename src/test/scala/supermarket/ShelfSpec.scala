@@ -112,7 +112,7 @@ class ShelfSpec extends FlatSpec with Matchers {
   supermarketItems1 += item4_6
   supermarketItems1 += item4_7
 
-  supermarket1.initializeItemDeque(supermarketItems1.toVector)
+  supermarket1.initializeShelves(supermarketItems1.toVector)
 
 
   supermarket1.warehouse.toList.foreach { section =>
@@ -124,58 +124,57 @@ class ShelfSpec extends FlatSpec with Matchers {
   }
 
 
-
-  "shelf" should "be able to construct from an empty parameter list" in {
-    val newDeque = new Shelf()
+  "shelf" should "be able to construct from a string" in {
+    val newDeque = new Shelf("Potato")
     newDeque should have size 0
   }
 
-  "Item deque" should "be able to construct from a list of Item" in {
-    val newDeque = new Shelf(Vector(item1_1, item2_1, item3_1))
-    newDeque should have size 3
-  }
+  //  "Item deque" should "be able to construct from a list of Item" in {
+  //    val newDeque = new Shelf(Vector(item1_1, item2_1, item3_1))
+  //    newDeque should have size 3
+  //  }
 
-  "Item deque" should "be able to construct from a single Item" in {
+  "Shelf" should "be able to construct from a single Item" in {
     val newDeque = new Shelf(item1_2)
     newDeque should have size 1
   }
 
-  "Item deque +=" should "add an Item to the queue" in {
-    val emptyDeque = new Shelf()
-    emptyDeque+= item1_3
+  "Item deque +=" should "add an Item to the shelf" in {
+    val emptyDeque = new Shelf("Onion")
+    emptyDeque += item1_3
     emptyDeque should have size 1
   }
 
-  "Item deque +=" should "add a list of Item to the queue" in {
-    val emptyDeque = new Shelf()
-    emptyDeque += Vector(item1_4, item2_2, item3_2)
-    emptyDeque should have size 3
-    emptyDeque += Vector(item1_5, item2_3)
-    emptyDeque should have size 5
+  "Item deque +=" should "add a list of Items to the shelf" in {
+    val emptyShelf = new Shelf(item1_4.name)
+    emptyShelf += Vector(item1_4, item1_6, item1_7)
+    emptyShelf should have size 3
+    emptyShelf += Vector(item1_5, item1_2)
+    emptyShelf should have size 5
   }
 
-  "Item deque popLeft" should "remove the first inserted Item" in {
-    val newDeque = new Shelf(Vector(item1_6, item2_4, item3_3))
-    newDeque.popLeft should be (item1_6)
-    newDeque should have size 2
-  }
+  //  "Item deque popLeft" should "remove the first inserted Item" in {
+  //    val newDeque = new Shelf(Vector(item1_6, item2_4, item3_3))
+  //    newDeque.popLeft should be (item1_6)
+  //    newDeque should have size 2
+  //  }
 
-  "Item deque popRight" should "remove the last inserted Item" in {
-    val newDeque = new Shelf(Vector(item1_7, item2_5, item3_4))
-    newDeque.popRight should be (item3_4)
-    newDeque should have size 2
-    newDeque += Vector(item1_7, item2_5)
-    newDeque should have size 4
-    newDeque.popRight should be (item2_5)
-  }
+  //  "Item deque popRight" should "remove the last inserted Item" in {
+  //    val newDeque = new Shelf(Vector(item1_7, item2_5, item3_4))
+  //    newDeque.popRight should be (item3_4)
+  //    newDeque should have size 2
+  //    newDeque += Vector(item1_7, item2_5)
+  //    newDeque should have size 4
+  //    newDeque.popRight should be (item2_5)
+  //  }
 
   "Remove from an empty item deque" should "throw NoSuchElementException" in {
-    val emptyDeque = new Shelf()
-    a [NoSuchElementException] should be thrownBy {
-      emptyDeque.popLeft
+    val emptyShelf = new Shelf("Potato")
+    a[NoSuchElementException] should be thrownBy {
+      emptyShelf.popLeft
     }
-    a [NoSuchElementException] should be thrownBy {
-      emptyDeque.popRight
+    a[NoSuchElementException] should be thrownBy {
+      emptyShelf.popRight
     }
   }
 }

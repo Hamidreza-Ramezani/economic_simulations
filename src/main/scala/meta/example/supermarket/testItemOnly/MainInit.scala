@@ -227,9 +227,9 @@ class MainInit {
 
     actors += worldMap
 
-    supermarket1.initializeItemDeque(supermarketItems1.toVector)
-    supermarket2.initializeItemDeque(supermarketItems2.toVector)
-    supermarket3.initializeItemDeque(supermarketItems3.toVector)
+    supermarket1.initializeShelves(supermarketItems1.toVector)
+    supermarket2.initializeShelves(supermarketItems2.toVector)
+    supermarket3.initializeShelves(supermarketItems3.toVector)
 
 
     supermarket1.warehouse.toList.foreach { section =>

@@ -3,20 +3,17 @@ package meta.example.supermarket
 import meta.example.supermarket.goods.Item
 import scala.collection.mutable.ListBuffer
 
-class Shelf(var item: Item, var itemsList: ListBuffer[Item]) {
+class Shelf(var firstItem: Item, var shelfName: String, var itemsList: ListBuffer[Item]) {
 
-  def this(item: Item) {
-    this(item, itemsList = new ListBuffer[Item])
-    itemsList += item
+  //  var itemsList: ListBuffer[Item] = new ListBuffer[Item]
+
+  def this(firstItem: Item) {
+    this(firstItem, firstItem.name, new ListBuffer[Item])
+    itemsList += firstItem
   }
 
-  def this(itemsList: Vector[Item]) {
-    this(item = null, itemsList.to[ListBuffer])
-    //    this.itemsList ++= itemsList
-  }
-
-  def this() {
-    this(item = null, itemsList = new ListBuffer[Item])
+  def this(shelfName: String) {
+    this(null, shelfName, new ListBuffer[Item])
   }
 
   def shuffle(policy: ShufflingPolicy): Unit = {

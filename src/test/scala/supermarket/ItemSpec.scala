@@ -115,7 +115,7 @@ class ItemSpec extends FlatSpec with Matchers {
   supermarketItems1 += item4_6
   supermarketItems1 += item4_7
 
-  supermarket1.initializeItemDeque(supermarketItems1.toVector)
+  supermarket1.initializeShelves(supermarketItems1.toVector)
 
 
   supermarket1.warehouse.toList.foreach { section =>

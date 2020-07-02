@@ -134,7 +134,7 @@ class EmployeeSpec extends FlatSpec with Matchers {
   supermarketItems1 += item4_6
   supermarketItems1 += item4_7
 
-  supermarket1.initializeItemDeque(initialItems.toVector)
+//  supermarket1.initializeShelves(initialItems.toVector)
   supermarket1.storage = supermarket1.storage ++ supermarketItems1
 
   manufacturer.manufacturerState = loadedTruck
@@ -145,17 +145,17 @@ class EmployeeSpec extends FlatSpec with Matchers {
   "addSupply" should "work" in {
     sectionVegetable1.setShelfCapacity(10)
     supermarket1.shelfCapacity = 10
-    assert(manufacturer.getFreeSpace(supermarket1,"Eggplant") == 9)
-    assert(manufacturer.getFreeSpace(supermarket1,"Potato") == 9)
-    assert(manufacturer.getFreeSpace(supermarket1,"Onion") == 9)
-    assert(manufacturer.getFreeSpace(supermarket1,"Broccoli") == 9)
+    assert(manufacturer.getFreeSpace(supermarket1,"Eggplant") == 10)
+    assert(manufacturer.getFreeSpace(supermarket1,"Potato") == 10)
+    assert(manufacturer.getFreeSpace(supermarket1,"Onion") == 10)
+    assert(manufacturer.getFreeSpace(supermarket1,"Broccoli") == 10)
 
     employee1.addSupply()
 
-    assert(manufacturer.getFreeSpace(supermarket1,"Eggplant") == 3)
-    assert(manufacturer.getFreeSpace(supermarket1,"Potato") == 3)
-    assert(manufacturer.getFreeSpace(supermarket1,"Onion") == 3)
-    assert(manufacturer.getFreeSpace(supermarket1,"Broccoli") == 3)
+    assert(manufacturer.getFreeSpace(supermarket1,"Eggplant") == 4)
+    assert(manufacturer.getFreeSpace(supermarket1,"Potato") == 4)
+    assert(manufacturer.getFreeSpace(supermarket1,"Onion") == 4)
+    assert(manufacturer.getFreeSpace(supermarket1,"Broccoli") == 4)
   }
 
 

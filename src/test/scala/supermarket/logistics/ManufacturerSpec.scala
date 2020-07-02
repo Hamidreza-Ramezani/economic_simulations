@@ -119,7 +119,7 @@ class ManufacturerSpec extends FlatSpec with Matchers {
   supermarketItems1 += item4_6
   supermarketItems1 += item4_7
 
-  supermarket1.initializeItemDeque(initialItems.toVector)
+  supermarket1.initializeShelves(initialItems.toVector)
   supermarket1.storage = supermarket1.storage ++ supermarketItems1
 
   supermarketItems1.foreach{

@@ -46,14 +46,14 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   }
 
 
-  def initializeItemDeque(itemVec: Vector[Item]): Unit = {
+  def initializeShelves(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach(pair =>
-      pair._2(0).section.initializeItemDeque(pair._2)
+      pair._2(0).section.initializeShelves(pair._2)
     )
   }
 
-  def initializeItemDeque(item: Item): Unit = {
-    item.section.initializeItemDeque(item)
+  def initializeShelf(item: Item): Unit = {
+    item.section.initializeShelf(item)
   }
 
   def recordWaste(category: String, wastedAmount: Int): Unit = {
