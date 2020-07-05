@@ -2,27 +2,50 @@ package meta.example.supermarket.people
 
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
-import meta.example.supermarket.categories.{articleName, getArticleUnit, gram}
+import meta.example.supermarket.categories.{articleName, gram}
+import meta.example.supermarket.customers.Movable
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.{randElement, toShoppingList}
 import meta.example.supermarket.worldmap.WorldTrait
+
 import scala.collection.mutable.ListBuffer
 
 trait People extends Actor {
 
+  var supermarkets: ListBuffer[SupermarketTrait]
+  val fridge: Fridge = new Fridge
   var world: WorldTrait
   val frequency: Int
   val priceConscious: Double
   var basket: ListBuffer[Item] = ListBuffer[Item]()
   val needBased: Boolean
-  val shoppingList: ShoppingList
-  val mealPlan: Vector[(articleName, gram)]
-  val preference: String
-  val mealCnt: Int
-  var supermarkets: ListBuffer[SupermarketTrait]
-  //  assert(supermarket.vegetables.size > 1) // store has been properly initialized
-  val fridge: Fridge = new Fridge
+  var mealPlan: MealPlan
+  var ads: ListBuffer[Ad] = new ListBuffer[Ad]
+  ads += new Ad(MealPlan_Dummy1)
+  ads += new Ad(MealPlan_Dummy2)
+  ads += new Ad(MealPlan_Dummy3)
+  //  ads += new Ad(MealPlan_Dummy1)
+  //  ads += new Ad(MealPlan_Dummy1)
+  //  ads += new Ad(MealPlan_Dummy1)
+  //  ads += new Ad(MealPlan_Dummy1)
+  //  ads += new Ad(MealPlan_Dummy1)
+  //  ads += new Ad(MealPlan_Dummy1)
+  //  ads += new Ad(MealPlan_Dummy1)
+  //  ads += new Ad(MealPlan_Dummy1)
 
+  //  val shoppingList: ShoppingList
+  //  val mealPlan: Vector[(articleName, gram)]
+  //  val preference: String
+  //  val mealCnt: Int
+
+
+  def noticeAd(): Unit = {
+    var adWhichIsNoticed: Ad = utils.selectRandomly(ads.toList)
+    if (utils.prob2Bool(0.50)) {
+      mealPlan = adWhichIsNoticed.subject
+      writer.write("agent id " + id + " changed its preference to  " + adWhichIsNoticed.subject + "\n\n\n")
+    }
+  }
 
   //todo refactor it
   def pickSupermarket(): SupermarketTrait = {

@@ -1,13 +1,15 @@
 package meta.example.supermarket.customers
 
 import java.io.{File, FileWriter, PrintWriter}
+
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.people.{ImpulseShopper, MealPlan_Dummy3, People, Weekly}
+import meta.example.supermarket.people.{ImpulseShopper, MealPlan, People, Weekly}
 import meta.example.supermarket.worldmap.{Down, Left, PrivateProperty, Right, Tile, Up, Utils, WorldTrait}
 import squid.quasi.lift
+
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
@@ -15,54 +17,54 @@ import scala.util.Random
 /* Auto generated from genCustomers */
 
 @lift
-class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait) extends People with Weekly with MealPlan_Dummy3 with ImpulseShopper {
+class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait,var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
 
-  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
-    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  //  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+  //    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  //    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  //
+  //    move2(world, initialXPosition, initialYPosition)
+  //    //    SpecialInstructions.waitTurns(1)
+  //
+  //    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  //    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  //  }
 
-    move2(world, initialXPosition, initialYPosition)
-    //    SpecialInstructions.waitTurns(1)
+  //  override def move(world: WorldTrait, target: Actor): Unit = {
+  //    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  //    println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+  //
+  //    move2(world, target.currentXPosition, target.currentYPosition)
+  //    //    SpecialInstructions.waitTurns(1)
+  //
+  //    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  //    println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+  //  }
 
-    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  }
-
-  override def move(world: WorldTrait, target: Actor): Unit = {
-    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-
-    move2(world, target.currentXPosition, target.currentYPosition)
-    //    SpecialInstructions.waitTurns(1)
-
-    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  }
-
-  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
-    if (canMove) {
-      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
-      path.toList.foreach {
-        tile =>
-          if (currentXPosition < tile.getX()) {
-            SpecialInstructions.waitTurns(1)
-            move(world, Right)
-          }
-          if (currentXPosition > tile.getX()) {
-            SpecialInstructions.waitTurns(1)
-            move(world, Left)
-          }
-          if (currentYPosition < tile.getY()) {
-            SpecialInstructions.waitTurns(1)
-            move(world, Down)
-          }
-          if (currentYPosition > tile.getY()) {
-            SpecialInstructions.waitTurns(1)
-            move(world, Up)
-          }
-      }
-    }
-  }
+  //  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+  //    if (canMove) {
+  //      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
+  //      path.toList.foreach {
+  //        tile =>
+  //          if (currentXPosition < tile.getX()) {
+  //            SpecialInstructions.waitTurns(1)
+  //            move(world, Right)
+  //          }
+  //          if (currentXPosition > tile.getX()) {
+  //            SpecialInstructions.waitTurns(1)
+  //            move(world, Left)
+  //          }
+  //          if (currentYPosition < tile.getY()) {
+  //            SpecialInstructions.waitTurns(1)
+  //            move(world, Down)
+  //          }
+  //          if (currentYPosition > tile.getY()) {
+  //            SpecialInstructions.waitTurns(1)
+  //            move(world, Up)
+  //          }
+  //      }
+  //    }
+  //  }
 
   //   Target consumption behavior
   def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {
@@ -74,7 +76,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
         writer.write("Not enough food left! Do shopping!" + "\n")
         println("Not enough food left! Do shopping!")
         var pickedSupermarket = pickSupermarket()
-        move(world, pickedSupermarket)
+        //        move(world, pickedSupermarket)
         //        val sectionName = newItemsMap.categoryMap(pair._1)
         //        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
         while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
@@ -104,12 +106,14 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
+    writer.write("agent id " + id + " preference is " + mealPlan.preference + "\n\n\n")
+
     while (true) {
       println("---------------------------------------------------------------------------------------------------")
       customerInfo
       writer.write(toString + "\n")
       var pickedSupermarket: SupermarketTrait = pickSupermarket()
-      move(world, pickedSupermarket)
+      //      move(world, pickedSupermarket)
       //these functions should add the items to toBeScannedItems
       while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
@@ -124,8 +128,8 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       }
       //      addListedItems(shoppingList.targetItems, (Random.nextFloat < priceConscious))
       //      addRandItems(shoppingList.randItems)
-      addListedItemsToBasket(shoppingList.targetItems, pickedSupermarket, Random.nextFloat < priceConscious)
-      addRandItemsToBasket(shoppingList.randItems, pickedSupermarket)
+      addListedItemsToBasket(mealPlan.shoppingList.targetItems, pickedSupermarket, Random.nextFloat < priceConscious)
+      addRandItemsToBasket(mealPlan.shoppingList.randItems, pickedSupermarket)
       println()
       pickedSupermarket.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
@@ -140,7 +144,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
       println("---------------------------------------------------------------------------------------------------")
       println("shopping basket of Customer's Actor id " + id + " was scanned")
-      comeBackToInitialPoint(world)
+      //      comeBackToInitialPoint(world)
       basket.toList.foreach(item => {
         writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
         println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
@@ -157,7 +161,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
         pickedSupermarket = pickSupermarket()
-        consumeFood2(mealPlan)
+        consumeFood2(mealPlan.meal)
         //        consumeFood2()
         consumeRandomFood()
         //        consumeFood(mealPlan)
@@ -181,7 +185,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
           println("---------------------------------------------------------------------------------------------------")
           writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
           println("shopping basket of Customer's Actor id " + id + " was scanned")
-          comeBackToInitialPoint(world)
+          //          comeBackToInitialPoint(world)
 
           basket.toList.foreach(item => {
             writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
@@ -195,7 +199,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
         }
         SpecialInstructions.waitTurns(12)
       })
-
+      noticeAd()
     }
   }
 }

@@ -5,156 +5,164 @@ import meta.example.supermarket.{Carnivore, ShoppingList, Vegetarian, categoryAm
 
 /* Auto generated from genMealPlans */
 
+sealed trait MealPlan{
+  val preference: String = this.getClass.getSimpleName
+  val mealCnt: Int
+  val meal: Vector[(articleName, gram)]
+  val randShoppingList: categoryAmount
+  val shoppingList: ShoppingList
+}
 
-trait MealPlan_Dummy1 {
-  val preference: String = "Vegetarian"
+
+case object MealPlan_Dummy1 extends MealPlan{
+//  val preference: String = this.getClass.getSimpleName
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(8).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(8).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = categoryAmount(1, 0, 0, 0, 0)
   //  val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
-trait MealPlan_Dummy2 {
-  val preference: String = "Vegetarian"
+case object MealPlan_Dummy2 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(9).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(9).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = categoryAmount(1, 0, 0, 0, 0)
   //  val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
-trait MealPlan_Dummy3 {
-  val preference: String = "Vegetarian"
+case object MealPlan_Dummy3 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(10).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(10).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = categoryAmount(1, 0, 0, 0, 0)
   //  val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
-trait MealPlan1 {
-  val preference: String = "Vegetarian"
+case object MealPlan1 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(0).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(0).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
-trait MealPlan2 {
-  val preference: String = "Vegetarian"
+case object MealPlan2 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(1).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(1).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan3 {
-  val preference: String = "Vegetarian"
+case object MealPlan3 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(2).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(2).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan4 {
-  val preference: String = "Vegetarian"
+case object MealPlan4 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(3).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(3).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan5 {
-  val preference: String = "Vegetarian"
+case object MealPlan5 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(4).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(4).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan6 {
-  val preference: String = "Vegetarian"
+case object MealPlan6 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(5).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(5).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan7 {
-  val preference: String = "Vegetarian"
+case object MealPlan7 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(6).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(6).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan8 {
-  val preference: String = "Vegetarian"
+case object MealPlan8 extends MealPlan{
+//  val preference: String = "Vegetarian"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(7).flatMap(num => Vegetarian.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(7).flatMap(num => Vegetarian.mealPlan(num))
   val randShoppingList: categoryAmount = Vegetarian.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan9 {
-  val preference: String = "Carnivore"
+case object MealPlan9 extends MealPlan{
+//  val preference: String = "Carnivore"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(0).flatMap(num => Carnivore.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(0).flatMap(num => Carnivore.mealPlan(num))
   val randShoppingList: categoryAmount = Carnivore.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan10 {
-  val preference: String = "Carnivore"
+case object MealPlan10 extends MealPlan{
+//  val preference: String = "Carnivore"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(1).flatMap(num => Carnivore.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(1).flatMap(num => Carnivore.mealPlan(num))
   val randShoppingList: categoryAmount = Carnivore.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan11 {
-  val preference: String = "Carnivore"
+case object MealPlan11 extends MealPlan{
+//  val preference: String = "Carnivore"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(2).flatMap(num => Carnivore.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(2).flatMap(num => Carnivore.mealPlan(num))
   val randShoppingList: categoryAmount = Carnivore.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan12 {
-  val preference: String = "Carnivore"
+case object MealPlan12 extends MealPlan{
+//  val preference: String = "Carnivore"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(3).flatMap(num => Carnivore.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(3).flatMap(num => Carnivore.mealPlan(num))
   val randShoppingList: categoryAmount = Carnivore.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan13 {
-  val preference: String = "Carnivore"
+case object MealPlan13 extends MealPlan{
+//  val preference: String = "Carnivore"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(4).flatMap(num => Carnivore.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(4).flatMap(num => Carnivore.mealPlan(num))
   val randShoppingList: categoryAmount = Carnivore.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 
-trait MealPlan14 {
-  val preference: String = "Carnivore"
+case object MealPlan14 extends MealPlan{
+//  val preference: String = "Carnivore"
   val mealCnt: Int = 1
-  val mealPlan: Vector[(articleName, gram)] = Vector(5).flatMap(num => Carnivore.mealPlan(num))
+  val meal: Vector[(articleName, gram)] = Vector(5).flatMap(num => Carnivore.mealPlan(num))
   val randShoppingList: categoryAmount = Carnivore.getRandShoppingList()
-  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, mealPlan)
+  val shoppingList: ShoppingList = new ShoppingList(randShoppingList, meal)
 }
 
 object mealPlanSummary {

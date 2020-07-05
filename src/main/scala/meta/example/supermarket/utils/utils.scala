@@ -36,6 +36,19 @@ object utils {
     a/b+toInt(a%b!=0)
   }
 
+
+  def double2int(myDouble: Double): Int = {
+    myDouble.toInt
+  }
+
+  def prob2Bool(probability: Double, precision: Double = 0.01): Boolean = {
+    Random.nextInt(double2int(1 / precision)) < double2int(probability / precision);
+  }
+
+  def selectRandomly[T](list: List[T]): T = {
+    Random.shuffle(list).head
+  }
+
   /**
     * This function takes a Vector[(ArticleName, Gram)] and converts it to
    * Vector[(ArticleName, AgentCount)]

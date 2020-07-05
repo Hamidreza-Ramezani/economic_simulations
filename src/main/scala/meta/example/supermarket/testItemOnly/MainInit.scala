@@ -32,17 +32,17 @@ class MainInit {
     val sectionSnack1 = new Section("Snack", FIFO, worldMap)
     val sectionGrain1 = new Section("Grain", LIFO, worldMap)
 
-    val sectionVegetable2 = new Section("Vegetable", FIFO, worldMap)
-    val sectionMeat2 = new Section("Meat", FIFO, worldMap)
-    val sectionDairy2 = new Section("Dairy", FIFO, worldMap)
-    val sectionSnack2 = new Section("Snack", FIFO, worldMap)
-    val sectionGrain2 = new Section("Grain", LIFO, worldMap)
-
-    val sectionVegetable3 = new Section("Vegetable", FIFO, worldMap)
-    val sectionMeat3 = new Section("Meat", FIFO, worldMap)
-    val sectionDairy3 = new Section("Dairy", FIFO, worldMap)
-    val sectionSnack3 = new Section("Snack", FIFO, worldMap)
-    val sectionGrain3 = new Section("Grain", LIFO, worldMap)
+//    val sectionVegetable2 = new Section("Vegetable", FIFO, worldMap)
+//    val sectionMeat2 = new Section("Meat", FIFO, worldMap)
+//    val sectionDairy2 = new Section("Dairy", FIFO, worldMap)
+//    val sectionSnack2 = new Section("Snack", FIFO, worldMap)
+//    val sectionGrain2 = new Section("Grain", LIFO, worldMap)
+//
+//    val sectionVegetable3 = new Section("Vegetable", FIFO, worldMap)
+//    val sectionMeat3 = new Section("Meat", FIFO, worldMap)
+//    val sectionDairy3 = new Section("Dairy", FIFO, worldMap)
+//    val sectionSnack3 = new Section("Snack", FIFO, worldMap)
+//    val sectionGrain3 = new Section("Grain", LIFO, worldMap)
 
 
     var sectionList1 = new ListBuffer[SectionTrait]()
@@ -52,37 +52,37 @@ class MainInit {
     sectionList1 += sectionSnack1
     sectionList1 += sectionGrain1
 
-    var sectionList2 = new ListBuffer[SectionTrait]()
-    sectionList2 += sectionVegetable2
-    sectionList2 += sectionMeat2
-    sectionList2 += sectionDairy2
-    sectionList2 += sectionSnack2
-    sectionList2 += sectionGrain2
-
-    var sectionList3 = new ListBuffer[SectionTrait]()
-    sectionList3 += sectionVegetable3
-    sectionList3 += sectionMeat3
-    sectionList3 += sectionDairy3
-    sectionList3 += sectionSnack3
-    sectionList3 += sectionGrain3
+//    var sectionList2 = new ListBuffer[SectionTrait]()
+//    sectionList2 += sectionVegetable2
+//    sectionList2 += sectionMeat2
+//    sectionList2 += sectionDairy2
+//    sectionList2 += sectionSnack2
+//    sectionList2 += sectionGrain2
+//
+//    var sectionList3 = new ListBuffer[SectionTrait]()
+//    sectionList3 += sectionVegetable3
+//    sectionList3 += sectionMeat3
+//    sectionList3 += sectionDairy3
+//    sectionList3 += sectionSnack3
+//    sectionList3 += sectionGrain3
 
     val supermarkets: ListBuffer[SupermarketTrait] = new ListBuffer[SupermarketTrait]
     var trucks = new ListBuffer[TruckTrait]
 
     val supermarket1 = new Supermarket(sectionList1, worldMap)
-    val supermarket2 = new Supermarket(sectionList2, worldMap)
-    val supermarket3 = new Supermarket(sectionList3, worldMap)
+//    val supermarket2 = new Supermarket(sectionList2, worldMap)
+//    val supermarket3 = new Supermarket(sectionList3, worldMap)
 
     supermarkets += supermarket1
-    supermarkets += supermarket2
-    supermarkets += supermarket3
+//    supermarkets += supermarket2
+//    supermarkets += supermarket3
 
     val truck1 = new Truck(worldMap)
-    val truck2 = new Truck(worldMap)
-    val truck3 = new Truck(worldMap)
+//    val truck2 = new Truck(worldMap)
+//    val truck3 = new Truck(worldMap)
     trucks += truck1
-    trucks += truck2
-    trucks += truck3
+//    trucks += truck2
+//    trucks += truck3
 
     val manufacturer = new Manufacturer(trucks, supermarkets, worldMap)
     val farmer = new Farmer(manufacturer, worldMap)
@@ -90,16 +90,16 @@ class MainInit {
     val employee1 = new Employee(supermarket1, sectionVegetable1, manufacturer, worldMap)
     val cashier1 = new Cashier(supermarket1, worldMap)
 
-    val employee2 = new Employee(supermarket2, sectionVegetable2, manufacturer, worldMap)
-    val cashier2 = new Cashier(supermarket2, worldMap)
+//    val employee2 = new Employee(supermarket2, sectionVegetable2, manufacturer, worldMap)
+//    val cashier2 = new Cashier(supermarket2, worldMap)
+//
+//    val employee3 = new Employee(supermarket3, sectionVegetable3, manufacturer, worldMap)
+//    val cashier3 = new Cashier(supermarket3, worldMap)
 
-    val employee3 = new Employee(supermarket3, sectionVegetable3, manufacturer, worldMap)
-    val cashier3 = new Cashier(supermarket3, worldMap)
 
-
-    val customer1 = new Customer1(supermarkets, worldMap)
-    val customer2 = new Customer2(supermarkets, worldMap)
-    val customer3 = new Customer3(supermarkets, worldMap)
+    val customer1 = new Customer1(supermarkets, worldMap,MealPlan_Dummy1)
+    val customer2 = new Customer2(supermarkets, worldMap,MealPlan_Dummy2)
+    val customer3 = new Customer3(supermarkets, worldMap,MealPlan_Dummy3)
 
 
     val item1_1 = new Item1(supermarket1, sectionVegetable1, worldMap)
@@ -114,44 +114,44 @@ class MainInit {
     val item10_1 = new Item10(supermarket1, sectionVegetable1, worldMap)
     val item11_1 = new Item11(supermarket1, sectionVegetable1, worldMap)
 
-    val item1_2 = new Item1(supermarket2, sectionVegetable2, worldMap)
-    val item2_2 = new Item2(supermarket2, sectionVegetable2, worldMap)
-    val item3_2 = new Item3(supermarket2, sectionVegetable2, worldMap)
-    val item4_2 = new Item4(supermarket2, sectionVegetable2, worldMap)
-    val item5_2 = new Item5(supermarket2, sectionVegetable2, worldMap)
-    val item6_2 = new Item6(supermarket2, sectionVegetable2, worldMap)
-    val item7_2 = new Item7(supermarket2, sectionVegetable2, worldMap)
-    val item8_2 = new Item8(supermarket2, sectionVegetable2, worldMap)
-    val item9_2 = new Item9(supermarket2, sectionVegetable2, worldMap)
-    val item10_2 = new Item10(supermarket2, sectionVegetable2, worldMap)
-    val item11_2 = new Item11(supermarket2, sectionVegetable2, worldMap)
-
-    val item1_3 = new Item1(supermarket3, sectionVegetable3, worldMap)
-    val item2_3 = new Item2(supermarket3, sectionVegetable3, worldMap)
-    val item3_3 = new Item3(supermarket3, sectionVegetable3, worldMap)
-    val item4_3 = new Item4(supermarket3, sectionVegetable3, worldMap)
-    val item5_3 = new Item5(supermarket3, sectionVegetable3, worldMap)
-    val item6_3 = new Item6(supermarket3, sectionVegetable3, worldMap)
-    val item7_3 = new Item7(supermarket3, sectionVegetable3, worldMap)
-    val item8_3 = new Item8(supermarket3, sectionVegetable3, worldMap)
-    val item9_3 = new Item9(supermarket3, sectionVegetable3, worldMap)
-    val item10_3 = new Item10(supermarket3, sectionVegetable3, worldMap)
-    val item11_3 = new Item11(supermarket3, sectionVegetable3, worldMap)
+//    val item1_2 = new Item1(supermarket2, sectionVegetable2, worldMap)
+//    val item2_2 = new Item2(supermarket2, sectionVegetable2, worldMap)
+//    val item3_2 = new Item3(supermarket2, sectionVegetable2, worldMap)
+//    val item4_2 = new Item4(supermarket2, sectionVegetable2, worldMap)
+//    val item5_2 = new Item5(supermarket2, sectionVegetable2, worldMap)
+//    val item6_2 = new Item6(supermarket2, sectionVegetable2, worldMap)
+//    val item7_2 = new Item7(supermarket2, sectionVegetable2, worldMap)
+//    val item8_2 = new Item8(supermarket2, sectionVegetable2, worldMap)
+//    val item9_2 = new Item9(supermarket2, sectionVegetable2, worldMap)
+//    val item10_2 = new Item10(supermarket2, sectionVegetable2, worldMap)
+//    val item11_2 = new Item11(supermarket2, sectionVegetable2, worldMap)
+//
+//    val item1_3 = new Item1(supermarket3, sectionVegetable3, worldMap)
+//    val item2_3 = new Item2(supermarket3, sectionVegetable3, worldMap)
+//    val item3_3 = new Item3(supermarket3, sectionVegetable3, worldMap)
+//    val item4_3 = new Item4(supermarket3, sectionVegetable3, worldMap)
+//    val item5_3 = new Item5(supermarket3, sectionVegetable3, worldMap)
+//    val item6_3 = new Item6(supermarket3, sectionVegetable3, worldMap)
+//    val item7_3 = new Item7(supermarket3, sectionVegetable3, worldMap)
+//    val item8_3 = new Item8(supermarket3, sectionVegetable3, worldMap)
+//    val item9_3 = new Item9(supermarket3, sectionVegetable3, worldMap)
+//    val item10_3 = new Item10(supermarket3, sectionVegetable3, worldMap)
+//    val item11_3 = new Item11(supermarket3, sectionVegetable3, worldMap)
 
     supermarket1.employees += employee1
-    supermarket2.employees += employee2
-    supermarket3.employees += employee3
+//    supermarket2.employees += employee2
+//    supermarket3.employees += employee3
 
     supermarket1.cashiers += cashier1
-    supermarket2.cashiers += cashier2
-    supermarket3.cashiers += cashier3
+//    supermarket2.cashiers += cashier2
+//    supermarket3.cashiers += cashier3
 
     actors += farmer
     actors += manufacturer
 
     actors += truck1
-    actors += truck2
-    actors += truck3
+//    actors += truck2
+//    actors += truck3
 
     actors += supermarket1
     actors += sectionGrain1
@@ -162,23 +162,23 @@ class MainInit {
     actors += employee1
     actors += cashier1
 
-    actors += supermarket2
-    actors += sectionGrain2
-    actors += sectionSnack2
-    actors += sectionDairy2
-    actors += sectionMeat2
-    actors += sectionVegetable2
-    actors += employee2
-    actors += cashier2
-
-    actors += supermarket3
-    actors += sectionGrain3
-    actors += sectionSnack3
-    actors += sectionDairy3
-    actors += sectionMeat3
-    actors += sectionVegetable3
-    actors += employee3
-    actors += cashier3
+//    actors += supermarket2
+//    actors += sectionGrain2
+//    actors += sectionSnack2
+//    actors += sectionDairy2
+//    actors += sectionMeat2
+//    actors += sectionVegetable2
+//    actors += employee2
+//    actors += cashier2
+//
+//    actors += supermarket3
+//    actors += sectionGrain3
+//    actors += sectionSnack3
+//    actors += sectionDairy3
+//    actors += sectionMeat3
+//    actors += sectionVegetable3
+//    actors += employee3
+//    actors += cashier3
 
     actors += customer1
     actors += customer2
@@ -197,39 +197,39 @@ class MainInit {
     supermarketItems1 += item10_1
     supermarketItems1 += item11_1
 
-    supermarketItems2 += item1_2
-    supermarketItems2 += item2_2
-    supermarketItems2 += item3_2
-    supermarketItems2 += item4_2
-    supermarketItems2 += item5_2
-    supermarketItems2 += item6_2
-    supermarketItems2 += item7_2
-    supermarketItems2 += item8_2
-    supermarketItems2 += item9_2
-    supermarketItems2 += item10_2
-    supermarketItems2 += item11_2
-
-    supermarketItems3 += item1_3
-    supermarketItems3 += item2_3
-    supermarketItems3 += item3_3
-    supermarketItems3 += item4_3
-    supermarketItems3 += item5_3
-    supermarketItems3 += item6_3
-    supermarketItems3 += item7_3
-    supermarketItems3 += item8_3
-    supermarketItems3 += item9_3
-    supermarketItems3 += item10_3
-    supermarketItems3 += item11_3
+//    supermarketItems2 += item1_2
+//    supermarketItems2 += item2_2
+//    supermarketItems2 += item3_2
+//    supermarketItems2 += item4_2
+//    supermarketItems2 += item5_2
+//    supermarketItems2 += item6_2
+//    supermarketItems2 += item7_2
+//    supermarketItems2 += item8_2
+//    supermarketItems2 += item9_2
+//    supermarketItems2 += item10_2
+//    supermarketItems2 += item11_2
+//
+//    supermarketItems3 += item1_3
+//    supermarketItems3 += item2_3
+//    supermarketItems3 += item3_3
+//    supermarketItems3 += item4_3
+//    supermarketItems3 += item5_3
+//    supermarketItems3 += item6_3
+//    supermarketItems3 += item7_3
+//    supermarketItems3 += item8_3
+//    supermarketItems3 += item9_3
+//    supermarketItems3 += item10_3
+//    supermarketItems3 += item11_3
 
     actors = actors ++ supermarketItems1
-    actors = actors ++ supermarketItems2
-    actors = actors ++ supermarketItems3
+//    actors = actors ++ supermarketItems2
+//    actors = actors ++ supermarketItems3
 
     actors += worldMap
 
     supermarket1.initializeShelves(supermarketItems1.toVector)
-    supermarket2.initializeShelves(supermarketItems2.toVector)
-    supermarket3.initializeShelves(supermarketItems3.toVector)
+//    supermarket2.initializeShelves(supermarketItems2.toVector)
+//    supermarket3.initializeShelves(supermarketItems3.toVector)
 
 
     supermarket1.warehouse.toList.foreach { section =>
@@ -240,21 +240,21 @@ class MainInit {
       }
     }
 
-    supermarket2.warehouse.toList.foreach { section =>
-      section.shelves.toList.foreach { shelf =>
-        shelf._2.itemsList.toList.foreach { item =>
-          item.state.loadInShelves
-        }
-      }
-    }
+//    supermarket2.warehouse.toList.foreach { section =>
+//      section.shelves.toList.foreach { shelf =>
+//        shelf._2.itemsList.toList.foreach { item =>
+//          item.state.loadInShelves
+//        }
+//      }
+//    }
 
-    supermarket3.warehouse.toList.foreach { section =>
-      section.shelves.toList.foreach { shelf =>
-        shelf._2.itemsList.toList.foreach { item =>
-          item.state.loadInShelves
-        }
-      }
-    }
+//    supermarket3.warehouse.toList.foreach { section =>
+//      section.shelves.toList.foreach { shelf =>
+//        shelf._2.itemsList.toList.foreach { item =>
+//          item.state.loadInShelves
+//        }
+//      }
+//    }
 
     actors.toList
   }

@@ -23,6 +23,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
   "org.apache.spark" %% "spark-core" % "2.4.3",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
+  "org.typelevel"  %% "squants"  % "1.3.0",
   "com.jakewharton.fliptables" % "fliptables" % "1.1.0"
 )
 

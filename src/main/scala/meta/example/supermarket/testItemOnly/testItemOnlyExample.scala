@@ -6,7 +6,7 @@ import meta.deep.runtime.Actor
 import meta.deep.IR
 import meta.deep.IR.TopLevel._
 import meta.example.supermarket.{Section, Supermarket}
-import meta.example.supermarket.customers._
+import meta.example.supermarket.customers.{Movable, _}
 import meta.example.supermarket.goods._
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck}
 import meta.example.supermarket.people._
@@ -47,6 +47,7 @@ object testItemOnlyExample extends App {
   //  val cls31: ClassWithObject[Item31] = Item31.reflect(IR)
   //  val cls32: ClassWithObject[Item32] = Item32.reflect(IR)
   val clsEmp1: ClassWithObject[Employee] = Employee.reflect(IR)
+//  val clsMovable: ClassWithObject[Movable] = Movable.reflect(IR)
   val clsCust1: ClassWithObject[Customer1] = Customer1.reflect(IR)
   val clsCust2: ClassWithObject[Customer2] = Customer2.reflect(IR)
   val clsCust3: ClassWithObject[Customer3] = Customer3.reflect(IR)
