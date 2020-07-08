@@ -133,7 +133,7 @@ class PeopleSpec extends FlatSpec with Matchers {
   supermarket1.warehouse.toList.foreach { section =>
     section.shelves.toList.foreach { shelf =>
       shelf._2.itemsList.toList.foreach { item =>
-        item.state.loadInShelves
+        item.state = onDisplay
       }
     }
   }

@@ -1,7 +1,7 @@
 package meta.example.supermarket
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.Item
+import meta.example.supermarket.goods.{Item, isDiscarded}
 import meta.example.supermarket.utils.randElement
 import meta.example.supermarket.worldmap.WorldTrait
 
@@ -77,7 +77,7 @@ trait SectionTrait extends Actor with SummaryTrait {
   }
 
   def rmDiscarded(items: Shelf): Unit = {
-    while (!items.isEmpty && items.peek.state.isDiscarded) {
+    while (!items.isEmpty && items.peek.state == isDiscarded) {
       items.popLeft
     }
   }

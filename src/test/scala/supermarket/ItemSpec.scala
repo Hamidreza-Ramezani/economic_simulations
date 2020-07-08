@@ -2,7 +2,7 @@ package supermarket
 
 import meta.example.supermarket.customers.{Customer1, Customer2, Customer3}
 import meta.example.supermarket.{FIFO, LIFO, Section, SectionTrait, Supermarket, SupermarketTrait, categoryAmount}
-import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4, ItemState, newItemsMap}
+import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4, ItemState, isConsumed, isDiscarded, isPurchased, newItemsMap, onDisplay}
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck, TruckTrait}
 import meta.example.supermarket.people.{Cashier, Employee, MealPlan_Dummy1, MealPlan_Dummy2, MealPlan_Dummy3}
 import meta.example.supermarket.worldmap.{World, WorldTrait}
@@ -123,7 +123,7 @@ class ItemSpec extends FlatSpec with Matchers {
   supermarket1.warehouse.toList.foreach { section =>
     section.shelves.toList.foreach { shelf =>
       shelf._2.itemsList.toList.foreach { item =>
-        item.state.loadInShelves
+        item.state = onDisplay
       }
     }
   }
@@ -136,7 +136,7 @@ class ItemSpec extends FlatSpec with Matchers {
   }
 
   "State of new item" should "be onDisplay" in {
-    item1_1.state.get should be ("onDisplay")
+    item1_1.state should be(onDisplay)
   }
 
   "Fields of Item1" should "match values defined" in {
@@ -152,37 +152,37 @@ class ItemSpec extends FlatSpec with Matchers {
   }
 
   "Transition functions defined in ItemState" should "update the state" in {
-    item1_1.state.purchase
-    item1_1.state.get should be ("isPurchased")
-    item1_1.state.consume
-    item1_1.state.get should be ("isConsumed")
-    item1_1.state.discard
-    item1_1.state.get should be ("isDiscarded")
+    item1_1.state = isPurchased
+    item1_1.state should be(isPurchased)
+    item1_1.state = isConsumed
+    item1_1.state should be(isConsumed)
+    item1_1.state = isDiscarded
+    item1_1.state should be(isDiscarded)
   }
 
   "Item update state" should "update the state with new state" in {
     item1_2.id should be (15)
-    item1_2.state.get should be ("onDisplay")
-    item1_2.updateState("isPurchased", item1_2.state)
-    item1_2.state.get should be ("isPurchased")
-    item1_2.updateState("isDiscarded", item1_2.state)
-    item1_2.state.get should be ("isDiscarded")
-    item1_2.updateState("isConsumed", item1_2.state)
-    item1_2.state.get should be ("isConsumed")
-    a [IllegalArgumentException] should be thrownBy {
-      item1_2.updateState("randomState", item1_2.state)
-    }
+    item1_2.state should be(onDisplay)
+    item1_2.updateState(isPurchased)
+    item1_2.state should be(isPurchased)
+    item1_2.updateState(isDiscarded)
+    item1_2.state should be(isDiscarded)
+    item1_2.updateState(isConsumed)
+    item1_2.state should be(isConsumed)
+//    a [IllegalArgumentException] should be thrownBy {
+//      item1_2.updateState(randomState, item1_2.state)
+//    }
   }
 
   "Item action" should "update the state with new state" in {
     item1_3.id should be (16)
-    item1_3.state.get should be ("onDisplay")
+    item1_3.state should be(onDisplay)
     item1_3.purchase
-    item1_3.state.get should be ("isPurchased")
+    item1_3.state should be(isPurchased)
     item1_3.discard
-    item1_3.state.get should be ("isDiscarded")
+    item1_3.state should be(isDiscarded)
     item1_3.consume
-    item1_3.state.get should be ("isConsumed")
+    item1_3.state should be(isConsumed)
   }
 
   "store" should "have no isInvalids and waste summary is empty" in {
@@ -193,7 +193,7 @@ class ItemSpec extends FlatSpec with Matchers {
   "Clean expired" should "set the state to discard" in {
     item1_4.id should be (17)
     item1_4.cleanExpired
-    item1_4.state.get should be ("isDiscarded")
+    item1_4.state should be(isDiscarded)
   }
 
   it should "record waste in supermarket wasteSummary" in {
@@ -205,12 +205,12 @@ class ItemSpec extends FlatSpec with Matchers {
     supermarket1.isInvalids should be (mutable.Queue(17))
   }
 
-  "Invalid item state" should "throw IllegalArgumentException" in {
-    val randState = ItemState(inFarm = false)
-    a [IllegalArgumentException] should be thrownBy {
-      randState.get
-    }
-  }
+//  "Invalid item state" should "throw IllegalArgumentException" in {
+//    val randState = ItemState(inFarm = false)
+//    a [IllegalArgumentException] should be thrownBy {
+//      randState
+//    }
+//  }
 
   "ItemMap" should "contain mappings" in {
 //    newItemsMap.itemMap should have size > 0

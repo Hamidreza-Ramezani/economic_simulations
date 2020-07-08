@@ -51,7 +51,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     while (crops.nonEmpty) {
       val item = crops.dequeue()
       manufacturer.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
-      item.state.loadInManufacturer
+      item.state = inManufacturer
     }
     farmerState = sendProductsToManufacturer
     manufacturer.manufacturerState = receivedNoticeFromFarmer

@@ -6,7 +6,7 @@ import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
-import meta.example.supermarket.goods.Item
+import meta.example.supermarket.goods.{Item, isPurchased}
 import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
 
@@ -56,7 +56,7 @@ class Cashier(var supermarket: SupermarketTrait, var world: WorldTrait) extends 
         }
         var item = customerBasket(i)
         //      customerBasket -= item
-        item.state.purchase
+        item.state = isPurchased
         i = i + 1
       }
       writer.write("Cashier's Actor id " + id + " scanned the customer's basket with size " + customerBasket.size + "\n")

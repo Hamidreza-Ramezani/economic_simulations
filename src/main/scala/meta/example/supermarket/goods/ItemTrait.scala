@@ -1,9 +1,9 @@
 package meta.example.supermarket.goods
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import meta.example.supermarket.utils.to2Dec
 import meta.example.supermarket.worldmap.WorldTrait
+import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 
 trait Item extends Actor {
 
@@ -29,7 +29,7 @@ trait Item extends Actor {
   //  var visibility: Double
 
   var age: Int = 0
-  var state: ItemState = ItemState()
+  var state: ItemState = inFarm
   var supermarket: SupermarketTrait
   var section: SectionTrait
 
@@ -53,61 +53,61 @@ trait Item extends Actor {
 
 
   // need to explicitly pass the itemstate as a parameter
-  def updateState(newState: String, itemState: ItemState): Unit = {
+  def updateState(newState: ItemState): Unit = {
     newState match {
-      case "isPurchased" => itemState.purchase
-      case "isDiscarded" => itemState.discard
-      case "isConsumed" => itemState.consume
-      case "isExpired" => itemState.expire
+      case isPurchased => state = isPurchased
+      case isDiscarded => state = isDiscarded
+      case isConsumed => state = isConsumed
+      case isExpired => state = isExpired
       case _ => throw new IllegalArgumentException
     }
   }
 
   def expire: Unit = {
-    updateState("isExpired", state)
+    updateState(isExpired)
   }
 
   def discard: Unit = {
-    updateState("isDiscarded", state)
+    updateState(isDiscarded)
   }
 
   def purchase: Unit = {
-    updateState("isPurchased", state)
+    updateState(isPurchased)
   }
 
   def consume: Unit = {
-    updateState("isConsumed", state)
+    updateState(isConsumed)
   }
 
   def itemInfo: Unit = {
     //    println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}")
-    if (state.get != "inFarm" && state.get != "inManufacturer" && state.get != "inTruck") {
-      println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get} ${supermarket.id}")
+    if (state != inFarm && state != inManufacturer && state != inTruck) {
+      println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state} ${supermarket.id}")
     }
     else {
-      println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}")
+      println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state}")
     }
 
   }
 
   override def toString: String = {
-    if (state.get != "inFarm" && state.get != "inManufacturer" && state.get != "inTruck") {
-      return f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get} ${supermarket.id}"
+    if (state != inFarm && state != inManufacturer && state != inTruck) {
+      return f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state} ${supermarket.id}"
     }
     else {
-      return f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}"
+      return f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state}"
     }
   }
 
   def cleanExpired(): Unit = {
-    if (state.onDisplay) {
+    if (state == onDisplay) {
       discard
       itemInfo
       section.shelves(name).popLeft
       section.recordWaste(category, priceUnit)
       section.isInvalids += id
       supermarket.isInvalids += id
-    } else if (state.isConsumed) {
+    } else if (state == isConsumed) {
       itemInfo
       section.isInvalids += id
       //      supermarket.isInvalids += id
@@ -119,7 +119,7 @@ trait Item extends Actor {
 
   // fridge calls popleft to remove the expired first. No need to do it here
   def cleanExpired(wastedAmount: Int): Unit = {
-    assert(state.isExpired)
+    assert(state == isExpired)
     discard
     itemInfo
     section.recordWaste(category, wastedAmount)

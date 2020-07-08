@@ -1,7 +1,7 @@
 package meta.example.supermarket
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.{Item, newItemsMap}
+import meta.example.supermarket.goods.{Item, newItemsMap, onDisplay}
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
 import meta.example.supermarket.worldmap.WorldTrait
 
@@ -50,6 +50,9 @@ trait SupermarketTrait extends Actor with SummaryTrait {
     itemVec.groupBy(_.name).foreach(pair =>
       pair._2(0).section.initializeShelves(pair._2)
     )
+    itemVec.foreach{item =>
+      item.state = onDisplay
+    }
   }
 
   def initializeShelf(item: Item): Unit = {

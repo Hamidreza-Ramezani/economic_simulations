@@ -5,7 +5,7 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.customers.Movable
-import meta.example.supermarket.goods.Item
+import meta.example.supermarket.goods.{Item, inBasket}
 import meta.example.supermarket.utils.{randElement, toShoppingList}
 import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
 import squid.quasi.lift
@@ -107,7 +107,7 @@ trait People extends Actor {
     //if supermarket's section was busy, the customer has to wait
     val requestedItem: Item = pickedSupermarket.getRequestedItem(item, onBudget)
     if (item != null) {
-      requestedItem.state.addToBasket
+      requestedItem.state = inBasket
       basket += requestedItem
     }
   }

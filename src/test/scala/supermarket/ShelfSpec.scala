@@ -2,7 +2,7 @@ package supermarket
 
 import meta.example.supermarket.customers.{Customer1, Customer2, Customer3}
 import meta.example.supermarket.{FIFO, LIFO, Section, SectionTrait, Shelf, Supermarket, SupermarketTrait}
-import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4}
+import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4, onDisplay}
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck, TruckTrait}
 import meta.example.supermarket.people.{Cashier, Employee, MealPlan_Dummy1, MealPlan_Dummy2, MealPlan_Dummy3}
 import meta.example.supermarket.worldmap.{World, WorldTrait}
@@ -120,7 +120,7 @@ class ShelfSpec extends FlatSpec with Matchers {
   supermarket1.warehouse.toList.foreach { section =>
     section.shelves.toList.foreach { shelf =>
       shelf._2.itemsList.toList.foreach { item =>
-        item.state.loadInShelves
+        item.state = onDisplay
       }
     }
   }

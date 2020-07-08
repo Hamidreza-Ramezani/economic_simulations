@@ -2,7 +2,7 @@ package meta.example.supermarket
 
 import meta.example.supermarket.utils.{divCeil, randElement, toInt}
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.goods.Item
+import meta.example.supermarket.goods.{Item, isExpired}
 
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
@@ -50,7 +50,7 @@ class Fridge {
   // Return the amount of unexpired food remains in the fridge
   def rmExpired(article: String): Int = {
     var expiredItem: Item = null
-    while (storage(article).nonEmpty && storage(article).head.state.isExpired) {
+    while (storage(article).nonEmpty && storage(article).head.state == isExpired) {
       expiredItem = storage(article).remove(0)
       amountMap += (article -> (amountMap(article) - opened(article)))
       expiredItem.cleanExpired(opened(article))

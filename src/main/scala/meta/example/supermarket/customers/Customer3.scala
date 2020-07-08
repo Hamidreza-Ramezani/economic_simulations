@@ -6,6 +6,7 @@ import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.categories.{articleName, gram}
+import meta.example.supermarket.goods.isPurchased
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan, People, Weekly}
 import meta.example.supermarket.worldmap.{Down, Left, PrivateProperty, Right, Tile, Up, Utils, WorldTrait}
 import squid.quasi.lift
@@ -133,7 +134,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       println()
       pickedSupermarket.toBeScannedItems.enqueue(basket)
       //basket is full, now it should be added to the toBeScannedItem
-      while (basket.exists(item => item.state.get != "isPurchased")) {
+      while (basket.exists(item => item.state != isPurchased)) {
         writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
         println("Customer's Actor id " + id + " is waiting for the cashier to scan items")
         println("---------------------------------------------------------------------------------------------------")
@@ -174,7 +175,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
         if (basket.nonEmpty) {
           //now it should be added to the toBeScannedItems
           pickedSupermarket.toBeScannedItems.enqueue(basket)
-          while (basket.exists(item => item.state.get != "isPurchased")) {
+          while (basket.exists(item => item.state != isPurchased)) {
             writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
             println("Customer's Actor id " + id + " is waiting for the cashier to scan items")
             println("---------------------------------------------------------------------------------------------------")

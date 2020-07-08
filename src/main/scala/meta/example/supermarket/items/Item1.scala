@@ -41,7 +41,7 @@ override def comeBackToInitialPoint(world: WorldTrait): Unit = {
 //    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
 //    world.addActor(this)
 
-    while (age < freshUntil && !state.isConsumed) {
+    while (age < freshUntil && (state != isConsumed)) {
       itemInfo
       SpecialInstructions.waitTurns(1)
       age = age + 1

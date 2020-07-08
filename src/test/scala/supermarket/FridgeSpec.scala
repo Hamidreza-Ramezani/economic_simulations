@@ -119,7 +119,7 @@ class FridgeSpec extends FlatSpec with Matchers {
   supermarket1.warehouse.toList.foreach { section =>
     section.shelves.toList.foreach { shelf =>
       shelf._2.itemsList.toList.foreach { item =>
-        item.state.loadInShelves
+        item.state = onDisplay
       }
     }
   }
@@ -156,7 +156,7 @@ class FridgeSpec extends FlatSpec with Matchers {
     fridge.consume(item2_1.name, item2_1.priceUnit)
     fridge.storage.get(item2_1.name).get should have size 0
     fridge.getAmount(item2_1.name) should be(0)
-    item2_1.state.get should be("isConsumed")
+    item2_1.state should be(isConsumed)
     fridge.opened(item2_1.name) should be(0)
   }
 
@@ -175,8 +175,8 @@ class FridgeSpec extends FlatSpec with Matchers {
     fridge.storage.get(item1_1.name).get should have size 1
     fridge.opened(item1_1.name) should be(200)
     fridge.getAmount(item1_1.name) should be(item1_1.priceUnit)
-    item1_1.state.get should be("isConsumed")
-    item1_2.state.get should be("onDisplay") // initial state hasn't been updated
+    item1_1.state should be(isConsumed)
+    item1_2.state should be(onDisplay) // initial state hasn't been updated
   }
 
   "Consume multiple items" should "work properly" in {
@@ -184,9 +184,9 @@ class FridgeSpec extends FlatSpec with Matchers {
     fridge.add(item1_4)
     fridge.getAmount(item1_1.name) should be(3 * item1_1.priceUnit)
     fridge.consume(item1_2.name, 500) should be(500)
-    item1_2.state.get should be("isConsumed")
-    item1_3.state.get should be("isConsumed")
-    item1_4.state.get should be("onDisplay")
+    item1_2.state should be(isConsumed)
+    item1_3.state should be(isConsumed)
+    item1_4.state should be(onDisplay)
     fridge.opened.get(item1_1.name).get should be(100)
     fridge.getAmount(item1_1.name) should be(3 * item1_1.priceUnit - 500)
   }
@@ -208,20 +208,20 @@ class FridgeSpec extends FlatSpec with Matchers {
 
   "Remove expired food" should "update the wastage summary" in {
     val aboutToExpireItem: Item = item3_1
-    aboutToExpireItem.state.purchase
-    aboutToExpireItem.state.get should be("isPurchased")
+    aboutToExpireItem.state = isPurchased
+    aboutToExpireItem.state should be(isPurchased)
     fridge.add(aboutToExpireItem)
     fridge.consume(aboutToExpireItem.name, 50)
     fridge.getAmount(aboutToExpireItem.name) should be(aboutToExpireItem.priceUnit - 50)
     fridge.opened(aboutToExpireItem.name) should be(aboutToExpireItem.priceUnit - 50)
 
     aboutToExpireItem.cleanExpired()
-    aboutToExpireItem.state.get should be("isExpired")
+    aboutToExpireItem.state should be(isExpired)
 
     fridge.rmExpired(aboutToExpireItem.name)
     fridge.getAmount(aboutToExpireItem.name) should be(0)
     fridge.opened(aboutToExpireItem.name) should be(0)
-    aboutToExpireItem.state.get should be("isDiscarded")
+    aboutToExpireItem.state should be(isDiscarded)
   }
 
   "When an item expires" should "not be consumed" in {
@@ -229,32 +229,32 @@ class FridgeSpec extends FlatSpec with Matchers {
     val expireBar: Item = item3_3
     Vector(expireBar, expireFoo).foreach(
       item => {
-        fridge.add(item); item.state.purchase
+        fridge.add(item); item.state = isPurchased
       })
     expireFoo.cleanExpired()
     expireBar.cleanExpired()
-    expireFoo.state.get should be("isExpired")
-    expireBar.state.get should be("isExpired")
+    expireFoo.state should be(isExpired)
+    expireBar.state should be(isExpired)
     fridge.storage(expireFoo.name) should have size (2)
     fridge.opened(expireFoo.name) should be(expireFoo.priceUnit)
     fridge.consume(expireFoo.name, 100) should be(0)
     fridge.storage(expireFoo.name) should have size (0)
     fridge.opened(expireFoo.name) should be(0)
     fridge.amountMap(expireBar.name) should be(0)
-    expireFoo.state.get should be("isDiscarded")
-    expireBar.state.get should be("isDiscarded")
+    expireFoo.state should be(isDiscarded)
+    expireBar.state should be(isDiscarded)
   }
 
   "Add new items of the same name" should "not change the opened amount" in {
     val Broccoli1: Item = item4_1
     val Broccoli2: Item = item4_2
     fridge.add(Broccoli1)
-    Broccoli1.state.purchase
+    Broccoli1.state = isPurchased
     fridge.opened(Broccoli1.name) should be(Broccoli1.priceUnit)
     fridge.consume(Broccoli1.name, 50)
     fridge.opened(Broccoli1.name) should be(Broccoli1.priceUnit - 50)
     fridge.add(Broccoli2)
-    Broccoli2.state.purchase
+    Broccoli2.state = isPurchased
     fridge.opened(Broccoli1.name) should be(Broccoli1.priceUnit - 50)
     fridge.amountMap(Broccoli1.name) should be(2 * Broccoli1.priceUnit - 50)
   }

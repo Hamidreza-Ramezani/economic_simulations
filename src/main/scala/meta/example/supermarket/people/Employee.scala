@@ -5,7 +5,7 @@ import java.io.{File, FileWriter, PrintWriter}
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.Item
+import meta.example.supermarket.goods.{Item, onDisplay}
 import meta.example.supermarket.logistics.{ManufacturerTrait, loadedTruck, unloadingTruck}
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
@@ -79,7 +79,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
       println()
       supermarket.storage.toList.foreach { item =>
         section.shelves(item.name) += item
-        item.state.loadInShelves
+        item.state = onDisplay
         writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
       }
       supermarket.storage = new ListBuffer[Item]()

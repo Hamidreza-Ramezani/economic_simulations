@@ -4,7 +4,7 @@ import java.io.{File, FileWriter, PrintWriter}
 
 import meta.example.supermarket.{FIFO, LIFO, Section, SectionTrait, Supermarket, SupermarketTrait}
 import meta.example.supermarket.customers.{Customer1, Customer2, Customer3}
-import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4}
+import meta.example.supermarket.goods.{Item, Item1, Item2, Item3, Item4, inTruck}
 import meta.example.supermarket.logistics.{Farmer, Manufacturer, Truck, TruckTrait, loadedTruck, relaxed, unloadingTruck}
 import meta.example.supermarket.people.{Cashier, Employee, MealPlan_Dummy1, MealPlan_Dummy2, MealPlan_Dummy3}
 import meta.example.supermarket.worldmap.{World, WorldTrait}
@@ -151,7 +151,7 @@ class ManufacturerSpec extends FlatSpec with Matchers {
     supermarketItems1.foreach{
       item =>
         assert(truck1.storage(item.name).contains(item))
-        assert(item.state.get == "inTruck")
+        assert(item.state == inTruck)
     }
   }
 }
