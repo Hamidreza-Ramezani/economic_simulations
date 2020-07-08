@@ -161,7 +161,7 @@ class Customer2(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       //       }
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
-        pickedSupermarket = pickSupermarket()
+//        pickedSupermarket = pickSupermarket()
         consumeFood2(mealPlan.meal)
         //        consumeFood2()
         consumeRandomFood()

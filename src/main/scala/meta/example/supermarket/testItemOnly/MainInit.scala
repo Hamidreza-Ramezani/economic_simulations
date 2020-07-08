@@ -146,6 +146,7 @@ class MainInit {
 //    supermarket2.cashiers += cashier2
 //    supermarket3.cashiers += cashier3
 
+
     actors += farmer
     actors += manufacturer
 

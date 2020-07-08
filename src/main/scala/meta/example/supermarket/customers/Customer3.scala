@@ -18,7 +18,7 @@ import scala.util.Random
 /* Auto generated from genCustomers */
 
 @lift
-class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait,var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
+class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait, var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
 
   //  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
   //    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -114,7 +114,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       customerInfo
       writer.write(toString + "\n")
       var pickedSupermarket: SupermarketTrait = pickSupermarket()
-//            move(world, pickedSupermarket)
+      //            move(world, pickedSupermarket)
       //these functions should add the items to toBeScannedItems
       while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
@@ -161,7 +161,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       //       }
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
-        pickedSupermarket = pickSupermarket()
+        //        pickedSupermarket = pickSupermarket()
         consumeFood2(mealPlan.meal)
         //        consumeFood2()
         consumeRandomFood()

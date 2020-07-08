@@ -59,7 +59,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     //    truck = manufacturer.trucks.filter(truck => truck.supermarket == this.supermarket).head
     while (truck.truckState != unloadingTruck) {
       println("---------------------------------------------------------------------------------------------------")
-      println("Employee's Actor id " + id + " is waiting for the truck id " + truck.id )
+      println("Employee's Actor id " + id + " is waiting for the truck id " + truck.id)
       println("---------------------------------------------------------------------------------------------------")
       writer.write("Employee's Actor id " + id + " is waiting for the truck id " + truck.id + "\n")
       SpecialInstructions.waitTurns(1)
@@ -198,7 +198,11 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
   //  }
 
   def main(): Unit = {
-    setInitialPosition(world,Random.nextInt(world.width), Random.nextInt(world.height))
+    while (!supermarket.isPositionsFixed) {
+      state.refillShelves
+      SpecialInstructions.waitTurns(1)
+    }
+    setInitialPosition(world, Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
 
     writer = new PrintWriter(new FileWriter(new File("m/agentEmployee" + id)))

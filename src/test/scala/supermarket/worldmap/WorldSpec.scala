@@ -215,4 +215,12 @@ class WorldSpec extends FlatSpec with Matchers {
     worldMap.coordinates(customerY)(customerX).actors.contains(customer1)
     worldMap.coordinates(customerY)(customerX).actors.contains(pickedSupermarket)
   }
+
+  "we should have access to tiles through actors" should "work" in {
+
+    println(customer1.getCurrentTile(worldMap).toString3)
+    println(supermarket1.getCurrentTile(worldMap).toString3)
+    assert(customer1.getCurrentTile(worldMap) == supermarket1.getCurrentTile(worldMap))
+  }
+
 }

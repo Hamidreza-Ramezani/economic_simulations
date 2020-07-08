@@ -11,8 +11,6 @@ import scala.util.Random
 
 @lift
 class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait) extends SupermarketTrait {
-  //  var employees: ListBuffer[EmployeeTrait] = warehouse.map(_.employee)
-
 
   def main(): Unit = {
     var randomWidth = Random.nextInt(world.width)

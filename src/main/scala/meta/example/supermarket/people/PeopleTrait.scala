@@ -1,14 +1,11 @@
 package meta.example.supermarket.people
 
-import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.customers.Movable
 import meta.example.supermarket.goods.{Item, inBasket}
 import meta.example.supermarket.utils.{randElement, toShoppingList}
-import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
-import squid.quasi.lift
+import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable.ListBuffer
 

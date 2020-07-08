@@ -70,9 +70,11 @@ class Cashier(var supermarket: SupermarketTrait, var world: WorldTrait) extends 
   }
 
   def main(): Unit = {
+    while (!supermarket.isPositionsFixed){
+      SpecialInstructions.waitTurns(1)
+    }
     setInitialPosition(world, Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
-
     writer = new PrintWriter(new FileWriter(new File("m/agentCashier" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {

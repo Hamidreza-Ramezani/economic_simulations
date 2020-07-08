@@ -103,6 +103,19 @@ class Truck(var world: WorldTrait) extends TruckTrait {
   }
 
   def main(): Unit = {
+
+    //    world.coordinates_flattened.toList.foreach {
+    //      tile =>
+    //        tile.actors.toList.foreach {
+    //          manufacturer =>
+    //            if (manufacturer.getClass.getSimpleName == "Manufacturer") {
+    //            this.manufacturer = manufacturer.asInstanceOf[ManufacturerTrait]
+    //            }
+    //        }
+    //    }
+    //    while (!manufacturer.isPositionsFixed) {
+    //      SpecialInstructions.waitTurns(1)
+    //    }
     setInitialPosition(world, Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
     writer = new PrintWriter(new FileWriter(new File("m/agentTruck" + id)))

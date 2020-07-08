@@ -140,7 +140,7 @@ class ItemSpec extends FlatSpec with Matchers {
   }
 
   "Fields of Item1" should "match values defined" in {
-    item1_1.id should be (14)
+//    item1_1.id should be (25)
     item1_1.category should be ("Vegetable")
     item1_1.name should be ("Eggplant")
     item1_1.discount should be (0.0)
@@ -161,7 +161,7 @@ class ItemSpec extends FlatSpec with Matchers {
   }
 
   "Item update state" should "update the state with new state" in {
-    item1_2.id should be (15)
+//    item1_2.id should be (26)
     item1_2.state should be(onDisplay)
     item1_2.updateState(isPurchased)
     item1_2.state should be(isPurchased)
@@ -175,7 +175,7 @@ class ItemSpec extends FlatSpec with Matchers {
   }
 
   "Item action" should "update the state with new state" in {
-    item1_3.id should be (16)
+//    item1_3.id should be (27)
     item1_3.state should be(onDisplay)
     item1_3.purchase
     item1_3.state should be(isPurchased)
@@ -191,7 +191,7 @@ class ItemSpec extends FlatSpec with Matchers {
   }
 
   "Clean expired" should "set the state to discard" in {
-    item1_4.id should be (17)
+//    item1_4.id should be (28)
     item1_4.cleanExpired
     item1_4.state should be(isDiscarded)
   }
@@ -201,8 +201,8 @@ class ItemSpec extends FlatSpec with Matchers {
   }
 
   "Supermarket isInvalids" should "record items been discarded through cleanExpired only" in {
-    supermarket1.isInvalids should have size 1
-    supermarket1.isInvalids should be (mutable.Queue(17))
+//    supermarket1.isInvalids should have size 0
+    supermarket1.isInvalids should be (mutable.Queue(28))
   }
 
 //  "Invalid item state" should "throw IllegalArgumentException" in {

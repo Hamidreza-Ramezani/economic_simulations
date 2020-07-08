@@ -183,7 +183,13 @@ class Actor {
   var canMove: Boolean = true
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
 
-  def setInitialPosition(world: WorldTrait,x: Int, y: Int): Unit = {
+
+  def getCurrentTile(world: WorldTrait): Tile = {
+    world.coordinates(this.currentYPosition)(this.currentXPosition)
+  }
+
+
+  def setInitialPosition(world: WorldTrait, x: Int, y: Int): Unit = {
     this.initialXPosition = x
     this.initialYPosition = y
     currentXPosition = initialXPosition

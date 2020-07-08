@@ -7,6 +7,7 @@ import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scala.util.Random
 
 trait SupermarketTrait extends Actor with SummaryTrait {
 
@@ -17,9 +18,9 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   var cashiers: ListBuffer[CashierTrait] = new ListBuffer[CashierTrait]()
   var warehouse: ListBuffer[SectionTrait]
   var storage: ListBuffer[Item] = new ListBuffer[Item]()
-  var itemsRecentlyOrdered: Boolean = true
   var shelfCapacity: Int = warehouse.head.shelfCapacity
   var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
+  var isPositionsFixed: Boolean = false
   canMove = false
 
 
@@ -29,7 +30,20 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   //  val grains: Vector[String] = categories.getArticleNames("Grain")
   //  val dairy: Vector[String] = categories.getArticleNames("Dairy")
 
-  //todo: all functions inside supermarket trait should be a wrapper for the functions inside the section class
+
+  override def setInitialPosition(world: WorldTrait, x: Int, y: Int): Unit = {
+    if (!isPositionsFixed) {
+      this.initialXPosition = x
+      this.initialYPosition = y
+      currentXPosition = initialXPosition
+      currentYPosition = initialYPosition
+      oldXPosition = initialXPosition
+      oldYPosition = initialYPosition
+      world.coordinates(y)(x).hasOwner = true
+      isPositionsFixed = true
+    }
+  }
+
 
   //todo the body of this function needs to be revised
   def getEmployeesState: String = {
@@ -50,7 +64,7 @@ trait SupermarketTrait extends Actor with SummaryTrait {
     itemVec.groupBy(_.name).foreach(pair =>
       pair._2(0).section.initializeShelves(pair._2)
     )
-    itemVec.foreach{item =>
+    itemVec.foreach { item =>
       item.state = onDisplay
     }
   }

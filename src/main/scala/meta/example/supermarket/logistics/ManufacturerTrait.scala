@@ -14,8 +14,23 @@ trait ManufacturerTrait extends Actor {
   var manufacturerState: ManufacturerState = idle
   var trucks: ListBuffer[TruckTrait]
   var supermarkets: ListBuffer[SupermarketTrait]
-
   canMove = false
+  var isPositionsFixed: Boolean = false
+
+  override def setInitialPosition(world: WorldTrait, x: Int, y: Int): Unit = {
+    if (!isPositionsFixed) {
+      this.initialXPosition = x
+      this.initialYPosition = y
+      currentXPosition = initialXPosition
+      currentYPosition = initialYPosition
+      oldXPosition = initialXPosition
+      oldYPosition = initialYPosition
+      world.coordinates(y)(x).hasOwner = true
+      isPositionsFixed = true
+    }
+  }
+
+
 
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],
