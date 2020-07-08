@@ -6,7 +6,7 @@ import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{Section, SectionTrait, Supermarket, SupermarketTrait}
 
 trait EmployeeTrait extends Actor {
-  var state: EmployeeState = EmployeeState()
+  var state: EmployeeState = walkingAround
   var section: SectionTrait
   var manufacturer: ManufacturerTrait
   var supermarket: SupermarketTrait

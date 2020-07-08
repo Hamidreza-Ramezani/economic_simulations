@@ -2,7 +2,7 @@ package meta.example.supermarket
 
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.{Item, newItemsMap, onDisplay}
-import meta.example.supermarket.people.{CashierTrait, EmployeeTrait}
+import meta.example.supermarket.people.{CashierTrait, EmployeeTrait, reFillingShelves}
 import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable
@@ -49,7 +49,7 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   def getEmployeesState: String = {
     //if at least one of the employees is refilling the shelves the state would be the refilling the shelves
     var result: String = ""
-    employees.foreach(employee => if (employee.state.get == "reFillingShelves") {
+    employees.foreach(employee => if (employee.state == reFillingShelves) {
       result = "reFillingShelves"
     })
     result

@@ -49,7 +49,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     //    println("---------------------------------------------------------------------------------------------------")
     //        writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
     //    writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
-    state.refillShelves
+    state = reFillingShelves
     //    farmer.farmerState = receivedRequestFromSupermarket
     //    manufacturer.manufacturerState = receivedOrderFromSupermarket
     //    SpecialInstructions.waitTurns(1)
@@ -70,7 +70,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     //check if the number of items in supermarket is full
     if (section.isNotFull()) {
       orderItems()
-      state.refillShelves
+      state = reFillingShelves
       writer.write("\n")
       println()
       writer.write("Employee's Actor id " + id + " is refilling the shelves")
@@ -109,7 +109,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
   def shuffleShelves(): Unit = {
     //todo: add delay for the customers
     //Supermarket.store.warehouse.foreach(shelf => shelf._2.itemDeque.)
-    state.shuffleShelves
+    state = shufflingShelves
     writer.write("\n")
     println()
     writer.write("Employee's Actor id " + id + " is shuffling the shelves")
@@ -199,7 +199,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
 
   def main(): Unit = {
     while (!supermarket.isPositionsFixed) {
-      state.refillShelves
+      state = reFillingShelves
       SpecialInstructions.waitTurns(1)
     }
     setInitialPosition(world, Random.nextInt(world.width), Random.nextInt(world.height))
@@ -217,7 +217,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
 
       addSupply()
       waitTurns(1)
-      state.walkAround
+      state = walkingAround
       writer.write("\n" + "Employee's Actor id " + id + " refilled the shelves" + "\n")
       println()
       println("Employee's Actor id " + id + " refilled the shelves")
@@ -227,7 +227,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
 
       addSupply()
       waitTurns(1)
-      state.walkAround
+      state = walkingAround
       writer.write("\n" + "Employee's Actor id " + id + " refilled the shelves" + "\n")
       println()
       println("Employee's Actor id " + id + " refilled the shelves")
@@ -237,7 +237,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
 
       shuffleShelves()
       waitTurns(1)
-      state.walkAround
+      state = walkingAround
       writer.write("\n" + "Employee's Actor id " + id + " shuffled the shelves" + "\n")
       println()
       println("Employee's Actor id " + id + " shuffled the shelves")
