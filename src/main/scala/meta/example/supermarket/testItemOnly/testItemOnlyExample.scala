@@ -74,7 +74,7 @@ object testItemOnlyExample extends App {
 
   val startClasses: List[Clasz[_ <: Actor]] = List(cls1, cls2, cls3, cls4, cls5, cls6,
     cls7, cls8, cls9, cls10, cls11, clsEmp1, clsCust1, clsCust2, clsCust3, clsCashier1,
-    clsSupermarket, clsSection,clsFarmer,clsManufacturer,clsTruck,clsWorld)
+    clsSupermarket, clsSection, clsFarmer, clsManufacturer, clsTruck, clsWorld)
 
   val lifter = new Lifter()
   val simulationData = lifter(startClasses, mainClass)

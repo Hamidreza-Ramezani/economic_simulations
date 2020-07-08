@@ -1,12 +1,14 @@
 package meta.example.supermarket.people
 
+import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.customers.Movable
 import meta.example.supermarket.goods.Item
 import meta.example.supermarket.utils.{randElement, toShoppingList}
-import meta.example.supermarket.worldmap.WorldTrait
+import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
+import squid.quasi.lift
 
 import scala.collection.mutable.ListBuffer
 
@@ -37,6 +39,7 @@ trait People extends Actor {
   //  val mealPlan: Vector[(articleName, gram)]
   //  val preference: String
   //  val mealCnt: Int
+
 
 
   def noticeAd(): Unit = {

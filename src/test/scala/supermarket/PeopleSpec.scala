@@ -143,7 +143,7 @@ class PeopleSpec extends FlatSpec with Matchers {
   "Buy listed items" should "populate the fridge" in {
 //    println(customer1.mealPlan)
 //    println(supermarket1.warehouse)
-    customer1.addListedItemsToBasket(customer1.shoppingList.targetItems,supermarket1)
+    customer1.addListedItemsToBasket(customer1.mealPlan.shoppingList.targetItems,supermarket1)
     println(customer1.fridge.storage)
   }
 }

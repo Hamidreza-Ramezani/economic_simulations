@@ -51,9 +51,11 @@ class WorldSpec extends FlatSpec with Matchers {
   val cashier1 = new Cashier(supermarket1, worldMap)
 
 
-  val customer1 = new Customer1(supermarkets, worldMap,MealPlan_Dummy1)
-  val customer2 = new Customer2(supermarkets, worldMap,MealPlan_Dummy2)
-  val customer3 = new Customer3(supermarkets, worldMap,MealPlan_Dummy3)
+  val customer1 = new Customer1(supermarkets, worldMap, MealPlan_Dummy1)
+  val customer2 = new Customer2(supermarkets, worldMap, MealPlan_Dummy2)
+  val customer3 = new Customer3(supermarkets, worldMap, MealPlan_Dummy3)
+
+  customer1.writer = new PrintWriter(new FileWriter(new File("m/agentCustomer")))
 
   supermarket1.employees += employee1
   supermarket1.cashiers += cashier1
@@ -168,7 +170,7 @@ class WorldSpec extends FlatSpec with Matchers {
   }
 
   "numberOfStreetNeighbors" should "not be zero for any property" in {
-    worldMap.properties.foreach{
+    worldMap.properties.foreach {
       property =>
         assert(worldMap.numberOfStreetNeighbors(property) > 0)
     }
@@ -200,5 +202,17 @@ class WorldSpec extends FlatSpec with Matchers {
     println(worldMap)
     println(worldMap.coordinates(0)(0).actualDistanceFrom(worldMap.coordinates(4)(6)))
     assert(worldMap.coordinates(0)(0).actualDistanceFrom(worldMap.coordinates(4)(6)) >= worldMap.coordinates(0)(0).manhattanDistanceFrom(worldMap.coordinates(4)(6)))
+  }
+
+  "movement of actors" should "work" in {
+    var pickedSupermarket = customer1.pickSupermarket()
+    assert(!((customer1.currentXPosition == pickedSupermarket.currentXPosition) && (customer1.currentXPosition == pickedSupermarket.currentXPosition)))
+    customer1.move(worldMap, pickedSupermarket)
+    var customerX = customer1.currentXPosition
+    var customerY = customer1.currentYPosition
+    assert(customer1.currentXPosition == pickedSupermarket.currentXPosition)
+    assert(customer1.currentYPosition == pickedSupermarket.currentYPosition)
+    worldMap.coordinates(customerY)(customerX).actors.contains(customer1)
+    worldMap.coordinates(customerY)(customerX).actors.contains(pickedSupermarket)
   }
 }

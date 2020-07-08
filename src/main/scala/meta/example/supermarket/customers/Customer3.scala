@@ -113,7 +113,7 @@ class Customer3(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       customerInfo
       writer.write(toString + "\n")
       var pickedSupermarket: SupermarketTrait = pickSupermarket()
-      //      move(world, pickedSupermarket)
+//            move(world, pickedSupermarket)
       //these functions should add the items to toBeScannedItems
       while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")

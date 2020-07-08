@@ -340,7 +340,7 @@ class CreateCode(initCode: OpenCode[List[Actor]], storagePath: String, packageNa
                   initVars: String,
                   run_until: String,
                   parents: String): Unit = {
-    val classString =
+    var classString =
       s"""package ${packageName}
 
 class ${className} (${parameters}) extends ${parents} {
@@ -349,6 +349,18 @@ $initVars
 $run_until
 }
 """
+
+    if (className == "Movable") {
+      classString =
+        s"""package ${packageName}
+
+abstract class ${className} (${parameters}) extends ${parents} {
+$initParams
+$initVars
+$run_until
+}
+"""
+    }
 
     val file = new File(storagePath + "/generated/" + className + ".scala")
     val bw = new BufferedWriter(new FileWriter(file))

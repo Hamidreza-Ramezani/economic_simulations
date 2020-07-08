@@ -2,13 +2,14 @@ package meta.example.supermarket.customers
 
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
+import meta.example.supermarket.people.People
 import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
 import squid.quasi.lift
 
 import scala.collection.mutable.ListBuffer
 
 @lift
-class Movable extends Actor {
+abstract class Movable extends Actor {
 
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -56,5 +57,9 @@ class Movable extends Actor {
       }
     }
   }
+
+//  def main(args: Array[String]): Unit = {
+//
+//  }
 
 }
