@@ -20,52 +20,52 @@ import scala.util.Random
 @lift
 class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait, var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
 
-  //  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
-  //    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //
-  //    move2(world, initialXPosition, initialYPosition)
-  //    //    SpecialInstructions.waitTurns(1)
-  //
-  //    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //  }
+    override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+      writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+      println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-  //  override def move(world: WorldTrait, target: Actor): Unit = {
-  //    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //
-  //    move2(world, target.currentXPosition, target.currentYPosition)
-  //    //    SpecialInstructions.waitTurns(1)
-  //
-  //    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //  }
+      move2(world, initialXPosition, initialYPosition)
+      //    SpecialInstructions.waitTurns(1)
 
-  //  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
-  //    if (canMove) {
-  //      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
-  //      path.toList.foreach {
-  //        tile =>
-  //          if (currentXPosition < tile.getX()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Right)
-  //          }
-  //          if (currentXPosition > tile.getX()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Left)
-  //          }
-  //          if (currentYPosition < tile.getY()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Down)
-  //          }
-  //          if (currentYPosition > tile.getY()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Up)
-  //          }
-  //      }
-  //    }
-  //  }
+      writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+      println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    }
+
+    override def move(world: WorldTrait, target: Actor): Unit = {
+      writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+      println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+
+      move2(world, target.currentXPosition, target.currentYPosition)
+      //    SpecialInstructions.waitTurns(1)
+
+      writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+      println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+    }
+
+    def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+      if (canMove) {
+        var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
+        path.toList.foreach {
+          tile =>
+            if (currentXPosition < tile.getX()) {
+              SpecialInstructions.waitTurns(1)
+              move(world, Right)
+            }
+            if (currentXPosition > tile.getX()) {
+              SpecialInstructions.waitTurns(1)
+              move(world, Left)
+            }
+            if (currentYPosition < tile.getY()) {
+              SpecialInstructions.waitTurns(1)
+              move(world, Down)
+            }
+            if (currentYPosition > tile.getY()) {
+              SpecialInstructions.waitTurns(1)
+              move(world, Up)
+            }
+        }
+      }
+    }
 
   //   Target consumption behavior
   def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {
