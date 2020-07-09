@@ -17,6 +17,7 @@ trait SectionTrait extends Actor with SummaryTrait {
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
   var shelfCapacity: Int = 5
   var sectionShufflingPolicy: ShufflingPolicy
+  var supermarket: SupermarketTrait = null
   canMove = false
 
   articleNames.foreach {

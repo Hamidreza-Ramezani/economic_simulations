@@ -98,6 +98,10 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
   }
 
   def main(): Unit = {
+    trucks.toList.foreach{
+      truck =>
+        truck.manufacturer = this
+    }
     var randomWidth = Random.nextInt(world.width)
     var randomHeight = Random.nextInt(world.height)
     while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty || world.coordinates(randomHeight)(randomWidth).hasOwner) {

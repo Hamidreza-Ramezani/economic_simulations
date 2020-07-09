@@ -13,6 +13,10 @@ import scala.util.Random
 class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait) extends SupermarketTrait {
 
   def main(): Unit = {
+    warehouse.toList.foreach{
+      section =>
+        section.supermarket = this
+    }
     var randomWidth = Random.nextInt(world.width)
     var randomHeight = Random.nextInt(world.height)
     while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty || world.coordinates(randomHeight)(randomWidth).hasOwner) {

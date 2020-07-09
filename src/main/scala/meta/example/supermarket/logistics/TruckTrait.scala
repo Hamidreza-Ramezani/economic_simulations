@@ -11,7 +11,7 @@ trait TruckTrait extends Actor {
 
   var world: WorldTrait
   var supermarket: SupermarketTrait = null
-//  var manufacturer:ManufacturerTrait = null
+  var manufacturer:ManufacturerTrait = null
   var truckState: TruckState = relaxed
 
   override def setInitialPosition(worldTrait: WorldTrait, x: Int, y: Int): Unit = {
