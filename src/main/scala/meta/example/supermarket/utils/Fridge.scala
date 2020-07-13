@@ -2,7 +2,7 @@ package meta.example.supermarket
 
 import meta.example.supermarket.utils.{divCeil, randElement, toInt}
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.goods.{Item, isExpired}
+import meta.example.supermarket.goods.{Item, isExpired, newItemsMap}
 
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
@@ -12,9 +12,18 @@ class Fridge {
   val storage: mutable.Map[articleName, ListBuffer[Item]] = mutable.Map()
   val opened: mutable.Map[articleName, gram] = mutable.Map().withDefaultValue(0)
 
-  def isEmpty: Boolean = {
-    amountMap.size + storage.size == 0
+  newItemsMap.itemMap_test.foreach {
+    item =>
+      val newLst = new ListBuffer[Item]()
+      storage +=  (item._1 -> newLst)
   }
+
+
+
+
+//  def isEmpty: Boolean = {
+//    amountMap.size + storage.size == 0
+//  }
 
   def add(item: Item): Unit = {
     getAmount(item.name) match {

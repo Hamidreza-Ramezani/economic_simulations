@@ -18,6 +18,8 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   var cashiers: ListBuffer[CashierTrait] = new ListBuffer[CashierTrait]()
   var warehouse: ListBuffer[SectionTrait]
   var storage: ListBuffer[Item] = new ListBuffer[Item]()
+  var numberOfDifferentBrands = 3
+//  var shelfCapacity: Int = warehouse.head.shelfCapacity * numberOfDifferentBrands
   var shelfCapacity: Int = warehouse.head.shelfCapacity
   var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
   var isPositionsFixed: Boolean = false

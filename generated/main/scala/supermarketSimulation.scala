@@ -1,8 +1,10 @@
 import com.typesafe.scalalogging.Logger
 import meta.deep.runtime.{Actor, Message}
+import meta.example.supermarket.goods.onDisplay
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SupermarketTrait, granularity}
 import org.apache.log4j.BasicConfigurator
+
 import scala.collection.mutable.ListBuffer
 
 object supermarketSimulation extends App {
@@ -37,7 +39,16 @@ object supermarketSimulation extends App {
         supermarkets += actors(i).asInstanceOf[SupermarketTrait]
       }
     }
-
+    supermarkets.foreach {
+      supermarket =>
+        supermarket.warehouse.toList.foreach { section =>
+          section.shelves.toList.foreach { shelf =>
+            shelf._2.itemsList.toList.foreach { item =>
+              item.state = onDisplay
+            }
+          }
+        }
+    }
     val start = System.nanoTime()
     while (timer <= until) {
       println("TIMER", timer)

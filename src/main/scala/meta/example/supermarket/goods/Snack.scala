@@ -14,7 +14,7 @@ trait Snack {
 
 trait Kitkat extends Snack {
   val name: String = "Kitkat"
-  val price: Double = 3.5
+//  val price: Double = 3.5
   val priceUnit: Int = 300
   val discount: Double = 0.0
   val stock: Int = 10
@@ -22,7 +22,7 @@ trait Kitkat extends Snack {
 
 trait Ferraro extends Snack {
   val name: String = "Ferraro"
-  val price: Double = 5.0
+//  val price: Double = 5.0
   val priceUnit: Int = 250
   val discount: Double = 0.0
   val stock: Int = 10
@@ -30,7 +30,7 @@ trait Ferraro extends Snack {
 
 trait DarkChocolate extends Snack {
   val name: String = "DarkChocolate"
-  val price: Double = 1.8
+//  val price: Double = 1.8
   val priceUnit: Int = 100
   val discount: Double = 0.0
   val stock: Int = 10
@@ -38,7 +38,7 @@ trait DarkChocolate extends Snack {
 
 trait WhiteChocolate extends Snack {
   val name: String = "WhiteChocolate"
-  val price: Double = 1.8
+//  val price: Double = 1.8
   val priceUnit: Int = 100
   val discount: Double = 0.0
   val stock: Int = 10

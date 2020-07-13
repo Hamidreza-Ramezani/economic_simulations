@@ -6,6 +6,42 @@ object newItemsMap {
   val totalItems: Int = 32
   val totalItems_test = 11
 
+  val priceMap: Map[(String, Brand), Double] = Map(
+    ("Item1", TerraSuisse) -> 2.0,
+    ("Item2", TerraSuisse) -> 0.8,
+    ("Item3", TerraSuisse) -> 0.8,
+    ("Item4", TerraSuisse) -> 2.0,
+    ("Item5", TerraSuisse) -> 1.5,
+    ("Item6", TerraSuisse) -> 1.0,
+    ("Item7", TerraSuisse) -> 2.0,
+    ("Item8", TerraSuisse) -> 1.5,
+    ("Item9", TerraSuisse) -> 2.0,
+    ("Item10", TerraSuisse) -> 1.0,
+    ("Item11", TerraSuisse) -> 1.0,
+    ("Item1", Optigal) -> 2.6,
+    ("Item2", Optigal) -> 1.3,
+    ("Item3", Optigal) -> 1.4,
+    ("Item4", Optigal) -> 2.7,
+    ("Item5", Optigal) -> 2.1,
+    ("Item6", Optigal) -> 1.3,
+    ("Item7", Optigal) -> 2.7,
+    ("Item8", Optigal) -> 1.8,
+    ("Item9", Optigal) -> 2.5,
+    ("Item10", Optigal) -> 1.8,
+    ("Item11", Optigal) -> 1.6,
+    ("Item1", Aha) -> 1.7,
+    ("Item2", Aha) -> 0.5,
+    ("Item3", Aha) -> 0.6,
+    ("Item4", Aha) -> 1.9,
+    ("Item5", Aha) -> 1.3,
+    ("Item6", Aha) -> 0.8,
+    ("Item7", Aha) -> 1.7,
+    ("Item8", Aha) -> 1.1,
+    ("Item9", Aha) -> 1.6,
+    ("Item10", Aha) -> 0.9,
+    ("Item11", Aha) -> 0.8
+  )
+
 
   // goodsName, itemName
   val itemMap_test: Map[String, String] = Map(

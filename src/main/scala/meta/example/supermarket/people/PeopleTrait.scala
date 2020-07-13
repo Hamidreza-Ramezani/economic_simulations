@@ -1,5 +1,6 @@
 package meta.example.supermarket.people
 
+import util.control.Breaks._
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram}
@@ -38,7 +39,6 @@ trait People extends Actor {
   //  val mealCnt: Int
 
 
-
   def noticeAd(): Unit = {
     var adWhichIsNoticed: Ad = utils.selectRandomly(ads.toList)
     if (utils.prob2Bool(0.50)) {
@@ -74,14 +74,14 @@ trait People extends Actor {
       val foods = utils.ccArgToVector(shoppingList)
       foods.foreach(
         categoryAmountPair => {
-          1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach(_ => {
+          1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach { _ =>
             val randFood: String = pickedSupermarket.getRandFood(categoryAmountPair._1.capitalize)
+            addToBasket(randFood, pickedSupermarket)
             if (this.writer != null) {
               writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + "\n")
             }
             println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
-            addToBasket(randFood, pickedSupermarket)
-          })
+          }
         }
       )
     }
@@ -90,23 +90,40 @@ trait People extends Actor {
   def addListedItemsToBasket(meal: Vector[(articleName, Int)], pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Unit = {
     val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
     meal.foreach(articlePair => {
-      if (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
-        if (this.writer != null) {
-          writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + "\n")
+      breakable{
+        while (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
+          1.to(shoppingList(articlePair._1)).foreach { _ =>
+            var itemWasAvailable: Boolean = addToBasket(articlePair._1, pickedSupermarket, onBudget)
+            if (itemWasAvailable) {
+              if (this.writer != null) {
+                writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + "\n")
+              }
+              println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
+            }
+            else {
+              if (this.writer != null) {
+                writer.write("Customer's Actor id " + id + " could not find enough " + articlePair._1 + "\n")
+              }
+              println("Customer's Actor id " + id + " could not find enough " + articlePair._1)
+              break()
+            }
+          }
         }
-        println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
-        1.to(shoppingList(articlePair._1)).foreach(_ => addToBasket(articlePair._1, pickedSupermarket, onBudget))
+
       }
+
     })
   }
 
-  def addToBasket(item: String, pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Unit = {
+  def addToBasket(item: String, pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Boolean = {
     //if supermarket's section was busy, the customer has to wait
     val requestedItem: Item = pickedSupermarket.getRequestedItem(item, onBudget)
-    if (item != null) {
+    if (requestedItem != null) {
       requestedItem.state = inBasket
       basket += requestedItem
+      return true
     }
+    false
   }
 
 
@@ -157,13 +174,14 @@ trait People extends Actor {
   def consumeFood(mealPlan: Vector[(articleName, gram)]): Unit = {
     mealPlan.foreach(pair => {
       val consumed: Int = fridge.consume(pair._1, pair._2)
+      writer.write("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed + "\n")
       println("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed)
-      if (consumed < pair._2) {
-        println("Not enough food left! Do shopping!")
-        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
-        var pickedSupermarket = pickSupermarket()
-        addListedItemsToBasket(Vector((pair._1, pair._2)), pickedSupermarket)
-      }
+      //      if (consumed < pair._2) {
+      //        println("Not enough food left! Do shopping!")
+      //        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
+      //        var pickedSupermarket = pickSupermarket()
+      //        addListedItemsToBasket(Vector((pair._1, pair._2)), pickedSupermarket)
+      //      }
     })
   }
 

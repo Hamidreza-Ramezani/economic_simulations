@@ -14,6 +14,8 @@ trait ManufacturerTrait extends Actor {
   var manufacturerState: ManufacturerState = idle
   var trucks: ListBuffer[TruckTrait]
   var supermarkets: ListBuffer[SupermarketTrait]
+  var numberOfDifferentBrands = 3
+
   canMove = false
   var isPositionsFixed: Boolean = false
 
@@ -31,7 +33,6 @@ trait ManufacturerTrait extends Actor {
   }
 
 
-
   var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
     "Squash" -> new mutable.Queue[Item],
     "Cabbage" -> new mutable.Queue[Item],
@@ -47,8 +48,12 @@ trait ManufacturerTrait extends Actor {
   )
 
 
+  def timesNumberOfBrands(a: Int): Int = {
+    a * numberOfDifferentBrands
+  }
+
   def numberOfItemsSupermarketNeeds(supermarket: SupermarketTrait): Int = {
-    var inventoryList: mutable.Map[String, Int]  = getFreeSpace(supermarket)
+    var inventoryList: mutable.Map[String, Int] = getFreeSpace(supermarket)
     val result = inventoryList.foldLeft(0)(_ + _._2)
     result
   }

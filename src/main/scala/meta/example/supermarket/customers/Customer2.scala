@@ -20,52 +20,52 @@ import scala.util.Random
 @lift
 class Customer2(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait, var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
 
-  //  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
-  //    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //
-  //    move2(world, initialXPosition, initialYPosition)
-  //    //    SpecialInstructions.waitTurns(1)
-  //
-  //    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //  }
+  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-  //  override def move(world: WorldTrait, target: Actor): Unit = {
-  //    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //
-  //    move2(world, target.currentXPosition, target.currentYPosition)
-  //    //    SpecialInstructions.waitTurns(1)
-  //
-  //    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //  }
+    move2(world, initialXPosition, initialYPosition)
+    //    SpecialInstructions.waitTurns(1)
 
-  //  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
-  //    if (canMove) {
-  //      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
-  //      path.toList.foreach {
-  //        tile =>
-  //          if (currentXPosition < tile.getX()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Right)
-  //          }
-  //          if (currentXPosition > tile.getX()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Left)
-  //          }
-  //          if (currentYPosition < tile.getY()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Down)
-  //          }
-  //          if (currentYPosition > tile.getY()) {
-  //            SpecialInstructions.waitTurns(1)
-  //            move(world, Up)
-  //          }
-  //      }
-  //    }
-  //  }
+    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  }
+
+  override def move(world: WorldTrait, target: Actor): Unit = {
+    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+
+    move2(world, target.currentXPosition, target.currentYPosition)
+    //    SpecialInstructions.waitTurns(1)
+
+    writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+  }
+
+  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+    if (canMove) {
+      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
+      path.toList.foreach {
+        tile =>
+          if (currentXPosition < tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Right)
+          }
+          if (currentXPosition > tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Left)
+          }
+          if (currentYPosition < tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Down)
+          }
+          if (currentYPosition > tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Up)
+          }
+      }
+    }
+  }
 
   //   Target consumption behavior
   def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {
@@ -73,28 +73,27 @@ class Customer2(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       var consumed: Int = fridge.consume(pair._1, pair._2)
       writer.write("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed + "\n")
       println("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed)
-      if (consumed < pair._2) {
-        writer.write("Not enough food left! Do shopping!" + "\n")
-        println("Not enough food left! Do shopping!")
-        var pickedSupermarket = pickSupermarket()
-        //        move(world, pickedSupermarket)
-        //        val sectionName = newItemsMap.categoryMap(pair._1)
-        //        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
-        while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
-          writer.write("Customer's Actor id " + id + " is waiting for the employee " + "to refill the shelves" + "\n")
-          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
-          println()
-          SpecialInstructions.waitTurns(1)
-        }
-        //        addListedItems(Vector((pair._1, pair._2)), onBudget = true)
-        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
-        addListedItemsToBasket(Vector((pair._1, pair._2)), pickedSupermarket)
-      }
+      //      if (consumed < pair._2) {
+      //        writer.write("Not enough food left! Do shopping!" + "\n")
+      //        println("Not enough food left! Do shopping!")
+      //        var pickedSupermarket = pickSupermarket()
+      //        //        move(world, pickedSupermarket)
+      //        //        val sectionName = newItemsMap.categoryMap(pair._1)
+      //        //        val employee = supermarket.employees.filter(_.section.sectionName == sectionName).head
+      //        if (pickedSupermarket.getEmployeesState == "reFillingShelves") {
+      //          writer.write("Customer's Actor id " + id + " is waiting for the employee " + "to refill the shelves" + "\n")
+      //          println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
+      //          println()
+      //          SpecialInstructions.waitTurns(3)
+      //        }
+      //        //        addListedItems(Vector((pair._1, pair._2)), onBudget = true)
+      //        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
+      //        addListedItemsToBasket(Vector((pair._1, pair._2)), pickedSupermarket)
+      //      }
     })
   }
 
   def main(): Unit = {
-
     var randomWidth = Random.nextInt(world.width)
     var randomHeight = Random.nextInt(world.height)
     while (world.coordinates(randomHeight)(randomWidth).tileType != PrivateProperty || world.coordinates(randomHeight)(randomWidth).hasOwner) {
@@ -108,20 +107,19 @@ class Customer2(var supermarkets: ListBuffer[SupermarketTrait], var world: World
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     writer.write("agent id " + id + " preference is " + mealPlan.preference + "\n\n\n")
-
     while (true) {
       println("---------------------------------------------------------------------------------------------------")
       customerInfo
       writer.write(toString + "\n")
-      var pickedSupermarket: SupermarketTrait = pickSupermarket()
-      //            move(world, pickedSupermarket)
+      val pickedSupermarket: SupermarketTrait = pickSupermarket()
+      move(world, pickedSupermarket)
       //these functions should add the items to toBeScannedItems
-      while (pickedSupermarket.getEmployeesState == "reFillingShelves") {
+      if (pickedSupermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
         println("Customer's Actor id " + id + " is waiting for the employee to refill the shelves")
         println("---------------------------------------------------------------------------------------------------")
         enteredWhileLoop = true
-        SpecialInstructions.waitTurns(1)
+        SpecialInstructions.waitTurns(3)
       }
       if (enteredWhileLoop) {
         println("---------------------------------------------------------------------------------------------------")
@@ -161,11 +159,11 @@ class Customer2(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       //       }
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
-//        pickedSupermarket = pickSupermarket()
-        consumeFood2(mealPlan.meal)
+        //        pickedSupermarket = pickSupermarket()
+        //        consumeFood2(mealPlan.meal)
         //        consumeFood2()
+        consumeFood(mealPlan.meal)
         consumeRandomFood()
-        //        consumeFood(mealPlan)
         //        consumeFood
         writer.write(toString + "\n")
         customerInfo

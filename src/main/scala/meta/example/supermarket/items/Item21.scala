@@ -11,7 +11,7 @@ import scala.util.Random
 /* Auto generated from genItems */
 
 @lift
-class Item21(var supermarket: SupermarketTrait, var section: SectionTrait, var world: WorldTrait) extends Item with Cereal {
+class Item21(var supermarket: SupermarketTrait, var section: SectionTrait, var world: WorldTrait, var brand: Brand,var price: Double) extends Item with Cereal {
   //var age: Int = 0
 
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {

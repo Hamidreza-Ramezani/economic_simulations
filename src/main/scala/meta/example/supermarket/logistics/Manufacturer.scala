@@ -64,7 +64,7 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
           writer.write("supermarket id" + supermarket.id + " whole needs: " + numberOfItemsSupermarketNeeds(supermarket) + " items\n")
           var randomTruck = trucks.head
           while (randomTruck.truckState != relaxed) {
-            if(trucks.filter(truck => truck.truckState == relaxed).size == 0){
+            if (trucks.filter(truck => truck.truckState == relaxed).size == 0) {
               SpecialInstructions.waitTurns(1)
             }
             val randomNumber = Random.nextInt(trucks.size)
@@ -81,6 +81,7 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
           storage.keys.toList.foreach { itemStr =>
             val queue = storage(itemStr)
             var numberOfItems = getFreeSpace(supermarket)(itemStr)
+            //            var numberOfItems = getFreeSpace(supermarket)(itemStr) * numberOfDifferentBrands
             while (numberOfItems > 0 && queue.nonEmpty) {
               numberOfItems = numberOfItems - 1
               var item = queue.dequeue()
@@ -98,7 +99,7 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
   }
 
   def main(): Unit = {
-    trucks.toList.foreach{
+    trucks.toList.foreach {
       truck =>
         truck.manufacturer = this
     }
@@ -108,7 +109,7 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
       randomWidth = Random.nextInt(world.width)
       randomHeight = Random.nextInt(world.height)
     }
-    setInitialPosition(world,randomWidth, randomHeight)
+    setInitialPosition(world, randomWidth, randomHeight)
     world.addActor(this)
     writer = new PrintWriter(new FileWriter(new File("m/agentManufacturer" + id)))
     writer.write("timer: " + timer + "\n\n\n")

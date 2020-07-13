@@ -3,27 +3,24 @@ package meta.example.supermarket.goods
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.worldmap.WorldTrait
-import meta.example.supermarket.{Section, SectionTrait, Supermarket, SupermarketTrait}
+import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import squid.quasi.lift
-
-import scala.util.Random
 
 /* Auto generated from genItems */
 
 @lift
-class Item1(var supermarket: SupermarketTrait,var section: SectionTrait,var world: WorldTrait) extends Item with Eggplant {
+class Item1(var supermarket: SupermarketTrait, var section: SectionTrait, var world: WorldTrait, var brand: Brand,var price: Double) extends Item with Eggplant {
 
-//  var section = supermarket.warehouse.filter(_.sectionName == "Vegetable").head
-override def comeBackToInitialPoint(world: WorldTrait): Unit = {
-  writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-  move(world, initialXPosition, initialYPosition)
-  SpecialInstructions.waitTurns(1)
+    move(world, initialXPosition, initialYPosition)
+    SpecialInstructions.waitTurns(1)
 
-  writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-}
+    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+  }
 
   override def move(world: WorldTrait, target: Actor): Unit = {
     writer.write("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -38,8 +35,8 @@ override def comeBackToInitialPoint(world: WorldTrait): Unit = {
 
 
   def main(): Unit = {
-//    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
-//    world.addActor(this)
+    //    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
+    //    world.addActor(this)
 
     while (age < freshUntil && (state != isConsumed)) {
       itemInfo
