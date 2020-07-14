@@ -1,13 +1,12 @@
 package meta.example.supermarket
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.{Item, newItemsMap, onDisplay}
+import meta.example.supermarket.goods.{Brand, Item, newItemsMap, onDisplay}
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait, reFillingShelves}
 import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-import scala.util.Random
 
 trait SupermarketTrait extends Actor with SummaryTrait {
 
@@ -86,23 +85,23 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   //    }
   //  }
 
-  def getRequestedItem(itemStr: String, fifo: Boolean = true): Item = {
+  def getRequestedItem(itemName: String, itemBrand: Brand, fifo: Boolean = true): Item = {
     var requestedItem: Item = null
-    val categoryName: String = newItemsMap.categoryMap(itemStr)
+    val categoryName: String = newItemsMap.categoryMap(itemName)
     if (categoryName == "Vegetable") {
-      requestedItem = warehouse.filter(_.sectionName == "Vegetable").head.getRequestedItem(itemStr)
+      requestedItem = warehouse.filter(_.sectionName == "Vegetable").head.getRequestedItem(itemName,itemBrand)
     }
     else if (categoryName == "Meat") {
-      requestedItem = warehouse.filter(_.sectionName == "Meat").head.getRequestedItem(itemStr)
+      requestedItem = warehouse.filter(_.sectionName == "Meat").head.getRequestedItem(itemName,itemBrand)
     }
     else if (categoryName == "Dairy") {
-      requestedItem = warehouse.filter(_.sectionName == "Dairy").head.getRequestedItem(itemStr)
+      requestedItem = warehouse.filter(_.sectionName == "Dairy").head.getRequestedItem(itemName,itemBrand)
     }
     else if (categoryName == "Snack") {
-      requestedItem = warehouse.filter(_.sectionName == "Snack").head.getRequestedItem(itemStr)
+      requestedItem = warehouse.filter(_.sectionName == "Snack").head.getRequestedItem(itemName,itemBrand)
     }
     else if (categoryName == "Grain") {
-      requestedItem = warehouse.filter(_.sectionName == "Grain").head.getRequestedItem(itemStr)
+      requestedItem = warehouse.filter(_.sectionName == "Grain").head.getRequestedItem(itemName,itemBrand)
     }
     requestedItem
 
@@ -141,5 +140,4 @@ trait SupermarketTrait extends Actor with SummaryTrait {
     //    println("Unrecognized food category name for generating food! Category is " + category);
     randomElement
   }
-
 }

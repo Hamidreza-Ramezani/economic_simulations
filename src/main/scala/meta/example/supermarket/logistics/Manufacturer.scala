@@ -4,7 +4,7 @@ import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.SupermarketTrait
-import meta.example.supermarket.goods.{Item, inTruck}
+import meta.example.supermarket.goods.{Brand, Item, inTruck, newItemsMap}
 import meta.example.supermarket.worldmap.{PrivateProperty, WorldTrait}
 import squid.quasi.lift
 
@@ -40,11 +40,11 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
 
   def processFood(): Unit = {
     manufacturerState = isProcessing
-    storage.keys.toList.foreach { itemStr =>
-      val queue = storage(itemStr)
-      queue.toList.foreach(_ => {
-      })
-    }
+//    storage.keys.toList.foreach { pair =>
+//      val queue = storage(pair)
+//      queue.toList.foreach(_ => {
+//      })
+//    }
     //    if (storage.filterKeys(k => storage(k).nonEmpty).nonEmpty) {
     //      println("The manufacturer processed the food")
     //      writer.write("The manufacturer processed the food")
@@ -78,14 +78,15 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
               employee.truck = randomTruck
           }
           randomTruck.truckState = receivedOrderFromManufacturer
-          storage.keys.toList.foreach { itemStr =>
-            val queue = storage(itemStr)
-            var numberOfItems = getFreeSpace(supermarket)(itemStr)
-            //            var numberOfItems = getFreeSpace(supermarket)(itemStr) * numberOfDifferentBrands
+          storage.keys.toList.foreach { pair =>
+            val queue = storage(pair)
+            val itemName: String = pair._1
+            val itemBrand: Brand = pair._2
+            var numberOfItems = getFreeSpace(supermarket)((itemName,itemBrand))
             while (numberOfItems > 0 && queue.nonEmpty) {
               numberOfItems = numberOfItems - 1
               var item = queue.dequeue()
-              randomTruck.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
+              randomTruck.storage.getOrElse((item.name,item.brand), new mutable.Queue[Item]) += item
               item.state = inTruck
             }
           }

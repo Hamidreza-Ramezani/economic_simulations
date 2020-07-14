@@ -7,8 +7,6 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket.worldmap.WorldTrait
 import squid.quasi.lift
 
-import scala.util.Random
-
 @lift
 class Section(var sectionName: String,var sectionShufflingPolicy: ShufflingPolicy, var world: WorldTrait) extends SectionTrait {
 

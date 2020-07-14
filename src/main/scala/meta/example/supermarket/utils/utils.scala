@@ -1,6 +1,7 @@
 package meta.example.supermarket
 
 import meta.example.supermarket.categories.{getArticleCategory, getArticleUnit}
+import meta.example.supermarket.goods.Brand
 
 import scala.util.Random
 
@@ -59,7 +60,11 @@ object utils {
     )
   }
 
-  def randElement(foo: Vector[String]): String = {
+  def randElementFromVector(foo: Vector[String]): String = {
+    foo(Random.nextInt(foo.size))
+  }
+
+  def randElementFromList(foo: List[Brand]): Brand = {
     foo(Random.nextInt(foo.size))
   }
 }

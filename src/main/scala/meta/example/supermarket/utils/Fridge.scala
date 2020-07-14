@@ -1,6 +1,6 @@
 package meta.example.supermarket
 
-import meta.example.supermarket.utils.{divCeil, randElement, toInt}
+import meta.example.supermarket.utils.{divCeil, randElementFromVector, toInt}
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.goods.{Item, isExpired, newItemsMap}
 

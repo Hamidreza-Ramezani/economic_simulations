@@ -4,8 +4,8 @@ import util.control.Breaks._
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.goods.{Item, inBasket}
-import meta.example.supermarket.utils.{randElement, toShoppingList}
+import meta.example.supermarket.goods.{Brand, Item, TerraSuisse, inBasket, newItemsMap}
+import meta.example.supermarket.utils.{randElementFromVector, toShoppingList, randElementFromList}
 import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable.ListBuffer
@@ -75,12 +75,15 @@ trait People extends Actor {
       foods.foreach(
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach { _ =>
+            //            var brands = newItemsMap.priceMap.keys.map(_._2).toSet.toList
+            //            var randomBrand: Brand = randElementFromList(brands)
+            var randomBrand: Brand = TerraSuisse
             val randFood: String = pickedSupermarket.getRandFood(categoryAmountPair._1.capitalize)
-            addToBasket(randFood, pickedSupermarket)
+            addToBasket(randFood, randomBrand, pickedSupermarket)
             if (this.writer != null) {
-              writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + "\n")
+              writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + randomBrand + "\n")
             }
-            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood)
+            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + randomBrand)
           }
         }
       )
@@ -90,34 +93,35 @@ trait People extends Actor {
   def addListedItemsToBasket(meal: Vector[(articleName, Int)], pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Unit = {
     val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
     meal.foreach(articlePair => {
-      breakable{
+      breakable {
         while (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
           1.to(shoppingList(articlePair._1)).foreach { _ =>
-            var itemWasAvailable: Boolean = addToBasket(articlePair._1, pickedSupermarket, onBudget)
+            var brand: Brand = TerraSuisse
+            var itemWasAvailable: Boolean = addToBasket(articlePair._1, brand, pickedSupermarket, onBudget)
             if (itemWasAvailable) {
               if (this.writer != null) {
-                writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + "\n")
+                writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + " brand: " + brand + "\n")
               }
-              println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1)
+              println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + " brand: " + brand)
             }
             else {
               if (this.writer != null) {
-                writer.write("Customer's Actor id " + id + " could not find enough " + articlePair._1 + "\n")
+                writer.write("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand + "\n")
               }
-              println("Customer's Actor id " + id + " could not find enough " + articlePair._1)
+              println("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand)
               break()
             }
           }
         }
 
       }
-
     })
   }
 
-  def addToBasket(item: String, pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Boolean = {
+  //todo: in the usage of addToBasket, brand selection should be more dynamic
+  def addToBasket(itemName: String, itemBrand: Brand, pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Boolean = {
     //if supermarket's section was busy, the customer has to wait
-    val requestedItem: Item = pickedSupermarket.getRequestedItem(item, onBudget)
+    val requestedItem: Item = pickedSupermarket.getRequestedItem(itemName, itemBrand, onBudget)
     if (requestedItem != null) {
       requestedItem.state = inBasket
       basket += requestedItem
@@ -164,7 +168,7 @@ trait People extends Actor {
   // Random consumption behavior
   def consumeRandomFood(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
-      val someFood: String = randElement(fridge.getAvailFood)
+      val someFood: String = randElementFromVector(fridge.getAvailFood)
       println("Customer's Actor id " + id + " consumed random food " + someFood)
       println(" amount " + fridge.consume(someFood, 200))
     }
@@ -178,7 +182,7 @@ trait People extends Actor {
       println("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed)
       //      if (consumed < pair._2) {
       //        println("Not enough food left! Do shopping!")
-      //        //        addListedItemsToBasket(Vector((pair._1, pair._2)))
+      //        //addListedItemsToBasket(Vector((pair._1, pair._2)))
       //        var pickedSupermarket = pickSupermarket()
       //        addListedItemsToBasket(Vector((pair._1, pair._2)), pickedSupermarket)
       //      }
@@ -194,5 +198,4 @@ trait People extends Actor {
   override def toString: String = {
     "Customer's Actor id " + id + " frequency " + frequency + "\nfridge " + fridge
   }
-
 }

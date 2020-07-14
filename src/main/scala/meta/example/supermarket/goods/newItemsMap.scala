@@ -1,12 +1,12 @@
 package meta.example.supermarket.goods
 
-import scala.collection.mutable.Map
+import scala.collection.mutable
 
 object newItemsMap {
   val totalItems: Int = 32
   val totalItems_test = 11
 
-  val priceMap: Map[(String, Brand), Double] = Map(
+  val priceMap: mutable.Map[(String, Brand), Double] = mutable.Map(
     ("Item1", TerraSuisse) -> 2.0,
     ("Item2", TerraSuisse) -> 0.8,
     ("Item3", TerraSuisse) -> 0.8,
@@ -44,7 +44,23 @@ object newItemsMap {
 
 
   // goodsName, itemName
-  val itemMap_test: Map[String, String] = Map(
+//  val itemMap_test: Map[String, String] = Map(
+//    "Squash" -> "Item11",
+//    "Cabbage" -> "Item10",
+//    "Broccoli" -> "Item4",
+//    "Eggplant" -> "Item1",
+//    "Potato" -> "Item2",
+//    "Celery" -> "Item7",
+//    "Cucumber" -> "Item5",
+//    "Tomato" -> "Item8",
+//    "Onion" -> "Item3",
+//    "Carrots" -> "Item6",
+//    "Mushroom" -> "Item9",
+//  )
+
+
+
+  val itemMap_test: mutable.Map[String, String] = mutable.Map(
     "Squash" -> "Item11",
     "Cabbage" -> "Item10",
     "Broccoli" -> "Item4",
@@ -59,7 +75,7 @@ object newItemsMap {
   )
 
   // goodsName, itemName
-  val itemMap: Map[String, String] = Map(
+  val itemMap: mutable.Map[String, String] = mutable.Map(
     "Yogurt" -> "Item29",
     "Squash" -> "Item11",
     "Bacon" -> "Item16",
@@ -94,7 +110,7 @@ object newItemsMap {
     "Chicken" -> "Item12"
   )
   // goodsName, sectionName
-  val categoryMap: Map[String, String] = Map(
+  val categoryMap: mutable.Map[String, String] = mutable.Map(
     "Yogurt" -> "Dairy",
     "Squash" -> "Vegetable",
     "Bacon" -> "Meat",

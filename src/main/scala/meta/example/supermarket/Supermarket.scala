@@ -3,7 +3,7 @@ package meta.example.supermarket
 import java.io.{File, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
-import meta.example.supermarket.worldmap.{PrivateProperty, Street, WorldTrait}
+import meta.example.supermarket.worldmap.{PrivateProperty, WorldTrait}
 import squid.quasi.lift
 
 import scala.collection.mutable.ListBuffer

@@ -11,29 +11,6 @@ import scala.util.Random
 @lift
 class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends FarmerTrait {
 
-  //  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
-  //    writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //
-  //    move(world, initialXPosition, initialYPosition)
-  //    SpecialInstructions.waitTurns(1)
-  //
-  //    writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //  }
-  //
-  //  override def move(world: WorldTrait, target: Actor): Unit = {
-  //    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //
-  //    move(world, target.currentXPosition, target.currentYPosition)
-  //    SpecialInstructions.waitTurns(1)
-  //
-  //    writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-  //    println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
-  //  }
-
-
   def checkIfThereIsOrderFromManufacturer(): Unit = {
     farmerState = doNothing
     //    while (farmerState != receivedRequestFromManufacturer) {
@@ -50,7 +27,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
   def sendToManufacturer(): Unit = {
     while (crops.nonEmpty) {
       val item = crops.dequeue()
-      manufacturer.storage.getOrElse(item.name, new mutable.Queue[Item]) += item
+      manufacturer.storage.getOrElse((item.name, item.brand), new mutable.Queue[Item]) += item
       item.state = inManufacturer
     }
     farmerState = sendProductsToManufacturer
@@ -67,42 +44,37 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     println("---------------------------------------------------------------------------------------------------")
     println()
     writer.write("\n" + "Farmer's Actor id " + id + " is farming" + "\n")
-    newItemsMap.itemMap_test.keys.toList.foreach {
-      itemStr =>
-//        println("free space for " + itemStr + " " + getFreeSpace(itemStr))
-        List.tabulate(getFreeSpace(itemStr))(n => n).foreach(k => {
-          var item_Terra: Item = produce(newItemsMap.itemMap_test(itemStr), TerraSuisse)
-          crops += item_Terra
-          println("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
-          writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
 
-//          if (k % 3 == 0) {
-//            println(TerraSuisse.toString)
-//            var item_Terra: Item = produce(newItemsMap.itemMap_test(itemStr), TerraSuisse)
-//            crops += item_Terra
-//            println("Farmer's Actor id " + id + " produced new item! name: " + itemStr + TerraSuisse.toString + "\n")
-//            writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + TerraSuisse.toString + "\n")
-//          }
-//          else if (k % 3 == 1) {
-//            println(Optigal.toString)
-//            var item_optigal: Item = produce(newItemsMap.itemMap_test(itemStr), Optigal)
-//            crops += item_optigal
-//            println("Farmer's Actor id " + id + " produced new item! name: " + itemStr + Optigal.toString + "\n")
-//            writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + Optigal.toString + "\n")
-//          }
-//          else if (k % 3 == 2) {
-//            var itemAha: Item = produce(newItemsMap.itemMap_test(itemStr), Aha)
-//            crops += itemAha
-//            println("Farmer's Actor id " + id + " produced new item! name: " + itemStr + Aha.toString + "\n")
-//            writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + Aha.toString + "\n")
-//          }
-        })
+    newItemsMap.priceMap.keys.toList.foreach {
+      pair =>
+        var itemBrand: Brand = pair._2
+        var itemNum: String = pair._1
+        var itemName: String = newItemsMap.itemMap_test.map(_.swap).getOrElse(pair._1, "")
+        List.tabulate(getFreeSpace(itemName, itemBrand))(n => n).foreach { _ => {
+          var item: Item = produce(itemNum, itemBrand)
+          crops += item
+          println("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
+          writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
+        }
+        }
     }
+
+
+    //    newItemsMap.itemMap_test.keys.toList.foreach {
+    //      itemStr =>
+    //        List.tabulate(getFreeSpace(itemStr))(n => n).foreach { _ => {
+    //          var item_Terra: Item = produce(newItemsMap.itemMap_test(itemStr), TerraSuisse)
+    //          crops += item_Terra
+    //          println("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
+    //          writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
+    //        }
+    //        }
+    //    }
   }
 
-  def produce(itemId: String, brand: Brand): Item = {
-    var price = newItemsMap.priceMap(itemId, brand)
-    val index: Int = Integer.parseInt(itemId.replaceAll("Item", ""))
+  def produce(itemNum: String, brand: Brand): Item = {
+    var price: Double = newItemsMap.priceMap(itemNum, brand)
+    val index: Int = Integer.parseInt(itemNum.replaceAll("Item", ""))
     var item: Item = null
     if (index == 32) item = new Item32(null, null, world, brand, price)
     else if (index == 31) item = new Item31(null, null, world, brand, price)

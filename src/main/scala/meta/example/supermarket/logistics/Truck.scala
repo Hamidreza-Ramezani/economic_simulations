@@ -74,15 +74,15 @@ class Truck(var world: WorldTrait) extends TruckTrait {
   def doTransport(): Unit = {
     //todo changing the constructor of item class. it probably should not take supermarket and section
     truckState = isDriving
-    storage.keys.toList.foreach { itemStr =>
-      var queue = storage(itemStr)
+    storage.keys.toList.foreach { pair =>
+      var queue = storage(pair)
       queue.toList.foreach(item => {
         item.supermarket = supermarket
         item.section = supermarket.warehouse.filter(_.sectionName == item.category).head
       })
     }
-    if (storage.filterKeys(k => storage(k).nonEmpty).nonEmpty) {
-    }
+//    if (storage.filterKeys(k => storage(k).nonEmpty).nonEmpty) {
+//    }
     move(world, supermarket)
   }
 
@@ -92,8 +92,8 @@ class Truck(var world: WorldTrait) extends TruckTrait {
     println("---------------------------------------------------------------------------------------------------")
     writer.write("The truck id" + id + " unloaded the items")
     truckState = unloadingTruck
-    storage.keys.toList.foreach { itemStr =>
-      var queue = storage(itemStr)
+    storage.keys.toList.foreach { pair =>
+      var queue = storage(pair)
       while (queue.nonEmpty) {
         var item = queue.dequeue()
         supermarket.storage += item

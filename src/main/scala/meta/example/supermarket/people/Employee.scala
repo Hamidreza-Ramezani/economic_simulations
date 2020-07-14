@@ -78,7 +78,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
       writer.write("\n")
       println()
       supermarket.storage.toList.foreach { item =>
-        section.shelves(item.name) += item
+        section.shelves(item.name,item.brand) += item
         item.state = onDisplay
         writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
       }
@@ -235,13 +235,13 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
       waitTurns(23)
 
 
-      shuffleShelves()
-      waitTurns(1)
-      state = walkingAround
-      writer.write("\n" + "Employee's Actor id " + id + " shuffled the shelves" + "\n")
-      println()
-      println("Employee's Actor id " + id + " shuffled the shelves")
-      println()
+//      shuffleShelves()
+//      waitTurns(1)
+//      state = walkingAround
+//      writer.write("\n" + "Employee's Actor id " + id + " shuffled the shelves" + "\n")
+//      println()
+//      println("Employee's Actor id " + id + " shuffled the shelves")
+//      println()
     }
   }
 }

@@ -17,7 +17,8 @@ class MainInit {
   //this class specifies the actors of the simulation
   def main(): List[Actor] = {
     var actors = ListBuffer[Actor]()
-    val actors_repeat = ListBuffer[Actor]()
+
+
     val supermarketItems1 = ListBuffer[Item]()
     val supermarketItems2 = ListBuffer[Item]()
     val supermarketItems3 = ListBuffer[Item]()
@@ -47,10 +48,10 @@ class MainInit {
 
     var sectionList1 = new ListBuffer[SectionTrait]()
     sectionList1 += sectionVegetable1
-    sectionList1 += sectionMeat1
-    sectionList1 += sectionDairy1
-    sectionList1 += sectionSnack1
-    sectionList1 += sectionGrain1
+//    sectionList1 += sectionMeat1
+//    sectionList1 += sectionDairy1
+//    sectionList1 += sectionSnack1
+//    sectionList1 += sectionGrain1
 
     //    var sectionList2 = new ListBuffer[SectionTrait]()
     //    sectionList2 += sectionVegetable2
@@ -100,7 +101,6 @@ class MainInit {
     val customer1 = new Customer1(supermarkets, worldMap, MealPlan_Dummy1)
     val customer2 = new Customer2(supermarkets, worldMap, MealPlan_Dummy2)
     val customer3 = new Customer3(supermarkets, worldMap, MealPlan_Dummy3)
-
 
     val item1_1_TerraSuisse = new Item1(supermarket1, sectionVegetable1, worldMap, TerraSuisse, newItemsMap.priceMap(("Item1", TerraSuisse)))
     val item2_1_TerraSuisse = new Item2(supermarket1, sectionVegetable1, worldMap, TerraSuisse, newItemsMap.priceMap(("Item2", TerraSuisse)))
