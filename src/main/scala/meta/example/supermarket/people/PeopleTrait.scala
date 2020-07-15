@@ -16,6 +16,7 @@ trait People extends Actor {
   val fridge: Fridge = new Fridge
   var world: WorldTrait
   val frequency: Int
+  var budget: Double = 2000
   val priceConscious: Double
   var basket: ListBuffer[Item] = ListBuffer[Item]()
   val needBased: Boolean
@@ -97,7 +98,7 @@ trait People extends Actor {
         while (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
           1.to(shoppingList(articlePair._1)).foreach { _ =>
             var brand: Brand = TerraSuisse
-            var itemWasAvailable: Boolean = addToBasket(articlePair._1, brand, pickedSupermarket, onBudget)
+            var itemWasAvailable: Boolean = addToBasket(articlePair._1, brand, pickedSupermarket)
             if (itemWasAvailable) {
               if (this.writer != null) {
                 writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + " brand: " + brand + "\n")
@@ -119,12 +120,22 @@ trait People extends Actor {
   }
 
   //todo: in the usage of addToBasket, brand selection should be more dynamic
-  def addToBasket(itemName: String, itemBrand: Brand, pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Boolean = {
+  //todo: the customer's budget should be decreased after purchasing item from the cashier, the problem is that in the current design
+  // cashier does not know about customers.
+  //todo the onbudget from caller methods should be removed
+  def addToBasket(itemName: String, itemBrand: Brand, pickedSupermarket: SupermarketTrait): Boolean = {
     //if supermarket's section was busy, the customer has to wait
-    val requestedItem: Item = pickedSupermarket.getRequestedItem(itemName, itemBrand, onBudget)
+    val requestedItem: Item = pickedSupermarket.getRequestedItem(itemName, itemBrand)
     if (requestedItem != null) {
+      val onBudget: Boolean = requestedItem.price <= budget
+      if (!onBudget){
+        writer.write("Customer's Actor id " + id + " does not have enough budget to buy " + requestedItem.name + " brand: " + requestedItem.brand + "\n")
+        println("Customer's Actor id " + id + " does not have enough budget to buy " + requestedItem.name + " brand: " + requestedItem.brand)
+        return false
+      }
       requestedItem.state = inBasket
       basket += requestedItem
+      budget -= requestedItem.price
       return true
     }
     false
@@ -191,11 +202,11 @@ trait People extends Actor {
 
   def customerInfo: Unit = {
     println()
-    println("Customer's Actor id " + id + " frequency " + frequency + "\nfridge " + fridge)
+    println("Customer's Actor id " + id + " budget: " + budget + " frequency " + frequency + "\nfridge " + fridge)
     println()
   }
 
   override def toString: String = {
-    "Customer's Actor id " + id + " frequency " + frequency + "\nfridge " + fridge
+    "Customer's Actor id " + id + " budget: " + budget + " frequency " + frequency + "\nfridge " + fridge
   }
 }

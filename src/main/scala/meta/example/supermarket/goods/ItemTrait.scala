@@ -84,20 +84,20 @@ trait Item extends Actor {
   def itemInfo: Unit = {
     //    println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}")
     if (state != inFarm && state != inManufacturer && state != inTruck) {
-      println(f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state} ${supermarket.id}")
+      println(f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state} ${supermarket.id}")
     }
     else {
-      println(f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}")
+      println(f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}")
     }
 
   }
 
   override def toString: String = {
     if (state != inFarm && state != inManufacturer && state != inTruck) {
-      return f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state} ${supermarket.id}"
+      return f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state} ${supermarket.id}"
     }
     else {
-      return f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}"
+      return f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}"
     }
   }
 
