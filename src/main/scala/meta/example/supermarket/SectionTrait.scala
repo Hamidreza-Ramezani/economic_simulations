@@ -2,7 +2,7 @@ package meta.example.supermarket
 
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.{Aha, Brand, Item, Optigal, TerraSuisse, isDiscarded}
-import meta.example.supermarket.utils.randElementFromVector
+import meta.example.supermarket.utils.utilities
 import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable
@@ -111,6 +111,6 @@ trait SectionTrait extends Actor with SummaryTrait {
   }
 
   def getRandFood(): String = {
-    randElementFromVector(articleNames)
+    utilities.randElementFromVector(articleNames)
   }
 }

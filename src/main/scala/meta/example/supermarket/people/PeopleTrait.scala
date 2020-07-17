@@ -1,14 +1,14 @@
 package meta.example.supermarket.people
 
-import util.control.Breaks._
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.goods.{Brand, Item, TerraSuisse, inBasket, newItemsMap}
-import meta.example.supermarket.utils.{randElementFromVector, toShoppingList, randElementFromList}
+import meta.example.supermarket.goods.{Brand, Item, inBasket, newItemsMap}
+import meta.example.supermarket.utils.utilities
 import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable.ListBuffer
+import scala.util.control.Breaks._
 
 trait People extends Actor {
 
@@ -21,32 +21,35 @@ trait People extends Actor {
   var basket: ListBuffer[Item] = ListBuffer[Item]()
   val needBased: Boolean
   var mealPlan: MealPlan
-  var ads: ListBuffer[Ad] = new ListBuffer[Ad]
-  ads += new Ad(MealPlan_Dummy1)
-  ads += new Ad(MealPlan_Dummy2)
-  ads += new Ad(MealPlan_Dummy3)
-  //  ads += new Ad(MealPlan_Dummy1)
-  //  ads += new Ad(MealPlan_Dummy1)
-  //  ads += new Ad(MealPlan_Dummy1)
-  //  ads += new Ad(MealPlan_Dummy1)
-  //  ads += new Ad(MealPlan_Dummy1)
-  //  ads += new Ad(MealPlan_Dummy1)
-  //  ads += new Ad(MealPlan_Dummy1)
-  //  ads += new Ad(MealPlan_Dummy1)
-
-  //  val shoppingList: ShoppingList
-  //  val mealPlan: Vector[(articleName, gram)]
-  //  val preference: String
-  //  val mealCnt: Int
+  var qualitySensitivityIndex: Double = Math.random()
+  var taste: Double = Math.random() * 2
+  var brands: List[Brand] = newItemsMap.priceMap.keys.map(_._2).toSet.toList
 
 
-  def noticeAd(): Unit = {
-    var adWhichIsNoticed: Ad = utils.selectRandomly(ads.toList)
-    if (utils.prob2Bool(0.50)) {
-      mealPlan = adWhichIsNoticed.subject
-      writer.write("agent id " + id + " changed its preference to  " + adWhichIsNoticed.subject + "\n\n\n")
+  def selectBrand(itemName: String): Brand = {
+    val itemNum: String = newItemsMap.itemMap_test.getOrElse(itemName, "")
+    var maximumUtility: Double = getUtility(itemNum, brands.head)
+    var selectedBrand: Brand = brands.head
+    brands.foreach {
+      brand =>
+        if (getUtility(itemNum, brand) > maximumUtility) {
+          maximumUtility = getUtility(itemNum, brand)
+          selectedBrand = brand
+        }
     }
+    selectedBrand
   }
+
+  def getUtility(itemNum: String, brand: Brand): Double = {
+    val itemVerticalDifferentiation = newItemsMap.differentiationMap((itemNum, brand))._1
+    val itemHorizontalDifferentiation = newItemsMap.differentiationMap((itemNum, brand))._2
+    val itemPrice = newItemsMap.priceMap((itemNum, brand))
+    val verticalUtility = qualitySensitivityIndex * itemVerticalDifferentiation
+    val horizontalUtility = (taste - itemHorizontalDifferentiation).abs
+    val netUtility = verticalUtility + horizontalUtility - itemPrice
+    netUtility
+  }
+
 
   //todo refactor it
   def pickSupermarket(): SupermarketTrait = {
@@ -72,19 +75,17 @@ trait People extends Actor {
 
   def addRandItemsToBasket(shoppingList: categoryAmount, pickedSupermarket: SupermarketTrait): Unit = {
     if (!needBased) {
-      val foods = utils.ccArgToVector(shoppingList)
+      val foods = utilities.ccArgToVector(shoppingList)
       foods.foreach(
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach { _ =>
-            //            var brands = newItemsMap.priceMap.keys.map(_._2).toSet.toList
-            //            var randomBrand: Brand = randElementFromList(brands)
-            var randomBrand: Brand = TerraSuisse
             val randFood: String = pickedSupermarket.getRandFood(categoryAmountPair._1.capitalize)
-            addToBasket(randFood, randomBrand, pickedSupermarket)
+            val brand = selectBrand(randFood)
+            addToBasket(randFood, brand, pickedSupermarket)
             if (this.writer != null) {
-              writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + randomBrand + "\n")
+              writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + brand + "\n")
             }
-            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + randomBrand)
+            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + brand)
           }
         }
       )
@@ -92,13 +93,13 @@ trait People extends Actor {
   }
 
   def addListedItemsToBasket(meal: Vector[(articleName, Int)], pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Unit = {
-    val shoppingList: Map[String, Int] = toShoppingList(meal).toMap
+    val shoppingList: Map[String, Int] = utilities.toShoppingList(meal).toMap
     meal.foreach(articlePair => {
       breakable {
         while (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
           1.to(shoppingList(articlePair._1)).foreach { _ =>
-            var brand: Brand = TerraSuisse
-            var itemWasAvailable: Boolean = addToBasket(articlePair._1, brand, pickedSupermarket)
+            val brand = selectBrand(articlePair._1)
+            val itemWasAvailable: Boolean = addToBasket(articlePair._1, brand, pickedSupermarket)
             if (itemWasAvailable) {
               if (this.writer != null) {
                 writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + " brand: " + brand + "\n")
@@ -128,7 +129,7 @@ trait People extends Actor {
     val requestedItem: Item = pickedSupermarket.getRequestedItem(itemName, itemBrand)
     if (requestedItem != null) {
       val onBudget: Boolean = requestedItem.price <= budget
-      if (!onBudget){
+      if (!onBudget) {
         writer.write("Customer's Actor id " + id + " does not have enough budget to buy " + requestedItem.name + " brand: " + requestedItem.brand + "\n")
         println("Customer's Actor id " + id + " does not have enough budget to buy " + requestedItem.name + " brand: " + requestedItem.brand)
         return false
@@ -179,7 +180,7 @@ trait People extends Actor {
   // Random consumption behavior
   def consumeRandomFood(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
-      val someFood: String = randElementFromVector(fridge.getAvailFood)
+      val someFood: String = utilities.randElementFromVector(fridge.getAvailFood)
       println("Customer's Actor id " + id + " consumed random food " + someFood)
       println(" amount " + fridge.consume(someFood, 200))
     }

@@ -1,11 +1,11 @@
-package meta.example.supermarket
+package meta.example.supermarket.utils
 
 import meta.example.supermarket.categories.{getArticleCategory, getArticleUnit}
 import meta.example.supermarket.goods.Brand
 
 import scala.util.Random
 
-object utils {
+object utilities {
   /**
     * Convert the parameter list of case class to a Vector
     */

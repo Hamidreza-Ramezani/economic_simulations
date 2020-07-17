@@ -1,11 +1,11 @@
 package meta.example.supermarket
 
-import meta.example.supermarket.utils.{divCeil, randElementFromVector, toInt}
 import meta.example.supermarket.categories.{articleName, gram}
 import meta.example.supermarket.goods.{Item, isExpired, newItemsMap}
+import meta.example.supermarket.utils.utilities
 
 import scala.collection.mutable
-import scala.collection.mutable.{ListBuffer, Map}
+import scala.collection.mutable.ListBuffer
 
 class Fridge {
   val amountMap: mutable.Map[articleName, gram] = mutable.Map().withDefaultValue(0)
@@ -78,11 +78,11 @@ class Fridge {
       currentAmount
     } else {
       val targetUnit: Int = storage(article).head.priceUnit
-      val actorCnt: Int = toInt(amount > opened(article)) * ((amount - opened(article)) / targetUnit)
+      val actorCnt: Int = utilities.toInt(amount > opened(article)) * ((amount - opened(article)) / targetUnit)
       // Consume the opened ones first, if exist
-      set2Consume(article, toInt(!notOpened(article) && (amount >= opened(article))))
-      set2Consume(article, toInt(amount > opened(article)) * (amount - opened(article)) / targetUnit)
-      opened += (article -> (opened(article) - amount + toInt(opened(article) <= amount) * targetUnit * (actorCnt + 1)))
+      set2Consume(article, utilities.toInt(!notOpened(article) && (amount >= opened(article))))
+      set2Consume(article, utilities.toInt(amount > opened(article)) * (amount - opened(article)) / targetUnit)
+      opened += (article -> (opened(article) - amount + utilities.toInt(opened(article) <= amount) * targetUnit * (actorCnt + 1)))
 
       assert(opened(article) >= 0)
       amountMap += (article -> (amountMap(article) - amount))

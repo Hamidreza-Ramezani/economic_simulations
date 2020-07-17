@@ -1,13 +1,14 @@
 package meta.example.supermarket.goods
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.logistics.TruckTrait
-import meta.example.supermarket.utils.to2Dec
+import meta.example.supermarket.utils.utilities.to2Dec
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 
 trait Item extends Actor {
 
+//  var verticalDifferentiation: Double   = Math.random() * 3
+//  var horizontalDifferentiation: Double = Math.random() * 2
   var world: WorldTrait
   val name: String
   var price: Double

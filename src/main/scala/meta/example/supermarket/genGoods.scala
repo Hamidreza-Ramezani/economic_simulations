@@ -1,7 +1,9 @@
 package meta.example.supermarket
 
 import java.io.{BufferedWriter, File, FileWriter}
+
 import meta.example.supermarket.categories._
+import meta.example.supermarket.utils.utilities
 
 object genGoods extends App {
 
@@ -66,7 +68,7 @@ object genGoods extends App {
 
   // Take a case class definition and convert it to List[Attr]. Product is a default Scala type
   private def toAttrss(cc: Product): Vector[Attr] = {
-    utils.ccArgToVector(cc).map( attr => Attr(attr._1, attr._2) )
+    utilities.ccArgToVector(cc).map( attr => Attr(attr._1, attr._2) )
   }
 
   private def toArticless(namePrice: namePriceUnit): Vector[Article]= {

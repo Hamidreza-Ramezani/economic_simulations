@@ -198,7 +198,6 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
         }
         SpecialInstructions.waitTurns(12)
       })
-      noticeAd()
     }
   }
 }

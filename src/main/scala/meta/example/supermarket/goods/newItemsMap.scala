@@ -42,22 +42,96 @@ object newItemsMap {
     ("Item11", Aha) -> 0.8
   )
 
+  // Aha < TerraSuisse < Optigal
+  // (itemNum,itemBrand) -> (verticalDifferentiation, horizontalDifferentiation)
+  val differentiationMap: mutable.Map[(String, Brand), (Double, Double)] = mutable.Map(
+    ("Item1", TerraSuisse) -> (4.4, Math.random() * 2),
+    ("Item2", TerraSuisse) -> (3.7, Math.random() * 2),
+    ("Item3", TerraSuisse) -> (3.9, Math.random() * 2),
+    ("Item4", TerraSuisse) -> (4.6, Math.random() * 2),
+    ("Item5", TerraSuisse) -> (3.4, Math.random() * 2),
+    ("Item6", TerraSuisse) -> (3.3, Math.random() * 2),
+    ("Item7", TerraSuisse) -> (4.1, Math.random() * 2),
+    ("Item8", TerraSuisse) -> (4.4, Math.random() * 2),
+    ("Item9", TerraSuisse) -> (3.5, Math.random() * 2),
+    ("Item10", TerraSuisse) -> (3.0, Math.random() * 2),
+    ("Item11", TerraSuisse) -> (3.7, Math.random() * 2),
+    ("Item1", Optigal) -> (7.8, Math.random() * 2),
+    ("Item2", Optigal) -> (5.7, Math.random() * 2),
+    ("Item3", Optigal) -> (5.2, Math.random() * 2),
+    ("Item4", Optigal) -> (5.1, Math.random() * 2),
+    ("Item5", Optigal) -> (6.9, Math.random() * 2),
+    ("Item6", Optigal) -> (3.9, Math.random() * 2),
+    ("Item7", Optigal) -> (5.8, Math.random() * 2),
+    ("Item8", Optigal) -> (6.1, Math.random() * 2),
+    ("Item9", Optigal) -> (4.3, Math.random() * 2),
+    ("Item10", Optigal) -> (7.0, Math.random() * 2),
+    ("Item11", Optigal) -> (6.3, Math.random() * 2),
+    ("Item1", Aha) -> (2.4, Math.random() * 2),
+    ("Item2", Aha) -> (3.5, Math.random() * 2),
+    ("Item3", Aha) -> (3.8, Math.random() * 2),
+    ("Item4", Aha) -> (4.2, Math.random() * 2),
+    ("Item5", Aha) -> (3.0, Math.random() * 2),
+    ("Item6", Aha) -> (2.4, Math.random() * 2),
+    ("Item7", Aha) -> (3.9, Math.random() * 2),
+    ("Item8", Aha) -> (2.6, Math.random() * 2),
+    ("Item9", Aha) -> (2.2, Math.random() * 2),
+    ("Item10", Aha) -> (2.3, Math.random() * 2),
+    ("Item11", Aha) -> (3.1, Math.random() * 2)
+  )
+
+
+  //  val priceMap: mutable.Map[(String, Brand), Double] = mutable.Map(
+  //    ("Squash", TerraSuisse) -> 2.0,
+  //    ("Cabbage", TerraSuisse) -> 0.8,
+  //    ("Broccoli", TerraSuisse) -> 0.8,
+  //    ("Eggplant", TerraSuisse) -> 2.0,
+  //    ("Potato", TerraSuisse) -> 1.5,
+  //    ("Celery", TerraSuisse) -> 1.0,
+  //    ("Cucumber", TerraSuisse) -> 2.0,
+  //    ("Tomato", TerraSuisse) -> 1.5,
+  //    ("Onion", TerraSuisse) -> 2.0,
+  //    ("Carrots", TerraSuisse) -> 1.0,
+  //    ("Mushroom", TerraSuisse) -> 1.0,
+  //    ("Squash", Optigal) -> 2.6,
+  //    ("Cabbage", Optigal) -> 1.3,
+  //    ("Broccoli", Optigal) -> 1.4,
+  //    ("Eggplant", Optigal) -> 2.7,
+  //    ("Potato", Optigal) -> 2.1,
+  //    ("Celery", Optigal) -> 1.3,
+  //    ("Cucumber", Optigal) -> 2.7,
+  //    ("Tomato", Optigal) -> 1.8,
+  //    ("Onion", Optigal) -> 2.5,
+  //    ("Carrots", Optigal) -> 1.8,
+  //    ("Mushroom", Optigal) -> 1.6,
+  //    ("Squash", Aha) -> 1.7,
+  //    ("Cabbage", Aha) -> 0.5,
+  //    ("Broccoli", Aha) -> 0.6,
+  //    ("Eggplant", Aha) -> 1.9,
+  //    ("Potato", Aha) -> 1.3,
+  //    ("Celery", Aha) -> 0.8,
+  //    ("Cucumber", Aha) -> 1.7,
+  //    ("Tomato", Aha) -> 1.1,
+  //    ("Onion", Aha) -> 1.6,
+  //    ("Carrots", Aha) -> 0.9,
+  //    ("Mushroom", Aha) -> 0.8
+  //  )
+
 
   // goodsName, itemName
-//  val itemMap_test: Map[String, String] = Map(
-//    "Squash" -> "Item11",
-//    "Cabbage" -> "Item10",
-//    "Broccoli" -> "Item4",
-//    "Eggplant" -> "Item1",
-//    "Potato" -> "Item2",
-//    "Celery" -> "Item7",
-//    "Cucumber" -> "Item5",
-//    "Tomato" -> "Item8",
-//    "Onion" -> "Item3",
-//    "Carrots" -> "Item6",
-//    "Mushroom" -> "Item9",
-//  )
-
+  //  val itemMap_test: Map[String, String] = Map(
+  //    "Squash" -> "Item11",
+  //    "Cabbage" -> "Item10",
+  //    "Broccoli" -> "Item4",
+  //    "Eggplant" -> "Item1",
+  //    "Potato" -> "Item2",
+  //    "Celery" -> "Item7",
+  //    "Cucumber" -> "Item5",
+  //    "Tomato" -> "Item8",
+  //    "Onion" -> "Item3",
+  //    "Carrots" -> "Item6",
+  //    "Mushroom" -> "Item9",
+  //  )
 
 
   val itemMap_test: mutable.Map[String, String] = mutable.Map(
