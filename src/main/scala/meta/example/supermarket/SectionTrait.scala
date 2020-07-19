@@ -73,13 +73,13 @@ trait SectionTrait extends Actor with SummaryTrait {
 
   def initializeShelves(itemVec: Vector[Item]): Unit = {
     itemVec.groupBy(_.name).foreach { itemsWithIdenticalName =>
-      itemsWithIdenticalName._2.to[ListBuffer].groupBy(_.brand).foreach{
+      itemsWithIdenticalName._2.to[ListBuffer].groupBy(_.brand).foreach {
         similarItems =>
-          if (shelves((itemsWithIdenticalName._1,similarItems._1)).isEmpty) {
-            shelves += Tuple2((itemsWithIdenticalName._1,similarItems._1), new Shelf(null, itemsWithIdenticalName._1 + similarItems._1.toString, similarItems._2))
+          if (shelves((itemsWithIdenticalName._1, similarItems._1)).isEmpty) {
+            shelves += Tuple2((itemsWithIdenticalName._1, similarItems._1), new Shelf(null, itemsWithIdenticalName._1 + similarItems._1.toString, similarItems._2))
           }
           else {
-            shelves((itemsWithIdenticalName._1,similarItems._1)).+=(itemVec)
+            shelves((itemsWithIdenticalName._1, similarItems._1)).+=(itemVec)
           }
       }
     }
@@ -95,9 +95,9 @@ trait SectionTrait extends Actor with SummaryTrait {
     }
   }
 
-  def getRequestedItem(item: String, brand:Brand, fifo: Boolean = true): Item = {
+  def getRequestedItem(item: String, brand: Brand, fifo: Boolean = true): Item = {
     var requestedItem: Item = null
-    val requestedShelf: Shelf = shelves.getOrElse((item,brand), new Shelf(null, "", null))
+    val requestedShelf: Shelf = shelves.getOrElse((item, brand), new Shelf(null, "", null))
     rmDiscarded(requestedShelf)
     if (!requestedShelf.isEmpty) {
       if (fifo) {
@@ -108,6 +108,13 @@ trait SectionTrait extends Actor with SummaryTrait {
       println(s"Item ${requestedItem.name} is requested! " + requestedItem.id)
     }
     requestedItem
+  }
+
+  def hasItem(itemName: String, brand: Brand): Boolean = {
+    var requestedItem: Item = null
+    val requestedShelf: Shelf = shelves.getOrElse((itemName, brand), new Shelf(null, "", null))
+    rmDiscarded(requestedShelf)
+    !requestedShelf.isEmpty
   }
 
   def getRandFood(): String = {

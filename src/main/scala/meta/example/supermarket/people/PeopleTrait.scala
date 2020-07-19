@@ -7,6 +7,8 @@ import meta.example.supermarket.goods.{Brand, Item, inBasket, newItemsMap}
 import meta.example.supermarket.utils.utilities
 import meta.example.supermarket.worldmap.WorldTrait
 
+import scala.collection.mutable
+import scala.collection.mutable.Stack
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
@@ -26,18 +28,26 @@ trait People extends Actor {
   var brands: List[Brand] = newItemsMap.priceMap.keys.map(_._2).toSet.toList
 
 
-  def selectBrand(itemName: String): Brand = {
+  //todo change to orderBrands
+  def orderBrands(itemName: String): mutable.Queue[(Brand, Double)] = {
     val itemNum: String = newItemsMap.itemMap_test.getOrElse(itemName, "")
-    var maximumUtility: Double = getUtility(itemNum, brands.head)
-    var selectedBrand: Brand = brands.head
+    //    var maximumUtility: Double = getUtility(itemNum, brands.head)
+    var brandsPriority: Map[Brand, Double] = Map()
     brands.foreach {
       brand =>
-        if (getUtility(itemNum, brand) > maximumUtility) {
-          maximumUtility = getUtility(itemNum, brand)
-          selectedBrand = brand
-        }
+        brandsPriority += (brand -> getUtility(itemNum, brand))
+      //        if (getUtility(itemNum, brand) > maximumUtility) {
+      //          maximumUtility = getUtility(itemNum, brand)
+      //          brandsPriority = brand
+      //        }
     }
-    selectedBrand
+    var result = mutable.ListMap(brandsPriority.toSeq.sortWith(_._2 > _._2): _*)
+    writer.write("Customer's Actor id " + id + " brands' preference for item " + itemName + " is: \n")
+    result.foreach {
+      pair =>
+        writer.write("brand: " + pair._1 + "  utility: " + pair._2 + "\n")
+    }
+    result.to[mutable.Queue]
   }
 
   def getUtility(itemNum: String, brand: Brand): Double = {
@@ -80,12 +90,12 @@ trait People extends Actor {
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach { _ =>
             val randFood: String = pickedSupermarket.getRandFood(categoryAmountPair._1.capitalize)
-            val brand = selectBrand(randFood)
-            addToBasket(randFood, brand, pickedSupermarket)
+            val preference = orderBrands(randFood)
+            addToBasket(randFood, preference.dequeue()._1, pickedSupermarket)
             if (this.writer != null) {
-              writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + brand + "\n")
+              writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + preference + "\n")
             }
-            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + brand)
+            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + preference)
           }
         }
       )
@@ -95,27 +105,41 @@ trait People extends Actor {
   def addListedItemsToBasket(meal: Vector[(articleName, Int)], pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Unit = {
     val shoppingList: Map[String, Int] = utilities.toShoppingList(meal).toMap
     meal.foreach(articlePair => {
+      val neededAmountToBuy: Int = frequency * articlePair._2 - fridge.getAmount(articlePair._1)
+      var i = 0
       breakable {
-        while (fridge.getAmount(articlePair._1) < (frequency * articlePair._2)) {
+        while (i < neededAmountToBuy) {
           1.to(shoppingList(articlePair._1)).foreach { _ =>
-            val brand = selectBrand(articlePair._1)
+            val brands = orderBrands(articlePair._1)
+            var brand: Brand = brands.head._1
+            breakable {
+              while (brands.nonEmpty) {
+                brand = brands.dequeue()._1
+                if (!pickedSupermarket.hasItem(articlePair._1, brand)) {
+                  writer.write("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand + "\n")
+                }
+                else {
+                  break()
+                }
+              }
+            }
             val itemWasAvailable: Boolean = addToBasket(articlePair._1, brand, pickedSupermarket)
             if (itemWasAvailable) {
+              i += articlePair._2
               if (this.writer != null) {
                 writer.write("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + " brand: " + brand + "\n")
               }
               println("Customer's Actor id " + id + " adds food from shopping list to the basket! " + articlePair._1 + " brand: " + brand)
             }
             else {
-              if (this.writer != null) {
-                writer.write("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand + "\n")
-              }
-              println("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand)
+              //              if (this.writer != null) {
+              //                writer.write("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand + "\n")
+              //              }
+              //              println("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand)
               break()
             }
           }
         }
-
       }
     })
   }
@@ -203,11 +227,11 @@ trait People extends Actor {
 
   def customerInfo: Unit = {
     println()
-    println("Customer's Actor id " + id + " budget: " + budget + " frequency " + frequency + "\nfridge " + fridge)
+    println("Customer's Actor id " + id + " budget: " + budget + " quality sensitivity: " + qualitySensitivityIndex + " taste: " + taste + " frequency " + frequency + "\nfridge " + fridge)
     println()
   }
 
   override def toString: String = {
-    "Customer's Actor id " + id + " budget: " + budget + " frequency " + frequency + "\nfridge " + fridge
+    "Customer's Actor id " + id + " budget: " + budget + " quality sensitivity: " + qualitySensitivityIndex + " taste: " + taste + " frequency " + frequency + "\nfridge " + fridge
   }
 }

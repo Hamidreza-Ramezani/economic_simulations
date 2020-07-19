@@ -53,7 +53,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
         List.tabulate(getFreeSpace(itemName, itemBrand))(n => n).foreach { _ => {
           var item: Item = produce(itemNum, itemBrand)
           crops += item
-          println("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
+//          println("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
           writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
         }
         }

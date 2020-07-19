@@ -104,19 +104,27 @@ trait SupermarketTrait extends Actor with SummaryTrait {
       requestedItem = warehouse.filter(_.sectionName == "Grain").head.getRequestedItem(itemName,itemBrand)
     }
     requestedItem
+  }
 
-    //    var requestedItem: Item = null
-    //    val requestedShelf: Shelf = warehouse.getOrElse(item, new Shelf())
-    //    rmDiscarded(requestedShelf)
-    //    if (!requestedShelf.isEmpty) {
-    //      if (fifo) {
-    //        requestedItem = requestedShelf.popLeft
-    //      } else {
-    //        requestedItem = requestedShelf.popRight
-    //      }
-    //      println(s"Item ${requestedItem.name} is requested! " + requestedItem.id)
-    //    }
-    //    requestedItem
+  def hasItem(itemName: String, itemBrand: Brand): Boolean = {
+    var isItemAvailable: Boolean = false
+    val categoryName: String = newItemsMap.categoryMap(itemName)
+    if (categoryName == "Vegetable") {
+      isItemAvailable = warehouse.filter(_.sectionName == "Vegetable").head.hasItem(itemName,itemBrand)
+    }
+    else if (categoryName == "Meat") {
+      isItemAvailable = warehouse.filter(_.sectionName == "Meat").head.hasItem(itemName,itemBrand)
+    }
+    else if (categoryName == "Dairy") {
+      isItemAvailable = warehouse.filter(_.sectionName == "Dairy").head.hasItem(itemName,itemBrand)
+    }
+    else if (categoryName == "Snack") {
+      isItemAvailable = warehouse.filter(_.sectionName == "Snack").head.hasItem(itemName,itemBrand)
+    }
+    else if (categoryName == "Grain") {
+      isItemAvailable = warehouse.filter(_.sectionName == "Grain").head.hasItem(itemName,itemBrand)
+    }
+    isItemAvailable
   }
 
   def getRandFood(capitalizedCategory: String): String = {
