@@ -57,7 +57,7 @@ trait People extends Actor {
   /**
     *
     * @param itemName The item's name like "Egg". It does not provide any info about the brand of the item.
-    * @param brand The brand's name like samsung.
+    * @param brand    The brand's name like samsung.
     * @return the satisfaction gained by consuming the item from that particular brand.
     */
   def getUtility(itemName: String, brand: Brand): Double = {
@@ -100,12 +100,26 @@ trait People extends Actor {
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach { _ =>
             val randFood: String = pickedSupermarket.getRandFood(categoryAmountPair._1.capitalize)
-            val preference = prioritizeBrands(randFood)
-            addToBasket(randFood, preference.head._1, pickedSupermarket)
-            if (this.writer != null) {
-              writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + preference + "\n")
+            val brands = prioritizeBrands(randFood)
+            val it = brands.iterator
+            var brand: Brand = brands.head._1
+            breakable {
+              while (it.hasNext) {
+                brand = it.next()._1
+                if (!pickedSupermarket.hasItem(randFood, brand)) {
+                  writer.write("Customer's Actor id " + id + " could not find enough " + randFood + " brand: " + brand + "\n")
+                }
+                else {
+                  break()
+                }
+              }
             }
-            println("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + preference)
+            val itemWasAvailable: Boolean = addToBasket(randFood, brand, pickedSupermarket)
+            if (itemWasAvailable) {
+              writer.write("Customer's Actor id " + id + " adds random food " + randFood + " brand: " + brand + "\n")
+              println("Customer's Actor id " + id + " adds random food " + randFood + " brand: " + brand)
+            }
+
           }
         }
       )
@@ -121,7 +135,7 @@ trait People extends Actor {
       breakable {
         while (i < neededAmountToBuy) {
           1.to(shoppingList(articlePair._1)).foreach { _ =>
-//            val brands = prioritizeBrands(articlePair._1)
+            //            val brands = prioritizeBrands(articlePair._1)
             val it = brands.iterator
             var brand: Brand = brands.head._1
             breakable {
