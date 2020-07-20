@@ -45,11 +45,11 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     println()
     writer.write("\n" + "Farmer's Actor id " + id + " is farming" + "\n")
 
-    newItemsMap.priceMap.keys.toList.foreach {
+    global.priceMap.keys.toList.foreach {
       pair =>
         var itemBrand: Brand = pair._2
         var itemNum: String = pair._1
-        var itemName: String = newItemsMap.itemMap_test.map(_.swap).getOrElse(pair._1, "")
+        var itemName: String = global.itemNameToID.map(_.swap).getOrElse(pair._1, "")
         List.tabulate(getFreeSpace(itemName, itemBrand))(n => n).foreach { _ => {
           var item: Item = produce(itemNum, itemBrand)
           crops += item
@@ -73,7 +73,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
   }
 
   def produce(itemNum: String, brand: Brand): Item = {
-    var price: Double = newItemsMap.priceMap(itemNum, brand)
+    var price: Double = global.priceMap(itemNum, brand)
     val index: Int = Integer.parseInt(itemNum.replaceAll("Item", ""))
     var item: Item = null
     if (index == 32) item = new Item32(null, null, world, brand, price)

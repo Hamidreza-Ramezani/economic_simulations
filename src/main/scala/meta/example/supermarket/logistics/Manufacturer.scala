@@ -4,7 +4,7 @@ import java.io.{File, FileWriter, PrintWriter}
 
 import meta.classLifting.SpecialInstructions
 import meta.example.supermarket.SupermarketTrait
-import meta.example.supermarket.goods.{Brand, Item, inTruck, newItemsMap}
+import meta.example.supermarket.goods.{Brand, Item, inTruck, global}
 import meta.example.supermarket.worldmap.{PrivateProperty, WorldTrait}
 import squid.quasi.lift
 

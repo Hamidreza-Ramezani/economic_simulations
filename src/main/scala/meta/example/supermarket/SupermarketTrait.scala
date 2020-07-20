@@ -1,7 +1,7 @@
 package meta.example.supermarket
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.{Brand, Item, newItemsMap, onDisplay}
+import meta.example.supermarket.goods.{Brand, Item, global, onDisplay}
 import meta.example.supermarket.people.{CashierTrait, EmployeeTrait, reFillingShelves}
 import meta.example.supermarket.worldmap.WorldTrait
 
@@ -87,7 +87,7 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
   def getRequestedItem(itemName: String, itemBrand: Brand, fifo: Boolean = true): Item = {
     var requestedItem: Item = null
-    val categoryName: String = newItemsMap.categoryMap(itemName)
+    val categoryName: String = global.categoryMap(itemName)
     if (categoryName == "Vegetable") {
       requestedItem = warehouse.filter(_.sectionName == "Vegetable").head.getRequestedItem(itemName,itemBrand)
     }
@@ -108,7 +108,7 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
   def hasItem(itemName: String, itemBrand: Brand): Boolean = {
     var isItemAvailable: Boolean = false
-    val categoryName: String = newItemsMap.categoryMap(itemName)
+    val categoryName: String = global.categoryMap(itemName)
     if (categoryName == "Vegetable") {
       isItemAvailable = warehouse.filter(_.sectionName == "Vegetable").head.hasItem(itemName,itemBrand)
     }

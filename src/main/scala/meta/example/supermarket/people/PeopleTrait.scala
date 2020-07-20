@@ -3,12 +3,11 @@ package meta.example.supermarket.people
 import meta.deep.runtime.Actor
 import meta.example.supermarket._
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.goods.{Brand, Item, inBasket, newItemsMap}
+import meta.example.supermarket.goods.global.getRandomDouble
+import meta.example.supermarket.goods.{Brand, Item, global, inBasket}
 import meta.example.supermarket.utils.utilities
 import meta.example.supermarket.worldmap.WorldTrait
 
-import scala.collection.mutable
-import scala.collection.mutable.Stack
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
@@ -23,40 +22,51 @@ trait People extends Actor {
   var basket: ListBuffer[Item] = ListBuffer[Item]()
   val needBased: Boolean
   var mealPlan: MealPlan
-  var qualitySensitivityIndex: Double = Math.random()
-  var taste: Double = Math.random() * 2
-  var brands: List[Brand] = newItemsMap.priceMap.keys.map(_._2).toSet.toList
+  var qualitySensitivityIndex: Double = getRandomDouble(0, 1)
+  var taste: Double = getRandomDouble(0, 2)
 
-
-  //todo change to orderBrands
-  def orderBrands(itemName: String): mutable.Queue[(Brand, Double)] = {
-    val itemNum: String = newItemsMap.itemMap_test.getOrElse(itemName, "")
-    //    var maximumUtility: Double = getUtility(itemNum, brands.head)
-    var brandsPriority: Map[Brand, Double] = Map()
-    brands.foreach {
+  /**
+    *
+    * @param itemName The item's name like "Egg". It does not provide any info about the brand of the item.
+    * @return a list of pairs. The first element of each tuple is brand and the second element is the satisfaction
+    *         gained by consuming the item from that brand. This list is sorted by the second element of each pair
+    *         in descending order.
+    */
+  def prioritizeBrands(itemName: String): ListBuffer[(Brand, Double)] = {
+    val itemId: String = global.itemNameToID.getOrElse(itemName, "")
+    //    var maximumUtility: Double = getUtility(itemId, brands.head)
+    var brandsToUtilityMap: Map[Brand, Double] = Map()
+    global.brands.foreach {
       brand =>
-        brandsPriority += (brand -> getUtility(itemNum, brand))
-      //        if (getUtility(itemNum, brand) > maximumUtility) {
-      //          maximumUtility = getUtility(itemNum, brand)
-      //          brandsPriority = brand
+        brandsToUtilityMap += (brand -> getUtility(itemId, brand))
+      //        if (getUtility(itemId, brand) > maximumUtility) {
+      //          maximumUtility = getUtility(itemId, brand)
+      //          brandsToUtilityMap = brand
       //        }
     }
-    var result = mutable.ListMap(brandsPriority.toSeq.sortWith(_._2 > _._2): _*)
-    writer.write("Customer's Actor id " + id + " brands' preference for item " + itemName + " is: \n")
-    result.foreach {
+    val sortedList = brandsToUtilityMap.toSeq.sortBy(_._2).reverse
+    writer.write("Customer's Actor id " + id + " brands' preference for item " + itemName + " is: \n\n")
+    sortedList.foreach {
       pair =>
         writer.write("brand: " + pair._1 + "  utility: " + pair._2 + "\n")
     }
-    result.to[mutable.Queue]
+    writer.write("\n\n")
+    sortedList.to[ListBuffer]
   }
 
-  def getUtility(itemNum: String, brand: Brand): Double = {
-    val itemVerticalDifferentiation = newItemsMap.differentiationMap((itemNum, brand))._1
-    val itemHorizontalDifferentiation = newItemsMap.differentiationMap((itemNum, brand))._2
-    val itemPrice = newItemsMap.priceMap((itemNum, brand))
+  /**
+    *
+    * @param itemName The item's name like "Egg". It does not provide any info about the brand of the item.
+    * @param brand The brand's name like samsung.
+    * @return the satisfaction gained by consuming the item from that particular brand.
+    */
+  def getUtility(itemName: String, brand: Brand): Double = {
+    val itemVerticalDifferentiation = global.differentiationMap((itemName, brand))._1
+    val itemHorizontalDifferentiation = global.differentiationMap((itemName, brand))._2
+    val itemPrice = global.priceMap((itemName, brand))
     val verticalUtility = qualitySensitivityIndex * itemVerticalDifferentiation
     val horizontalUtility = (taste - itemHorizontalDifferentiation).abs
-    val netUtility = verticalUtility + horizontalUtility - itemPrice
+    val netUtility = verticalUtility - horizontalUtility - itemPrice
     netUtility
   }
 
@@ -90,8 +100,8 @@ trait People extends Actor {
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach { _ =>
             val randFood: String = pickedSupermarket.getRandFood(categoryAmountPair._1.capitalize)
-            val preference = orderBrands(randFood)
-            addToBasket(randFood, preference.dequeue()._1, pickedSupermarket)
+            val preference = prioritizeBrands(randFood)
+            addToBasket(randFood, preference.head._1, pickedSupermarket)
             if (this.writer != null) {
               writer.write("Customer's Actor id " + id + " adds random food to the basket! " + randFood + " brand: " + preference + "\n")
             }
@@ -107,14 +117,17 @@ trait People extends Actor {
     meal.foreach(articlePair => {
       val neededAmountToBuy: Int = frequency * articlePair._2 - fridge.getAmount(articlePair._1)
       var i = 0
+      val brands = prioritizeBrands(articlePair._1)
       breakable {
         while (i < neededAmountToBuy) {
           1.to(shoppingList(articlePair._1)).foreach { _ =>
-            val brands = orderBrands(articlePair._1)
+//            val brands = prioritizeBrands(articlePair._1)
+            val it = brands.iterator
             var brand: Brand = brands.head._1
             breakable {
-              while (brands.nonEmpty) {
-                brand = brands.dequeue()._1
+              //define an iterator here
+              while (it.hasNext) {
+                brand = it.next()._1
                 if (!pickedSupermarket.hasItem(articlePair._1, brand)) {
                   writer.write("Customer's Actor id " + id + " could not find enough " + articlePair._1 + " brand: " + brand + "\n")
                 }
@@ -141,6 +154,7 @@ trait People extends Actor {
           }
         }
       }
+      writer.write("\n\n")
     })
   }
 

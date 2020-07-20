@@ -2,7 +2,7 @@ package meta.example.supermarket
 
 import java.io.File
 
-import meta.example.supermarket.goods.newItemsMap
+import meta.example.supermarket.goods.global
 
 object userSpecificGenExample {
   val exampleDir: String = "testItemOnly"
@@ -11,7 +11,7 @@ object userSpecificGenExample {
   val initName: String = "MainInit"
 
   // *Ids are 1-indexed.
-  val totalItems: Int = newItemsMap.itemMap.size
+  val totalItems: Int = global.itemMap.size
   val custIds: List[Int] = Range(1,11).toList
   val itemIds: List[Int] = (1 to totalItems).toList
   val employeeIds: List[Int] = (1 to 1).toList

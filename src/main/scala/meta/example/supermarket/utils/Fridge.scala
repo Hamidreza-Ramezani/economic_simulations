@@ -1,7 +1,7 @@
 package meta.example.supermarket
 
 import meta.example.supermarket.categories.{articleName, gram}
-import meta.example.supermarket.goods.{Item, isExpired, newItemsMap}
+import meta.example.supermarket.goods.{Item, isExpired, global}
 import meta.example.supermarket.utils.utilities
 
 import scala.collection.mutable
@@ -12,7 +12,7 @@ class Fridge {
   val storage: mutable.Map[articleName, ListBuffer[Item]] = mutable.Map()
   val opened: mutable.Map[articleName, gram] = mutable.Map().withDefaultValue(0)
 
-  newItemsMap.itemMap_test.foreach {
+  global.itemNameToID.foreach {
     item =>
       val newLst = new ListBuffer[Item]()
       storage +=  (item._1 -> newLst)

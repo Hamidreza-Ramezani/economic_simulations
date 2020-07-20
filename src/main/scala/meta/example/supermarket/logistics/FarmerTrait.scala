@@ -1,7 +1,7 @@
 package meta.example.supermarket.logistics
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.{Brand, Item, newItemsMap}
+import meta.example.supermarket.goods.{Brand, Item, global}
 import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable

@@ -2,7 +2,7 @@ package meta.example.supermarket.logistics
 
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
-import meta.example.supermarket.goods.{Brand, Item, newItemsMap}
+import meta.example.supermarket.goods.{Brand, Item, global}
 import meta.example.supermarket.worldmap.WorldTrait
 
 import scala.collection.mutable
@@ -33,11 +33,11 @@ trait ManufacturerTrait extends Actor {
   }
 
   var storage: mutable.Map[(String, Brand), mutable.Queue[Item]] = mutable.Map()
-  newItemsMap.priceMap.keys.foreach {
+  global.priceMap.keys.foreach {
     pair =>
       val itemNum = pair._1
       val itemBrand = pair._2
-      val itemName: String = newItemsMap.itemMap_test.map(_.swap).getOrElse(itemNum, "")
+      val itemName: String = global.itemNameToID.map(_.swap).getOrElse(itemNum, "")
       storage += ((itemName, itemBrand) -> new mutable.Queue[Item])
   }
 
@@ -75,17 +75,17 @@ trait ManufacturerTrait extends Actor {
 
   def getFreeSpace(supermarket: SupermarketTrait): mutable.Map[(String, Brand), Int] = {
     var inventoryList: mutable.Map[(String, Brand), Int] = mutable.Map()
-    newItemsMap.priceMap.keys.toList.foreach {
+    global.priceMap.keys.toList.foreach {
       pair =>
         var itemNum = pair._1
         var itemBrand = pair._2
-        var itemName: String = newItemsMap.itemMap_test.map(_.swap).getOrElse(itemNum, "")
+        var itemName: String = global.itemNameToID.map(_.swap).getOrElse(itemNum, "")
         inventoryList += ((itemName,itemBrand) -> getFreeSpace(supermarket, (itemName, itemBrand)))
     }
     inventoryList
   }
 
   def getFreeSpace(supermarket: SupermarketTrait, itemTuple: (String, Brand)): Int = {
-    supermarket.shelfCapacity - supermarket.warehouse.filter(_.sectionName == newItemsMap.categoryMap(itemTuple._1)).head.shelves(itemTuple).size
+    supermarket.shelfCapacity - supermarket.warehouse.filter(_.sectionName == global.categoryMap(itemTuple._1)).head.shelves(itemTuple).size
   }
 }
