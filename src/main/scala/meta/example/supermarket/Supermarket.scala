@@ -13,7 +13,7 @@ import scala.util.Random
 class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait) extends SupermarketTrait {
 
   def main(): Unit = {
-    warehouse.toList.foreach{
+    warehouse.toList.foreach {
       section =>
         section.supermarket = this
     }
@@ -28,6 +28,13 @@ class Supermarket(var warehouse: ListBuffer[SectionTrait], var world: WorldTrait
     writer = new PrintWriter(new File("m/agentSupermarket" + id))
     writer.write("\n\n" + "timer: " + timer + "\n\n")
     while (true) {
+      warehouse.toList.foreach {
+        section =>
+          section.shelves.toList.foreach {
+            shelf =>
+              assert(shelf._2.size <= shelfCapacity)
+          }
+      }
       warehouse.toList.foreach(section => section.shelves.toList.foreach(shelf => writer.write("\n\n" + shelf._1 + "\n\n" + shelf._2.toString)))
       SpecialInstructions.waitTurns(1)
     }

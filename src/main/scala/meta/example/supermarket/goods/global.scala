@@ -1,6 +1,7 @@
 package meta.example.supermarket.goods
 
 import java.util.Random
+import scala.math.BigDecimal
 
 import scala.collection.mutable
 
@@ -12,7 +13,7 @@ object global {
   def getRandomDouble(rangeMin: Double, rangeMax: Double): Double = {
     val r = new Random()
     val randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble
-    randomValue
+    BigDecimal(randomValue).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
   }
 
   val priceMap: mutable.Map[(String, Brand), Double] = mutable.Map(

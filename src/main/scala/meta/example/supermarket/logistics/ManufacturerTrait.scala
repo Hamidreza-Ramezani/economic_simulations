@@ -41,20 +41,6 @@ trait ManufacturerTrait extends Actor {
       storage += ((itemName, itemBrand) -> new mutable.Queue[Item])
   }
 
-  //  var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
-  //    "Squash" -> new mutable.Queue[Item],
-  //    "Cabbage" -> new mutable.Queue[Item],
-  //    "Broccoli" -> new mutable.Queue[Item],
-  //    "Eggplant" -> new mutable.Queue[Item],
-  //    "Potato" -> new mutable.Queue[Item],
-  //    "Celery" -> new mutable.Queue[Item],
-  //    "Cucumber" -> new mutable.Queue[Item],
-  //    "Tomato" -> new mutable.Queue[Item],
-  //    "Onion" -> new mutable.Queue[Item],
-  //    "Carrots" -> new mutable.Queue[Item],
-  //    "Mushroom" -> new mutable.Queue[Item]
-  //  )
-
   def timesNumberOfBrands(a: Int): Int = {
     a * numberOfDifferentBrands
   }
