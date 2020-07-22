@@ -59,11 +59,6 @@ object supermarketSimulation extends App {
             actors = actors.filter(_.id != toRemove)
           }
       }
-      for (i <- actors.indices) {
-        if (actors(i).getClass.getSimpleName == "Farmer") {
-          actors(i).cleanSendMessage.addReceiveMessages(mx.getOrElse(actors(i).id, List())).run_until(timer)
-        }
-      }
       collect(timer)
       actors = actors.map { a => {
         a.cleanSendMessage

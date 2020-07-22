@@ -41,10 +41,6 @@ trait ManufacturerTrait extends Actor {
       storage += ((itemName, itemBrand) -> new mutable.Queue[Item])
   }
 
-  def timesNumberOfBrands(a: Int): Int = {
-    a * numberOfDifferentBrands
-  }
-
   def numberOfItemsSupermarketNeeds(supermarket: SupermarketTrait): Int = {
     var inventoryList: mutable.Map[(String, Brand), Int] = getFreeSpace(supermarket)
     val result = inventoryList.foldLeft(0)(_ + _._2)
