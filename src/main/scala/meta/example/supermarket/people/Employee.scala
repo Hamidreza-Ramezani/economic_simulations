@@ -7,7 +7,7 @@ import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
 import meta.example.supermarket.goods.{Item, onDisplay}
 import meta.example.supermarket.logistics.{ManufacturerTrait, loadedTruck, unloadingTruck}
-import meta.example.supermarket.worldmap.WorldTrait
+import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import squid.quasi.lift
 
@@ -18,26 +18,50 @@ import scala.util.Random
 class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var manufacturer: ManufacturerTrait, var world: WorldTrait) extends EmployeeTrait {
 
 
+
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-    move(world, initialXPosition, initialYPosition)
-    SpecialInstructions.waitTurns(1)
+    move2(world, initialXPosition, initialYPosition)
 
     writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
   }
 
   override def move(world: WorldTrait, target: Actor): Unit = {
-    writer.write("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
-    println("agent id " + id + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+    writer.write("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+    println("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
-    move(world, target.currentXPosition, target.currentYPosition)
-    SpecialInstructions.waitTurns(1)
+    move2(world, target.currentXPosition, target.currentYPosition)
 
     writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
+  }
+
+  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+    if (canMove) {
+      var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
+      path.toList.foreach {
+        tile =>
+          if (currentXPosition < tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Right)
+          }
+          if (currentXPosition > tile.getX()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Left)
+          }
+          if (currentYPosition < tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Down)
+          }
+          if (currentYPosition > tile.getY()) {
+            SpecialInstructions.waitTurns(1)
+            move(world, Up)
+          }
+      }
+    }
   }
 
 

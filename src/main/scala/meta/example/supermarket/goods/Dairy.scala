@@ -8,7 +8,7 @@ import meta.example.supermarket.granularity
 
 trait Dairy {
   val category: String = "Dairy"
-  val freshUntil: Int = 7 * granularity.hour
+  val freshUntil: Int = 8 * granularity.hour
   val visibility: Double = 0.8
 }
 

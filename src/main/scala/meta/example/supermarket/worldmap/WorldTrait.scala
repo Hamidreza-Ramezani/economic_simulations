@@ -39,6 +39,13 @@ trait WorldTrait extends Actor {
   writer.write(this.toString)
 
 
+
+  override def getString():String = {
+    "\n \n" + "timer: " + timer + "\n \n"
+  }
+
+
+
   def initializeTileType(): Unit = {
     breakable {
       while (true) {

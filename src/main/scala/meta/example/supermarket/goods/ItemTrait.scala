@@ -1,18 +1,20 @@
 package meta.example.supermarket.goods
 
 import meta.deep.runtime.Actor
+import meta.example.supermarket.people.People
 import meta.example.supermarket.utils.utilities.to2Dec
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 
 trait Item extends Actor {
 
-//  var verticalDifferentiation: Double   = Math.random() * 3
-//  var horizontalDifferentiation: Double = Math.random() * 2
+  //  var verticalDifferentiation: Double   = Math.random() * 3
+  //  var horizontalDifferentiation: Double = Math.random() * 2
   var world: WorldTrait
-  val name: String
   var price: Double
   var brand: Brand
+  var owner: Actor = null
+  val name: String
   val priceUnit: Int
   val discount: Double
   val stock: Int
@@ -68,6 +70,10 @@ trait Item extends Actor {
 
   def expire: Unit = {
     updateState(isExpired)
+    owner.writer.write("Item id: " + id + " is expired" + "\n")
+    if(owner.isInstanceOf[People]){
+      owner.asInstanceOf[People].fridge.rmExpired(name)
+    }
   }
 
   def discard: Unit = {
@@ -83,30 +89,18 @@ trait Item extends Actor {
   }
 
   def itemInfo: Unit = {
-    //    println(f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}")
-    if (state != inFarm && state != inManufacturer && state != inTruck) {
-      println(f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state} ${supermarket.id}")
-    }
-    else {
-      println(f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}")
-    }
-
+    println(f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}%-15s OwnerID:${owner.id} ")
   }
 
   override def toString: String = {
-    if (state != inFarm && state != inManufacturer && state != inTruck) {
-      return f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state} ${supermarket.id}"
-    }
-    else {
-      return f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}"
-    }
+    f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}%-15s OwnerID:${owner.id}"
   }
 
   def cleanExpired(): Unit = {
     if (state == onDisplay) {
       discard
       itemInfo
-      section.shelves((name,brand)).popLeft
+      section.shelves((name, brand)).popLeft
       section.recordWaste(category, priceUnit)
       section.isInvalids += id
       supermarket.isInvalids += id

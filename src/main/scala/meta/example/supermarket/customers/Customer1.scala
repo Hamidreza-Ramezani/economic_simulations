@@ -101,7 +101,6 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       randomHeight = Random.nextInt(world.height)
     }
     setInitialPosition(world, randomWidth, randomHeight)
-    //    setInitialPosition(Random.nextInt(world.width), Random.nextInt(world.height))
     world.addActor(this)
     var enteredWhileLoop: Boolean = false
     writer = new PrintWriter(new FileWriter(new File("m/agentCustomer" + id)))
@@ -112,7 +111,7 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       customerInfo
       writer.write(toString + "\n")
       val pickedSupermarket: SupermarketTrait = pickSupermarket()
-            move(world, pickedSupermarket)
+      //      move(world, pickedSupermarket)
       //these functions should add the items to toBeScannedItems
       if (pickedSupermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
@@ -125,8 +124,6 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
         println("---------------------------------------------------------------------------------------------------")
         enteredWhileLoop = false
       }
-      //      addListedItems(shoppingList.targetItems, (Random.nextFloat < priceConscious))
-      //      addRandItems(shoppingList.randItems)
       addListedItemsToBasket(mealPlan.shoppingList.targetItems, pickedSupermarket, Random.nextFloat < priceConscious)
       addRandItemsToBasket(mealPlan.shoppingList.randItems, pickedSupermarket)
       println()
@@ -159,43 +156,43 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       //       }
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
-        //        pickedSupermarket = pickSupermarket()
-        //        consumeFood2(mealPlan.meal)
-        //        consumeFood2()
+
         consumeFood(mealPlan.meal)
         consumeRandomFood()
-        //        consumeFood
+
         writer.write(toString + "\n")
         customerInfo
-        if (basket.isEmpty) {
-          println("---------------------------------------------------------------------------------------------------")
-        }
-        if (basket.nonEmpty) {
-          //now it should be added to the toBeScannedItems
-          pickedSupermarket.toBeScannedItems.enqueue(basket)
-          while (basket.exists(item => item.state != isPurchased)) {
-            writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
-            println("Customer's Actor id " + id + " is waiting for the cashier to scan items")
-            println("---------------------------------------------------------------------------------------------------")
-            println()
-            SpecialInstructions.waitTurns(1)
-          }
-          //      customerInfo
-          println("---------------------------------------------------------------------------------------------------")
-          writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
-          println("shopping basket of Customer's Actor id " + id + " was scanned")
-          //          comeBackToInitialPoint(world)
+        println("---------------------------------------------------------------------------------------------------")
 
-          basket.toList.foreach(item => {
-            writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
-            println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
-            fridge.add(item)
-          })
-          writer.write(toString + "\n")
-          customerInfo
-          println("---------------------------------------------------------------------------------------------------")
-          basket = ListBuffer()
-        }
+        //        if (basket.isEmpty) {
+        //          println("---------------------------------------------------------------------------------------------------")
+        //        }
+        //        if (basket.nonEmpty) {
+        //          //now it should be added to the toBeScannedItems
+        //          pickedSupermarket.toBeScannedItems.enqueue(basket)
+        //          while (basket.exists(item => item.state != isPurchased)) {
+        //            writer.write("Customer's Actor id " + id + " is waiting for the cashier to scan items" + "\n")
+        //            println("Customer's Actor id " + id + " is waiting for the cashier to scan items")
+        //            println("---------------------------------------------------------------------------------------------------")
+        //            println()
+        //            SpecialInstructions.waitTurns(1)
+        //          }
+        //          //      customerInfo
+        //          println("---------------------------------------------------------------------------------------------------")
+        //          writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
+        //          println("shopping basket of Customer's Actor id " + id + " was scanned")
+        //          //          comeBackToInitialPoint(world)
+        //
+        //          basket.toList.foreach(item => {
+        //            writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
+        //            println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
+        //            fridge.add(item)
+        //          })
+        //          writer.write(toString + "\n")
+        //          customerInfo
+        //          println("---------------------------------------------------------------------------------------------------")
+        //          basket = ListBuffer()
+        //        }
         SpecialInstructions.waitTurns(12)
       })
     }

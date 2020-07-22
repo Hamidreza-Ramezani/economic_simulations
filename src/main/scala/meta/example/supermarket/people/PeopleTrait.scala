@@ -25,6 +25,12 @@ trait People extends Actor {
   var qualitySensitivityIndex: Double = getRandomDouble(0, 1)
   var taste: Double = getRandomDouble(0, 2)
 
+
+  override def getString(): String = {
+    "\n \n" + "timer: " + timer + "\n \n" + "position: x = " + currentXPosition + "  y = " + currentYPosition + "\n \n" + toString
+  }
+
+
   /**
     *
     * @param itemName The item's name like "Egg". It does not provide any info about the brand of the item.
@@ -176,6 +182,7 @@ trait People extends Actor {
   //todo: the customer's budget should be decreased after purchasing item from the cashier, the problem is that in the current design
   // cashier does not know about customers.
   //todo the onbudget from caller methods should be removed
+  //todo: customer should own the item when the cashier scanned it
   def addToBasket(itemName: String, itemBrand: Brand, pickedSupermarket: SupermarketTrait): Boolean = {
     //if supermarket's section was busy, the customer has to wait
     val requestedItem: Item = pickedSupermarket.getRequestedItem(itemName, itemBrand)
@@ -187,6 +194,7 @@ trait People extends Actor {
         return false
       }
       requestedItem.state = inBasket
+      requestedItem.owner = this
       basket += requestedItem
       budget -= requestedItem.price
       return true
@@ -233,8 +241,8 @@ trait People extends Actor {
   def consumeRandomFood(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       val someFood: String = utilities.randElementFromVector(fridge.getAvailFood)
-      println("Customer's Actor id " + id + " consumed random food " + someFood)
-      println(" amount " + fridge.consume(someFood, 200))
+      writer.write("Customer's Actor id " + id + " consumed random food " + someFood + " amount " + fridge.consume(someFood, 200) + "\n")
+      println("Customer's Actor id " + id + " consumed random food " + someFood + " amount 200")
     }
   }
 

@@ -184,6 +184,10 @@ class Actor {
   var async_messages: Map[String, Future[Any]] = Map[String, Future[Any]]()
 
 
+  def getString():String = {
+    "\n \n" + "timer: " + timer + "\n \n"  + "position: x = " + currentXPosition + "  y = " + currentYPosition + "\n \n"
+  }
+
   def getCurrentTile(world: WorldTrait): Tile = {
     world.coordinates(this.currentYPosition)(this.currentXPosition)
   }
@@ -299,16 +303,16 @@ class Actor {
         direction match {
           case Down =>
             this.currentYPosition = this.currentYPosition + 1
-            writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+            writer.write("agent id " + id + " name: " + agentName + "  goes Down" + " NewX: " + currentXPosition + " NewY: " + currentYPosition + "\n\n\n")
           case Right =>
             this.currentXPosition = this.currentXPosition + 1
-            writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+            writer.write("agent id " + id + " name: " + agentName + "  goes Right" + " NewX: " + currentXPosition + " NewY: " + currentYPosition + "\n\n\n")
           case Up =>
             this.currentYPosition = this.currentYPosition - 1
-            writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+            writer.write("agent id " + id + " name: " + agentName + "  goes Up" + " NewX: " + currentXPosition + " NewY: " + currentYPosition + "\n\n\n")
           case Left =>
             this.currentXPosition = this.currentXPosition - 1
-            writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
+            writer.write("agent id " + id + " name: " + agentName + "  goes Left" + " NewX: " + currentXPosition + " NewY: " + currentYPosition + "\n\n\n")
         }
         //update map
         world.updateMap(this)

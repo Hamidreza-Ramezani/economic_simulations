@@ -28,6 +28,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     while (crops.nonEmpty) {
       val item = crops.dequeue()
       manufacturer.storage.getOrElse((item.name, item.brand), new mutable.Queue[Item]) += item
+      item.owner = manufacturer
       item.state = inManufacturer
     }
     farmerState = sendProductsToManufacturer
@@ -52,6 +53,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
         var itemName: String = global.itemNameToID.map(_.swap).getOrElse(pair._1, "")
         List.tabulate(getFreeSpace(itemName, itemBrand))(n => n).foreach { _ => {
           var item: Item = produce(itemNum, itemBrand)
+          item.owner = this
           crops += item
 //          println("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
           writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")

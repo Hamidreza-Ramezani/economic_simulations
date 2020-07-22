@@ -1,7 +1,7 @@
 package meta.example.supermarket
 
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.{Aha, Brand, Item, Optigal, TerraSuisse, isDiscarded}
+import meta.example.supermarket.goods.{Aha, Brand, Item, Optigal, TerraSuisse, global, isDiscarded}
 import meta.example.supermarket.utils.utilities
 import meta.example.supermarket.worldmap.WorldTrait
 
@@ -15,8 +15,7 @@ trait SectionTrait extends Actor with SummaryTrait {
   val articleNames: Vector[String] = categories.getArticleNames(sectionName)
   val shelves: mutable.Map[(String, Brand), Shelf] = mutable.Map[(String, Brand), Shelf]()
   val isInvalids: mutable.Queue[Long] = new mutable.Queue()
-  var numberOfDifferentBrands = 3
-  var shelfCapacity: Int = 5
+  var shelfCapacity: Int = global.shelfCapacity
   var sectionShufflingPolicy: ShufflingPolicy
   var supermarket: SupermarketTrait = _
   canMove = false

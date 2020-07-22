@@ -19,7 +19,7 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   var storage: ListBuffer[Item] = new ListBuffer[Item]()
   var numberOfDifferentBrands = 3
 //  var shelfCapacity: Int = warehouse.head.shelfCapacity * numberOfDifferentBrands
-  var shelfCapacity: Int = warehouse.head.shelfCapacity
+  var shelfCapacity: Int = global.shelfCapacity
   var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
   var isPositionsFixed: Boolean = false
   canMove = false
@@ -62,6 +62,11 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
 
   def initializeShelves(itemVec: Vector[Item]): Unit = {
+    itemVec.foreach{
+      item =>
+        item.owner = this
+        item.state = onDisplay
+    }
     itemVec.groupBy(_.name).foreach(pair =>
       pair._2(0).section.initializeShelves(pair._2)
     )

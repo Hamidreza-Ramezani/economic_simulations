@@ -39,22 +39,14 @@ object supermarketSimulation extends App {
         supermarkets += actors(i).asInstanceOf[SupermarketTrait]
       }
     }
-    supermarkets.foreach {
-      supermarket =>
-        supermarket.warehouse.toList.foreach { section =>
-          section.shelves.toList.foreach { shelf =>
-            shelf._2.itemsList.toList.foreach { item =>
-              item.state = onDisplay
-            }
-          }
-        }
-    }
     val start = System.nanoTime()
+
+
     while (timer <= until) {
       println("TIMER", timer)
       for (i <- actors.indices) {
         if (actors(i).writer != null) {
-          actors(i).writer.write("\n \n" + "timer: " + timer + "\n \n")
+          actors(i).writer.write(actors(i).getString())
           actors(i).writer.flush()
         }
       }
@@ -79,12 +71,6 @@ object supermarketSimulation extends App {
           .run_until(timer)
       }
       }
-      for (i <- actors.indices) {
-        if (actors(i).writer != null && actors(i).getClass.getSimpleName != "World") {
-          actors(i).writer.write("\n \n" + "position: x = " + actors(i).currentXPosition + "  y = " + actors(i).currentYPosition + "\n \n")
-          actors(i).writer.flush()
-        }
-      }
       messages = actors.flatMap(_.getSendMessages)
       timer += 1
     }
@@ -96,8 +82,6 @@ object supermarketSimulation extends App {
     val end = System.nanoTime()
     val consumed = end - start
     println("Time consumed", consumed)
-
   }
-
   main()
 }

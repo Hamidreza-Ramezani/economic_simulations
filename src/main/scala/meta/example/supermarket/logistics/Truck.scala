@@ -98,6 +98,8 @@ class Truck(var world: WorldTrait) extends TruckTrait {
         var item = queue.dequeue()
         supermarket.storage += item
         item.state = inStorage
+        item.owner = supermarket
+
       }
     }
   }

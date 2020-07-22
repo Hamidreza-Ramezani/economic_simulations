@@ -9,6 +9,7 @@ object global {
   val totalItems: Int = 32
   val totalItems_test = 11
 
+  var shelfCapacity: Int = 5
 
   def getRandomDouble(rangeMin: Double, rangeMax: Double): Double = {
     val r = new Random()
