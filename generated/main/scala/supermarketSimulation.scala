@@ -9,7 +9,6 @@ import scala.collection.mutable.ListBuffer
 
 object supermarketSimulation extends App {
 
-  //  var actors: Array[Actor] = Array()
   var actors: List[Actor] = List()
   var messages: List[Message] = List()
   var timer: Int = 0
@@ -22,11 +21,18 @@ object supermarketSimulation extends App {
   var worldMap: WorldTrait = _
 
   def init(): Unit = {
-    //    actors = generated.InitData.initActors.to[Array]
     actors = generated.InitData.initActors
   }
 
-  def collect(current_time: Int): Unit = {
+  def updateActorsList(current_time: Int): Unit = {
+    // remove invalid actors
+    supermarkets.foreach {
+      supermarket =>
+        while (supermarket.isInvalids.nonEmpty) {
+          val toRemove = supermarket.isInvalids.dequeue()
+          actors = actors.filter(_.id != toRemove)
+        }
+    }
     meta.deep.runtime.Actor.newActors.foreach(i => i.timer = current_time)
     actors = actors ::: meta.deep.runtime.Actor.newActors.toList
     meta.deep.runtime.Actor.newActors.clear()
@@ -40,8 +46,6 @@ object supermarketSimulation extends App {
       }
     }
     val start = System.nanoTime()
-
-
     while (timer <= until) {
       println("TIMER", timer)
       for (i <- actors.indices) {
@@ -51,15 +55,7 @@ object supermarketSimulation extends App {
         }
       }
       val mx = messages.groupBy(_.receiverId)
-      // remove invalid actors
-      supermarkets.foreach {
-        supermarket =>
-          while (supermarket.isInvalids.nonEmpty) {
-            val toRemove = supermarket.isInvalids.dequeue()
-            actors = actors.filter(_.id != toRemove)
-          }
-      }
-      collect(timer)
+      updateActorsList(timer)
       actors = actors.map { a => {
         a.cleanSendMessage
           .addReceiveMessages(mx.getOrElse(a.id, List()))
