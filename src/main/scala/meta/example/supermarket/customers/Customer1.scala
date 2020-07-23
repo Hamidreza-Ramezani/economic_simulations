@@ -111,7 +111,7 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       customerInfo
       writer.write(toString + "\n")
       val pickedSupermarket: SupermarketTrait = pickSupermarket()
-      //      move(world, pickedSupermarket)
+      move(world, pickedSupermarket)
       //these functions should add the items to toBeScannedItems
       if (pickedSupermarket.getEmployeesState == "reFillingShelves") {
         writer.write("Customer's Actor id " + id + " is waiting for the employee to refill the shelves" + "\n")
@@ -140,7 +140,7 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
       println("---------------------------------------------------------------------------------------------------")
       println("shopping basket of Customer's Actor id " + id + " was scanned")
-      //      comeBackToInitialPoint(world)
+      comeBackToInitialPoint(world)
       basket.toList.foreach(item => {
         writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
         println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)

@@ -17,8 +17,8 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   var cashiers: ListBuffer[CashierTrait] = new ListBuffer[CashierTrait]()
   var warehouse: ListBuffer[SectionTrait]
   var storage: ListBuffer[Item] = new ListBuffer[Item]()
-  var numberOfDifferentBrands = 3
-//  var shelfCapacity: Int = warehouse.head.shelfCapacity * numberOfDifferentBrands
+  var auctionEnabled: Boolean = true
+  //  var shelfCapacity: Int = warehouse.head.shelfCapacity * numberOfDifferentBrands
   var shelfCapacity: Int = global.shelfCapacity
   var toBeScannedItems: mutable.Queue[ListBuffer[Item]] = new mutable.Queue[ListBuffer[Item]]()
   var isPositionsFixed: Boolean = false
@@ -62,7 +62,7 @@ trait SupermarketTrait extends Actor with SummaryTrait {
 
 
   def initializeShelves(itemVec: Vector[Item]): Unit = {
-    itemVec.foreach{
+    itemVec.foreach {
       item =>
         item.owner = this
         item.state = onDisplay
@@ -93,62 +93,27 @@ trait SupermarketTrait extends Actor with SummaryTrait {
   def getRequestedItem(itemName: String, itemBrand: Brand, fifo: Boolean = true): Item = {
     var requestedItem: Item = null
     val categoryName: String = global.categoryMap(itemName)
-    if (categoryName == "Vegetable") {
-      requestedItem = warehouse.filter(_.sectionName == "Vegetable").head.getRequestedItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Meat") {
-      requestedItem = warehouse.filter(_.sectionName == "Meat").head.getRequestedItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Dairy") {
-      requestedItem = warehouse.filter(_.sectionName == "Dairy").head.getRequestedItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Snack") {
-      requestedItem = warehouse.filter(_.sectionName == "Snack").head.getRequestedItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Grain") {
-      requestedItem = warehouse.filter(_.sectionName == "Grain").head.getRequestedItem(itemName,itemBrand)
-    }
+    requestedItem = warehouse.filter(_.sectionName == categoryName).head.getRequestedItem(itemName, itemBrand)
+    requestedItem
+  }
+
+  def seeRequestedItem(itemName: String, itemBrand: Brand, fifo: Boolean = true): Item = {
+    var requestedItem: Item = null
+    val categoryName: String = global.categoryMap(itemName)
+    requestedItem = warehouse.filter(_.sectionName == categoryName).head.seeRequestedItem(itemName, itemBrand)
     requestedItem
   }
 
   def hasItem(itemName: String, itemBrand: Brand): Boolean = {
     var isItemAvailable: Boolean = false
     val categoryName: String = global.categoryMap(itemName)
-    if (categoryName == "Vegetable") {
-      isItemAvailable = warehouse.filter(_.sectionName == "Vegetable").head.hasItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Meat") {
-      isItemAvailable = warehouse.filter(_.sectionName == "Meat").head.hasItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Dairy") {
-      isItemAvailable = warehouse.filter(_.sectionName == "Dairy").head.hasItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Snack") {
-      isItemAvailable = warehouse.filter(_.sectionName == "Snack").head.hasItem(itemName,itemBrand)
-    }
-    else if (categoryName == "Grain") {
-      isItemAvailable = warehouse.filter(_.sectionName == "Grain").head.hasItem(itemName,itemBrand)
-    }
+    isItemAvailable = warehouse.filter(_.sectionName == categoryName).head.hasItem(itemName, itemBrand)
     isItemAvailable
   }
 
   def getRandFood(capitalizedCategory: String): String = {
     var randomElement: String = ""
-    if (capitalizedCategory == "Vegetable") {
-      randomElement = warehouse.filter(_.sectionName == "Vegetable").head.getRandFood()
-    }
-    else if (capitalizedCategory == "Meat") {
-      randomElement = warehouse.filter(_.sectionName == "Meat").head.getRandFood()
-    }
-    else if (capitalizedCategory == "Dairy") {
-      randomElement = warehouse.filter(_.sectionName == "Dairy").head.getRandFood()
-    }
-    else if (capitalizedCategory == "Snack") {
-      randomElement = warehouse.filter(_.sectionName == "Snack").head.getRandFood()
-    }
-    else if (capitalizedCategory == "Grain") {
-      randomElement = warehouse.filter(_.sectionName == "Grain").head.getRandFood()
-    }
+    randomElement = warehouse.filter(_.sectionName == capitalizedCategory).head.getRandFood()
     //todo: IllegalArgumentException
     //    println("Unrecognized food category name for generating food! Category is " + category);
     randomElement

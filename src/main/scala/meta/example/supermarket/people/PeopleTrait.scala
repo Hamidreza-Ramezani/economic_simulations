@@ -38,38 +38,72 @@ trait People extends Actor {
     *         gained by consuming the item from that brand. This list is sorted by the second element of each pair
     *         in descending order.
     */
-  def prioritizeBrands(itemName: String): ListBuffer[(Brand, Double)] = {
-    val itemId: String = global.itemNameToID.getOrElse(itemName, "")
-    //    var maximumUtility: Double = getUtility(itemId, brands.head)
-    var brandsToUtilityMap: Map[Brand, Double] = Map()
+  def prioritizeBrands(itemName: String, pickedSupermarket: SupermarketTrait): ListBuffer[(Brand, Double)] = {
+    val itemNum: String = global.itemNameToID.getOrElse(itemName, "")
+    var brandsToUtilityMap1: Map[Brand, Double] = Map()
+    var brandsToUtilityMap2: Map[Brand, Double] = Map()
     global.brands.foreach {
       brand =>
-        brandsToUtilityMap += (brand -> getUtility(itemId, brand))
-      //        if (getUtility(itemId, brand) > maximumUtility) {
-      //          maximumUtility = getUtility(itemId, brand)
-      //          brandsToUtilityMap = brand
-      //        }
+        if (pickedSupermarket.seeRequestedItem(itemName, brand) != null) {
+          brandsToUtilityMap1 += (brand -> getUtility(pickedSupermarket.seeRequestedItem(itemName, brand)))
+        }
     }
-    val sortedList = brandsToUtilityMap.toSeq.sortBy(_._2).reverse
+    global.brands.foreach {
+      brand =>
+        brandsToUtilityMap2 += (brand -> getUtility(itemNum, brand))
+    }
+    val sortedList1 = brandsToUtilityMap1.toSeq.sortBy(_._2).reverse
+    val sortedList2 = brandsToUtilityMap2.toSeq.sortBy(_._2).reverse
+
     writer.write("Customer's Actor id " + id + " brands' preference for item " + itemName + " is: \n\n")
-    sortedList.foreach {
+    sortedList1.foreach {
       pair =>
         writer.write("brand: " + pair._1 + "  utility: " + pair._2 + "\n")
     }
     writer.write("\n\n")
-    sortedList.to[ListBuffer]
+
+    if (sortedList1.map(_._1) != sortedList2.map(_._1)) {
+      writer.write("If there was no auction: Customer's Actor id " + id + " brands' preference for item " + itemName + " is: \n\n")
+      sortedList2.foreach {
+        pair =>
+          writer.write("brand: " + pair._1 + "  utility: " + pair._2 + "\n")
+      }
+      writer.write("\n\n")
+    }
+    if (sortedList1.isEmpty) {
+      return sortedList2.to[ListBuffer]
+    }
+    sortedList1.to[ListBuffer]
   }
 
   /**
     *
-    * @param itemName The item's name like "Egg". It does not provide any info about the brand of the item.
-    * @param brand    The brand's name like samsung.
+    * @param itemNum The item's name like "Egg". It does not provide any info about the brand of the item.
+    * @param brand   The brand's name like samsung.
     * @return the satisfaction gained by consuming the item from that particular brand.
     */
-  def getUtility(itemName: String, brand: Brand): Double = {
-    val itemVerticalDifferentiation = global.differentiationMap((itemName, brand))._1
-    val itemHorizontalDifferentiation = global.differentiationMap((itemName, brand))._2
-    val itemPrice = global.priceMap((itemName, brand))
+  def getUtility(itemNum: String, brand: Brand): Double = {
+    val itemVerticalDifferentiation = global.differentiationMap((itemNum, brand))._1
+    val itemHorizontalDifferentiation = global.differentiationMap((itemNum, brand))._2
+    val itemPrice = global.priceMap((itemNum, brand))
+    val verticalUtility = qualitySensitivityIndex * itemVerticalDifferentiation
+    val horizontalUtility = (taste - itemHorizontalDifferentiation).abs
+    val netUtility = verticalUtility - horizontalUtility - itemPrice
+    netUtility
+  }
+
+
+  /**
+    * overloaded getUtility
+    *
+    * @param item
+    * @return
+    */
+  def getUtility(item: Item): Double = {
+    val itemNum: String = global.itemNameToID.getOrElse(item.name, "")
+    val itemVerticalDifferentiation = global.differentiationMap((itemNum, item.brand))._1
+    val itemHorizontalDifferentiation = global.differentiationMap((itemNum, item.brand))._2
+    val itemPrice = item.price
     val verticalUtility = qualitySensitivityIndex * itemVerticalDifferentiation
     val horizontalUtility = (taste - itemHorizontalDifferentiation).abs
     val netUtility = verticalUtility - horizontalUtility - itemPrice
@@ -106,7 +140,7 @@ trait People extends Actor {
         categoryAmountPair => {
           1.to(categoryAmountPair._2.asInstanceOf[Int]).foreach { _ =>
             val randFood: String = pickedSupermarket.getRandFood(categoryAmountPair._1.capitalize)
-            val brands = prioritizeBrands(randFood)
+            val brands = prioritizeBrands(randFood, pickedSupermarket)
             val it = brands.iterator
             var brand: Brand = brands.head._1
             breakable {
@@ -137,7 +171,7 @@ trait People extends Actor {
     meal.foreach(articlePair => {
       val neededAmountToBuy: Int = frequency * articlePair._2 - fridge.getAmount(articlePair._1)
       var i = 0
-      val brands = prioritizeBrands(articlePair._1)
+      val brands = prioritizeBrands(articlePair._1, pickedSupermarket)
       breakable {
         while (i < neededAmountToBuy) {
           1.to(shoppingList(articlePair._1)).foreach { _ =>

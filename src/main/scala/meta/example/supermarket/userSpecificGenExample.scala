@@ -11,7 +11,7 @@ object userSpecificGenExample {
   val initName: String = "MainInit"
 
   // *Ids are 1-indexed.
-  val totalItems: Int = global.itemMap.size
+  val totalItems: Int = global.itemNameToIdCompleteList.size
   val custIds: List[Int] = Range(1,11).toList
   val itemIds: List[Int] = (1 to totalItems).toList
   val employeeIds: List[Int] = (1 to 1).toList

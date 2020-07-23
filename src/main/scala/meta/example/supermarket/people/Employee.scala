@@ -5,18 +5,20 @@ import java.io.{File, FileWriter, PrintWriter}
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
-import meta.example.supermarket.goods.{Item, onDisplay}
+import meta.example.supermarket.auction.{AuctionPolicy, Policy1}
+import meta.example.supermarket.goods.{Item, global, onDisplay}
 import meta.example.supermarket.logistics.{ManufacturerTrait, loadedTruck, unloadingTruck}
+import meta.example.supermarket.utils.utilities.to2Dec
 import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 import squid.quasi.lift
 
 import scala.collection.mutable.ListBuffer
+import scala.math.BigDecimal
 import scala.util.Random
 
 @lift
 class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var manufacturer: ManufacturerTrait, var world: WorldTrait) extends EmployeeTrait {
-
 
 
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {
@@ -64,6 +66,50 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     }
   }
 
+  def updatePrices(auctionPolicy: AuctionPolicy): Unit = {
+    if (supermarket.auctionEnabled) {
+      section.shelves.toList.foreach {
+        shelf =>
+          shelf._2.itemsList.toList.foreach {
+            item =>
+              val freshness = to2Dec(1 - 1.0 * item.age / item.freshUntil)
+              var newDiscount: Double = 0.0
+              var newPrice: Double = item.price
+              auctionPolicy.rangeDiscountMap.toList.foreach {
+                pair =>
+                  if (pair._1.contain(freshness)) {
+                    newDiscount = pair._2
+                  }
+              }
+              //            if (freshness < 0.75 && freshness > 0.5) {
+              //              newDiscount = 0.25
+              //              isDiscountUpdated = true
+              //            }
+              //            else if (freshness < 0.5 && freshness > 0.25) {
+              //              newDiscount = 0.5
+              //              isDiscountUpdated = true
+              //            }
+              //            else if (freshness < 0.25 && freshness > 0.0) {
+              //              newDiscount = 0.75
+              //              isDiscountUpdated = true
+              //            }
+
+
+              if (newDiscount != item.discount) {
+                val itemNum: String = global.itemNameToID.getOrElse(item.name, "")
+                newPrice = global.priceMap((itemNum, item.brand)) * (1 - newDiscount)
+                val roundedNewPrice = BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+                writer.write("The discount of item " + item.name + " id: " + item.id + " is changed from: " + item.discount + " to " + newDiscount + "\n")
+                writer.write("The price of item " + item.name + " id: " + item.id + " is changed from: " + item.price + " to " + roundedNewPrice + "\n")
+                item.discount = newDiscount
+                item.price = roundedNewPrice
+              }
+          }
+      }
+
+    }
+
+  }
 
   def orderItems(): Unit = {
     //calling farmer
@@ -108,30 +154,6 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
       }
       supermarket.storage = new ListBuffer[Item]()
     }
-
-
-
-
-    //employee has to make sure that the items are arrived
-    //employee should check a variable in while true loop
-    //    while (truck.truckState != unloadingTruck) {
-    //      println("Employee's Actor id " + id + " is waiting for the truck")
-    //      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
-    //      SpecialInstructions.waitTurns(1)
-    //    }
-    //    while (supermarket.itemsRecentlyOrdered) {
-    //      println("Employee's Actor id " + id + " is waiting for the truck")
-    //      writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
-    //      SpecialInstructions.waitTurns(1)
-    //    }
-
-    //    section.articleNames.toList.foreach(
-    //      itemStr => List.tabulate(getFreeSpace(itemStr))(n => n).foreach(_ => {
-    //            val new_item: Item = genNewItem(newItemsMap.itemMap(itemStr))
-    //        section.shelves(itemStr) += new_item.asInstanceOf[Item]
-    //        writer.write("Employee's Actor id " + id + " Add new actor! name: " + itemStr + "\n")
-    //      })
-    //    )
   }
 
   def shuffleShelves(): Unit = {
@@ -159,6 +181,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     writer = new PrintWriter(new FileWriter(new File("m/agentEmployee" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     while (true) {
+      updatePrices(Policy1)
       writer.write("\n")
       println()
       writer.write("Employee's Actor id " + id + " is refilling the shelves")

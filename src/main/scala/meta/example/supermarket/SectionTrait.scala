@@ -109,6 +109,20 @@ trait SectionTrait extends Actor with SummaryTrait {
     requestedItem
   }
 
+  def seeRequestedItem(item: String, brand: Brand, fifo: Boolean = true): Item = {
+    var requestedItem: Item = null
+    val requestedShelf: Shelf = shelves.getOrElse((item, brand), new Shelf(null, "", null))
+    rmDiscarded(requestedShelf)
+    if (!requestedShelf.isEmpty) {
+      if (fifo) {
+        requestedItem = requestedShelf.itemsList.head
+      } else {
+        requestedItem = requestedShelf.itemsList(requestedShelf.size - 1)
+      }
+    }
+    requestedItem
+  }
+
   def hasItem(itemName: String, brand: Brand): Boolean = {
     var requestedItem: Item = null
     val requestedShelf: Shelf = shelves.getOrElse((itemName, brand), new Shelf(null, "", null))

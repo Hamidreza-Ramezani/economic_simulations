@@ -16,7 +16,7 @@ trait Item extends Actor {
   var owner: Actor = null
   val name: String
   val priceUnit: Int
-  val discount: Double
+  var discount: Double
   val stock: Int
 
   val category: String
@@ -70,7 +70,6 @@ trait Item extends Actor {
 
   def expire: Unit = {
     updateState(isExpired)
-    owner.writer.write("Item id: " + id + " is expired" + "\n")
     if(owner.isInstanceOf[People]){
       owner.asInstanceOf[People].fridge.rmExpired(name)
     }
@@ -78,6 +77,8 @@ trait Item extends Actor {
 
   def discard: Unit = {
     updateState(isDiscarded)
+    owner.writer.write("Item id: " + id + " is expired and discarded" + "\n")
+    owner.writer.flush()
   }
 
   def purchase: Unit = {
