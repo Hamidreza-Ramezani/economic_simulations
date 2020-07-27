@@ -47,7 +47,6 @@ object testItemOnlyExample extends App {
   //  val cls31: ClassWithObject[Item31] = Item31.reflect(IR)
   //  val cls32: ClassWithObject[Item32] = Item32.reflect(IR)
   val clsEmp1: ClassWithObject[Employee] = Employee.reflect(IR)
-  //  val clsMovable: ClassWithObject[Movable] = Movable.reflect(IR)
   val clsCust1: ClassWithObject[Customer1] = Customer1.reflect(IR)
   val clsCust2: ClassWithObject[Customer2] = Customer2.reflect(IR)
   val clsCust3: ClassWithObject[Customer3] = Customer3.reflect(IR)
@@ -71,6 +70,7 @@ object testItemOnlyExample extends App {
   //    cls7, cls8, cls9, cls10, cls11, cls12, cls13, cls14, cls15, cls16, cls17, cls18, cls19,
   //    cls20, cls21, cls22, cls23, cls24, cls25, cls26, cls27, cls28, cls29, cls30, cls31, cls32,
   //    clsEmp1, clsCust1, clsCust2, clsCust3, clsCashier1, clsSupermarket,clsSection)
+
 
   val startClasses: List[Clasz[_ <: Actor]] = List(cls1, cls2, cls3, cls4, cls5, cls6,
     cls7, cls8, cls9, cls10, cls11, clsEmp1, clsCust1, clsCust2, clsCust3, clsCashier1,

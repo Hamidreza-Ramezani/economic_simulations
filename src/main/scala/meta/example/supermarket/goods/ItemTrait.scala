@@ -8,8 +8,6 @@ import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 
 trait Item extends Actor {
 
-  //  var verticalDifferentiation: Double   = Math.random() * 3
-  //  var horizontalDifferentiation: Double = Math.random() * 2
   var world: WorldTrait
   var price: Double
   var brand: Brand
@@ -18,43 +16,14 @@ trait Item extends Actor {
   val priceUnit: Int
   var discount: Double
   val stock: Int
-
   val category: String
   val freshUntil: Int
   val visibility: Double
-
-  //  var name: String
-  //  var price: Double
-  //  var priceUnit: Int
-  //  var discount: Double
-  //  var stock: Int
-  //
-  //  var category: String
-  //  var freshUntil: Int
-  //  var visibility: Double
-
   var age: Int = 0
   var state: ItemState = inFarm
   var supermarket: SupermarketTrait
   var section: SectionTrait
 
-  //  override def setInitialPosition(x: Int, y: Int): Unit = {
-  //    world.coordinates_flattened.foreach {
-  //      tile =>
-  //        tile.actors.foreach {
-  //          actor =>
-  //            if (actor.getClass.getSimpleName == "Supermarket") {
-  //              this.initialXPosition = actor.initialXPosition
-  //              this.initialYPosition = actor.initialYPosition
-  //            }
-  //        }
-  //    }
-  //    currentXPosition = initialXPosition
-  //    currentYPosition = initialYPosition
-  //
-  //    //    this.xPosition = supermarket.xPosition
-  //    //    this.yPosition = supermarket.yPosition
-  //  }
 
 
   // need to explicitly pass the itemstate as a parameter

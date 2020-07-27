@@ -26,9 +26,6 @@ trait People extends Actor {
   var taste: Double = getRandomDouble(0, 2)
 
 
-  override def getString(): String = {
-    "\n \n" + "timer: " + timer + "\n \n" + "position: x = " + currentXPosition + "  y = " + currentYPosition + "\n \n" + toString
-  }
 
 
   /**
@@ -63,7 +60,7 @@ trait People extends Actor {
     writer.write("\n\n")
 
     if (sortedList1.map(_._1) != sortedList2.map(_._1)) {
-      writer.write("If there was no auction: Customer's Actor id " + id + " brands' preference for item " + itemName + " is: \n\n")
+      writer.write("If there was no auction: Customer's Actor id " + id + " brands' preference for item " + itemName + " was: \n\n")
       sortedList2.foreach {
         pair =>
           writer.write("brand: " + pair._1 + "  utility: " + pair._2 + "\n")
@@ -212,7 +209,6 @@ trait People extends Actor {
     })
   }
 
-  //todo: in the usage of addToBasket, brand selection should be more dynamic
   //todo: the customer's budget should be decreased after purchasing item from the cashier, the problem is that in the current design
   // cashier does not know about customers.
   //todo the onbudget from caller methods should be removed
@@ -281,7 +277,7 @@ trait People extends Actor {
   }
 
   // Target consumption behavior
-  def consumeFood(mealPlan: Vector[(articleName, gram)]): Unit = {
+  def consumeMealPlan(mealPlan: Vector[(articleName, gram)]): Unit = {
     mealPlan.foreach(pair => {
       val consumed: Int = fridge.consume(pair._1, pair._2)
       writer.write("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed + "\n")
@@ -304,4 +300,9 @@ trait People extends Actor {
   override def toString: String = {
     "Customer's Actor id " + id + " budget: " + budget + " quality sensitivity: " + qualitySensitivityIndex + " taste: " + taste + " frequency " + frequency + "\nfridge " + fridge
   }
+
+  override def getString(): String = {
+    "\n \n" + "timer: " + timer + "\n \n" + "position: x = " + currentXPosition + "  y = " + currentYPosition + "\n \n" + toString
+  }
+
 }

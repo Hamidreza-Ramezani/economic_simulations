@@ -1,7 +1,6 @@
 package meta.example.supermarket.customers
 
 import java.io.{File, FileWriter, PrintWriter}
-
 import meta.classLifting.SpecialInstructions
 import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
@@ -10,21 +9,21 @@ import meta.example.supermarket.goods.isPurchased
 import meta.example.supermarket.people.{ImpulseShopper, MealPlan, People, Weekly}
 import meta.example.supermarket.worldmap.{Down, PrivateProperty, Tile, Up, Utils, WorldTrait, Right, Left}
 import squid.quasi.lift
-
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
-//import squid.quasi.dbg_lift
 
 
 /* Auto generated from genCustomers */
+
 @lift
-class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait, var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
+class Customer1 (var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait, var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
 
   override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-    move2(world, initialXPosition, initialYPosition)
+    moveOneStep(world, initialXPosition, initialYPosition)
     //    SpecialInstructions.waitTurns(1)
 
     writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -35,14 +34,14 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
     writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
-    move2(world, target.currentXPosition, target.currentYPosition)
+    moveOneStep(world, target.currentXPosition, target.currentYPosition)
     //    SpecialInstructions.waitTurns(1)
 
     writer.write("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
   }
 
-  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+  def moveOneStep(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
       var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
       path.toList.foreach {
@@ -68,7 +67,7 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
   }
 
   //   Target consumption behavior
-  def consumeFood2(mealPlan: Vector[(articleName, gram)]): Unit = {
+  def delayedConsumeFood(mealPlan: Vector[(articleName, gram)]): Unit = {
     mealPlan.toList.foreach(pair => {
       var consumed: Int = fridge.consume(pair._1, pair._2)
       writer.write("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed + "\n")
@@ -157,7 +156,7 @@ class Customer1(var supermarkets: ListBuffer[SupermarketTrait], var world: World
       List.range(0, frequency).foreach(_ => {
         println("---------------------------------------------------------------------------------------------------")
 
-        consumeFood(mealPlan.meal)
+        consumeMealPlan(mealPlan.meal)
         consumeRandomFood()
 
         writer.write(toString + "\n")

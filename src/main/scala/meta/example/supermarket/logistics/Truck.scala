@@ -19,7 +19,7 @@ class Truck(var world: WorldTrait) extends TruckTrait {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-    move2(world, initialXPosition, initialYPosition)
+    moveOneStep(world, initialXPosition, initialYPosition)
 
     writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -29,13 +29,13 @@ class Truck(var world: WorldTrait) extends TruckTrait {
     writer.write("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
-    move2(world, target.currentXPosition, target.currentYPosition)
+    moveOneStep(world, target.currentXPosition, target.currentYPosition)
 
     writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
   }
 
-  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+  def moveOneStep(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
       var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
       path.toList.foreach {
