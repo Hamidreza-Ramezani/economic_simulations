@@ -16,9 +16,16 @@ import scala.util.Random
 /* Auto generated from genCustomers */
 
 @lift
-class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait, var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper {
+class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait, var mealPlan: MealPlan) extends People with Weekly with ImpulseShopper 
+{
 
-  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+  /**
+    * The customer goes back into its initial position from their current position. This method is usually caled when
+    * the customer does his/her shopping and wants to back home from supermarket.
+    *
+    * @param world the world map, which the customer is in
+    */
+  override def comeBackInitialPoint(world: WorldTrait): Unit = {
 
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -30,6 +37,12 @@ class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: Worl
     println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
   }
 
+  /**
+    * The customer goes from the source (the current position) toward the destination.
+    *
+    * @param world  the world map, which the customer is in
+    * @param target the destination
+    */
   override def move(world: WorldTrait, target: Actor): Unit = {
     writer.write("agent id " + id + "  goes toward the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward the agent id " + target.id + " target x:  " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
@@ -41,6 +54,13 @@ class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: Worl
     println("agent id " + id + "  gets into the agent id " + target.id + " target x: " + target.currentXPosition + " target y: " + target.currentYPosition + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
   }
 
+  /**
+    * This is a helper method for the move and comeBackToInitialPoint
+    *
+    * @param world           the world map, which the customer is in
+    * @param targetXPosition the x coordinate of the destination
+    * @param targetYPosition the y coordinate of the destination
+    */
   def moveOneStep(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
       var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
@@ -66,8 +86,12 @@ class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: Worl
     }
   }
 
-  //   Target consumption behavior
-  def delayedConsumeFood(mealPlan: Vector[(articleName, gram)]): Unit = {
+  /**
+    * This method is called when the customer consumes according to a meal plan
+    * @param mealPlan list of tuples whose first element is the item name and the second is the amount of
+    *                 consumption in gram.
+    */
+  override def consumeMealPlan(mealPlan: Vector[(articleName, gram)]): Unit = {
     mealPlan.toList.foreach(pair => {
       var consumed: Int = fridge.consume(pair._1, pair._2)
       writer.write("Customer's Actor id " + id + " consumed " + pair._1 + " Amount " + consumed + "\n")
@@ -92,6 +116,10 @@ class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: Worl
     })
   }
 
+
+  /**
+    * The customer's step function
+    */
   def main(): Unit = {
     var randomWidth = Random.nextInt(world.width)
     var randomHeight = Random.nextInt(world.height)
@@ -139,7 +167,7 @@ class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: Worl
       writer.write("shopping basket of Customer's Actor id " + id + " was scanned" + "\n")
       println("---------------------------------------------------------------------------------------------------")
       println("shopping basket of Customer's Actor id " + id + " was scanned")
-      comeBackToInitialPoint(world)
+      comeBackInitialPoint(world)
       basket.toList.foreach(item => {
         writer.write("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id + "\n")
         println("Customer's Actor id " + id + " bought food " + item.name + " id: " + item.id)
@@ -197,3 +225,9 @@ class Customer2 (var supermarkets: ListBuffer[SupermarketTrait], var world: Worl
     }
   }
 }
+
+
+
+
+
+

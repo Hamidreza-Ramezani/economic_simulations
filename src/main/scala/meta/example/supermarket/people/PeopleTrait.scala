@@ -26,8 +26,6 @@ trait People extends Actor {
   var taste: Double = getRandomDouble(0, 2)
 
 
-
-
   /**
     *
     * @param itemName The item's name like "Egg". It does not provide any info about the brand of the item.

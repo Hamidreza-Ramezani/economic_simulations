@@ -14,7 +14,7 @@ import scala.util.Random
 class Item22(var supermarket: SupermarketTrait, var section: SectionTrait, var world: WorldTrait, var brand: Brand,var price: Double) extends Item with Oatmeal {
   //var age: Int = 0
 
-  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+  override def comeBackInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 

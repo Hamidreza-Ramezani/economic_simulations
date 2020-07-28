@@ -20,7 +20,7 @@ class Cashier(var supermarket: SupermarketTrait, var world: WorldTrait) extends 
 
 
 
-  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+  override def comeBackInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 

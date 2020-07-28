@@ -15,7 +15,7 @@ import scala.util.Random
 @lift
 class Truck(var world: WorldTrait) extends TruckTrait {
 
-  override def comeBackToInitialPoint(world: WorldTrait): Unit = {
+  override def comeBackInitialPoint(world: WorldTrait): Unit = {
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
@@ -128,7 +128,7 @@ class Truck(var world: WorldTrait) extends TruckTrait {
       SpecialInstructions.waitTurns(1)
       unloadTruck()
       SpecialInstructions.waitTurns(1)
-      comeBackToInitialPoint(world)
+      comeBackInitialPoint(world)
     }
   }
 }

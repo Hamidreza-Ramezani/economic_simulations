@@ -224,7 +224,7 @@ class Actor {
     distance
   }
 
-  def comeBackToInitialPoint(world: WorldTrait): Unit = {
+  def comeBackInitialPoint(world: WorldTrait): Unit = {
     move(world, initialXPosition, initialYPosition)
   }
 
