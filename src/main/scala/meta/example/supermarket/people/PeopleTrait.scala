@@ -34,7 +34,7 @@ trait People extends Actor {
     *         in descending order.
     */
   def prioritizeBrands(itemName: String, pickedSupermarket: SupermarketTrait): ListBuffer[(Brand, Double)] = {
-    val itemNum: String = global.itemNameToID.getOrElse(itemName, "")
+    val itemNum: String = global.itemNameToID_test.getOrElse(itemName, "")
     var brandsToUtilityMap1: Map[Brand, Double] = Map()
     var brandsToUtilityMap2: Map[Brand, Double] = Map()
     global.brands.foreach {
@@ -95,7 +95,7 @@ trait People extends Actor {
     * @return
     */
   def getUtility(item: Item): Double = {
-    val itemNum: String = global.itemNameToID.getOrElse(item.name, "")
+    val itemNum: String = global.itemNameToID_test.getOrElse(item.name, "")
     val itemVerticalDifferentiation = global.differentiationMap((itemNum, item.brand))._1
     val itemHorizontalDifferentiation = global.differentiationMap((itemNum, item.brand))._2
     val itemPrice = item.price

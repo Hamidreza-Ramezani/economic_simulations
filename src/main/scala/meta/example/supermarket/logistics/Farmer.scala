@@ -50,7 +50,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
       pair =>
         var itemBrand: Brand = pair._2
         var itemNum: String = pair._1
-        var itemName: String = global.itemNameToID.map(_.swap).getOrElse(pair._1, "")
+        var itemName: String = global.itemNameToID_test.map(_.swap).getOrElse(pair._1, "")
         List.tabulate(getFreeSpace(itemName, itemBrand))(n => n).foreach { _ => {
           var item: Item = produce(itemNum, itemBrand)
           item.owner = this

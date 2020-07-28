@@ -36,7 +36,7 @@ trait TruckTrait extends Actor {
     pair =>
       val itemNum = pair._1
       val itemBrand = pair._2
-      val itemName: String = global.itemNameToID.map(_.swap).getOrElse(itemNum, "")
+      val itemName: String = global.itemNameToID_test.map(_.swap).getOrElse(itemNum, "")
       storage += ((itemName, itemBrand) -> new mutable.Queue[Item])
   }
 

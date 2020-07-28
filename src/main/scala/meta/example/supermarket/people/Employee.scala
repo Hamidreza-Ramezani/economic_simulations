@@ -96,7 +96,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
 
 
               if (newDiscount != item.discount) {
-                val itemNum: String = global.itemNameToID.getOrElse(item.name, "")
+                val itemNum: String = global.itemNameToID_test.getOrElse(item.name, "")
                 newPrice = global.priceMap((itemNum, item.brand)) * (1 - newDiscount)
                 val roundedNewPrice = BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
                 writer.write("The discount of item " + item.name + " id: " + item.id + " is changed from: " + item.discount + " to " + newDiscount + "\n")

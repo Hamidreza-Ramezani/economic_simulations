@@ -37,7 +37,7 @@ trait ManufacturerTrait extends Actor {
     pair =>
       val itemNum = pair._1
       val itemBrand = pair._2
-      val itemName: String = global.itemNameToID.map(_.swap).getOrElse(itemNum, "")
+      val itemName: String = global.itemNameToID_test.map(_.swap).getOrElse(itemNum, "")
       storage += ((itemName, itemBrand) -> new mutable.Queue[Item])
   }
 
@@ -61,7 +61,7 @@ trait ManufacturerTrait extends Actor {
       pair =>
         var itemNum = pair._1
         var itemBrand = pair._2
-        var itemName: String = global.itemNameToID.map(_.swap).getOrElse(itemNum, "")
+        var itemName: String = global.itemNameToID_test.map(_.swap).getOrElse(itemNum, "")
         inventoryList += ((itemName,itemBrand) -> getFreeSpace(supermarket, (itemName, itemBrand)))
     }
     inventoryList

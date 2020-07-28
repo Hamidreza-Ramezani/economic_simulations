@@ -12,7 +12,7 @@ class Fridge {
   val storage: mutable.Map[articleName, ListBuffer[Item]] = mutable.Map()
   val opened: mutable.Map[articleName, gram] = mutable.Map().withDefaultValue(0)
 
-  global.itemNameToID.foreach {
+  global.itemNameToID_test.foreach {
     item =>
       val newLst = new ListBuffer[Item]()
       storage +=  (item._1 -> newLst)

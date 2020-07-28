@@ -5,10 +5,12 @@ import scala.math.BigDecimal
 
 import scala.collection.mutable
 
+/**
+  * This singleton object contains global variables
+  */
 object global {
   val totalItems: Int = 32
-  val totalItems_test = 11
-
+  val totalItems_test = 11    //for simplicity, one can consider only vegetables for the test and debug which are 11 items overall
   var shelfCapacity: Int = 5
 
   def getRandomDouble(rangeMin: Double, rangeMax: Double): Double = {
@@ -128,6 +130,10 @@ object global {
   //  )
 
 
+  /**
+    * map's keys: the first element of the tuple is vertical attribute of the product and the second element
+    * is the horizontal attribute of the product.
+    */
   val differentiationMap: mutable.Map[(String, Brand), (Double, Double)] = mutable.Map(
     ("Item1", TerraSuisse) -> (4.4, getRandomDouble(0, 2)),
     ("Item2", TerraSuisse) -> (3.7, getRandomDouble(0, 2)),
@@ -218,7 +224,12 @@ object global {
   //  )
 
 
-  val itemNameToID: mutable.Map[String, String] = mutable.Map(
+  /**
+    * the keys are items' names and values are items' ids.
+    * This map only has vegetables, which is used for test and debug.
+    * Please note this id is totally something different from the actor's id.
+    */
+  val itemNameToID_test: mutable.Map[String, String] = mutable.Map(
     "Squash" -> "Item11",
     "Cabbage" -> "Item10",
     "Broccoli" -> "Item4",
@@ -232,8 +243,10 @@ object global {
     "Mushroom" -> "Item9",
   )
 
-  // goodsName, itemName
-  val itemNameToIdCompleteList: mutable.Map[String, String] = mutable.Map(
+  /**
+    * the complete map of item names to IDs. Please note this id is totally something different from the actor's id.
+    */
+  val itemNameToID: mutable.Map[String, String] = mutable.Map(
     "Yogurt" -> "Item29",
     "Squash" -> "Item11",
     "Bacon" -> "Item16",
@@ -267,7 +280,11 @@ object global {
     "Milk" -> "Item28",
     "Chicken" -> "Item12"
   )
-  // goodsName, sectionName
+
+
+
+
+
   val categoryMap: mutable.Map[String, String] = mutable.Map(
     "Yogurt" -> "Dairy",
     "Squash" -> "Vegetable",
