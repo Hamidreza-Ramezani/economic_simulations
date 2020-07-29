@@ -8,7 +8,7 @@ import squid.quasi.lift
 
 @lift
 class Vegetable(override var name: String, override var price: Double, override var priceUnit: Int,
-                override var discount: Double, override var stock: Int) extends Item {
+                override var discount: Double, override var stock: Int) extends ItemTrait_updated {
 
   var category: String = "Vegetable"
   var freshUntil: Int = 5 * granularity.hour

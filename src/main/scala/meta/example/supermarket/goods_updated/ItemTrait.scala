@@ -4,47 +4,35 @@ import meta.deep.runtime.Actor
 import meta.example.supermarket.SupermarketTrait
 import meta.example.supermarket.utils.utilities
 
-trait Item extends Actor {
+trait ItemTrait_updated extends Actor {
 
   var name: String
   var price: Double
   var priceUnit: Int
   var discount: Double
   var stock: Int
-
   var category: String
   var freshUntil: Int
   var visibility: Double
-
   var age: Int = 0
-  var state: ItemState = ItemState()
+  var state: ItemState_updated = ItemState_updated()
   var supermarket: SupermarketTrait = null
 
-  // need to explicitly pass the itemstate as a parameter
-  def updateState(newState: String, itemState: ItemState): Unit = {
-    newState match {
-      case "isPurchased" => itemState.purchase
-      case "isDiscarded" => itemState.discard
-      case "isConsumed" => itemState.consume
-      case "isExpired" => itemState.expire
-      case _ => throw new IllegalArgumentException
-    }
-  }
 
   def expire: Unit = {
-    updateState("isExpired", state)
+    state.expire
   }
 
   def discard: Unit = {
-    updateState("isDiscarded", state)
+    state.discard
   }
 
   def purchase: Unit = {
-    updateState("isPurchased", state)
+    state.purchase
   }
 
   def consume: Unit = {
-    updateState("isConsumed", state)
+    state.consume
   }
 
   def itemInfo: Unit = {
@@ -55,12 +43,16 @@ trait Item extends Actor {
     f"Item id:$id%-5s Name:$name%-20s Category:$category%-15s Age:$age%-3s Freshness:${utilities.to2Dec(1 - 1.0 * age / freshUntil)}%-5s State:${state.get}"
   }
 
+  /**
+    * This function removes the items which are expired from shelves. It also adds them into isInvalids list. This
+    * list is used in the simulation driver code to update actors list.
+    */
   def cleanExpired(): Unit = {
     if (state.onDisplay) {
       discard
       itemInfo
       //todo: need to uncomment the below line
-//      supermarket.warehouse(name).popLeft
+      //      supermarket.warehouse(name).popLeft
       supermarket.recordWaste(category, priceUnit)
       supermarket.isInvalids += id
     } else if (state.isConsumed) {
@@ -72,7 +64,11 @@ trait Item extends Actor {
     }
   }
 
-  // fridge calls popleft to remove the expired first. No need to do it here
+  /**
+    * This function is called if an item is expired inside the consumer's fridge
+    *
+    * @param wastedAmount the amount of the product which is wasted in gram
+    */
   def cleanExpired(wastedAmount: Int): Unit = {
     assert(state.isExpired)
     discard

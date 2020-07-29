@@ -15,24 +15,32 @@ object genItems extends App{
   private def itemString(className: String): String =
     s"""package meta.example.supermarket.goods
        |
+       |
        |import meta.classLifting.SpecialInstructions
+       |import meta.example.supermarket.worldmap.WorldTrait
+       |import meta.example.supermarket.{SectionTrait, SupermarketTrait}
        |import squid.quasi.lift
        |
        |/* Auto generated from ${generatingFileName} */
        |
        |@lift
        |$className
-       |  //var age: Int = 0
+       |{
        |
+       |  /**
+       |    * the item's step function
+       |    */
        |  def main(): Unit = {
-       |    while(age < freshUntil && !state.isConsumed) {
-       |        itemInfo
-       |        SpecialInstructions.waitTurns(1)
-       |        age = age + 1
+       |    while (age < freshUntil && (state != isConsumed)) {
+       |      itemInfo
+       |      SpecialInstructions.waitTurns(1)
+       |      age = age + 1
        |    }
        |    cleanExpired()
        |  }
        |}
+       |
+       |
        |""".stripMargin
 
 
@@ -40,7 +48,7 @@ object genItems extends App{
     val file = new File(storagePath + s"/items/Item${counter}.scala")
     val bw = new BufferedWriter(new FileWriter(file))
 
-    val className: String = s"""class Item${counter} extends Item with ${article} {"""
+    val className: String = s"""class Item${counter} (var supermarket: SupermarketTrait, var section: SectionTrait, var world: WorldTrait, var brand: Brand, var price: Double) extends Item with ${article} """
     itemMap += (s""""${article}""""->s""""Item${counter}"""")
 
     bw.write(itemString(className))
@@ -79,7 +87,7 @@ object genItems extends App{
          |
          |  // goodsName, itemName
          |  val itemMap: Map[String, String] = Map(
-         |    ${itemMap.mkString(",\n    ")}
+         |    ${itemMap.mkString(",\\n    ")}
          |  )
          |}
          |""".stripMargin

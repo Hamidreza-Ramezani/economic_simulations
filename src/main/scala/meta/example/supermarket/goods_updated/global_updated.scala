@@ -2,7 +2,7 @@ package meta.example.supermarket.goods_updated
 
 import scala.collection.mutable.Map
 
-object newItemsMap {
+object global_updated {
   val totalItems: Int = 32
 
   // goodsName, itemName

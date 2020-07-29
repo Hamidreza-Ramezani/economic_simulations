@@ -1,11 +1,11 @@
 package meta.example.supermarket.goods_updated
 
-final case class ItemState(var onDisplay: Boolean = true,
-                           var inBasket: Boolean = false,
-                           var isPurchased: Boolean = false,
-                           var isExpired: Boolean = false,
-                           var isDiscarded: Boolean = false,
-                           var isConsumed: Boolean = false) {
+final case class ItemState_updated(var onDisplay: Boolean = true,
+                                   var inBasket: Boolean = false,
+                                   var isPurchased: Boolean = false,
+                                   var isExpired: Boolean = false,
+                                   var isDiscarded: Boolean = false,
+                                   var isConsumed: Boolean = false) {
 
   def get: String = {
     if (onDisplay) {

@@ -6,12 +6,15 @@ import meta.example.supermarket.utils.utilities.to2Dec
 import meta.example.supermarket.worldmap.WorldTrait
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
 
+/**
+  * This is an interface which includes the methods and attributes which are common to all items.
+  */
 trait Item extends Actor {
 
   var world: WorldTrait
   var price: Double
   var brand: Brand
-  var owner: Actor = null
+  var owner: Actor = null //at first the owner of items is farmer. Then it changes to manufacturer. Finally, the owener would be the supermarket.
   val name: String
   val priceUnit: Int
   var discount: Double
@@ -21,41 +24,29 @@ trait Item extends Actor {
   val visibility: Double
   var age: Int = 0
   var state: ItemState = inFarm
-  var supermarket: SupermarketTrait
-  var section: SectionTrait
+  var supermarket: SupermarketTrait // the supermarket which has the item
+  var section: SectionTrait // the section this item belongs to
 
-
-
-  // need to explicitly pass the itemstate as a parameter
-  def updateState(newState: ItemState): Unit = {
-    newState match {
-      case isPurchased => state = isPurchased
-      case isDiscarded => state = isDiscarded
-      case isConsumed => state = isConsumed
-      case isExpired => state = isExpired
-      case _ => throw new IllegalArgumentException
-    }
-  }
 
   def expire: Unit = {
-    updateState(isExpired)
-    if(owner.isInstanceOf[People]){
+    state = isExpired
+    if (owner.isInstanceOf[People]) {
       owner.asInstanceOf[People].fridge.rmExpired(name)
     }
   }
 
   def discard: Unit = {
-    updateState(isDiscarded)
+    state = isDiscarded
     owner.writer.write("Item id: " + id + " is expired and discarded" + "\n")
     owner.writer.flush()
   }
 
   def purchase: Unit = {
-    updateState(isPurchased)
+    state = isPurchased
   }
 
   def consume: Unit = {
-    updateState(isConsumed)
+    state = isConsumed
   }
 
   def itemInfo: Unit = {
@@ -66,6 +57,10 @@ trait Item extends Actor {
     f"Item id:$id%-15s Name:$name%-15s Brand:$brand%-15s price:$price%-15s Category:$category%-15s Age:$age%-15s Freshness:${to2Dec(1 - 1.0 * age / freshUntil)}%-15s State:${state}%-15s OwnerID:${owner.id}"
   }
 
+  /**
+    * This function removes the items which are expired from shelves. It also adds them into isInvalids list. This
+    * list is used in the simulation driver code to update actors list.
+    */
   def cleanExpired(): Unit = {
     if (state == onDisplay) {
       discard
@@ -84,7 +79,11 @@ trait Item extends Actor {
     }
   }
 
-  // fridge calls popleft to remove the expired first. No need to do it here
+  /**
+    * This function is called if an item is expired inside the consumer's fridge
+    *
+    * @param wastedAmount the amount of the product which is wasted in gram
+    */
   def cleanExpired(wastedAmount: Int): Unit = {
     assert(state == isExpired)
     discard
