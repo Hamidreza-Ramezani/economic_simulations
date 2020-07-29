@@ -8,14 +8,25 @@ import squid.quasi.lift
 import scala.collection.mutable
 import scala.util.Random
 
+/**
+  * note: The logistics' code might not be very efficient. There are some potentials to use design patterns here.
+  * here we should use observer pattern and event-based design instead of polling in a busy wait loop.
+  *
+  * Farmer produces the items, then he/she gives them to manufacturer. Manufacturer does packaging and processing stages
+  * and it gives to truck for delivery to supermarket.
+  *
+  * @param manufacturer the manufacturer whom the farmer interacts with.
+  * @param world        the world object which includes farmer.
+  */
 @lift
 class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends FarmerTrait {
 
+
+  /**
+    * Manufacturer changes its own state to waitingForFarmer to inform farmer that there is an order.
+    */
   def checkIfThereIsOrderFromManufacturer(): Unit = {
     farmerState = doNothing
-    //    while (farmerState != receivedRequestFromManufacturer) {
-    //      SpecialInstructions.waitTurns(1)
-    //    }
     while (manufacturer.manufacturerState != waitingForFarmer) {
       SpecialInstructions.waitTurns(1)
     }
@@ -24,6 +35,9 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     writer.write("farmer received an order from the manufacturer" + "\n")
   }
 
+  /**
+    * farmer gives the items to manufacturer.
+    */
   def sendToManufacturer(): Unit = {
     while (crops.nonEmpty) {
       val item = crops.dequeue()
@@ -31,7 +45,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
       item.owner = manufacturer
       item.state = inManufacturer
     }
-    farmerState = sendProductsToManufacturer
+    farmerState = sentProductsToManufacturer
     manufacturer.manufacturerState = receivedNoticeFromFarmer
     println("---------------------------------------------------------------------------------------------------")
     println("farmer sent the crops to the manufacturer")
@@ -39,6 +53,10 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     writer.write("farmer sent the crops to the manufacturer" + "\n")
   }
 
+
+  /**
+    * farmer produces food in this step.
+    */
   def doFarming(): Unit = {
     farmerState = isFarming
     println("Farmer's Actor id " + id + " is farming")
@@ -48,34 +66,30 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
 
     global.priceMap.keys.toList.foreach {
       pair =>
-        var itemBrand: Brand = pair._2
-        var itemNum: String = pair._1
-        var itemName: String = global.itemNameToID_test.map(_.swap).getOrElse(pair._1, "")
+        val itemBrand: Brand = pair._2
+        val itemNum: String = pair._1
+        val itemName: String = global.itemNameToID_test.map(_.swap).getOrElse(pair._1, "")
         List.tabulate(getFreeSpace(itemName, itemBrand))(n => n).foreach { _ => {
           var item: Item = produce(itemNum, itemBrand)
           item.owner = this
           crops += item
-//          println("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
           writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemName + " brand: " + itemBrand + " id: " + item.id + "\n")
         }
         }
     }
-
-
-    //    newItemsMap.itemMap_test.keys.toList.foreach {
-    //      itemStr =>
-    //        List.tabulate(getFreeSpace(itemStr))(n => n).foreach { _ => {
-    //          var item_Terra: Item = produce(newItemsMap.itemMap_test(itemStr), TerraSuisse)
-    //          crops += item_Terra
-    //          println("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
-    //          writer.write("Farmer's Actor id " + id + " produced new item! name: " + itemStr + "\n")
-    //        }
-    //        }
-    //    }
   }
 
+  /**
+    * There is a potential usage of metaprogramming and java reflection here.
+    * todo: brand should be assigned by the manufacturer. In current version, there is only one manufacturer and brand
+    *  is specified herer.
+    *
+    * @param itemNum a String like item20
+    * @param brand a brand like TerraSuisse
+    * @return a new item of that specific brand
+    */
   def produce(itemNum: String, brand: Brand): Item = {
-    var price: Double = global.priceMap(itemNum, brand)
+    val price: Double = global.priceMap(itemNum, brand)
     val index: Int = Integer.parseInt(itemNum.replaceAll("Item", ""))
     var item: Item = null
     if (index == 32) item = new Item32(null, null, world, brand, price)
@@ -116,6 +130,10 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     // else throw new IllegalArgumentException
   }
 
+
+  /**
+    * The farmer's step function.
+    */
   def main(): Unit = {
     var randomWidth = Random.nextInt(world.width)
     var randomHeight = Random.nextInt(world.height)
@@ -128,6 +146,7 @@ class Farmer(var manufacturer: ManufacturerTrait, var world: WorldTrait) extends
     writer = new PrintWriter(new FileWriter(new File("m/agentFarmer" + id)))
     writer.write("timer: " + timer + "\n\n\n")
     writer.flush()
+
     while (true) {
       checkIfThereIsOrderFromManufacturer()
       doFarming()

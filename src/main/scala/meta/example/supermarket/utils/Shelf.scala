@@ -5,8 +5,6 @@ import scala.collection.mutable.ListBuffer
 
 class Shelf(var firstItem: Item, var shelfName: String, var itemsList: ListBuffer[Item]) {
 
-  //  var itemsList: ListBuffer[Item] = new ListBuffer[Item]
-
   def this(firstItem: Item) {
     this(firstItem, firstItem.name, new ListBuffer[Item])
     itemsList += firstItem

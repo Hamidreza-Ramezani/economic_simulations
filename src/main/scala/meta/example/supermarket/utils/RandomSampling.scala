@@ -15,16 +15,13 @@ class RandomSampling {
     val sample: Double = new GammaDistribution(shape, scale).sample()
     sample
   }
-
 }
 
 object RandomSampling {
-
   def getUniformSample(low: Int, high: Int): Int = {
     val randomNum: Int = ThreadLocalRandom.current().nextInt(low, high + 1)
     randomNum
   }
-
 
   def log(aMsg: Object): Unit = {
     System.out.println(String.valueOf(aMsg))

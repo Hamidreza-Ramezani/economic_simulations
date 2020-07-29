@@ -15,20 +15,23 @@ import scala.util.Random
 @lift
 class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuffer[SupermarketTrait], var world: WorldTrait) extends ManufacturerTrait {
 
+
+  /**
+    * manufacturer orders items by changing its state. Farmer checks manufacturer state in a busy wait loop (which should
+    * be changed due to performance)
+    */
   def placeOrderToFarmer(): Unit = {
-    //    manufacturerState = idle
-    //    SpecialInstructions.waitTurns(30)
     manufacturerState = waitingForFarmer
-    //    while (manufacturerState != receivedOrderFromSupermarket) {
-    //      SpecialInstructions.waitTurns(1)
-    //    }
     println("---------------------------------------------------------------------------------------------------")
     println("manufacturer ordered some food to the farmer")
     writer.write("manufacturer ordered some food to the farmer" + "\n")
   }
 
+  /**
+    * Manufacturer checks its state in a busy wait loop (which should be changed due to performance). Farmer is the one
+    * who changes manufacturer state and when farmer changes it, this loop would be broken.
+    */
   def checkIfThereIsUpdateFromFarmer(): Unit = {
-    //    manufacturerState = waitingForFarmer
     while (manufacturerState != receivedNoticeFromFarmer) {
       SpecialInstructions.waitTurns(1)
     }
@@ -38,25 +41,31 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
     writer.write("manufacturer received an update from the farmer" + "\n")
   }
 
+  /**
+    * After receiving foods from farmer, manufacturer processes and packages them. Here, some delay
+    * statements can be added.
+    */
   def processFood(): Unit = {
     manufacturerState = isProcessing
-//    storage.keys.toList.foreach { pair =>
-//      val queue = storage(pair)
-//      queue.toList.foreach(_ => {
-//      })
-//    }
+    //    storage.keys.toList.foreach { pair =>
+    //      val queue = storage(pair)
+    //      queue.toList.foreach(_ => {
+    //      })
+    //    }
     //    if (storage.filterKeys(k => storage(k).nonEmpty).nonEmpty) {
     //      println("The manufacturer processed the food")
     //      writer.write("The manufacturer processed the food")
     //    }
   }
 
+  /**
+    * after processing and packaging, manufacturer loads the truck so that it delivers the items to supermarket.
+    */
   def loadTruck(): Unit = {
     //in the list of supermarkets, we should find a supermarket that lacks some items
     //randomly choose a truck
-    //assign that supermarket to that truck's supermarket attribute
-    //load the truck from part of the manufacturer's storage
-    //that part should be based on the supermarket's needs
+    //assign that supermarket to that truck
+    //load the truck based on the supermarket's needs
 
     supermarkets.toList.foreach {
       supermarket =>
@@ -82,11 +91,11 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
             val queue = storage(pair)
             val itemName: String = pair._1
             val itemBrand: Brand = pair._2
-            var numberOfItems = getFreeSpace(supermarket)((itemName,itemBrand))
+            var numberOfItems = getFreeSpace(supermarket)((itemName, itemBrand))
             while (numberOfItems > 0 && queue.nonEmpty) {
               numberOfItems = numberOfItems - 1
               var item = queue.dequeue()
-              randomTruck.storage.getOrElse((item.name,item.brand), new mutable.Queue[Item]) += item
+              randomTruck.storage.getOrElse((item.name, item.brand), new mutable.Queue[Item]) += item
               item.state = inTruck
             }
           }
@@ -99,6 +108,9 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
     manufacturerState = loadedTruck
   }
 
+  /**
+    * manufacturer's step function.
+    */
   def main(): Unit = {
     trucks.toList.foreach {
       truck =>
@@ -123,7 +135,6 @@ class Manufacturer(var trucks: ListBuffer[TruckTrait], var supermarkets: ListBuf
       SpecialInstructions.waitTurns(1)
       manufacturerState = idle
       SpecialInstructions.waitTurns(29)
-      //      SpecialInstructions.waitTurns(1)
     }
   }
 }

@@ -18,13 +18,6 @@ class Fridge {
       storage +=  (item._1 -> newLst)
   }
 
-
-
-
-//  def isEmpty: Boolean = {
-//    amountMap.size + storage.size == 0
-//  }
-
   def add(item: Item): Unit = {
     getAmount(item.name) match {
       case 0 =>

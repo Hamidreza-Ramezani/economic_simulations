@@ -12,16 +12,16 @@ object utilities {
   def ccArgToVector(cc: Product): Vector[(String, Any)] = {
     cc.getClass
       .getDeclaredFields
-      .map( _.getName )
-      .zip( cc.productIterator.to )
+      .map(_.getName)
+      .zip(cc.productIterator.to)
       .toVector
   }
 
   def ccArgToIntVector(cc: Product): Vector[(String, Int)] = {
     cc.getClass
       .getDeclaredFields
-      .map( _.getName )
-      .zip( cc.productIterator.to )
+      .map(_.getName)
+      .zip(cc.productIterator.to)
       .toVector.asInstanceOf[Vector[(String, Int)]]
   }
 
@@ -34,7 +34,7 @@ object utilities {
   }
 
   def divCeil(a: Int, b: Int): Int = {
-    a/b+toInt(a%b!=0)
+    a / b + toInt(a % b != 0)
   }
 
 
@@ -52,8 +52,8 @@ object utilities {
 
   /**
     * This function takes a Vector[(ArticleName, Gram)] and converts it to
-   * Vector[(ArticleName, AgentCount)]
-   */
+    * Vector[(ArticleName, AgentCount)]
+    */
   def toShoppingList(meal: Vector[(String, Int)]): Vector[(String, Int)] = {
     meal.map(
       pair => (pair._1, divCeil(pair._2, getArticleUnit(pair._1)))
