@@ -5,15 +5,30 @@ import scala.collection.mutable.ListBuffer
 
 class Shelf(var firstItem: Item, var shelfName: String, var itemsList: ListBuffer[Item]) {
 
+  /**
+    * overloaded constructor
+    *
+    * @param firstItem the first item that is added to an empty shelf
+    */
   def this(firstItem: Item) {
     this(firstItem, firstItem.name, new ListBuffer[Item])
     itemsList += firstItem
   }
 
+  /**
+    * the overloaded constructor
+    *
+    * @param shelfName the shelf name (usually the concatenation of article name and the brand like milkTerrasuisse)
+    */
   def this(shelfName: String) {
     this(null, shelfName, new ListBuffer[Item])
   }
 
+  /**
+    * changing the order of the items in the shelf
+    *
+    * @param policy the policy of shuffling.
+    */
   def shuffle(policy: ShufflingPolicy): Unit = {
     if (policy == LIFO) {
       itemsList = itemsList.sortBy(_.age)

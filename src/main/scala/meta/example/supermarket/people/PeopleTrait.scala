@@ -234,8 +234,9 @@ trait People extends Actor {
   /**
     * this is a helper function for addListedItemsToBasket and addRandItemsToBasket. It basically adds the item into
     * customer's shopping basket.
-    * @param itemName like potato
-    * @param itemBrand like Terrasuisse
+    *
+    * @param itemName          like potato
+    * @param itemBrand         like Terrasuisse
     * @param pickedSupermarket the supermarket, choosed by the customer.
     * @return true if the item is succefully added to the basket and false otherwise.
     */
@@ -293,7 +294,9 @@ trait People extends Actor {
   //    }
   //  }
 
-  // Random consumption behavior
+  /**
+    * Random consumption behavior
+    */
   def consumeRandomFood(): Unit = {
     if (fridge.getAvailFood.nonEmpty) {
       val someFood: String = utilities.randElementFromVector(fridge.getAvailFood)
@@ -302,7 +305,13 @@ trait People extends Actor {
     }
   }
 
-  // Target consumption behavior
+  //
+  /**
+    * Target consumption behavior
+    *
+    * @param mealPlan a vector of tuples whose first element is the name of the article and the second is the amount of
+    *                 it.
+    */
   def consumeMealPlan(mealPlan: Vector[(articleName, gram)]): Unit = {
     mealPlan.foreach(pair => {
       val consumed: Int = fridge.consume(pair._1, pair._2)

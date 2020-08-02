@@ -4,8 +4,20 @@ import util.control.Breaks._
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
+/**
+  * utilities, used in world package
+  */
 object Utils {
 
+  /**
+    * this algorithm finds all connected tiles to a tile whose types are the same.
+    *
+    * @param array  the 2d array (usually the world map)
+    * @param startX the concerned tile
+    * @param startY the concerned tile
+    * @return list of same-typed tiles(their type is the same as this tile) that there is a path from this
+    *         tile and them.
+    */
   def floodFill(array: Array[Array[Tile]], startX: Int, startY: Int): mutable.ListBuffer[Tile] = {
     val visited: ListBuffer[Tile] = new ListBuffer[Tile]
     val stack = mutable.Stack[Tile]()
@@ -22,6 +34,14 @@ object Utils {
     visited
   }
 
+  /**
+    * gets neighobrs of a tile whose type is the same as this tile
+    *
+    * @param array
+    * @param x
+    * @param y
+    * @return list of the neighobrs whose type is the same as this tile
+    */
   def addValidNeighborsToStack(array: Array[Array[Tile]], x: Int, y: Int): ListBuffer[Tile] = {
 
     var connectedNeighbors: ListBuffer[Tile] = new ListBuffer[Tile]
@@ -60,6 +80,14 @@ object Utils {
     connectedNeighbors
   }
 
+  /**
+    * the A star algorithm
+    *
+    * @param world
+    * @param source
+    * @param goal
+    * @return the parent map. the keys are children and values are parents.
+    */
   def AStar(world: WorldTrait, source: Tile, goal: Tile): mutable.Map[Tile, Tile] = {
     var open: ListBuffer[Tile] = new ListBuffer[Tile]
     var closed: ListBuffer[Tile] = new ListBuffer[Tile]
@@ -82,7 +110,7 @@ object Utils {
       if (currentTile == goal) {
         return parentMap
       }
-      world.getStreetNeighbors(currentTile,goal).foreach {
+      world.getStreetNeighbors(currentTile, goal).foreach {
         neighbor =>
           breakable {
             if (closed.contains(neighbor)) {
@@ -105,6 +133,13 @@ object Utils {
     parentMap
   }
 
+  /**
+    * the tile which has the lowest cost in the open list of the A* algorithm
+    *
+    * @param openListBuffer
+    * @param fCost
+    * @return the tile
+    */
   def pickPromisingTile(openListBuffer: ListBuffer[Tile], fCost: mutable.Map[Tile, Int]): Tile = {
     var promisingTile: Tile = openListBuffer.head
     if (openListBuffer.nonEmpty) {
@@ -119,20 +154,21 @@ object Utils {
   }
 
 
+  /**
+    * making a list of a map of (tile -> tile). It is used in A star algorithm.
+    * @param world
+    * @param source
+    * @param goal
+    * @return
+    */
   def getPath(world: WorldTrait, source: Tile, goal: Tile): ListBuffer[Tile] = {
     var parentMap = AStar(world, source, goal)
     var path: ListBuffer[Tile] = new ListBuffer[Tile]
     var currentTile = goal
-    while (currentTile != source){
+    while (currentTile != source) {
       path += currentTile
       currentTile = parentMap(currentTile)
     }
-    //    println("the path from " + source.toString3 + " to " + goal.toString3 + " is:")
-    //    path.foreach{
-    //      tile =>
-    //        println(tile.toString3)
-    //    }
-
     path = path.reverse
     path
   }

@@ -39,13 +39,15 @@ trait WorldTrait extends Actor {
   writer.write(this.toString)
 
 
-
-  override def getString():String = {
+  override def getString(): String = {
     "\n \n" + "timer: " + timer + "\n \n"
   }
 
 
-
+  /**
+    * this function changes the configuration of the world map to make sure that all streets are
+    * connected and none of the properties are landlocked
+    */
   def initializeTileType(): Unit = {
     breakable {
       while (true) {
@@ -89,6 +91,11 @@ trait WorldTrait extends Actor {
     }
   }
 
+  /**
+    *
+    * @param tile
+    * @return number of the neighbors of the tile tha is passed as the parameter whose type is street.
+    */
   def numberOfStreetNeighbors(tile: Tile): Int = {
     var connectedStreetNeighbors: ListBuffer[Tile] = new ListBuffer[Tile]
     val worldRows: Int = coordinates.length
@@ -124,7 +131,13 @@ trait WorldTrait extends Actor {
     connectedStreetNeighbors.size
   }
 
-
+  /**
+    * this fuction does not have meaning for the world map itself.
+    *
+    * @param worldTrait
+    * @param x
+    * @param y
+    */
   override def setInitialPosition(worldTrait: WorldTrait, x: Int, y: Int): Unit = {
     this.initialXPosition = 0
     this.initialYPosition = 0
@@ -135,6 +148,13 @@ trait WorldTrait extends Actor {
 
   }
 
+  /**
+    *
+    * @param tile
+    * @param goal
+    * @return list of the neighbors of the tile tha is passed as the parameter whose type is street along with the
+    *         goal tile.
+    */
   def getStreetNeighbors(tile: Tile, goal: Tile): ListBuffer[Tile] = {
     var neighbors: ListBuffer[Tile] = new ListBuffer[Tile]
     val worldRows: Int = coordinates.length
@@ -166,6 +186,11 @@ trait WorldTrait extends Actor {
     neighbors
   }
 
+  /**
+    * adding an actor to the world map
+    *
+    * @param actor
+    */
   def addActor(actor: Actor): Unit = {
     //todo: shall we use initial positions?
     val x = actor.currentXPosition
@@ -173,6 +198,11 @@ trait WorldTrait extends Actor {
     coordinates(y)(x).addActor(actor)
   }
 
+  /**
+    * removing an actor to the world map
+    *
+    * @param actor
+    */
   def removeOldActor(actor: Actor): Unit = {
     val x = actor.oldXPosition
     val y = actor.oldYPosition

@@ -15,9 +15,14 @@ class Fridge {
   global.itemNameToID_test.foreach {
     item =>
       val newLst = new ListBuffer[Item]()
-      storage +=  (item._1 -> newLst)
+      storage += (item._1 -> newLst)
   }
 
+  /**
+    * thid method is called to add an item to the fridge (usually it is called after shopping)
+    *
+    * @param item the item needs to be added to the fridge
+    */
   def add(item: Item): Unit = {
     getAmount(item.name) match {
       case 0 =>
@@ -33,6 +38,11 @@ class Fridge {
     }
   }
 
+  /**
+    *
+    * @param article like potato
+    * @return the amount of the article in the fridge in terms of gram.
+    */
   def getAmount(article: articleName): Int = {
     amountMap(article)
   }
@@ -41,15 +51,30 @@ class Fridge {
     amountMap(article) == 0
   }
 
+  /**
+    *
+    * @param article
+    * @return true if the item is not half consumed (not openned) and false otherwise
+    */
   def notOpened(article: String): Boolean = {
     opened(article) == 0
   }
 
+  /**
+    * todo: this function might need to be refactored.
+    *
+    * @return
+    */
   def getAvailFood: Vector[articleName] = {
     opened.filterKeys(opened(_) != 0).keys.toVector
   }
 
-  // Return the amount of unexpired food remains in the fridge
+  /**
+    * it removes expired items from the fridge
+    *
+    * @param article
+    * @return Return the amount of unexpired food remains in the fridge
+    */
   def rmExpired(article: String): Int = {
     var expiredItem: Item = null
     while (storage(article).nonEmpty && storage(article).head.state == isExpired) {
@@ -64,6 +89,13 @@ class Fridge {
     amountMap(article)
   }
 
+  /**
+    * this method updates the amount of food in the fridge
+    *
+    * @param article
+    * @param amount
+    * @return the amount of food that is consumed
+    */
   def consume(article: articleName, amount: gram): Int = {
     val currentAmount = rmExpired(article)
     if (currentAmount <= amount) {
@@ -83,13 +115,24 @@ class Fridge {
     }
   }
 
+
+  /**
+    * consuming all amount of available of an article
+    *
+    * @param article
+    */
   def consumeAll(article: articleName): Unit = {
     set2Consume(article, storage(article).size)
     amountMap += (article -> 0)
     opened += (article -> 0)
   }
 
-  // remove count number of instances of given article
+  /**
+    * remove count number of instances of given article
+    *
+    * @param article
+    * @param count
+    */
   private def set2Consume(article: articleName, count: Int): Unit = {
     (1 to count).foreach(
       _ => storage(article).remove(0).consume
@@ -107,7 +150,6 @@ class Fridge {
       str += "\n"
       str += opened.map(pair => pair._1 + ": " + pair._2).mkString(" ")
     }
-
     str += "\nStorage size"
     if (storage.nonEmpty) {
       str += "\n"
@@ -115,16 +157,6 @@ class Fridge {
     }
     str += "\n"
     str
-
-
-    //    amountMap.map(pair => pair._1 + ": " + pair._2).mkString(" ") +
-    //    "\nOpened amount map \n" +
-    //    opened.map(pair => pair._1 + ": " + pair._2).mkString(" ") +
-    //    "\nStorage size \n" +
-    //    storage.map(pair => pair._1 + ": " + pair._2.size).mkString(" ")
-    //    getAvailFood
-    //      .map(food_name => food_name + " " + amountMap(food_name))
-    //      .mkString("\n")
   }
 }
 
