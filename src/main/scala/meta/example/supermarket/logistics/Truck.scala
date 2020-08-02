@@ -60,6 +60,10 @@ class Truck(var world: WorldTrait) extends TruckTrait {
     }
   }
 
+  /**
+    * manufacturer changes truck state to place an order to it. This part is implemented by a busy-wait which is
+    * not efficient. An alternative is using observer pattern.
+    */
   def checkIfThereIsOrderFromManufacturer(): Unit = {
     truckState = relaxed
     while (truckState != receivedOrderFromManufacturer) {
@@ -71,6 +75,11 @@ class Truck(var world: WorldTrait) extends TruckTrait {
     writer.write("truck id " + id + " received an order from the manufacturer" + "\n")
   }
 
+
+  /**
+    * Here the truck moves toward the supermarket. Also, item's supermarket and section will be specified.
+    * There can be a delay statement here.
+    */
   def doTransport(): Unit = {
     //todo changing the constructor of item class. it probably should not take supermarket and section
     truckState = isDriving
@@ -81,17 +90,17 @@ class Truck(var world: WorldTrait) extends TruckTrait {
         item.section = supermarket.warehouse.filter(_.sectionName == item.category).head
       })
     }
-//    if (storage.filterKeys(k => storage(k).nonEmpty).nonEmpty) {
-//    }
     move(world, supermarket)
   }
 
+  /**
+    * In this method, supermarket's storage would be filled.
+    */
   def unloadTruck(): Unit = {
     println("---------------------------------------------------------------------------------------------------")
     println("The truck id " + id + " unloaded the items")
     println("---------------------------------------------------------------------------------------------------")
     writer.write("The truck id" + id + " unloaded the items")
-    truckState = unloadingTruck
     storage.keys.toList.foreach { pair =>
       var queue = storage(pair)
       while (queue.nonEmpty) {
@@ -99,11 +108,14 @@ class Truck(var world: WorldTrait) extends TruckTrait {
         supermarket.storage += item
         item.state = inStorage
         item.owner = supermarket
-
       }
     }
+    truckState = empltyTruck
   }
 
+  /**
+    * truck's step function
+    */
   def main(): Unit = {
 
     //    world.coordinates_flattened.toList.foreach {

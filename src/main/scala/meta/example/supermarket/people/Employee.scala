@@ -7,7 +7,7 @@ import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
 import meta.example.supermarket.auction.{AuctionPolicy, Policy1}
 import meta.example.supermarket.goods.{Item, global, onDisplay}
-import meta.example.supermarket.logistics.{ManufacturerTrait, loadedTruck, unloadingTruck}
+import meta.example.supermarket.logistics.{ManufacturerTrait, loadedTruck, empltyTruck}
 import meta.example.supermarket.utils.utilities.to2Dec
 import meta.example.supermarket.worldmap.{Down, Left, Right, Tile, Up, Utils, WorldTrait}
 import meta.example.supermarket.{SectionTrait, SupermarketTrait}
@@ -127,7 +127,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
       SpecialInstructions.waitTurns(1)
     }
     //    truck = manufacturer.trucks.filter(truck => truck.supermarket == this.supermarket).head
-    while (truck.truckState != unloadingTruck) {
+    while (truck.truckState != empltyTruck) {
       println("---------------------------------------------------------------------------------------------------")
       println("Employee's Actor id " + id + " is waiting for the truck id " + truck.id)
       println("---------------------------------------------------------------------------------------------------")

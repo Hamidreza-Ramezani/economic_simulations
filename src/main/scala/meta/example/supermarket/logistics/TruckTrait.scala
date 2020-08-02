@@ -11,9 +11,18 @@ trait TruckTrait extends Actor {
 
   var world: WorldTrait
   var supermarket: SupermarketTrait = null
-  var manufacturer:ManufacturerTrait = null
+  var manufacturer: ManufacturerTrait = null
   var truckState: TruckState = relaxed
 
+  /**
+    * Truck's initial position is specified based on the manufacturer's position, thoguh it can be something else.
+    *
+    * @param worldTrait the world object contain all agents
+    * @param x          This method is overridden. That is why it must have the same signature as the
+    *                   parent functionIn the parent function. Here, this parameter is not used.
+    * @param y          This method is overridden. That is why it must have the same signature as the
+    *                   parent functionIn the parent function. Here, this parameter is not used.
+    */
   override def setInitialPosition(worldTrait: WorldTrait, x: Int, y: Int): Unit = {
     world.coordinates_flattened.foreach {
       tile =>
@@ -39,18 +48,4 @@ trait TruckTrait extends Actor {
       val itemName: String = global.itemNameToID_test.map(_.swap).getOrElse(itemNum, "")
       storage += ((itemName, itemBrand) -> new mutable.Queue[Item])
   }
-
-//  var storage: mutable.Map[String, mutable.Queue[Item]] = mutable.Map(
-//    "Squash" -> new mutable.Queue[Item],
-//    "Cabbage" -> new mutable.Queue[Item],
-//    "Broccoli" -> new mutable.Queue[Item],
-//    "Eggplant" -> new mutable.Queue[Item],
-//    "Potato" -> new mutable.Queue[Item],
-//    "Celery" -> new mutable.Queue[Item],
-//    "Cucumber" -> new mutable.Queue[Item],
-//    "Tomato" -> new mutable.Queue[Item],
-//    "Onion" -> new mutable.Queue[Item],
-//    "Carrots" -> new mutable.Queue[Item],
-//    "Mushroom" -> new mutable.Queue[Item]
-//  )
 }
