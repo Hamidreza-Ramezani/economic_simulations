@@ -58,7 +58,7 @@ trait People extends Actor {
     writer.write("\n\n")
 
     if (sortedList1.map(_._1) != sortedList2.map(_._1)) {
-      writer.write("If there was no auction: Customer's Actor id " + id + " brands' preference for item " + itemName + " was: \n\n")
+      writer.write("If there was no discount: Customer's Actor id " + id + " brands' preference for item " + itemName + " was: \n\n")
       sortedList2.foreach {
         pair =>
           writer.write("brand: " + pair._1 + "  utility: " + pair._2 + "\n")
@@ -106,7 +106,11 @@ trait People extends Actor {
   }
 
 
-  //todo refactor it
+  /**
+    * customers choose a supermarket before moving for shopping.
+    *
+    * @return The closest supermarket to the customer.
+    */
   def pickSupermarket(): SupermarketTrait = {
     writer.write("The distance of customer " + id + " from close supermarkets are:" + "\n")
     println("The distance of customer " + id + " from close supermarkets are:")
@@ -127,7 +131,13 @@ trait People extends Actor {
     selectedSupermarket
   }
 
-
+  /**
+    * This function is called when the customer wants to add random foods (foods that are not in meal plan) to their
+    * shopping basket.
+    *
+    * @param shoppingList      List of random items.
+    * @param pickedSupermarket The supermarket, choosed by the customer.
+    */
   def addRandItemsToBasket(shoppingList: categoryAmount, pickedSupermarket: SupermarketTrait): Unit = {
     if (!needBased) {
       val foods = utilities.ccArgToVector(shoppingList)
@@ -161,6 +171,16 @@ trait People extends Actor {
     }
   }
 
+
+  /**
+    * This function is called when the customer wants to add foods that are in meal plan to their
+    * shopping basket.
+    *
+    * @param meal              a vector of tuples. The first element of each tuple is the name of the item and the second element is
+    *                          the amount of it.
+    * @param pickedSupermarket The supmermarket, choosed by the customer to do shopping from.
+    * @param onBudget          This is true if customer's budget is enough for shopping.
+    */
   def addListedItemsToBasket(meal: Vector[(articleName, Int)], pickedSupermarket: SupermarketTrait, onBudget: Boolean = true): Unit = {
     val shoppingList: Map[String, Int] = utilities.toShoppingList(meal).toMap
     meal.foreach(articlePair => {
@@ -211,6 +231,14 @@ trait People extends Actor {
   // cashier does not know about customers.
   //todo the onbudget from caller methods should be removed
   //todo: customer should own the item when the cashier scanned it
+  /**
+    * this is a helper function for addListedItemsToBasket and addRandItemsToBasket. It basically adds the item into
+    * customer's shopping basket.
+    * @param itemName like potato
+    * @param itemBrand like Terrasuisse
+    * @param pickedSupermarket the supermarket, choosed by the customer.
+    * @return true if the item is succefully added to the basket and false otherwise.
+    */
   def addToBasket(itemName: String, itemBrand: Brand, pickedSupermarket: SupermarketTrait): Boolean = {
     //if supermarket's section was busy, the customer has to wait
     val requestedItem: Item = pickedSupermarket.getRequestedItem(itemName, itemBrand)

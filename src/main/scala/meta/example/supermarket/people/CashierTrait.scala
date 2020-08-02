@@ -15,6 +15,15 @@ trait CashierTrait extends Actor {
   var supermarket: SupermarketTrait
 
 
+  /**
+    * the cashier's initial position is specified based on supermarket's initial position, though it can be set another
+    * value and require cashier to move from his/her home to supermarket.
+    * @param world the world object contain all agents
+    * @param x This method is overridden. That is why it must have the same signature as the
+    *          parent functionIn the parent function. Here, this parameter is not used.
+    * @param y This method is overridden. That is why it must have the same signature as the
+    *          parent functionIn the parent function. Here, this parameter is not used.
+    */
   override def setInitialPosition(world: WorldTrait, x: Int, y: Int): Unit = {
     this.initialXPosition = supermarket.initialXPosition
     this.initialYPosition = supermarket.initialYPosition
@@ -22,25 +31,14 @@ trait CashierTrait extends Actor {
     currentYPosition = initialYPosition
     oldXPosition = initialXPosition
     oldYPosition = initialYPosition
-
-    //    world.coordinates_flattened.foreach {
-    //      tile =>
-    //        tile.actors.foreach {
-    //          actor =>
-    //            if (actor.getClass.getSimpleName == "Supermarket") {
-    //              this.initialXPosition = actor.initialXPosition
-    //              this.initialYPosition = actor.initialYPosition
-    //            }
-    //        }
-    //    }
-    //    currentXPosition = initialXPosition
-    //    currentYPosition = initialYPosition
   }
 
 
-
-
-
+  /**
+    * setter function for the numOfBasketsHandledInOneStep attribute. numOfBasketsHandledInOneStep specifies the number
+    * of baskets cashier can scan in one time step.
+    * @param numOfBasketsHandledInOneStep
+    */
   def setNumOfBasketHandledInOneStep(numOfBasketsHandledInOneStep: Int): Unit = {
     this.numOfBasketsHandledInOneStep = numOfBasketsHandledInOneStep
   }

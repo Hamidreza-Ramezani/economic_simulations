@@ -1,4 +1,4 @@
-package meta.example.supermarket.auction
+package meta.example.supermarket.pricing_strategies
 
 /**
   * This is a class for range of real numbers.

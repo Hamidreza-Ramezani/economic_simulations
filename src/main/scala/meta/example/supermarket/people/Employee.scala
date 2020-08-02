@@ -5,7 +5,7 @@ import java.io.{File, FileWriter, PrintWriter}
 import meta.classLifting.SpecialInstructions
 import meta.classLifting.SpecialInstructions.waitTurns
 import meta.deep.runtime.Actor
-import meta.example.supermarket.auction.{AuctionPolicy, Policy1}
+import meta.example.supermarket.pricing_strategies.{DiscountPolicy, Policy1}
 import meta.example.supermarket.goods.{Item, global, onDisplay}
 import meta.example.supermarket.logistics.{ManufacturerTrait, loadedTruck, empltyTruck}
 import meta.example.supermarket.utils.utilities.to2Dec
@@ -25,7 +25,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-    move2(world, initialXPosition, initialYPosition)
+    moveOneStep(world, initialXPosition, initialYPosition)
 
     writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -35,13 +35,13 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     writer.write("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
-    move2(world, target.currentXPosition, target.currentYPosition)
+    moveOneStep(world, target.currentXPosition, target.currentYPosition)
 
     writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
   }
 
-  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+  def moveOneStep(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
       var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
       path.toList.foreach {
@@ -66,8 +66,13 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     }
   }
 
-  def updatePrices(auctionPolicy: AuctionPolicy): Unit = {
-    if (supermarket.auctionEnabled) {
+  /**
+    * employee offers discount to items.
+    *
+    * @param discountPolicy a map whose keys are range of real numbers and values are the discount.
+    */
+  def updatePrices(discountPolicy: DiscountPolicy): Unit = {
+    if (supermarket.discountEnabled) {
       section.shelves.toList.foreach {
         shelf =>
           shelf._2.itemsList.toList.foreach {
@@ -75,12 +80,13 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
               val freshness = to2Dec(1 - 1.0 * item.age / item.freshUntil)
               var newDiscount: Double = 0.0
               var newPrice: Double = item.price
-              auctionPolicy.rangeDiscountMap.toList.foreach {
+              discountPolicy.rangeDiscountMap.toList.foreach {
                 pair =>
                   if (pair._1.contain(freshness)) {
                     newDiscount = pair._2
                   }
               }
+
               //            if (freshness < 0.75 && freshness > 0.5) {
               //              newDiscount = 0.25
               //              isDiscountUpdated = true
@@ -111,18 +117,11 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
 
   }
 
+  /**
+    * this function is called when at least one of the shelves in supermarket is not full.
+    */
   def orderItems(): Unit = {
-    //calling farmer
-    //    println("---------------------------------------------------------------------------------------------------")
-    //        println("Employee's Actor id " + id + " ordered some items")
-    //    println("Employee's Actor id " + id + " is waiting for the truck")
-    //    println("---------------------------------------------------------------------------------------------------")
-    //        writer.write("Employee's Actor id " + id + " ordered some items" + "\n")
-    //    writer.write("Employee's Actor id " + id + " is waiting for the truck" + "\n")
     state = reFillingShelves
-    //    farmer.farmerState = receivedRequestFromSupermarket
-    //    manufacturer.manufacturerState = receivedOrderFromSupermarket
-    //    SpecialInstructions.waitTurns(1)
     while (manufacturer.manufacturerState != loadedTruck) {
       SpecialInstructions.waitTurns(1)
     }
@@ -136,6 +135,10 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     }
   }
 
+
+  /**
+    * employee refills the shelves regularly.
+    */
   def addSupply(): Unit = {
     supermarket.storage.toList.foreach { item =>
       section.shelves(item.name, item.brand) += item
@@ -143,7 +146,7 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
       writer.write("Employee's Actor id " + id + " Add new actor! name: " + item.name + "\n")
     }
     supermarket.storage = new ListBuffer[Item]()
-    //    check if the number of items in supermarket is full
+    //    check if the number of items in supermarket is not full
     if (section.isNotFull()) {
       orderItems()
       state = reFillingShelves
@@ -156,6 +159,10 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     }
   }
 
+  /**
+    * This method is called when the employee is shuffling the shelves. It shuffles based on the shelves' shuffling
+    * policy. Each shelf has its own policy.
+    */
   def shuffleShelves(): Unit = {
     //todo: add delay for the customers
     //Supermarket.store.warehouse.foreach(shelf => shelf._2.itemDeque.)
@@ -166,10 +173,12 @@ class Employee(var supermarket: SupermarketTrait, var section: SectionTrait, var
     println("Employee's Actor id " + id + " is shuffling the shelves")
     writer.write("\n")
     println()
-
     section.shelves.toList.foreach(shelf => shelf._2.shuffle(section.sectionShufflingPolicy))
   }
 
+  /**
+    * employee's step function.
+    */
   def main(): Unit = {
     while (!supermarket.isPositionsFixed) {
       state = reFillingShelves

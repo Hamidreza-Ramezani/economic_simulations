@@ -24,7 +24,7 @@ class Cashier(var supermarket: SupermarketTrait, var world: WorldTrait) extends 
     writer.write("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  goes toward its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
 
-    move2(world, initialXPosition, initialYPosition)
+    moveOneStep(world, initialXPosition, initialYPosition)
 
     writer.write("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets its initial position. currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
@@ -34,13 +34,13 @@ class Cashier(var supermarket: SupermarketTrait, var world: WorldTrait) extends 
     writer.write("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + " name: " + agentName + "  goes toward the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
 
-    move2(world, target.currentXPosition, target.currentYPosition)
+    moveOneStep(world, target.currentXPosition, target.currentYPosition)
 
     writer.write("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n\n")
     println("agent id " + id + "  gets into the agent id " + target.id + " currentX: " + currentXPosition + " currentY: " + currentYPosition + "\n\n")
   }
 
-  def move2(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
+  def moveOneStep(world: WorldTrait, targetXPosition: Int, targetYPosition: Int): Unit = {
     if (canMove) {
       var path: ListBuffer[Tile] = Utils.getPath(world, world.coordinates(currentYPosition)(currentXPosition), world.coordinates(targetYPosition)(targetXPosition))
       path.toList.foreach {
@@ -65,6 +65,12 @@ class Cashier(var supermarket: SupermarketTrait, var world: WorldTrait) extends 
     }
   }
 
+  /**
+    *
+    * @param queue the queue cashier takes items from and scans them. Usually the toBeScannedItems (an attribute of
+    *              supermarket) is passed here. This queue is basically the batch of all items which are added to
+    *              cutomers' shopping baskets.
+    */
   def scanItems(queue: mutable.Queue[ListBuffer[Item]]): Unit = {
     var customerBasket: ListBuffer[Item] = ListBuffer[Item]()
     var j: Int = 0
@@ -72,26 +78,19 @@ class Cashier(var supermarket: SupermarketTrait, var world: WorldTrait) extends 
       customerBasket = queue.dequeue()
       var i: Int = 0
       while (i < customerBasket.size) {
-        if (isFirstBasket) {
-          isFirstBasket = false
-          //TODO double check to see if this wait statement is essential
-          //          waitTurns(1)
-        }
         var item = customerBasket(i)
-        //      customerBasket -= item
         item.state = isPurchased
         i = i + 1
       }
       writer.write("Cashier's Actor id " + id + " scanned the customer's basket with size " + customerBasket.size + "\n")
       j = j + 1
     }
-    if (queue.isEmpty) {
-      isFirstBasket = true
-    } else {
-      isFirstBasket = false
-    }
   }
 
+
+  /**
+    * cashier's step function
+    */
   def main(): Unit = {
     while (!supermarket.isPositionsFixed){
       SpecialInstructions.waitTurns(1)

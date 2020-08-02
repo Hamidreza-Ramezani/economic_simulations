@@ -12,7 +12,16 @@ trait EmployeeTrait extends Actor {
   var supermarket: SupermarketTrait
   var truck: TruckTrait = null
   var world: WorldTrait
-//  var hasItemsOnTheWay: Boolean = true
+
+  /**
+    * the employee's initial position is specified based on supermarket's initial position, though it can be set another
+    * value and require employee to move from his/her home to supermarket.
+    * @param world the world object contain all agents
+    * @param x This method is overridden. That is why it must have the same signature as the
+    *          parent functionIn the parent function. Here, this parameter is not used.
+    * @param y This method is overridden. That is why it must have the same signature as the
+    *          parent functionIn the parent function. Here, this parameter is not used.
+    */
 
   override def setInitialPosition(world: WorldTrait, x: Int, y: Int): Unit = {
     this.initialXPosition = supermarket.initialXPosition
@@ -21,45 +30,8 @@ trait EmployeeTrait extends Actor {
     currentYPosition = initialYPosition
     oldXPosition = initialXPosition
     oldYPosition = initialYPosition
-
   }
 
-
   override def toString = s"Employee id ${id}  "
-
-
-  //  def getFreeSpace(item: String): Int = {
-  //    Supermarket.store.shelfCapacity - Supermarket.store.warehouse(item).size
-  //  }
-
-  //  def addSupply: Unit = {
-  //    var section: List[String] = null
-  //    //    if (this.section == "Dairy") {
-  //    //      section = categories.dairyss.toList.map(n => n._1)
-  //    //    } else if (this.section == "Grain") {
-  //    //      section = categories.grainss.toList.map(n => n._1)
-  //    //    } else if (this.section == "Meat") {
-  //    //      section = categories.meatss.toList.map(n => n._1)
-  //    //    } else if (this.section == "Snack") {
-  //    //      section = categories.snackss.toList.map(n => n._1)
-  //    //    } else if (this.section == "Vegetable") {
-  //    //      section = categories.vegiess.toList.map(n => n._1)
-  //    //    }
-  //    //    section.foreach(t => println(t))
-  //    //    newItemsMap.itemMap.keys.toList.filter(t => section.contains(t)).foreach(
-  //    //      item => List.tabulate(getFreeSpace(item))(n => n).foreach(_ => {
-  //    //        val new_item: Item = genNewItem(newItemsMap.itemMap(item))
-  //    //        Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])
-  //    //                println("Add new actor! name: " + item)
-  //    //      })
-  //    //    )
-  //    newItemsMap.itemMap.keys.toList.foreach(
-  //      item => List.tabulate(getFreeSpace(item))(n => n).foreach(_ => {
-  //        val new_item: Item = genNewItem(newItemsMap.itemMap(item))
-  //        Supermarket.store.warehouse(item) += (new_item.asInstanceOf[Item])
-  //        //        println("Add new actor! name: " + item)
-  //      })
-  //    )
-  //  }
 
 }

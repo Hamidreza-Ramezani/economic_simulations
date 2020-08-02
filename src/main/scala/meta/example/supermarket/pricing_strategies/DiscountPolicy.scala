@@ -1,9 +1,9 @@
-package meta.example.supermarket.auction
+package meta.example.supermarket.pricing_strategies
 
 import scala.collection.mutable
 
 /**
-  * This is a trait for auctions. The only data attribute in this trait is rangeDiscountMap. The map's key is a range of
+  * This is a trait for discounts. The only data attribute in this trait is rangeDiscountMap. The map's key is a range of
   * real number and the values are discounts.
   * If the item's freshness is in the MyRange the map's value would be the discount
   * which is applied for the item. For example, consider a potato's freshness is decreasing gradually.
@@ -13,11 +13,11 @@ import scala.collection.mutable
   * the price of that potato gets half of the fresh potato and so on. One can define other policies such as policy1 only
   * by specifying the rangesDiscountMap.
   */
-sealed trait AuctionPolicy {
+sealed trait DiscountPolicy {
   var rangeDiscountMap: mutable.Map[MyRange, Double] = mutable.Map()
 }
 
-case object Policy1 extends AuctionPolicy {
+case object Policy1 extends DiscountPolicy {
   rangeDiscountMap += (new MyRange(0.5, 0.75) -> 0.25)
   rangeDiscountMap += (new MyRange(0.25, 0.5) -> 0.5)
   rangeDiscountMap += (new MyRange(0.0, 0.25) -> 0.75)
